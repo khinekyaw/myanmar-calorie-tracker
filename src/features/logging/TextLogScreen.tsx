@@ -123,7 +123,9 @@ export function TextLogScreen() {
               multiline
               placeholder={t('textLog.placeholder')}
               placeholderTextColor={theme.colors.iconMuted}
-              selectionColor={theme.colors.text}
+              selectionColor={theme.colors.selection}
+              cursorColor={theme.colors.cursor}
+              selectionHandleColor={theme.colors.cursor}
               style={[type.headline, s.input]}
             />
           ) : (

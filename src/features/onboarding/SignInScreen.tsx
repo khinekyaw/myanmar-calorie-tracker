@@ -85,7 +85,9 @@ export function SignInScreen() {
               maxLength={13}
               placeholder="9 xxx xxx xxx"
               placeholderTextColor={theme.colors.iconMuted}
-              selectionColor={theme.colors.text}
+              selectionColor={theme.colors.selection}
+              cursorColor={theme.colors.cursor}
+              selectionHandleColor={theme.colors.cursor}
               accessibilityLabel={t('signIn.title')}
               style={[type.numberMd, s.input]}
             />

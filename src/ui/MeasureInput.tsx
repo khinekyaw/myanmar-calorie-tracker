@@ -64,7 +64,9 @@ export function MeasureInput({ value, onChange, min, max, unit, scale, accessibi
           maxLength={5}
           accessibilityLabel={accessibilityLabel}
           accessibilityHint={`${min}–${max} ${unit}`}
-          selectionColor={theme.colors.text}
+          selectionColor={theme.colors.selection}
+          cursorColor={theme.colors.cursor}
+          selectionHandleColor={theme.colors.cursor}
           style={[s.number, invalid && s.invalid]}
         />
         <Text variant="body" tone="muted">

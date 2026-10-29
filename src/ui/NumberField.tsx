@@ -47,7 +47,9 @@ export function NumberField({ label, parts }: Props) {
               accessibilityLabel={p.accessibilityLabel ?? label}
               placeholder="–"
               placeholderTextColor={theme.colors.iconMuted}
-              selectionColor={theme.colors.text}
+              selectionColor={theme.colors.selection}
+              cursorColor={theme.colors.cursor}
+              selectionHandleColor={theme.colors.cursor}
               style={[s.input, { minWidth: 14 * p.maxLength }]}
             />
             {p.suffix && (

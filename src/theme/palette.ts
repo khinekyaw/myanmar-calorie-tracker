@@ -34,4 +34,5 @@ export const palette = {
   black28: 'rgba(0,0,0,0.28)',
   black35: 'rgba(0,0,0,0.35)',
   black40: 'rgba(0,0,0,0.4)',
+  ink18: 'rgba(10,10,10,0.18)',
 } as const;

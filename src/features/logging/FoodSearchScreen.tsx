@@ -67,7 +67,9 @@ export function FoodSearchScreen() {
               returnKeyType="search"
               placeholder={t('search.placeholder')}
               placeholderTextColor={theme.colors.iconMuted}
-              selectionColor={theme.colors.text}
+              selectionColor={theme.colors.selection}
+              cursorColor={theme.colors.cursor}
+              selectionHandleColor={theme.colors.cursor}
               accessibilityLabel={t('search.placeholder')}
               style={[type.body, s.input]}
             />

@@ -26,6 +26,9 @@ export const lightTheme = {
     onSelected: palette.white,
     switchOff: palette.gray300,
     scrim: palette.black40,
+    /** Text fields: light highlight so selected (ink) text stays readable; ink caret and handles. */
+    selection: palette.ink18,
+    cursor: palette.ink,
     /** Subtle fill on ink surfaces (icon wells on black, tags on selected). */
     onInkSubtle: palette.white14,
     /** Over food photos: back button, status-bar shade, queued-photo dim. */
