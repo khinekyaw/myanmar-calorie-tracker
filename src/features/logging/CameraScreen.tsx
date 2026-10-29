@@ -86,15 +86,18 @@ export function CameraScreen() {
 
       <View style={[s.topBar, { paddingTop: insets.top + theme.space.md }]}>
         <IconButton icon="close" variant="onDark" accessibilityLabel={t('common.close')} onPress={() => router.back()} />
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={t('camera.freeScans', { count: scansLeft })}
-          onPress={() => router.push('/paywall')}
-          style={s.counter}>
-          <Text variant="numberSm" tone="inverse">
-            {formatNumber(scansLeft, language)}/{formatNumber(FREE_SCANS_PER_DAY, language)}
-          </Text>
-        </Pressable>
+        {/* Premium has unlimited scans, so no counter. */}
+        {Number.isFinite(scansLeft) && (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={t('camera.freeScans', { count: scansLeft })}
+            onPress={() => router.push('/paywall')}
+            style={s.counter}>
+            <Text variant="numberSm" tone="inverse">
+              {formatNumber(scansLeft, language)}/{formatNumber(FREE_SCANS_PER_DAY, language)}
+            </Text>
+          </Pressable>
+        )}
         <IconButton
           icon="bolt"
           variant="onDark"

@@ -20,8 +20,18 @@ export const lightTheme = {
     textInverse: palette.white,
     icon: palette.ink,
     iconMuted: palette.gray450,
+    /** Primary = brand black: almost everything (text, buttons, selected states). */
     primary: palette.ink,
     onPrimary: palette.white,
+    /**
+     * Accent = brand gold, used sparingly for brand and premium moments
+     * (logo mark, Premium, "best value", plan ready). Never on nutrient
+     * indicators (rice is amber) and never as text on white (contrast 2:1):
+     * put ink text on gold instead.
+     */
+    accent: palette.gold,
+    onAccent: palette.ink,
+    accentSoft: palette.cream,
     selected: palette.ink,
     onSelected: palette.white,
     switchOff: palette.gray300,

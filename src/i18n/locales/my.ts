@@ -236,6 +236,7 @@ const my: Translations = {
     body: 'ခန္ဓာကိုယ်',
   },
   settings: {
+    premiumUntil: '{{date}} အထိ',
     title: 'ဆက်တင်',
     premium: 'Premium',
     sectionGoals: 'ကိုယ်ပိုင်',

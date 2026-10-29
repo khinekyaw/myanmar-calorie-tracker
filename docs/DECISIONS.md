@@ -5,6 +5,13 @@ Product-level decisions from the handoff are in [PRODUCT_BRIEF.md](PRODUCT_BRIEF
 
 ---
 
+## 2026-10-30 — Brand colours: black #111217, gold accent; gold logo = Premium
+
+- **Primary** black is now `#111217` (was `#0A0A0A`); it's still used for almost everything.
+- **Accent** gold `#DEA84A` (sampled from the user's logo artwork, with cream `#FCF8F2`) is for brand and premium moments only: the Premium sparkle in Settings, the paywall badge and "Best value" tag, and the plan-ready check. Ink text sits on gold (white on gold fails contrast). Gold stays away from nutrient indicators, because rice amber `#F5A524` is a similar hue.
+- **Logo:** black for everyone; **gold only for Premium members** (user's call), so the gold mark doubles as a membership signal.
+- **Premium state** (`store/premium.ts`): a prepaid pass with an end date. Buying on the paywall activates it (MOCK, no payment yet); a new pass extends an active one. Premium hides the free-scan counter and lifts the 3-a-day limit. Settings shows "Active until …". Dev builds: Settings → Developer → "Premium (mock)".
+
 ## 2026-10-30 — Weight input: type it or drag a ruler
 
 The ± stepper couldn't change decimals and needed 31 taps to go from 131 to 100. Other trackers either use a horizontal ruler (Cal AI's goal weight and many AI trackers) or a picker wheel with decimals, while MyFitnessPal and Lose It let you type the number. We combine the two quickest: **tap the big number to type it** (decimal keypad, invalid values shown greyed and not applied) and **drag the ruler** for fine changes in 0.1 steps (1 lb ticks, labels every 10 lb; waist ¼-inch ticks, labels every inch; haptic tick on each whole unit). The ruler is `ui/RulerPicker.tsx`; together they are `ui/MeasureInput.tsx`, used on Target weight, Edit goal and Log weight. The Stepper's large variant was removed; ± steppers remain for counts (portions, spoons).

@@ -31,7 +31,7 @@ UI design canvas (22 screens, Claude Design): https://claude.ai/artifact/DYDw9tR
 
 | Token | Value |
 |---|---|
-| Ink (primary, buttons, selected) | `#0A0A0A` |
+| Ink (primary, buttons, selected) | `#111217` (was `#0A0A0A`) · accent gold `#DEA84A` for brand/premium moments |
 | Muted text | `#666666` (on white), `#71717A` (inactive) |
 | Surface / cards | `#F4F4F5`, ring track `#E4E4E7` |
 | Hairline | `#EFEFEF` |

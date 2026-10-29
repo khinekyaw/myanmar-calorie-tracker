@@ -4,7 +4,8 @@
  * the theme (see themes.ts), so a rebrand is a change here + in themes.ts.
  */
 export const palette = {
-  ink: '#0A0A0A',
+  /** Brand black: primary for text, buttons, selection. */
+  ink: '#111217',
   black: '#000000',
   white: '#FFFFFF',
 
@@ -27,6 +28,10 @@ export const palette = {
   green: '#30A46C',
   red: '#E5484D',
 
+  /** Brand gold (from the logo) and its cream. */
+  gold: '#DEA84A',
+  cream: '#FCF8F2',
+
   // Translucent overlays
   white14: 'rgba(255,255,255,0.14)',
   white32: 'rgba(255,255,255,0.32)',
@@ -34,5 +39,5 @@ export const palette = {
   black28: 'rgba(0,0,0,0.28)',
   black35: 'rgba(0,0,0,0.35)',
   black40: 'rgba(0,0,0,0.4)',
-  ink18: 'rgba(10,10,10,0.18)',
+  ink18: 'rgba(17,18,23,0.18)',
 } as const;

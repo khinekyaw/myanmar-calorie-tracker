@@ -18,7 +18,7 @@ export function PlanReadyScreen() {
     <Screen footer={<Button label={t('planReady.start')} onPress={() => router.push('/sign-in')} />}>
       <View style={s.top}>
         <View style={s.check}>
-          <Icon name="check" size={24} strokeWidth={2.6} color={theme.colors.onPrimary} />
+          <Icon name="check" size={24} strokeWidth={2.6} color={theme.colors.onAccent} />
         </View>
         <Text variant="title" align="center" accessibilityRole="header">
           {t('planReady.title')}
@@ -92,7 +92,7 @@ const useStyles = makeStyles(({ theme }) => ({
     width: 52,
     height: 52,
     borderRadius: 26,
-    backgroundColor: theme.colors.primary,
+    backgroundColor: theme.colors.accent,
     alignItems: 'center',
     justifyContent: 'center',
   },

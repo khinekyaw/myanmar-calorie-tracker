@@ -5,7 +5,8 @@ import { useTranslation } from 'react-i18next';
 
 import { PASSES, PAYMENT_PROVIDERS, type PassId } from '@/config/pricing';
 import { tap } from '@/lib/haptics';
-import { makeStyles } from '@/theme/ThemeProvider';
+import { usePremium } from '@/store/premium';
+import { makeStyles, useTheme } from '@/theme/ThemeProvider';
 import { Button, Icon, IconButton, Screen, Text, type IconName } from '@/ui';
 
 const FEATURES: { key: 'unlimitedScans' | 'healthGoals' | 'weeklyReport'; icon: IconName }[] = [
@@ -18,7 +19,13 @@ const FEATURES: { key: 'unlimitedScans' | 'healthGoals' | 'weeklyReport'; icon: 
 export function PaywallScreen() {
   const { t } = useTranslation();
   const s = useStyles();
+  const theme = useTheme();
   const [pass, setPass] = useState<PassId>('3m');
+  const activate = usePremium((st) => st.activate);
+  const buy = () => {
+    activate(PASSES.find((p) => p.id === pass)?.months ?? 1);
+    router.back();
+  };
 
   return (
     <Screen
@@ -32,8 +39,8 @@ export function PaywallScreen() {
           </View>
           <View style={s.payRow}>
             {PAYMENT_PROVIDERS.map((p) => (
-              // Payment flow not built yet — see docs/DECISIONS.md → "Payments".
-              <Button key={p} label={p} style={s.pay} onPress={() => router.back()} />
+              // MOCK: activates the pass without paying — see docs/DECISIONS.md → "Payments".
+              <Button key={p} label={p} style={s.pay} onPress={buy} />
             ))}
           </View>
         </View>
@@ -43,7 +50,7 @@ export function PaywallScreen() {
       </View>
 
       <View style={s.badge}>
-        <Icon name="sparkle" size={28} strokeWidth={1.8} />
+        <Icon name="sparkle" size={28} strokeWidth={1.8} color={theme.colors.onAccent} />
       </View>
       <Text variant="display" accessibilityRole="header" style={s.title}>
         {t('paywall.title')}
@@ -77,7 +84,7 @@ export function PaywallScreen() {
               style={[s.pass, selected && s.passSelected]}>
               {'bestValue' in p && p.bestValue && (
                 <View style={s.tag}>
-                  <Text variant="caption" tone="inverse">
+                  <Text variant="caption" color={theme.colors.onAccent}>
                     {t('paywall.bestValue')}
                   </Text>
                 </View>
@@ -105,7 +112,7 @@ const useStyles = makeStyles(({ theme }) => ({
     width: 56,
     height: 56,
     borderRadius: theme.radius.md,
-    backgroundColor: theme.colors.surface,
+    backgroundColor: theme.colors.accent,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: theme.space.xs,
@@ -140,7 +147,7 @@ const useStyles = makeStyles(({ theme }) => ({
     borderRadius: theme.radius.pill,
     borderWidth: 2,
     borderColor: theme.colors.background,
-    backgroundColor: theme.colors.selected,
+    backgroundColor: theme.colors.accent,
   },
   radio: {
     position: 'absolute',

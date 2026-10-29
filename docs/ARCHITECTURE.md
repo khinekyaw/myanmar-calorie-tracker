@@ -98,6 +98,7 @@ Styles are memoised and rebuilt only when the theme or language changes.
 | **Everything with a fill is rounded.** Cards 20–24 (`radius.lg`/`xl`), options and tiles 16 (`radius.md`), small wells 12 (`radius.sm`), buttons/chips/segments pills. | Use the tokens; raw numbers only for circles (`size / 2`) and dots. |
 | **No borders on cards or options.** Separation comes from fill: grey `surface` on white, white on grey. Hairlines only divide list rows (Settings, SharedMeal) and the tab bar. | `Card`, `OptionCard`, `Chip` have no border variants. |
 | **Selected = solid ink with white text**; unselected = `surface` grey. Same for options, chips, segments, pass cards, days. | `selected` / `onSelected` tokens. |
+| **Primary is brand black `#111217`** for nearly everything. **Accent is brand gold `#DEA84A`**, used sparingly: Premium (sparkle, paywall badge, "Best value"), the plan-ready check, and the logo for Premium members only. Gold is never text on white (2:1) and never near nutrient indicators. | `colors.primary`, `colors.accent` / `onAccent` / `accentSoft`. |
 | **Colour only on nutrient indicators** (rice amber + plate, protein coral + fish, fat violet + oil bottle) and the BMI scale. | `colors.nutrient`, `colors.bmi`. |
 | **Shadows only** on the floating + button, bottom sheets and floating chips. | `shadow.*` tokens. |
 | **Press feedback:** grey options darken to `surfaceStrong`; everything else fades to `opacity.pressed` (0.7). Disabled = `opacity.disabled` (0.35). | `theme.opacity`. |
@@ -216,7 +217,7 @@ MealItem { dishId, qty, oil?: less|normal|more, sweetness?: choSeint|pawSeint|ky
 | Phone OTP | Any 6-digit code works | Supabase phone auth + SMS provider |
 | Google sign-in | Goes straight in | Google OAuth |
 | Free-scan quota | In-memory counter | Server `scan_quota` table |
-| Payments | Buttons close the paywall | KBZPay / WavePay or Play Billing (policy check first) |
+| Payments | Pay buttons activate the pass locally (`store/premium.ts`) | KBZPay / WavePay or Play Billing (policy check first); server-side `passes` |
 | Reminders | Permission request only | Scheduled local notifications |
 | Log storage | In memory, with 6 days of sample history | SQLite (offline-first) + sync |
 | Weight history | Persisted locally, seeded with ~12 weeks of sample data | `weights` table + sync |

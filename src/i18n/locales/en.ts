@@ -233,6 +233,7 @@ const en = {
     body: 'Body',
   },
   settings: {
+    premiumUntil: 'Active until {{date}}',
     title: 'Settings',
     premium: 'Premium',
     sectionGoals: 'You',

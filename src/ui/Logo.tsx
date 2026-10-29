@@ -1,5 +1,6 @@
 import Svg, { Path } from 'react-native-svg';
 
+import { useIsPremium } from '@/store/premium';
 import { useTheme } from '@/theme/ThemeProvider';
 
 /** Sar AI mark, drawn from assets/images/logo.svg (the app icon uses the same file). */
@@ -9,10 +10,12 @@ const PATHS = [
   "M290.866 1.92529C294.997 2.57729 295.891 6.59605 296.814 10.4571C299.132 20.1309 302.146 25.795 306.811 33.7883C312.263 43.1288 339.079 47.8174 341.949 51.6505C342.007 52.4785 342.18 53.2676 341.238 53.7123C332.011 57.9561 322.524 59.6179 313.749 65.1998C300.637 73.5412 300.613 90.3269 293.867 102.189L292.386 102.581C289.126 101.249 288.035 94.6259 287.265 91.5583C281.988 70.5341 271.164 61.8008 250.461 57.0147C248.232 56.4992 244.4 55.3303 243.251 53.1392C243.574 52.0136 243.556 51.5722 244.826 50.9394C253.835 46.4514 265.534 44.8877 273.609 38.3951C280.751 32.654 284.906 21.3026 287.3 12.7194C288.224 9.40841 289.342 4.92181 290.866 1.92529Z",
 ];
 
+/** Brand black; gold for Premium members. Pass `color` to force one colour. */
 type Props = { size?: number; color?: string; accessibilityLabel?: string };
 
 export function Logo({ size = 28, color, accessibilityLabel }: Props) {
   const theme = useTheme();
+  const premium = useIsPremium();
   return (
     <Svg
       width={size}
@@ -21,7 +24,7 @@ export function Logo({ size = 28, color, accessibilityLabel }: Props) {
       accessible={!!accessibilityLabel}
       accessibilityLabel={accessibilityLabel}>
       {PATHS.map((d) => (
-        <Path key={d.slice(0, 12)} d={d} fill={color ?? theme.colors.icon} />
+        <Path key={d.slice(0, 12)} d={d} fill={color ?? (premium ? theme.colors.accent : theme.colors.icon)} />
       ))}
     </Svg>
   );

@@ -5,7 +5,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 
 import { LANGUAGE_SHORT, LANGUAGES } from '@/i18n/languages';
+import { formatDayLabel } from '@/lib/format';
 import { useOnboarding } from '@/store/onboarding';
+import { useIsPremium, usePremium } from '@/store/premium';
 import { useScanQuota } from '@/store/scanQuota';
 import { useSettings } from '@/store/settings';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
@@ -19,6 +21,10 @@ export function SettingsScreen() {
   const resetOnboarding = useOnboarding((st) => st.reset);
   const goal = useOnboarding((st) => st.goal);
   const resetScans = useScanQuota((st) => st.reset);
+  const isPremium = useIsPremium();
+  const premiumUntil = usePremium((st) => (isPremium ? st.activeUntil : null));
+  const activatePremium = usePremium((st) => st.activate);
+  const cancelPremium = usePremium((st) => st.cancel);
 
   return (
     <SafeAreaView style={s.root} edges={['top']}>
@@ -32,11 +38,18 @@ export function SettingsScreen() {
           onPress={() => router.push('/paywall')}
           style={({ pressed }) => [s.premium, pressed && s.pressed]}>
           <View style={s.premiumIcon}>
-            <Icon name="sparkle" size={20} color={theme.colors.onPrimary} />
+            <Icon name="sparkle" size={20} color={theme.colors.accent} />
           </View>
-          <Text variant="bodyStrong" tone="inverse" style={s.flex}>
-            {t('settings.premium')}
-          </Text>
+          <View style={s.flex}>
+            <Text variant="bodyStrong" tone="inverse">
+              {t('settings.premium')}
+            </Text>
+            {premiumUntil && (
+              <Text variant="caption" tone="inverse" style={s.premiumUntil}>
+                {t('settings.premiumUntil', { date: formatDayLabel(new Date(premiumUntil), language) })}
+              </Text>
+            )}
+          </View>
           <Icon name="chevronRight" size={20} color={theme.colors.onPrimary} />
         </Pressable>
 
@@ -103,6 +116,12 @@ export function SettingsScreen() {
               value={settings.devSimulateOffline}
               onValueChange={() => settings.toggle('devSimulateOffline')}
             />
+            <ListRow
+              kind="switch"
+              label="Premium (mock)"
+              value={isPremium}
+              onValueChange={(on) => (on ? activatePremium(1) : cancelPremium())}
+            />
             <ListRow kind="link" label="Reset free scans" onPress={resetScans} />
             <ListRow
               kind="link"
@@ -156,5 +175,6 @@ const useStyles = makeStyles(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  premiumUntil: { opacity: 0.7 },
   section: { marginTop: theme.space.xxl, gap: theme.space.xs },
 }));
