@@ -7,9 +7,9 @@ import { formatDayLabel, formatNumber } from '@/lib/format';
 import { refreshPlan } from '@/store/plan';
 import { fromDayKey, useLatest, useWeights, type Metric } from '@/store/weights';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
-import { Button, IconButton, Screen, Segmented, Stepper, Text } from '@/ui';
+import { Button, IconButton, MeasureInput, Screen, Segmented, Text } from '@/ui';
 
-const STEP: Record<Metric, number> = { weight: 0.5, waist: 0.25 };
+const RANGE: Record<Metric, [number, number]> = { weight: [60, 400], waist: [15, 70] };
 const DEFAULT: Record<Metric, number> = { weight: 140, waist: 32 };
 
 /** Log today's weight or waist (homes without a scale can track waist instead). */
@@ -54,17 +54,15 @@ export function LogWeightScreen() {
         {t(metric === 'weight' ? 'logWeight.titleWeight' : 'logWeight.titleWaist')}
       </Text>
       <View style={s.center}>
-        <Stepper
-          variant="large"
+        <MeasureInput
+          key={metric}
           value={values[metric]}
-          step={STEP[metric]}
-          min={metric === 'weight' ? 60 : 15}
-          max={metric === 'weight' ? 500 : 70}
-          display={formatNumber(values[metric], language)}
+          min={RANGE[metric][0]}
+          max={RANGE[metric][1]}
           unit={unit}
+          scale={metric === 'weight' ? 'lb' : 'in'}
           onChange={(v) => setValues((cur) => ({ ...cur, [metric]: v }))}
-          decreaseLabel={t('result.less')}
-          increaseLabel={t('result.more')}
+          accessibilityLabel={t(metric === 'weight' ? 'progress.weight' : 'progress.waist')}
         />
         {last && (
           <Text variant="label" tone="muted">

@@ -44,7 +44,7 @@ No connection → Home shows *Offline*. Photos are compressed (800 px) and wait 
 Progress tab:
 
 - **Goal weight** card → *Edit goal* → goal, target, pace, "reach by" date → *Save* (plan recalculated).
-- **Current weight** card → *Log weight* → stepper (½ lb), or switch to **Waist** for homes without a scale → *Save* (plan recalculated from the new weight).
+- **Current weight** card → *Log weight* → tap the number and type it, or drag the ruler (0.1 lb steps); switch to **Waist** for homes without a scale → *Save* (plan recalculated from the new weight).
 - **Goal progress** chart: % of the way to the goal, lb to go, 1M / 3M / All, dashed goal line, tap or drag for any day's value, weight ↔ waist.
 - **This week**: calories per day against the target; tap a bar for that day.
 - **BMI** (Asian cut-offs 18.5 / 23 / 27.5) from the latest weight and height; *Add height* if missing.
@@ -82,4 +82,4 @@ Paywall (from the camera counter, the 4th scan, or Settings): 1- or 3-month prep
 - Uposatha vegetarian has no effect yet (planned: suggest vegetarian dishes first on Uposatha days).
 - Queued photos that come back low-confidence are logged with the top guess; they only ask for review when opened.
 - Weight is in lb only; kg isn't offered yet.
-- The Welcome hero image has "Scanning Meal…" in English baked into the picture.
+- The Welcome image (shown whole) has "Scanning Meal…" and "2/3" in English baked into the picture.

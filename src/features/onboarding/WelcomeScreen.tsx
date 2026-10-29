@@ -4,21 +4,19 @@ import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { LANGUAGE_SHORT, LANGUAGES } from '@/i18n/languages';
-import { formatNumber } from '@/lib/format';
-import { dishes } from '@/mocks/dishes';
 import { useSettings } from '@/store/settings';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Button, Logo, Screen, Segmented, Text } from '@/ui';
 
-/** Hero shot: a mohinga being scanned (frame and scan line are part of the image). */
+/** Hero: the full "scanning a mohinga" image, shown uncropped (768 × 1376). */
 const HERO = require('@/assets/images/welcome-mohinga.jpg');
+const HERO_RATIO = 768 / 1376;
 
 export function WelcomeScreen() {
   const { t } = useTranslation();
   const s = useStyles();
-  const { theme, language } = useStyleContext();
+  const { language } = useStyleContext();
   const setLanguage = useSettings((st) => st.setLanguage);
-  const sample = dishes.mohinga;
 
   return (
     <Screen
@@ -42,19 +40,9 @@ export function WelcomeScreen() {
         />
       </View>
 
+      {/* The image keeps its own proportions and shrinks to the space left, so nothing is cut off. */}
       <View style={s.hero}>
-        <Image source={HERO} style={s.photo} contentFit="cover" contentPosition="top" transition={250} />
-        <View style={s.chip}>
-          <Text variant="callout">{sample.name[language]}</Text>
-          <View style={s.dots}>
-            <View style={[s.dot, { backgroundColor: theme.colors.nutrient.carbs }]} />
-            <View style={[s.dot, { backgroundColor: theme.colors.nutrient.protein }]} />
-            <View style={[s.dot, { backgroundColor: theme.colors.nutrient.fat }]} />
-          </View>
-          <Text variant="numberSm" style={s.kcal}>
-            {formatNumber(sample.kcal, language)}
-          </Text>
-        </View>
+        <Image source={HERO} style={s.photo} contentFit="contain" transition={250} accessible={false} />
       </View>
 
       <Text variant="display" align="center" accessibilityRole="header" style={s.title}>
@@ -64,7 +52,7 @@ export function WelcomeScreen() {
   );
 }
 
-const useStyles = makeStyles(({ theme, type }) => ({
+const useStyles = makeStyles(({ theme }) => ({
   topBar: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -72,31 +60,8 @@ const useStyles = makeStyles(({ theme, type }) => ({
     paddingTop: theme.space.md,
   },
   brand: { flexDirection: 'row', alignItems: 'center', gap: theme.space.sm },
-  hero: {
-    flex: 1,
-    minHeight: 260,
-    marginTop: theme.space.lg,
-    borderRadius: theme.radius.xxl,
-    overflow: 'hidden',
-    backgroundColor: theme.colors.surface,
-  },
-  photo: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 },
-  chip: {
-    position: 'absolute',
-    bottom: theme.space.xxl,
-    alignSelf: 'center',
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: theme.space.md,
-    paddingVertical: theme.space.sm,
-    paddingHorizontal: theme.space.lg,
-    borderRadius: theme.radius.pill,
-    backgroundColor: theme.colors.background,
-    ...theme.shadow.chip,
-  },
-  dots: { flexDirection: 'row', gap: 4 },
-  dot: { width: 8, height: 8, borderRadius: 4 },
-  kcal: { ...type.numberSm, fontSize: 17 },
-  title: { marginTop: theme.space.xxl },
+  hero: { flex: 1, minHeight: 260, marginTop: theme.space.lg, alignItems: 'center' },
+  photo: { height: '100%', aspectRatio: HERO_RATIO, maxWidth: '100%', borderRadius: theme.radius.xxl },
+  title: { marginTop: theme.space.xl },
   actions: { gap: theme.space.xs },
 }));

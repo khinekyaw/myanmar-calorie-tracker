@@ -102,6 +102,7 @@ Styles are memoised and rebuilt only when the theme or language changes.
 | **Shadows only** on the floating + button, bottom sheets and floating chips. | `shadow.*` tokens. |
 | **Press feedback:** grey options darken to `surfaceStrong`; everything else fades to `opacity.pressed` (0.7). Disabled = `opacity.disabled` (0.35). | `theme.opacity`. |
 | **One page gutter** (`theme.gutter`, 16) on every screen. | `Screen`, tab screens, `PhotoSheet`, `AddSheet`. |
+| **Body measurements** are typed or picked on a ruler; ± steppers are only for counts (portions, spoons, plates). | `MeasureInput` / `RulerPicker` vs `Stepper`. |
 | **No raw colours** outside `palette.ts`, including translucent overlays (`onInkSubtle`, `photo.*`, `camera.controlActive`). | grep for `rgba(` / `#` outside `src/theme/`. |
 
 ### Android rounding gotcha

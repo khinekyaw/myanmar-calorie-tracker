@@ -17,10 +17,8 @@ type Props = {
   /** Spoken labels for − and +. */
   decreaseLabel: string;
   increaseLabel: string;
-  /** 'pill' = compact grey pill (Result); 'row' = buttons on surface (lists); 'large' = big number (target weight). */
-  variant?: 'pill' | 'row' | 'large';
-  /** Unit after a large number ("lb"). */
-  unit?: string;
+  /** 'pill' = compact grey pill (Result); 'row' = buttons on surface (lists). Body weights use MeasureInput. */
+  variant?: 'pill' | 'row';
 };
 
 /** − value + control. Buttons stay ≥ 36px, with a hit slop to 44px. */
@@ -34,7 +32,6 @@ export function Stepper({
   decreaseLabel,
   increaseLabel,
   variant = 'row',
-  unit,
 }: Props) {
   const s = useStyles();
   const theme = useTheme();
@@ -57,13 +54,12 @@ export function Stepper({
         onPress={() => change(kind === 'minus' ? value - step : value + step)}
         style={({ pressed }) => [
           s.button,
-          variant === 'large' && s.buttonLarge,
           variant === 'pill' ? s.buttonOnSurface : s.buttonSurface,
           pressed && s.pressed,
         ]}>
         <Icon
           name={kind}
-          size={variant === 'large' ? 20 : 16}
+          size={16}
           strokeWidth={2.4}
           color={enabled ? theme.colors.icon : theme.colors.iconMuted}
         />
@@ -72,44 +68,27 @@ export function Stepper({
   };
 
   return (
-    <View style={[s.root, variant === 'pill' && s.pill, variant === 'large' && s.large]}>
+    <View style={[s.root, variant === 'pill' && s.pill]}>
       {button('minus')}
-      {variant === 'large' ? (
-        <View style={s.largeValue} accessibilityLiveRegion="polite">
-          <Text variant="display" style={s.largeNumber}>
-            {display}
-          </Text>
-          {unit && (
-            <Text variant="body" tone="muted">
-              {unit}
-            </Text>
-          )}
-        </View>
-      ) : (
-        <Text
-          variant="numberMd"
-          style={[s.value, variant === 'pill' && s.valuePill, value === 0 && s.zero]}
-          accessibilityLiveRegion="polite">
-          {display}
-        </Text>
-      )}
+      <Text
+        variant="numberMd"
+        style={[s.value, variant === 'pill' && s.valuePill, value === 0 && s.zero]}
+        accessibilityLiveRegion="polite">
+        {display}
+      </Text>
       {button('plus')}
     </View>
   );
 }
 
-const useStyles = makeStyles(({ theme, type }) => ({
+const useStyles = makeStyles(({ theme }) => ({
   root: { flexDirection: 'row', alignItems: 'center', gap: theme.space.sm },
   pill: { gap: 2, padding: 3, borderRadius: theme.radius.pill, backgroundColor: theme.colors.surface },
-  large: { gap: theme.space.xxl },
   button: { width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center' },
-  buttonLarge: { width: 52, height: 52, borderRadius: 26 },
   buttonSurface: { backgroundColor: theme.colors.surface },
   buttonOnSurface: { backgroundColor: theme.colors.background, width: 36, height: 36 },
   pressed: { opacity: theme.opacity.pressed },
   value: { minWidth: 40, textAlign: 'center', fontSize: 18 },
   valuePill: { minWidth: 28, fontSize: 15 },
   zero: { color: theme.colors.textSubtle },
-  largeValue: { flexDirection: 'row', alignItems: 'baseline', gap: theme.space.xs, minWidth: 120, justifyContent: 'center' },
-  largeNumber: { ...type.numberXl, fontSize: 60, lineHeight: 68, letterSpacing: -2 },
 }));

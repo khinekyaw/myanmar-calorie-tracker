@@ -1,4 +1,3 @@
-import * as Notifications from 'expo-notifications';
 import { router } from 'expo-router';
 import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
@@ -19,6 +18,8 @@ export function NotificationsScreen() {
   const next = () => router.push('/generating');
 
   const allow = async () => {
+    // Loaded on demand: importing expo-notifications at startup logs a dev warning on every launch.
+    const Notifications = await import('expo-notifications');
     const { granted } = await Notifications.requestPermissionsAsync().catch(() => ({ granted: false }));
     setReminders(granted);
     next();

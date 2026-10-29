@@ -5,6 +5,12 @@ Product-level decisions from the handoff are in [PRODUCT_BRIEF.md](PRODUCT_BRIEF
 
 ---
 
+## 2026-10-30 — Weight input: type it or drag a ruler
+
+The ± stepper couldn't change decimals and needed 31 taps to go from 131 to 100. Other trackers either use a horizontal ruler (Cal AI's goal weight and many AI trackers) or a picker wheel with decimals, while MyFitnessPal and Lose It let you type the number. We combine the two quickest: **tap the big number to type it** (decimal keypad, invalid values shown greyed and not applied) and **drag the ruler** for fine changes in 0.1 steps (1 lb ticks, labels every 10 lb; waist ¼-inch ticks, labels every inch; haptic tick on each whole unit). The ruler is `ui/RulerPicker.tsx`; together they are `ui/MeasureInput.tsx`, used on Target weight, Edit goal and Log weight. The Stepper's large variant was removed; ± steppers remain for counts (portions, spoons).
+
+**Welcome image** now shows the whole picture uncropped (it keeps its 768 × 1376 shape and shrinks to the space), and the "Mohinga · 420" chip was removed, as the user asked.
+
 ## 2026-10-30 — Flow review: weight & goal tracking, informative Progress
 
 Walked every journey (see [USER_FLOWS.md](USER_FLOWS.md)) and fixed the dead ends: weight/waist logging, editing the goal after onboarding, Settings → Health, plan recalculation, BMI from your real height, per-day history on Home, deleting a meal, barcode marked *Soon*, a real streak.

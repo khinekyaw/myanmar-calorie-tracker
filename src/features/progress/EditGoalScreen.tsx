@@ -4,12 +4,12 @@ import { ScrollView, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { buildPlan, PACES, type Goal, type Pace } from '@/domain/plan';
-import { formatMonthYear, formatNumber, formatPlates } from '@/lib/format';
+import { formatMonthYear, formatPlates } from '@/lib/format';
 import { draftToPlanInput, useOnboarding } from '@/store/onboarding';
 import { refreshPlan } from '@/store/plan';
 import { useLatest } from '@/store/weights';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
-import { Button, IconButton, OptionCard, Screen, Segmented, Stepper, Text } from '@/ui';
+import { Button, IconButton, MeasureInput, OptionCard, Screen, Segmented, Text } from '@/ui';
 
 const GOALS: Goal[] = ['lose', 'maintain', 'gain'];
 
@@ -60,16 +60,15 @@ export function EditGoalScreen() {
             <Text variant="label" tone="muted" align="center">
               {t('target.title')}
             </Text>
-            <Stepper
-              variant="large"
+            <MeasureInput
+              key={goal}
               value={target}
-              min={goal === 'gain' ? current + 1 : 70}
-              max={goal === 'gain' ? 400 : current - 1}
-              display={formatNumber(target, language)}
+              min={goal === 'gain' ? Math.ceil(current) : 70}
+              max={goal === 'gain' ? 400 : Math.floor(current)}
               unit={t('common.lb')}
+              scale="lb"
               onChange={setTarget}
-              decreaseLabel={t('target.decrease')}
-              increaseLabel={t('target.increase')}
+              accessibilityLabel={t('target.title')}
             />
             <Text variant="label" tone="muted" align="center">
               {t('target.perWeek')}
