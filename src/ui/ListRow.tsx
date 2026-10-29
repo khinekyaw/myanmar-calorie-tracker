@@ -69,7 +69,7 @@ const useStyles = makeStyles(({ theme }) => ({
     paddingVertical: theme.space.sm,
   },
   divider: { borderBottomWidth: 1, borderBottomColor: theme.colors.hairline },
-  pressed: { opacity: 0.6 },
+  pressed: { opacity: theme.opacity.pressed },
   label: { flex: 1 },
   chevron: { color: theme.colors.iconMuted },
 }));

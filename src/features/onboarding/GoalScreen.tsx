@@ -40,7 +40,6 @@ export function GoalScreen() {
         {FLAGS.map((f) => (
           <Chip
             key={f}
-            look="outline"
             icon={flags.includes(f) ? 'check' : 'plus'}
             label={t(`goal.${f}`)}
             selected={flags.includes(f)}

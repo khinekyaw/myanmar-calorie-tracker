@@ -9,7 +9,7 @@ import { dishes } from '@/mocks/dishes';
 import { photos } from '@/mocks/photos';
 import { useSettings } from '@/store/settings';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
-import { Button, ScanFrame, Screen, Segmented, Text } from '@/ui';
+import { Button, Logo, ScanFrame, Screen, Segmented, Text } from '@/ui';
 
 export function WelcomeScreen() {
   const { t } = useTranslation();
@@ -27,6 +27,10 @@ export function WelcomeScreen() {
         </View>
       }>
       <View style={s.topBar}>
+        <View style={s.brand}>
+          <Logo size={26} />
+          <Text variant="wordmark">Sar AI</Text>
+        </View>
         <Segmented
           tone="light"
           accessibilityLabel={t('language.change')}
@@ -60,7 +64,13 @@ export function WelcomeScreen() {
 }
 
 const useStyles = makeStyles(({ theme, type }) => ({
-  topBar: { flexDirection: 'row', justifyContent: 'flex-end', paddingTop: theme.space.md },
+  topBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingTop: theme.space.md,
+  },
+  brand: { flexDirection: 'row', alignItems: 'center', gap: theme.space.sm },
   hero: {
     flex: 1,
     minHeight: 260,

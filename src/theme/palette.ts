@@ -23,6 +23,15 @@ export const palette = {
   amber: '#F5A524',
   coral: '#E5674B',
   blue: '#3E7BFA',
+  violet: '#8B5CF6',
   green: '#30A46C',
   red: '#E5484D',
+
+  // Translucent overlays
+  white14: 'rgba(255,255,255,0.14)',
+  white32: 'rgba(255,255,255,0.32)',
+  white92: 'rgba(255,255,255,0.92)',
+  black28: 'rgba(0,0,0,0.28)',
+  black35: 'rgba(0,0,0,0.35)',
+  black40: 'rgba(0,0,0,0.4)',
 } as const;

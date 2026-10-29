@@ -38,7 +38,8 @@ export function Segmented<T extends string>({
         const selected = o.value === value;
         return (
           <Pressable
-            key={o.value}
+            // Remount on selection so Android rounds the new fill (see docs → shape rules).
+            key={`${o.value}-${selected}`}
             accessibilityRole="radio"
             accessibilityState={{ selected }}
             onPress={() => {
@@ -73,6 +74,7 @@ const useStyles = makeStyles(({ theme, type }) => ({
     minHeight: 34,
     paddingHorizontal: theme.space.md,
     borderRadius: theme.radius.pill,
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
   },

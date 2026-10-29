@@ -148,7 +148,7 @@ export function ResultScreen() {
         )}
         {dish.oilSensitive && (
           <Chip
-            icon="drop"
+            icon="oil"
             label={t('result.oil', { level: t(OIL_LABEL[oil]) })}
             style={s.flex}
             onPress={cycleOil}
@@ -210,8 +210,7 @@ const useStyles = makeStyles(({ theme }) => ({
     flex: 1,
     padding: theme.space.md,
     borderRadius: theme.radius.md,
-    borderWidth: 1,
-    borderColor: theme.colors.hairline,
+    backgroundColor: theme.colors.surface,
     gap: 2,
   },
   tileLabel: { flexDirection: 'row', alignItems: 'center', gap: 6 },

@@ -54,7 +54,7 @@ const useStyles = makeStyles(({ theme }) => ({
   secondary: { backgroundColor: theme.colors.surface },
   light: { backgroundColor: theme.colors.background },
   ghost: { backgroundColor: 'transparent', height: 48 },
-  pressed: { opacity: 0.85, transform: [{ scale: 0.99 }] },
-  disabled: { opacity: 0.35 },
+  pressed: { opacity: theme.opacity.pressed },
+  disabled: { opacity: theme.opacity.disabled },
   inverseText: { color: theme.colors.onPrimary },
 }));

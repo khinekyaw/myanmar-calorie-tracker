@@ -70,7 +70,7 @@ const useStyles = makeStyles(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  iconWrapSelected: { backgroundColor: 'rgba(255,255,255,0.12)' },
+  iconWrapSelected: { backgroundColor: theme.colors.onInkSubtle },
   label: { flex: 1, paddingVertical: theme.space.md },
   text: { color: theme.colors.text },
   selectedText: { color: theme.colors.onSelected },

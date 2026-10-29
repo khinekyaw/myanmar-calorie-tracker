@@ -149,7 +149,7 @@ const useStyles = makeStyles(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  torchOn: { backgroundColor: 'rgba(255,255,255,0.32)' },
+  torchOn: { backgroundColor: theme.colors.camera.controlActive },
   bottomBar: {
     position: 'absolute',
     left: 0,

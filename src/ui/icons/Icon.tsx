@@ -104,6 +104,13 @@ const icons = {
       <Path d="M7 12c0-2.8 2.2-5 5-5s5 2.2 5 5" />
     </>
   ),
+  /** Cooking-oil bottle — used for the fat indicator and the oil level. */
+  oil: (
+    <>
+      <Path d="M10 3h4M10.5 3v3L8 9.2a2.5 2.5 0 0 0-.5 1.5V19a2 2 0 0 0 2 2h5a2 2 0 0 0 2-2v-8.3a2.5 2.5 0 0 0-.5-1.5L13.5 6V3" />
+      <Path d="M7.5 13.5h9" />
+    </>
+  ),
   /** Fish — used for the protein indicator. */
   fish: (
     <>

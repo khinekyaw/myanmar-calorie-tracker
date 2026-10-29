@@ -5,6 +5,23 @@ Product-level decisions from the handoff are in [PRODUCT_BRIEF.md](PRODUCT_BRIEF
 
 ---
 
+## 2026-10-30 — One set of design rules across the app; new logo
+
+Triggered by square corners on the expanded search row. The cause was an Android rendering quirk (see ARCHITECTURE → "Android rounding gotcha"): fixed by remounting with a `key` (search rows, segments) or a constant border width (week days, code boxes). A transparent base background was tried and does not work.
+
+Made consistent with the design system at the same time (rules table in ARCHITECTURE → "Design rules"):
+- **No borders on cards:** Result macro tiles and paywall pass cards now use grey fills.
+- **Selected = solid ink everywhere:** the selected pass card is black (was a black border); its radio became a white check well.
+- **Chips:** outlined chips removed. Grey on white pages (health flags, "+"), white inside grey cards (tea sweetness).
+- **"Something else" in PickDish** is a grey option with a mic icon (was a dashed outline).
+- **One page gutter (16)** on every screen; onboarding and full-screen pages were 20.
+- **Press feedback** unified to two behaviours (options darken, everything else fades to 0.7).
+- **Translucent colours** moved into the palette and theme tokens.
+
+**Fat colour and icon:** fat is now violet `#8B5CF6` with a cooking-oil bottle icon (ဆီ), replacing blue + water drop, which read as "water" at a glance. The oil-level chip on Result uses the same bottle. Blue stays only on the BMI scale.
+
+**Logo:** the user's mark (`assets/images/logo.svg`) is now the app icon, Android adaptive/monochrome icon, splash image and in-app logo (Welcome, Home header, reminder preview). Template Expo/React images removed.
+
 ## 2026-10-29 — UI prototype: remaining 13 screens
 
 All 22 canvas screens now exist and connect into working flows (see the screen map in [ARCHITECTURE.md](ARCHITECTURE.md#screen-map)). Tested on the Android emulator at 360 dp in both languages.

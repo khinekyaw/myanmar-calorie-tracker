@@ -25,7 +25,7 @@ export function IconButton({ icon, variant = 'surface', size, style, ...rest }: 
         s.base,
         variant === 'onDark' ? s.onDark : s.surface,
         { width: dim, height: dim, borderRadius: dim / 2 },
-        pressed && { opacity: 0.7 },
+        pressed && s.pressed,
         style,
       ]}
       {...rest}>
@@ -43,5 +43,6 @@ const useStyles = makeStyles(({ theme }) => ({
   },
   surface: { backgroundColor: theme.colors.surface },
   onDark: { backgroundColor: theme.colors.camera.control },
+  pressed: { opacity: theme.opacity.pressed },
   onDarkIcon: { color: theme.colors.camera.foreground },
 }));

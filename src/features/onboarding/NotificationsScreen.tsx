@@ -4,8 +4,8 @@ import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { useSettings } from '@/store/settings';
-import { makeStyles } from '@/theme/ThemeProvider';
-import { Text } from '@/ui';
+import { makeStyles, useTheme } from '@/theme/ThemeProvider';
+import { Logo, Text } from '@/ui';
 
 import { OnboardingLayout } from './OnboardingLayout';
 
@@ -13,6 +13,7 @@ import { OnboardingLayout } from './OnboardingLayout';
 export function NotificationsScreen() {
   const { t } = useTranslation();
   const s = useStyles();
+  const theme = useTheme();
   const setReminders = useSettings((st) => st.setReminders);
 
   const next = () => router.push('/generating');
@@ -37,9 +38,7 @@ export function NotificationsScreen() {
       }}>
       <View style={s.preview} accessible accessibilityLabel={t('notify.sample')}>
         <View style={s.appIcon}>
-          <Text variant="numberSm" tone="inverse">
-            S
-          </Text>
+          <Logo size={24} color={theme.colors.onPrimary} />
         </View>
         <Text variant="bodyStrong" style={s.message}>
           {t('notify.sample')}

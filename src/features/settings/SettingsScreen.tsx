@@ -29,7 +29,7 @@ export function SettingsScreen() {
         <Pressable
           accessibilityRole="button"
           onPress={() => router.push('/paywall')}
-          style={({ pressed }) => [s.premium, pressed && { opacity: 0.9 }]}>
+          style={({ pressed }) => [s.premium, pressed && s.pressed]}>
           <View style={s.premiumIcon}>
             <Icon name="sparkle" size={20} color={theme.colors.onPrimary} />
           </View>
@@ -128,9 +128,10 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
 
 const useStyles = makeStyles(({ theme }) => ({
   root: { flex: 1, backgroundColor: theme.colors.background },
-  content: { paddingHorizontal: theme.space.lg, paddingBottom: theme.size.fab + theme.space.xxl },
+  content: { paddingHorizontal: theme.gutter, paddingBottom: theme.size.fab + theme.space.xxl },
   title: { marginTop: theme.space.lg },
   flex: { flex: 1 },
+  pressed: { opacity: theme.opacity.pressed },
   premium: {
     marginTop: theme.space.lg,
     minHeight: 64,
@@ -145,7 +146,7 @@ const useStyles = makeStyles(({ theme }) => ({
     width: 36,
     height: 36,
     borderRadius: theme.radius.sm,
-    backgroundColor: 'rgba(255,255,255,0.12)',
+    backgroundColor: theme.colors.onInkSubtle,
     alignItems: 'center',
     justifyContent: 'center',
   },

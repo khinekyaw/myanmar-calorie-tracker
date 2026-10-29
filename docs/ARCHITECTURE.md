@@ -86,6 +86,35 @@ Styles are memoised and rebuilt only when the theme or language changes.
 - fonts → `fontFamilies` in `typography.ts` + the `useFonts` list in `app/_layout.tsx`
 - type sizes → `variants` in `typography.ts`
 
+## Design rules (apply on every screen)
+
+| Rule | How it's enforced |
+|---|---|
+| **Everything with a fill is rounded.** Cards 20–24 (`radius.lg`/`xl`), options and tiles 16 (`radius.md`), small wells 12 (`radius.sm`), buttons/chips/segments pills. | Use the tokens; raw numbers only for circles (`size / 2`) and dots. |
+| **No borders on cards or options.** Separation comes from fill: grey `surface` on white, white on grey. Hairlines only divide list rows (Settings, SharedMeal) and the tab bar. | `Card`, `OptionCard`, `Chip` have no border variants. |
+| **Selected = solid ink with white text**; unselected = `surface` grey. Same for options, chips, segments, pass cards, days. | `selected` / `onSelected` tokens. |
+| **Colour only on nutrient indicators** (rice amber + plate, protein coral + fish, fat violet + oil bottle) and the BMI scale. | `colors.nutrient`, `colors.bmi`. |
+| **Shadows only** on the floating + button, bottom sheets and floating chips. | `shadow.*` tokens. |
+| **Press feedback:** grey options darken to `surfaceStrong`; everything else fades to `opacity.pressed` (0.7). Disabled = `opacity.disabled` (0.35). | `theme.opacity`. |
+| **One page gutter** (`theme.gutter`, 16) on every screen. | `Screen`, tab screens, `PhotoSheet`, `AddSheet`. |
+| **No raw colours** outside `palette.ts`, including translucent overlays (`onInkSubtle`, `photo.*`, `camera.controlActive`). | grep for `rgba(` / `#` outside `src/theme/`. |
+
+### Android rounding gotcha
+
+On Android (RN 0.88, Fabric) a view only clips its background and border to `borderRadius` if it **had a background (and the same border width) when it first rendered**. A view that gains a background later (an expanded search row, a newly selected day) draws square corners.
+
+Changing an existing fill's colour (grey → ink) is fine. What breaks is a view that had **no visible fill** at mount. A transparent base background does not help; a constant border does. Two fixes, in order of preference:
+
+1. **Remount on state change** with a `key` (`key={isOpen ? 'open' : 'closed'}`), so the view always mounts with its final fill. Used by `FoodSearchScreen` rows and `Segmented` items.
+2. **Keep the border width constant** and change only colours (`borderColor: 'transparent'` when off). Used by `WeekStrip` days and `SignInScreen` code boxes.
+
+Always check a new state change on the Android emulator after a cold start.
+
+## Brand
+
+- Logo source: `assets/images/logo.svg`. In the app: `<Logo />` (`src/ui/Logo.tsx`, react-native-svg, `size` and `color` props). Shown with the "Sar AI" wordmark on Welcome and Home, and in the reminder preview.
+- App icons are generated from the logo: `icon.png` (1024, white), Android adaptive `android-icon-foreground/monochrome.png` (logo inside the safe circle) on a white `android-icon-background.png`, `splash-icon.png`, `favicon.png`. After changing them run `npx expo prebuild -p android`, then `npx expo run:android`.
+
 ## Burmese vs English typography
 
 Burmese script stacks vowels and medials above and below the base line, so it needs much more line height than Latin, and its words run longer. `typography.ts` keeps a separate `ScriptSpec` per language:

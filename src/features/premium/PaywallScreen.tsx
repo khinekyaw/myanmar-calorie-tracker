@@ -82,12 +82,14 @@ export function PaywallScreen() {
                   </Text>
                 </View>
               )}
-              <Text variant="label" tone="muted">
+              <Text variant="label" tone={selected ? 'inverse' : 'muted'}>
                 {t(p.months === 1 ? 'paywall.month1' : 'paywall.month3')}
               </Text>
-              <Text variant="headline">{t('paywall.price', { price: p.priceKs })}</Text>
-              <View style={[s.radio, selected && s.radioOn]}>
-                {selected && <Icon name="check" size={14} strokeWidth={3} color={s.radioCheck.color} />}
+              <Text variant="headline" tone={selected ? 'inverse' : 'default'}>
+                {t('paywall.price', { price: p.priceKs })}
+              </Text>
+              <View style={s.radio}>
+                {selected && <Icon name="check" size={14} strokeWidth={3} />}
               </View>
             </Pressable>
           );
@@ -127,16 +129,17 @@ const useStyles = makeStyles(({ theme }) => ({
     paddingTop: theme.space.xl,
     gap: theme.space.xs,
     borderRadius: theme.radius.lg,
-    borderWidth: 2,
-    borderColor: theme.colors.surfaceStrong,
+    backgroundColor: theme.colors.surface,
   },
-  passSelected: { borderColor: theme.colors.selected },
+  passSelected: { backgroundColor: theme.colors.selected },
   tag: {
     position: 'absolute',
     top: -12,
     left: theme.space.lg,
     paddingHorizontal: theme.space.sm + 2,
     borderRadius: theme.radius.pill,
+    borderWidth: 2,
+    borderColor: theme.colors.background,
     backgroundColor: theme.colors.selected,
   },
   radio: {
@@ -146,13 +149,10 @@ const useStyles = makeStyles(({ theme }) => ({
     width: 22,
     height: 22,
     borderRadius: 11,
-    borderWidth: 2,
-    borderColor: theme.colors.surfaceStrong,
+    backgroundColor: theme.colors.background,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  radioOn: { backgroundColor: theme.colors.selected, borderColor: theme.colors.selected },
-  radioCheck: { color: theme.colors.onSelected },
   footer: { gap: theme.space.md },
   note: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: theme.space.sm },
   payRow: { flexDirection: 'row', gap: theme.space.sm },

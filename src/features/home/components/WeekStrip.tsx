@@ -69,8 +69,19 @@ export function WeekStrip() {
 const useStyles = makeStyles(({ theme }) => ({
   row: { flexDirection: 'row', justifyContent: 'space-between', marginTop: theme.space.lg },
   day: { flex: 1, alignItems: 'center', gap: theme.space.xs, minHeight: theme.size.minTouch },
-  date: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
-  dateSelected: { backgroundColor: theme.colors.selected },
-  dateLogged: { borderWidth: 1.5, borderStyle: 'dashed', borderColor: theme.colors.iconMuted },
+  // Background and border are always present; states only change colours (shape rules).
+  date: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    borderWidth: 1.5,
+    borderStyle: 'dashed',
+    borderColor: 'transparent',
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  dateSelected: { backgroundColor: theme.colors.selected, borderColor: theme.colors.selected },
+  dateLogged: { borderColor: theme.colors.iconMuted },
   dateText: { fontSize: 13 },
 }));

@@ -12,8 +12,8 @@ type Props = {
   onPress: () => void;
   /** Toggle chips: selected = solid ink. Omit for plain action chips. */
   selected?: boolean;
-  /** 'outline' = hairline border on white (health toggles); 'fill' = grey surface. */
-  look?: 'outline' | 'fill';
+  /** 'fill' = grey, for white pages; 'onSurface' = white, for chips inside grey cards. */
+  look?: 'fill' | 'onSurface';
   accessibilityLabel?: string;
   style?: StyleProp<ViewStyle>;
 };
@@ -35,7 +35,7 @@ export function Chip({ label, icon, onPress, selected, look = 'fill', accessibil
       }}
       style={({ pressed }) => [
         s.base,
-        look === 'outline' ? s.outline : s.fill,
+        look === 'onSurface' ? s.onSurface : s.fill,
         selected && s.selected,
         pressed && s.pressed,
         style,
@@ -61,7 +61,7 @@ const useStyles = makeStyles(({ theme }) => ({
     gap: 6,
   },
   fill: { backgroundColor: theme.colors.surface },
-  outline: { backgroundColor: theme.colors.background, borderWidth: 1.5, borderColor: theme.colors.surfaceStrong },
-  selected: { backgroundColor: theme.colors.selected, borderColor: theme.colors.selected },
-  pressed: { opacity: 0.7 },
+  onSurface: { backgroundColor: theme.colors.background },
+  selected: { backgroundColor: theme.colors.selected },
+  pressed: { opacity: theme.opacity.pressed },
 }));

@@ -81,7 +81,7 @@ export function MealRow({ entry }: { entry: LogEntry }) {
         <View style={s.macros}>
           <Macro color={theme.colors.nutrient.carbs} text={formatPlates(Math.round(carbsToRicePlates(m.carbG) * 4) / 4, language)} icon="rice" />
           <Macro color={theme.colors.nutrient.protein} text={`${Math.round(m.proteinG)}${t('common.g')}`} icon="fish" />
-          <Macro color={theme.colors.nutrient.fat} text={`${Math.round(m.fatG)}${t('common.g')}`} icon="drop" />
+          <Macro color={theme.colors.nutrient.fat} text={`${Math.round(m.fatG)}${t('common.g')}`} icon="oil" />
         </View>
       </View>
     </Pressable>
@@ -91,7 +91,7 @@ export function MealRow({ entry }: { entry: LogEntry }) {
 const sourceIcon = (source: LogEntry['source']): IconName =>
   ({ photo: 'camera', voice: 'mic', text: 'keyboard', search: 'search', quick: 'plus' })[source] as IconName;
 
-function Macro({ color, text, icon }: { color: string; text: string; icon: 'rice' | 'fish' | 'drop' }) {
+function Macro({ color, text, icon }: { color: string; text: string; icon: 'rice' | 'fish' | 'oil' }) {
   const s = useStyles();
   return (
     <View style={s.macro}>
@@ -111,7 +111,7 @@ const useStyles = makeStyles(({ theme, type }) => ({
     borderRadius: theme.radius.lg,
     backgroundColor: theme.colors.surface,
   },
-  pressed: { opacity: 0.8 },
+  pressed: { opacity: theme.opacity.pressed },
   photo: { width: 84, height: 84, borderRadius: theme.radius.md, backgroundColor: theme.colors.surfaceStrong },
   photoDim: { opacity: 0.85 },
   noPhoto: { alignItems: 'center', justifyContent: 'center' },
@@ -122,7 +122,7 @@ const useStyles = makeStyles(({ theme, type }) => ({
     right: 0,
     bottom: 0,
     borderRadius: theme.radius.md,
-    backgroundColor: 'rgba(0,0,0,0.35)',
+    backgroundColor: theme.colors.photo.dim,
     alignItems: 'center',
     justifyContent: 'center',
   },

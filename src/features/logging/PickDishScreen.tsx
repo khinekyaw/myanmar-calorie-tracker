@@ -75,7 +75,7 @@ export function PickDishScreen() {
         <Pressable
           accessibilityRole="button"
           onPress={() => entry && router.push({ pathname: '/text-log', params: { id: entry.id } })}
-          style={[s.option, s.other]}>
+          style={({ pressed }) => [s.option, s.idle, pressed && s.pressed]}>
           <Icon name="mic" size={18} color={theme.colors.icon} />
           <Text variant="body">{t('pick.other')}</Text>
         </Pressable>
@@ -97,7 +97,7 @@ const useStyles = makeStyles(({ theme }) => ({
   },
   idle: { backgroundColor: theme.colors.surface },
   selected: { backgroundColor: theme.colors.selected },
-  other: { borderWidth: 1, borderStyle: 'dashed', borderColor: theme.colors.switchOff },
+  pressed: { backgroundColor: theme.colors.surfaceStrong },
   tag: { paddingHorizontal: theme.space.sm + 2, borderRadius: theme.radius.pill, backgroundColor: theme.colors.background },
-  tagOnDark: { backgroundColor: 'rgba(255,255,255,0.16)' },
+  tagOnDark: { backgroundColor: theme.colors.onInkSubtle },
 }));

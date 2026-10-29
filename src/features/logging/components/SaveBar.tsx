@@ -36,7 +36,7 @@ const useStyles = makeStyles(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  pressed: { opacity: 0.85 },
-  disabled: { opacity: 0.35 },
+  pressed: { opacity: theme.opacity.pressed },
+  disabled: { opacity: theme.opacity.disabled },
   kcal: { fontSize: 17 },
 }));

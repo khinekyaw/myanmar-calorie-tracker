@@ -38,7 +38,7 @@ UI design canvas (22 screens, Claude Design): https://claude.ai/artifact/DYDw9tR
 | Background | `#FFFFFF` |
 | Carbs / rice | `#F5A524` |
 | Protein | `#E5674B` |
-| Fat | `#3E7BFA` |
+| Fat | `#8B5CF6` violet (was `#3E7BFA` blue; changed 2026-10-30 because blue + a drop read as water) |
 | Fonts | Inter + Noto Sans Myanmar |
 | Radius | cards 20–24, options 16, buttons pill (56px tall) |
 

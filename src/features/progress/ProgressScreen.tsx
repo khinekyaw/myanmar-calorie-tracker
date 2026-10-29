@@ -109,7 +109,7 @@ export function ProgressScreen() {
 
 const useStyles = makeStyles(({ theme, type }) => ({
   root: { flex: 1, backgroundColor: theme.colors.background },
-  content: { paddingHorizontal: theme.space.lg, paddingBottom: theme.size.fab + theme.space.xxl },
+  content: { paddingHorizontal: theme.gutter, paddingBottom: theme.size.fab + theme.space.xxl },
   title: { marginTop: theme.space.lg },
   chartCard: { marginTop: theme.space.lg, gap: theme.space.lg },
   chartHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: theme.space.md },

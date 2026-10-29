@@ -106,7 +106,7 @@ const useStyles = makeStyles(({ theme, type }) => ({
   buttonLarge: { width: 52, height: 52, borderRadius: 26 },
   buttonSurface: { backgroundColor: theme.colors.surface },
   buttonOnSurface: { backgroundColor: theme.colors.background, width: 36, height: 36 },
-  pressed: { opacity: 0.6 },
+  pressed: { opacity: theme.opacity.pressed },
   value: { minWidth: 40, textAlign: 'center', fontSize: 18 },
   valuePill: { minWidth: 28, fontSize: 15 },
   zero: { color: theme.colors.textSubtle },

@@ -124,7 +124,6 @@ export function SharedMealScreen() {
           ))}
           <Chip
             icon="plus"
-            look="outline"
             accessibilityLabel={t('shared.addMore')}
             onPress={() => entry && router.push({ pathname: '/search', params: { addTo: entry.id } })}
           />

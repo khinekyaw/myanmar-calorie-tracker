@@ -25,11 +25,20 @@ export const lightTheme = {
     selected: palette.ink,
     onSelected: palette.white,
     switchOff: palette.gray300,
-    scrim: 'rgba(0,0,0,0.4)',
+    scrim: palette.black40,
+    /** Subtle fill on ink surfaces (icon wells on black, tags on selected). */
+    onInkSubtle: palette.white14,
+    /** Over food photos: back button, status-bar shade, queued-photo dim. */
+    photo: {
+      button: palette.white92,
+      statusShade: palette.black28,
+      dim: palette.black35,
+    },
     sheetHandle: palette.gray300,
     camera: {
       background: palette.black,
-      control: 'rgba(255,255,255,0.14)',
+      control: palette.white14,
+      controlActive: palette.white32,
       foreground: palette.white,
       frame: palette.white,
       viewfinder: palette.gray900,
@@ -37,7 +46,7 @@ export const lightTheme = {
     nutrient: {
       carbs: palette.amber,
       protein: palette.coral,
-      fat: palette.blue,
+      fat: palette.violet,
     },
     bmi: {
       under: palette.blue,
@@ -65,8 +74,16 @@ export const lightTheme = {
     xxl: 24,
     xxxl: 32,
   },
-  /** Horizontal page gutter. */
-  gutter: 20,
+  /** Horizontal page gutter — the same on every screen. */
+  gutter: 16,
+  /**
+   * Press feedback. Grey options darken to `surfaceStrong` when pressed;
+   * everything else (buttons, rows, chips, cards) fades to `pressed`.
+   */
+  opacity: {
+    pressed: 0.7,
+    disabled: 0.35,
+  },
   size: {
     button: 56,
     buttonSm: 44,

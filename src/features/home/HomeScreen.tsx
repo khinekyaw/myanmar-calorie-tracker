@@ -7,7 +7,7 @@ import { useConnectivity } from '@/lib/network';
 import { mockStreakDays } from '@/mocks/progress';
 import { useDaySummary } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
-import { Card, Icon, Ring, Text } from '@/ui';
+import { Card, Icon, Logo, Ring, Text } from '@/ui';
 
 import { MealRow } from './components/MealRow';
 import { NutrientCard } from './components/NutrientCard';
@@ -24,7 +24,10 @@ export function HomeScreen() {
     <SafeAreaView style={s.root} edges={['top']}>
       <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
         <View style={s.header}>
-          <Text variant="wordmark">Sar AI</Text>
+          <View style={s.brand}>
+            <Logo size={24} />
+            <Text variant="wordmark">Sar AI</Text>
+          </View>
           <View style={s.headerRight}>
             {!online && (
               <View style={s.offline} accessibilityRole="text" accessibilityLiveRegion="polite">
@@ -75,7 +78,7 @@ export function HomeScreen() {
             label={t('home.fat')}
             progress={day.fatProgress}
             color={theme.colors.nutrient.fat}
-            icon="drop"
+            icon="oil"
           />
         </View>
 
@@ -94,13 +97,14 @@ export function HomeScreen() {
 
 const useStyles = makeStyles(({ theme }) => ({
   root: { flex: 1, backgroundColor: theme.colors.background },
-  content: { paddingHorizontal: theme.space.lg, paddingBottom: theme.size.fab + theme.space.xxl },
+  content: { paddingHorizontal: theme.gutter, paddingBottom: theme.size.fab + theme.space.xxl },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingTop: theme.space.md,
   },
+  brand: { flexDirection: 'row', alignItems: 'center', gap: theme.space.sm },
   headerRight: { flexDirection: 'row', alignItems: 'center', gap: theme.space.sm },
   offline: {
     flexDirection: 'row',

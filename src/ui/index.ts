@@ -15,3 +15,4 @@ export { ScanFrame } from './ScanFrame';
 export { Chip } from './Chip';
 export { PhotoSheet } from './PhotoSheet';
 export { Stepper } from './Stepper';
+export { Logo } from './Logo';

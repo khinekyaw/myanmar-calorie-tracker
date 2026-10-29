@@ -110,7 +110,7 @@ const useStyles = makeStyles(({ theme }) => ({
     borderRadius: 2,
     backgroundColor: theme.colors.sheetHandle,
   },
-  grid: { gap: theme.space.sm + 2, paddingHorizontal: theme.space.lg },
+  grid: { gap: theme.space.sm + 2, paddingHorizontal: theme.gutter },
   gridRow: { flexDirection: 'row', gap: theme.space.sm + 2 },
   tile: {
     flex: 1,
@@ -121,8 +121,8 @@ const useStyles = makeStyles(({ theme }) => ({
   },
   tilePrimary: { backgroundColor: theme.colors.primary },
   tileSecondary: { backgroundColor: theme.colors.surface },
-  pressed: { opacity: 0.85 },
-  chips: { gap: theme.space.sm, paddingHorizontal: theme.space.lg },
+  pressed: { opacity: theme.opacity.pressed },
+  chips: { gap: theme.space.sm, paddingHorizontal: theme.gutter },
   chip: {
     flexDirection: 'row',
     alignItems: 'center',

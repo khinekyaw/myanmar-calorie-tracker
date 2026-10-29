@@ -93,7 +93,8 @@ export function FoodSearchScreen() {
             const isOpen = open?.dishId === dish.id;
             const other = language === 'my' ? dish.name.en : dish.name.my;
             return (
-              <View style={[s.result, isOpen && s.resultOpen]}>
+              // New key when opening: Android must mount the row with its fill to round it (shape rules).
+              <View key={isOpen ? 'open' : 'closed'} style={[s.result, isOpen && s.resultOpen]}>
                 <Pressable
                   accessibilityRole="button"
                   accessibilityState={{ expanded: isOpen }}
@@ -118,7 +119,7 @@ export function FoodSearchScreen() {
                             key={k}
                             label={t(`search.${k}`)}
                             selected={open.sweetness === k}
-                            look="outline"
+                            look="onSurface"
                             onPress={() => setOpen({ ...open, sweetness: k })}
                           />
                         ))}
