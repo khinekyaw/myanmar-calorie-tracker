@@ -18,10 +18,17 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 
+import { useScanQueue } from '@/features/logging/scanQueue';
 import { ThemeProvider } from '@/theme/ThemeProvider';
 import { lightTheme } from '@/theme/themes';
 
 SplashScreen.preventAutoHideAsync();
+
+/** Sends queued food photos whenever uploads are allowed. Renders nothing. */
+function ScanQueue() {
+  useScanQueue();
+  return null;
+}
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
@@ -63,7 +70,13 @@ export default function RootLayout() {
         />
         <Stack.Screen name="camera" options={{ presentation: 'fullScreenModal', animation: 'slide_from_bottom' }} />
         <Stack.Screen name="paywall" options={{ presentation: 'modal', animation: 'slide_from_bottom' }} />
+        <Stack.Screen name="result" options={{ animation: 'fade' }} />
+        <Stack.Screen name="pick-dish" />
+        <Stack.Screen name="shared-meal" />
+        <Stack.Screen name="text-log" options={{ animation: 'slide_from_bottom' }} />
+        <Stack.Screen name="search" options={{ animation: 'slide_from_bottom' }} />
       </Stack>
+      <ScanQueue />
     </ThemeProvider>
   );
 }

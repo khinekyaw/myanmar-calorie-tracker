@@ -9,6 +9,9 @@ import { useTranslation } from 'react-i18next';
 
 import { tap } from '@/lib/haptics';
 import { formatNumber } from '@/lib/format';
+import { useConnectivity } from '@/lib/network';
+import { compressPhoto } from '@/services/scan';
+import { useLog } from '@/store/log';
 import { FREE_SCANS_PER_DAY, useScanQuota, useScansLeft } from '@/store/scanQuota';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Button, IconButton, ScanFrame, Text } from '@/ui';
@@ -29,10 +32,17 @@ export function CameraScreen() {
   const scansLeft = useScansLeft();
   const consume = useScanQuota((st) => st.consume);
 
-  const afterCapture = () => {
+  const { canUpload } = useConnectivity();
+  const addEntry = useLog((st) => st.addEntry);
+
+  // Save the compressed photo to the queue. Online → straight to Result
+  // (the scan queue picks it up); offline → back Home, where it waits.
+  const afterCapture = async ({ uri, width, height }: { uri: string; width: number; height: number }) => {
     consume();
-    // Next: upload/queue the photo and open the Result screen (not built yet).
-    router.back();
+    const photoUri = await compressPhoto(uri, width, height).catch(() => uri);
+    const id = addEntry({ source: 'photo', status: 'queued', photoUri, items: [] });
+    if (canUpload) router.replace({ pathname: '/result', params: { id } });
+    else router.back();
   };
 
   const shoot = async () => {
@@ -41,8 +51,8 @@ export function CameraScreen() {
     tap();
     setBusy(true);
     try {
-      await camera.current.takePictureAsync({ quality: 0.6, skipProcessing: true });
-      afterCapture();
+      const photo = await camera.current.takePictureAsync({ quality: 0.7 });
+      await afterCapture(photo);
     } finally {
       setBusy(false);
     }
@@ -51,7 +61,7 @@ export function CameraScreen() {
   const pickFromGallery = async () => {
     if (scansLeft <= 0) return router.push('/paywall');
     const res = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ['images'], quality: 0.6 });
-    if (!res.canceled) afterCapture();
+    if (!res.canceled) await afterCapture(res.assets[0]);
   };
 
   return (

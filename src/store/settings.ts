@@ -10,11 +10,14 @@ type SettingsState = {
   feastDay: boolean;
   reminders: boolean;
   wifiOnlyUploads: boolean;
+  /** Dev builds only: pretend the phone is offline to test the queue. */
+  devSimulateOffline: boolean;
   setLanguage: (language: Language) => void;
   toggle: (key: ToggleKey) => void;
+  setReminders: (on: boolean) => void;
 };
 
-export type ToggleKey = 'uposathaVegetarian' | 'feastDay' | 'reminders' | 'wifiOnlyUploads';
+export type ToggleKey = 'uposathaVegetarian' | 'feastDay' | 'reminders' | 'wifiOnlyUploads' | 'devSimulateOffline';
 
 export const useSettings = create<SettingsState>()(
   persist(
@@ -24,8 +27,10 @@ export const useSettings = create<SettingsState>()(
       feastDay: false,
       reminders: true,
       wifiOnlyUploads: false,
+      devSimulateOffline: false,
       setLanguage: (language) => set({ language }),
       toggle: (key) => set((s) => ({ [key]: !s[key] })),
+      setReminders: (reminders: boolean) => set({ reminders }),
     }),
     { name: 'settings', storage: syncStorage, version: 1 },
   ),

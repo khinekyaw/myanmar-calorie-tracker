@@ -12,3 +12,6 @@ export { Segmented } from './Segmented';
 export { Switch } from './Switch';
 export { Text } from './Text';
 export { ScanFrame } from './ScanFrame';
+export { Chip } from './Chip';
+export { PhotoSheet } from './PhotoSheet';
+export { Stepper } from './Stepper';

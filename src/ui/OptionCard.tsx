@@ -31,6 +31,7 @@ export function OptionCard({ label, selected, onPress, icon, layout = 'row', sty
       style={({ pressed }) => [
         s.base,
         layout === 'center' ? s.center : s.row,
+        icon && s.withIcon,
         selected ? s.selected : s.idle,
         pressed && !selected && s.pressed,
         style,
@@ -55,7 +56,8 @@ const useStyles = makeStyles(({ theme }) => ({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  row: { minHeight: theme.size.optionLg, gap: theme.space.lg, paddingHorizontal: theme.space.md },
+  row: { minHeight: theme.size.optionLg, gap: theme.space.lg },
+  withIcon: { paddingHorizontal: theme.space.md },
   center: { justifyContent: 'center' },
   idle: { backgroundColor: theme.colors.surface },
   selected: { backgroundColor: theme.colors.selected },

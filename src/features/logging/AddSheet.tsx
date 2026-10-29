@@ -19,18 +19,18 @@ export function AddSheet() {
   const s = useStyles();
   const { theme, language } = useStyleContext();
   const insets = useSafeAreaInsets();
-  const add = useLog((st) => st.add);
+  const quickAdd = useLog((st) => st.quickAdd);
 
   const tiles: Tile[] = [
     { key: 'photo', icon: 'camera', primary: true, onPress: () => router.replace('/camera') },
-    { key: 'voice', icon: 'mic', primary: true },
-    { key: 'search', icon: 'search', primary: false },
+    { key: 'voice', icon: 'mic', primary: true, onPress: () => router.replace('/text-log') },
+    { key: 'search', icon: 'search', primary: false, onPress: () => router.replace('/search') },
     { key: 'barcode', icon: 'barcode', primary: false, onPress: () => router.replace('/camera') },
   ];
 
   const relog = (id: DishId) => {
     tap();
-    add(id);
+    quickAdd(id);
     router.back();
   };
 

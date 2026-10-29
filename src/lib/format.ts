@@ -36,3 +36,14 @@ export function formatTime(date: Date, language: Language) {
   const text = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
   return toNumerals(text, language);
 }
+
+const MONTHS_MY = [
+  'ဇန်နဝါရီ', 'ဖေဖော်ဝါရီ', 'မတ်', 'ဧပြီ', 'မေ', 'ဇွန်',
+  'ဇူလိုင်', 'ဩဂုတ်', 'စက်တင်ဘာ', 'အောက်တိုဘာ', 'နိုဝင်ဘာ', 'ဒီဇင်ဘာ',
+];
+
+/** "February 2027" / "ဖေဖော်ဝါရီ 2027". */
+export function formatMonthYear(date: Date, language: Language) {
+  if (language === 'my') return toNumerals(`${MONTHS_MY[date.getMonth()]} ${date.getFullYear()}`, language);
+  return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+}

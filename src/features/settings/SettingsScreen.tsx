@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import { LANGUAGE_SHORT, LANGUAGES } from '@/i18n/languages';
 import { useOnboarding } from '@/store/onboarding';
+import { useScanQuota } from '@/store/scanQuota';
 import { useSettings } from '@/store/settings';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Icon, ListRow, Segmented, Text } from '@/ui';
@@ -16,6 +17,7 @@ export function SettingsScreen() {
   const { theme, language } = useStyleContext();
   const settings = useSettings();
   const resetOnboarding = useOnboarding((st) => st.reset);
+  const resetScans = useScanQuota((st) => st.reset);
 
   return (
     <SafeAreaView style={s.root} edges={['top']}>
@@ -89,6 +91,13 @@ export function SettingsScreen() {
 
         {__DEV__ && (
           <Section title="Developer">
+            <ListRow
+              kind="switch"
+              label="Simulate offline"
+              value={settings.devSimulateOffline}
+              onValueChange={() => settings.toggle('devSimulateOffline')}
+            />
+            <ListRow kind="link" label="Reset free scans" onPress={resetScans} />
             <ListRow
               kind="link"
               label="Restart onboarding"

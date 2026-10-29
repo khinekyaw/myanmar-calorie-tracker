@@ -18,6 +18,7 @@ const icons = {
     </>
   ),
   plus: <Path d="M12 5v14M5 12h14" />,
+  minus: <Path d="M5 12h14" />,
   close: <Path d="M6 6l12 12M18 6 6 18" />,
   chevronLeft: <Path d="m15 18-6-6 6-6" />,
   chevronRight: <Path d="m9 18 6-6-6-6" />,
@@ -70,6 +71,32 @@ const icons = {
     <Path d="M12 3.5l1.9 5.1a2 2 0 0 0 1.2 1.2l5.1 1.9-5.1 1.9a2 2 0 0 0-1.2 1.2L12 20l-1.9-5.2a2 2 0 0 0-1.2-1.2L3.8 11.7l5.1-1.9a2 2 0 0 0 1.2-1.2z" />
   ),
   check: <Path d="m5 12.5 4.5 4.5L19 7.5" />,
+  users: (
+    <>
+      <Circle cx={8} cy={9} r={3} />
+      <Circle cx={16} cy={9} r={3} />
+      <Path d="M2.5 19c.8-3 3-4.5 5.5-4.5s4.7 1.5 5.5 4.5M10.5 19c.8-3 3-4.5 5.5-4.5s4.7 1.5 5.5 4.5" />
+    </>
+  ),
+  cloudOff: (
+    <>
+      <Path d="M7.5 18.5h9.8a3.7 3.7 0 0 0 1.4-7.1A6 6 0 0 0 8 8.6 4.9 4.9 0 0 0 7.5 18.5z" />
+      <Path d="M3.5 3.5l17 17" />
+    </>
+  ),
+  clock: (
+    <>
+      <Circle cx={12} cy={12} r={8.5} />
+      <Path d="M12 7.5V12l3 2" />
+    </>
+  ),
+  keyboard: (
+    <>
+      <Rect x={2.5} y={6} width={19} height={12} rx={2.5} />
+      <Path d="M6.5 10h.01M10 10h.01M13.5 10h.01M17 10h.01M8 14h8" />
+    </>
+  ),
+  phone: <Rect x={7} y={2.5} width={10} height={19} rx={2.5} />,
   /** Plate of rice — used for the carbs indicator. */
   rice: (
     <>

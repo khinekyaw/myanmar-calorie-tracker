@@ -7,7 +7,6 @@ import { LANGUAGE_SHORT, LANGUAGES } from '@/i18n/languages';
 import { formatNumber } from '@/lib/format';
 import { dishes } from '@/mocks/dishes';
 import { photos } from '@/mocks/photos';
-import { useOnboarding } from '@/store/onboarding';
 import { useSettings } from '@/store/settings';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Button, ScanFrame, Screen, Segmented, Text } from '@/ui';
@@ -17,7 +16,6 @@ export function WelcomeScreen() {
   const s = useStyles();
   const { theme, language } = useStyleContext();
   const setLanguage = useSettings((st) => st.setLanguage);
-  const complete = useOnboarding((st) => st.complete);
   const sample = dishes.mohinga;
 
   return (
@@ -25,15 +23,7 @@ export function WelcomeScreen() {
       footer={
         <View style={s.actions}>
           <Button label={t('welcome.start')} onPress={() => router.push('/about-you')} />
-          <Button
-            variant="ghost"
-            label={t('welcome.signIn')}
-            onPress={() => {
-              // Sign-in screen is not built yet; go straight to the app.
-              complete();
-              router.replace('/home');
-            }}
-          />
+          <Button variant="ghost" label={t('welcome.signIn')} onPress={() => router.push('/sign-in')} />
         </View>
       }>
       <View style={s.topBar}>

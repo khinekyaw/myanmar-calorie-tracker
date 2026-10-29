@@ -19,7 +19,8 @@ Read these before changing anything:
 - Icon-only buttons need `accessibilityLabel`; touch targets ≥ 44px.
 - Nutrition numbers in `src/mocks/` are illustrative; never present them as verified.
 - Check layouts at 360 dp wide in **both** languages.
-- Lint with `npm run lint` and type-check with `npm run typecheck` (the `expo lint` wrapper currently fails on the ESLint version check).
+- Before calling work done: `npm run typecheck`, `npm run lint`, `npm test` (the `expo lint` wrapper currently fails on the ESLint version check).
+- Mocks (scan, STT, OTP, payments, dish numbers) are listed in docs/ARCHITECTURE.md → "Mocked vs real"; keep that table current.
 
 ---
 

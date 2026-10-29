@@ -1,6 +1,6 @@
 # Sar AI — App architecture
 
-Status: **UI prototype** (9 screens, mock data). Backend, AI scan and offline queue are designed below but not built yet.
+Status: **UI prototype — all 22 canvas screens built**, on mock data. The scan service, speech-to-text, phone OTP and payments are mocked; the backend (Supabase) isn't built yet. See [Mocked vs real](#mocked-vs-real).
 
 ## Stack
 
@@ -18,6 +18,10 @@ Status: **UI prototype** (9 screens, mock data). Backend, AI scan and offline qu
 | Camera | **expo-camera**, expo-image-picker | Photo capture + gallery. |
 | Backend (planned) | **Supabase**: phone OTP auth, Postgres, Storage, Edge Functions | AI key stays server-side. |
 | Local DB (planned) | **expo-sqlite** | Offline queue + local dish cache + search index. |
+| Network | **expo-network** | Online / Wi-Fi state for the offline photo queue. |
+| Photo compression | **expo-image-manipulator** | 800 px long edge, JPEG 0.7, before queueing. |
+| Notifications | **expo-notifications** | Reminder permission (scheduling comes later). |
+| Tests | **Jest** (`jest-expo` preset) | Pure domain logic: plan maths, meal parsing, search. |
 
 ## Folder layout
 
@@ -26,18 +30,27 @@ src/
   app/                 Routes only. Each file re-exports a screen from features/.
     _layout.tsx        Root: fonts, i18n init, ThemeProvider, root Stack + modal routes
     index.tsx          Redirects to /welcome or /home (onboarding state)
-    (onboarding)/      welcome, about-you, workday  (Goal … SignIn to come)
+    (onboarding)/      welcome → about-you → workday → goal → target-weight → eating
+                       → notifications → generating → plan-ready → sign-in
     (tabs)/            home, progress, settings  — headless tabs + custom bar
     add.tsx            Add sheet (transparent modal)
     camera.tsx         Full-screen camera (fullScreenModal)
+    result.tsx         Scan result / meal detail (?id=)
+    pick-dish.tsx      Low-confidence picker (?id=)
+    shared-meal.tsx    ဝိုင်းစား editor (?id=)
+    text-log.tsx       Voice / text logging (?id= to fix a scan)
+    search.tsx         Food search (?addTo= to add to a meal)
     paywall.tsx        Prepaid passes (modal)
   features/<area>/     Screens + their private components, grouped by product area
     onboarding/ home/ logging/ progress/ settings/ premium/ navigation/
   ui/                  Reusable design-system components (Text, Button, OptionCard, …)
   theme/               palette.ts → themes.ts → typography.ts → ThemeProvider.tsx
   i18n/                languages.ts, locales/en.ts (source of truth), locales/my.ts
-  store/               zustand stores (settings, onboarding, log, scanQuota)
-  domain/              Pure logic: nutrition maths, units (no React)
+  store/               zustand stores (settings, onboarding, plan, log, scanQuota)
+  domain/              Pure logic, unit-tested in domain/__tests__ (no React):
+                         nutrition.ts (BMR, BMI), plan.ts (daily targets, rice cut),
+                         meal.ts (macros incl. oil & sweetness), search.ts, parseMeal.ts
+  services/            Outside-world calls. scan.ts = AI scan contract (MOCK) + photo compression
   lib/                 Small helpers: storage, format, haptics
   config/              Business config (pass prices, payment providers)
   mocks/               Placeholder data + photos — delete when real data lands
@@ -101,11 +114,70 @@ Tune per language in `scripts.my` / `scripts.en`: `lineHeight`, `sizeScale`, `mi
 - Dish names are **data**, not translations: each dish has `name: { my, en }` (later `name_my`, `name_en`, aliases from the database).
 - Adding a language: add to `LANGUAGES`, add `locales/<code>.ts`, add a `scripts.<code>` entry, add to `supportedLocales` in `app.json`.
 
+## Screen map
+
+| # | Canvas file | Route | Screen |
+|---|---|---|---|
+| 01 | Main | `/welcome` | `features/onboarding/WelcomeScreen.tsx` |
+| 02 | AboutYou | `/about-you` | `features/onboarding/AboutYouScreen.tsx` |
+| 03 | Workday | `/workday` | `features/onboarding/WorkdayScreen.tsx` |
+| 04 | Goal | `/goal` | `features/onboarding/GoalScreen.tsx` |
+| 05 | TargetWeight | `/target-weight` | `features/onboarding/TargetWeightScreen.tsx` (skipped for "maintain") |
+| 06 | EatingHabits | `/eating` | `features/onboarding/EatingHabitsScreen.tsx` |
+| 07 | Notifications | `/notifications` | `features/onboarding/NotificationsScreen.tsx` |
+| 08 | Generating | `/generating` | `features/onboarding/GeneratingScreen.tsx` (computes the plan) |
+| 09 | PlanReady | `/plan-ready` | `features/onboarding/PlanReadyScreen.tsx` |
+| 10 | SignIn | `/sign-in` | `features/onboarding/SignInScreen.tsx` (phone → code step) |
+| 11 | Home | `/home` | `features/home/HomeScreen.tsx` |
+| 12 | AddSheet | `/add` | `features/logging/AddSheet.tsx` |
+| 13 | Camera | `/camera` | `features/logging/CameraScreen.tsx` |
+| 14 | Result | `/result?id=` | `features/logging/ResultScreen.tsx` |
+| 15 | SharedMeal | `/shared-meal?id=` | `features/logging/SharedMealScreen.tsx` |
+| 16 | PickDish | `/pick-dish?id=` | `features/logging/PickDishScreen.tsx` |
+| 17 | TextLog | `/text-log` | `features/logging/TextLogScreen.tsx` |
+| 18 | FoodSearch | `/search` | `features/logging/FoodSearchScreen.tsx` |
+| 19 | Analyzing | (state of Home) | offline badge in `HomeScreen`, queued card in `home/components/MealRow.tsx` |
+| 20 | Progress | `/progress` | `features/progress/ProgressScreen.tsx` |
+| 21 | Settings | `/settings` | `features/settings/SettingsScreen.tsx` |
+| 22 | Paywall | `/paywall` | `features/premium/PaywallScreen.tsx` |
+
 ## Navigation
 
-- Root `Stack` (`app/_layout.tsx`) with modal routes: `add` (transparent modal, fades), `camera` (full-screen), `paywall` (modal).
+- Root `Stack` (`app/_layout.tsx`) with modal routes: `add` (transparent modal, fades), `camera` (full-screen), `paywall` (modal). Logging screens (`result`, `pick-dish`, `shared-meal`, `text-log`, `search`) are plain stack screens; they return Home with `router.dismissTo('/home')`.
+- Scan flow: Camera → (online) `result` shows a loading state → when the answer arrives it `replace`s to `shared-meal` if `shared_table`, or `pick-dish` if confidence < 0.6 (`CONFIDENCE_THRESHOLD`). Offline: Camera → Home with the photo queued.
 - Tabs use **expo-router headless tabs** (`expo-router/ui`) with our own bar (`features/navigation/TabBar.tsx`): icons only + floating + button.
 - `app/index.tsx` redirects by `useOnboarding().completed`.
+
+## Log entries and the photo queue
+
+Everything the user logs is a `LogEntry` (`store/log.ts`, mirrors `food_logs` + `log_items`):
+
+```
+LogEntry { id, eatenAt, source: photo|voice|text|search|quick,
+           status: queued|analyzing|done, items: MealItem[], photoUri?,
+           isSharedMeal?, confidence?, candidates? }
+MealItem { dishId, qty, oil?: less|normal|more, sweetness?: choSeint|pawSeint|kyaSeint|pawKya }
+```
+
+- Nutrition is never stored on the entry; it's computed from the dish table (`domain/meal.ts → itemMacros/sumMacros`), so verified numbers from the nutritionist apply everywhere at once.
+- `useScanQueue()` (mounted once in the root layout) sends every `queued` photo when `useConnectivity().canUpload` is true — online, and on Wi-Fi if "Wi-Fi only" is on. Settings → Developer → "Simulate offline" forces offline in dev builds.
+- `confidence: 1` marks an entry the user has confirmed (PickDish, SharedMeal Save), so it doesn't re-route again.
+- The prototype keeps entries in memory; persisting them in SQLite is the next backend step.
+
+## Mocked vs real
+
+| Area | Prototype | Real version |
+|---|---|---|
+| Photo scan | `services/scan.ts` cycles 3 demo answers (single dish → shared table → low confidence) after 1.8 s | Upload to Supabase Storage + Edge Function "scan" → vision model, same `ScanResponse` shape |
+| Dish data | `mocks/dishes.ts`, illustrative numbers, 15 dishes | Verified `dishes` table (200–300), cached in SQLite |
+| Food photos | Wikimedia Commons hot-links (`mocks/photos.ts`) | Our own photos |
+| Speech-to-text | Mic fills a sample sentence | Burmese STT provider (open decision); parser stays the same |
+| Phone OTP | Any 6-digit code works | Supabase phone auth + SMS provider |
+| Google sign-in | Goes straight in | Google OAuth |
+| Free-scan quota | In-memory counter | Server `scan_quota` table |
+| Payments | Buttons close the paywall | KBZPay / WavePay or Play Billing (policy check first) |
+| Reminders | Permission request only | Scheduled local notifications |
+| Log storage | In memory | SQLite (offline-first) + sync |
 
 ## Data flow (planned)
 
@@ -128,8 +200,9 @@ Camera ─► compress (~800px, expo-image-manipulator) ─► SQLite queue (sta
 ```bash
 npx expo start            # Metro
 npx expo run:android      # build + install the dev app on an emulator/device
-npx tsc --noEmit          # type-check
-npx eslint src            # lint
+npm run typecheck         # tsc --noEmit
+npm run lint              # eslint src
+npm test                  # jest (domain logic)
 ```
 
 Expo Go isn't used: it lags SDK releases, and production fonts and native modules need a dev build anyway.

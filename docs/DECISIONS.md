@@ -5,6 +5,29 @@ Product-level decisions from the handoff are in [PRODUCT_BRIEF.md](PRODUCT_BRIEF
 
 ---
 
+## 2026-10-29 — UI prototype: remaining 13 screens
+
+All 22 canvas screens now exist and connect into working flows (see the screen map in [ARCHITECTURE.md](ARCHITECTURE.md#screen-map)). Tested on the Android emulator at 360 dp in both languages.
+
+What changed or was added beyond the canvas:
+- **Plan is computed for real** from onboarding answers (`domain/plan.ts`): Mifflin-St Jeor × workday factor, −500 kcal per lb/week, protein 1.6 g/kg, fat 25 %, carbs → plates of rice, gradual rice cut (+1 → +½ → target). Floors at 1,200 / 1,500 kcal. **All rules are PLACEHOLDERS for the nutritionist** and live in one file.
+- **Goal "Stay the same" skips Target weight.** Target starts 10 lb from current weight; the date updates with the pace.
+- **Eating habits is multi-select** (the canvas showed three selected).
+- **Sign in has a code step** (6 boxes) after "Send code"; the canvas had only the phone field. Any code works until Supabase auth is wired.
+- **Result** shows a loading state while the photo is analysed, a "Verified" or "Estimate" badge, an oil chip that cycles less / normal / more (only for oil-sensitive dishes), and per-dish macros in grams (carbs as ကစီ grams here; plates of rice stay on Home).
+- **Fix on a shared meal opens the shared-meal editor**, not the single-dish picker.
+- **SharedMeal** rows show unit and kcal under each dish; "+" opens Search and adds the dish to the table; rows at 0 are dropped on Save.
+- **PickDish** without scan runner-ups suggests dishes with the same serving unit first.
+- **TextLog** parses Burmese and English offline (`domain/parseMeal.ts`): numbers after the dish in Burmese ("ပလာတာ နှစ်ချပ်"), before it in English ("two palata"), plus tea sweetness words. Keyboard button switches to typing.
+- **FoodSearch** matches romanized spellings ("laphet yay", "lahpet ye", "mont hin gar"); tapping a result opens quantity, sweetness (tea) and Add in place. The other-language name shows under each result.
+- **Analyzing (19) is a state of Home**, not a separate screen: offline badge in the header, queued photos as "Waiting" cards that become "Analyzing…" and then a logged meal when the connection returns.
+- **Home shows "Calories over"** instead of 0 when the day's target is exceeded.
+- **Photos are compressed** to 800 px on the long edge before queueing.
+
+Dev-only helpers in Settings → Developer: Simulate offline, Reset free scans, Restart onboarding.
+
+Known prototype gaps: queued scans that come back low-confidence are logged with the top guess and only ask for review when opened; the Android emulator camera returns black photos (real devices are fine); log entries reset when the app restarts.
+
 ## 2026-10-29 — UI prototype: first 9 screens
 
 Built to check the approach before the remaining 13: Welcome, AboutYou, Workday, Home, AddSheet, Camera, Progress, Settings, Paywall. They cover every distinct UI pattern on the canvas (onboarding question, number inputs, option list, dashboard, bottom sheet, full-screen camera, chart, settings list, purchase).
@@ -76,10 +99,15 @@ Real Myanmar dishes (mohinga, laphet thoke, tea, palata, shared table) instead o
 - Settings: rows grouped under small headers (You / Daily / App); language is an inline segmented control.
 - Paywall: feature icons in rounded squares; selected pass has a check and a "Best value" tag on 3 months.
 
+## Tests for domain logic only (for now)
+
+Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, meal parsing, search). UI is checked on the emulator. Component tests can come once screens stop changing. Note: TypeScript 6 no longer loads global types automatically, so `tsconfig.json` lists `"types": ["jest"]`.
+
 ## Copy review
 
 All Burmese strings in `src/i18n/locales/my.ts` need native-speaker review. New strings not on the canvas (please check first):
-`welcome.signIn` was on canvas; new ones: `camera.permissionTitle`, `camera.permissionAllow`, `progress.bmiUnder/Normal/Over/Obese` (အလေးချိန် နည်း / ပုံမှန် / အလေးချိန် များ / အဝလွန်), `paywall.bestValue` (ပိုတန်တယ်), `settings.sectionGoals/Daily/App`, `common.close` (ပိတ်မယ်), `home.today`.
+Batch 2 adds (not on the canvas): `target.reachBy` ({{date}} ဆို ရောက်မယ်), `signIn.codeTitle/resend/verify`, `result.analyzing/verified/estimate/oil*`, `shared.addMore`, `textLog.*` (incl. the sample sentence), `search.empty`, `queue.*`, `home.caloriesOver` (ကယ်လိုရီ ကျော်), the `units.*` classifiers (ပန်းကန် / ပွဲ / ဇွန်း / ခု / ခွက်), and Burmese month names in `lib/format.ts`.
+Batch 1: `welcome.signIn` was on canvas; new ones: `camera.permissionTitle`, `camera.permissionAllow`, `progress.bmiUnder/Normal/Over/Obese` (အလေးချိန် နည်း / ပုံမှန် / အလေးချိန် များ / အဝလွန်), `paywall.bestValue` (ပိုတန်တယ်), `settings.sectionGoals/Daily/App`, `common.close` (ပိတ်မယ်), `home.today`.
 
 ## Open
 
@@ -88,3 +116,6 @@ All Burmese strings in `src/i18n/locales/my.ts` need native-speaker review. New 
 - Payments: KBZPay/WavePay vs Google Play Billing — check Play policy before building.
 - Vision model choice for the scan Edge Function.
 - SMS provider for +95 OTP.
+- Burmese speech-to-text provider for voice logging (on-device vs cloud).
+- Plan rules in `domain/plan.ts` (protein g/kg, fat share, deficit caps, rice-cut steps) — nutritionist review.
+- Oil and sweetness multipliers in `domain/meal.ts` — per-dish values from the nutritionist.

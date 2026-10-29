@@ -18,18 +18,13 @@ export function WorkdayScreen() {
   const { t } = useTranslation();
   const workday = useOnboarding((s) => s.workday);
   const update = useOnboarding((s) => s.update);
-  const complete = useOnboarding((s) => s.complete);
 
   return (
     <OnboardingLayout
       step={2}
       title={t('workday.title')}
       canContinue={workday !== null}
-      onContinue={() => {
-        // Goal → … → SignIn come next in the full flow; not built yet.
-        complete();
-        router.replace('/home');
-      }}>
+      onContinue={() => router.push('/goal')}>
       {OPTIONS.map((o) => (
         <OptionCard
           key={o.value}

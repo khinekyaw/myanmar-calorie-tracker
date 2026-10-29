@@ -1,5 +1,6 @@
 import { Pressable, View } from 'react-native';
 
+import { tap } from '@/lib/haptics';
 import { makeStyles } from '@/theme/ThemeProvider';
 
 import { Text } from './Text';
@@ -13,13 +14,26 @@ type Props<T extends string> = {
   accessibilityLabel: string;
   /** 'light' sits on a white page; 'surface' sits on a grey card. */
   tone?: 'light' | 'surface';
+  /** 'sm' = compact pill (weight/waist, language); 'lg' = full-width, solid ink selection (pace). */
+  size?: 'sm' | 'lg';
 };
 
-/** Small pill segmented control (weight/waist, language). */
-export function Segmented<T extends string>({ options, value, onChange, accessibilityLabel, tone = 'surface' }: Props<T>) {
+/** Pill segmented control. */
+export function Segmented<T extends string>({
+  options,
+  value,
+  onChange,
+  accessibilityLabel,
+  tone = 'surface',
+  size = 'sm',
+}: Props<T>) {
   const s = useStyles();
+  const lg = size === 'lg';
   return (
-    <View accessibilityRole="radiogroup" accessibilityLabel={accessibilityLabel} style={[s.track, tone === 'light' && s.trackLight]}>
+    <View
+      accessibilityRole="radiogroup"
+      accessibilityLabel={accessibilityLabel}
+      style={[s.track, tone === 'light' && s.trackLight, lg && s.trackLg]}>
       {options.map((o) => {
         const selected = o.value === value;
         return (
@@ -27,9 +41,16 @@ export function Segmented<T extends string>({ options, value, onChange, accessib
             key={o.value}
             accessibilityRole="radio"
             accessibilityState={{ selected }}
-            onPress={() => onChange(o.value)}
-            style={[s.item, selected && s.itemSelected]}>
-            <Text variant="caption" tone={selected ? 'default' : 'muted'} style={selected && s.selectedText}>
+            onPress={() => {
+              if (selected) return;
+              tap();
+              onChange(o.value);
+            }}
+            style={[s.item, lg && s.itemLg, selected && (lg ? s.itemSelectedLg : s.itemSelected)]}>
+            <Text
+              variant={lg ? 'body' : 'caption'}
+              tone={selected ? (lg ? 'inverse' : 'default') : 'muted'}
+              style={selected && s.selectedText}>
               {o.label}
             </Text>
           </Pressable>
@@ -47,6 +68,7 @@ const useStyles = makeStyles(({ theme, type }) => ({
     backgroundColor: theme.colors.surfaceStrong,
   },
   trackLight: { backgroundColor: theme.colors.surface },
+  trackLg: { padding: 4 },
   item: {
     minHeight: 34,
     paddingHorizontal: theme.space.md,
@@ -54,6 +76,8 @@ const useStyles = makeStyles(({ theme, type }) => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  itemLg: { flex: 1, minHeight: 44 },
   itemSelected: { backgroundColor: theme.colors.background },
+  itemSelectedLg: { backgroundColor: theme.colors.selected },
   selectedText: { fontFamily: type.bodyStrong.fontFamily },
 }));

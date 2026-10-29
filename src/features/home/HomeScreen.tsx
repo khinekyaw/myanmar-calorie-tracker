@@ -3,6 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 
 import { formatNumber, formatPlates } from '@/lib/format';
+import { useConnectivity } from '@/lib/network';
 import { mockStreakDays } from '@/mocks/progress';
 import { useDaySummary } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
@@ -17,15 +18,26 @@ export function HomeScreen() {
   const s = useStyles();
   const { theme, language } = useStyleContext();
   const day = useDaySummary();
+  const { online } = useConnectivity();
 
   return (
     <SafeAreaView style={s.root} edges={['top']}>
       <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
         <View style={s.header}>
           <Text variant="wordmark">Sar AI</Text>
-          <View style={s.streak} accessible accessibilityLabel={t('home.streak', { count: mockStreakDays })}>
-            <Icon name="flame" size={16} strokeWidth={2} />
-            <Text variant="numberSm">{formatNumber(mockStreakDays, language)}</Text>
+          <View style={s.headerRight}>
+            {!online && (
+              <View style={s.offline} accessibilityRole="text" accessibilityLiveRegion="polite">
+                <Icon name="cloudOff" size={15} strokeWidth={2} color={theme.colors.onPrimary} />
+                <Text variant="caption" tone="inverse">
+                  {t('queue.offline')}
+                </Text>
+              </View>
+            )}
+            <View style={s.streak} accessible accessibilityLabel={t('home.streak', { count: mockStreakDays })}>
+              <Icon name="flame" size={16} strokeWidth={2} />
+              <Text variant="numberSm">{formatNumber(mockStreakDays, language)}</Text>
+            </View>
           </View>
         </View>
 
@@ -33,9 +45,9 @@ export function HomeScreen() {
 
         <Card style={s.kcalCard}>
           <View style={s.kcalText}>
-            <Text variant="numberXl">{formatNumber(day.kcalLeft, language)}</Text>
+            <Text variant="numberXl">{formatNumber(day.kcalOver || day.kcalLeft, language)}</Text>
             <Text variant="label" tone="muted">
-              {t('home.caloriesLeft')}
+              {t(day.kcalOver ? 'home.caloriesOver' : 'home.caloriesLeft')}
             </Text>
           </View>
           <Ring progress={day.kcalProgress} size={92} stroke={8}>
@@ -88,6 +100,16 @@ const useStyles = makeStyles(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingTop: theme.space.md,
+  },
+  headerRight: { flexDirection: 'row', alignItems: 'center', gap: theme.space.sm },
+  offline: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    height: 34,
+    paddingHorizontal: theme.space.md,
+    borderRadius: theme.radius.pill,
+    backgroundColor: theme.colors.primary,
   },
   streak: {
     flexDirection: 'row',

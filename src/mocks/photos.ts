@@ -18,4 +18,8 @@ export const photos = {
   palata: commons('6/69/Palatha%2C_Myanmar.jpg'),
   /** "Myanma cuisine (cropped).jpg" — CC BY-SA 2.0 (shared table) */
   sharedTable: commons('a/a8/Myanma_cuisine_%28cropped%29.jpg'),
+  sharedTableLarge: commons('a/a8/Myanma_cuisine_%28cropped%29.jpg', 960),
+  /** "Male, Myanmar curry.jpg" — CC BY-SA 4.0 */
+  curry: commons('a/a0/Male%2C_Myanmar_curry.jpg'),
+  curryLarge: commons('a/a0/Male%2C_Myanmar_curry.jpg', 960),
 } as const;
