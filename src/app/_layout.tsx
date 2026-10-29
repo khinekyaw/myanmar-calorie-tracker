@@ -75,6 +75,9 @@ export default function RootLayout() {
         <Stack.Screen name="shared-meal" />
         <Stack.Screen name="text-log" options={{ animation: 'slide_from_bottom' }} />
         <Stack.Screen name="search" options={{ animation: 'slide_from_bottom' }} />
+        <Stack.Screen name="log-weight" options={{ presentation: 'modal', animation: 'slide_from_bottom' }} />
+        <Stack.Screen name="edit-goal" />
+        <Stack.Screen name="health" />
       </Stack>
       <ScanQueue />
     </ThemeProvider>

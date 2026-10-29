@@ -12,11 +12,13 @@ type Props = Omit<PressableProps, 'style' | 'children'> & {
   label: string;
   variant?: Variant;
   icon?: IconName;
+  /** 'md' = 56px main action; 'sm' = 40px inline action inside a card. */
+  size?: 'md' | 'sm';
   style?: StyleProp<ViewStyle>;
 };
 
-/** Pill button, 56px tall. Primary = solid ink. */
-export function Button({ label, variant = 'primary', icon, disabled, style, ...rest }: Props) {
+/** Pill button. Primary = solid ink. */
+export function Button({ label, variant = 'primary', icon, size = 'md', disabled, style, ...rest }: Props) {
   const s = useStyles();
   const inverse = variant === 'primary';
   return (
@@ -27,13 +29,14 @@ export function Button({ label, variant = 'primary', icon, disabled, style, ...r
       style={({ pressed }) => [
         s.base,
         s[variant],
+        size === 'sm' && s.sm,
         pressed && s.pressed,
         disabled && s.disabled,
         style,
       ]}
       {...rest}>
       {icon && <Icon name={icon} size={20} color={inverse ? s.inverseText.color : undefined} />}
-      <Text variant="bodyStrong" tone={inverse ? 'inverse' : 'default'} numberOfLines={1}>
+      <Text variant={size === 'sm' ? 'label' : 'bodyStrong'} tone={inverse ? 'inverse' : 'default'} numberOfLines={1}>
         {label}
       </Text>
     </Pressable>
@@ -54,6 +57,7 @@ const useStyles = makeStyles(({ theme }) => ({
   secondary: { backgroundColor: theme.colors.surface },
   light: { backgroundColor: theme.colors.background },
   ghost: { backgroundColor: 'transparent', height: 48 },
+  sm: { height: theme.size.buttonSm, paddingHorizontal: theme.space.lg },
   pressed: { opacity: theme.opacity.pressed },
   disabled: { opacity: theme.opacity.disabled },
   inverseText: { color: theme.colors.onPrimary },

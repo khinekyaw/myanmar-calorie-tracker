@@ -9,7 +9,6 @@ const commons = (path: string, width = 500) =>
 export const photos = {
   /** "Mohinga bowl.jpg" — CC0 */
   mohinga: commons('9/9b/Mohinga_bowl.jpg'),
-  mohingaLarge: commons('9/9b/Mohinga_bowl.jpg', 960),
   /** "Laphet thoke.JPG" — CC BY-SA 3.0 */
   laphetThoke: commons('6/64/Laphet_thoke.JPG'),
   /** "Myanmar Traditional Tea.jpg" — CC BY-SA 4.0 */

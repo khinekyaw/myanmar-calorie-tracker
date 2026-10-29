@@ -7,6 +7,7 @@ import { buildPlan } from '@/domain/plan';
 import { formatNumber } from '@/lib/format';
 import { draftToPlanInput, useOnboarding } from '@/store/onboarding';
 import { usePlan } from '@/store/plan';
+import { useWeights } from '@/store/weights';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { ProgressBar, Screen, Text } from '@/ui';
 
@@ -21,7 +22,11 @@ export function GeneratingScreen() {
 
   useEffect(() => {
     const input = draftToPlanInput(useOnboarding.getState());
-    if (input) usePlan.getState().setPlan(buildPlan(input));
+    if (input) {
+      usePlan.getState().setPlan(buildPlan(input));
+      // The onboarding weight becomes today's first point on the Progress chart.
+      useWeights.getState().log('weight', input.weightLb);
+    }
 
     const start = Date.now();
     const timer = setInterval(() => {

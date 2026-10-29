@@ -1,11 +1,12 @@
+import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 
-import { formatNumber, formatPlates } from '@/lib/format';
+import { formatDayLabel, formatNumber, formatPlates } from '@/lib/format';
 import { useConnectivity } from '@/lib/network';
-import { mockStreakDays } from '@/mocks/progress';
-import { useDaySummary } from '@/store/log';
+import { useDaySummary, useLog, useStreak } from '@/store/log';
+import { dayKey } from '@/store/weights';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Card, Icon, Logo, Ring, Text } from '@/ui';
 
@@ -17,7 +18,12 @@ export function HomeScreen() {
   const { t } = useTranslation();
   const s = useStyles();
   const { theme, language } = useStyleContext();
-  const day = useDaySummary();
+  const [selectedDay, setSelectedDay] = useState(() => new Date());
+  const day = useDaySummary(selectedDay);
+  const allEntries = useLog((st) => st.entries);
+  const loggedDays = new Set(allEntries.filter((e) => e.status === 'done').map((e) => dayKey(e.eatenAt)));
+  const streak = useStreak();
+  const isToday = dayKey(selectedDay) === dayKey(new Date());
   const { online } = useConnectivity();
 
   return (
@@ -37,14 +43,14 @@ export function HomeScreen() {
                 </Text>
               </View>
             )}
-            <View style={s.streak} accessible accessibilityLabel={t('home.streak', { count: mockStreakDays })}>
+            <View style={s.streak} accessible accessibilityLabel={t('home.streak', { count: streak })}>
               <Icon name="flame" size={16} strokeWidth={2} />
-              <Text variant="numberSm">{formatNumber(mockStreakDays, language)}</Text>
+              <Text variant="numberSm">{formatNumber(streak, language)}</Text>
             </View>
           </View>
         </View>
 
-        <WeekStrip />
+        <WeekStrip selected={selectedDay} onSelect={setSelectedDay} loggedDays={loggedDays} />
 
         <Card style={s.kcalCard}>
           <View style={s.kcalText}>
@@ -83,12 +89,19 @@ export function HomeScreen() {
         </View>
 
         <Text variant="headline" accessibilityRole="header" style={s.sectionTitle}>
-          {t('home.today')}
+          {isToday ? t('home.today') : formatDayLabel(selectedDay, language)}
         </Text>
         <View style={s.meals}>
           {day.entries.map((e) => (
             <MealRow key={e.id} entry={e} />
           ))}
+          {day.entries.length === 0 && (
+            <View style={s.empty}>
+              <Text variant="body" tone="muted" align="center">
+                {t('home.empty')}
+              </Text>
+            </View>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -135,4 +148,5 @@ const useStyles = makeStyles(({ theme }) => ({
   nutrients: { flexDirection: 'row', gap: theme.space.sm, marginTop: theme.space.sm },
   sectionTitle: { marginTop: theme.space.xxl, marginBottom: theme.space.md },
   meals: { gap: theme.space.sm },
+  empty: { paddingVertical: theme.space.xxl, borderRadius: theme.radius.lg, backgroundColor: theme.colors.surface },
 }));

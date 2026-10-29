@@ -6,10 +6,12 @@ import { useTranslation } from 'react-i18next';
 import { LANGUAGE_SHORT, LANGUAGES } from '@/i18n/languages';
 import { formatNumber } from '@/lib/format';
 import { dishes } from '@/mocks/dishes';
-import { photos } from '@/mocks/photos';
 import { useSettings } from '@/store/settings';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
-import { Button, Logo, ScanFrame, Screen, Segmented, Text } from '@/ui';
+import { Button, Logo, Screen, Segmented, Text } from '@/ui';
+
+/** Hero shot: a mohinga being scanned (frame and scan line are part of the image). */
+const HERO = require('@/assets/images/welcome-mohinga.jpg');
 
 export function WelcomeScreen() {
   const { t } = useTranslation();
@@ -41,8 +43,7 @@ export function WelcomeScreen() {
       </View>
 
       <View style={s.hero}>
-        <Image source={photos.mohingaLarge} style={s.photo} contentFit="cover" transition={250} />
-        <ScanFrame color={theme.colors.textInverse} inset={28} />
+        <Image source={HERO} style={s.photo} contentFit="cover" contentPosition="top" transition={250} />
         <View style={s.chip}>
           <Text variant="callout">{sample.name[language]}</Text>
           <View style={s.dots}>

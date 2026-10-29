@@ -115,7 +115,8 @@ export function CameraScreen() {
           style={({ pressed }) => [s.shutter, pressed && { transform: [{ scale: 0.94 }] }]}>
           <View style={s.shutterInner} />
         </Pressable>
-        <IconButton icon="barcode" variant="onDark" size={52} accessibilityLabel={t('add.barcode')} />
+        {/* Barcode scanning is later scope; keep the shutter centred. */}
+        <View style={s.sideSpacer} />
       </View>
     </View>
   );
@@ -169,5 +170,6 @@ const useStyles = makeStyles(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  sideSpacer: { width: 52 },
   shutterInner: { width: 60, height: 60, borderRadius: 30, backgroundColor: theme.colors.camera.foreground },
 }));

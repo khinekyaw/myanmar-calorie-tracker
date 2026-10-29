@@ -47,3 +47,19 @@ export function formatMonthYear(date: Date, language: Language) {
   if (language === 'my') return toNumerals(`${MONTHS_MY[date.getMonth()]} ${date.getFullYear()}`, language);
   return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 }
+
+const WEEKDAYS_MY = ['တနင်္ဂနွေ', 'တနင်္လာ', 'အင်္ဂါ', 'ဗုဒ္ဓဟူး', 'ကြာသပတေး', 'သောကြာ', 'စနေ'];
+
+/** "Tue, Oct 27" / "အင်္ဂါ၊ အောက်တိုဘာ 27". */
+export function formatDayLabel(date: Date, language: Language) {
+  if (language === 'my') {
+    return toNumerals(`${WEEKDAYS_MY[date.getDay()]}၊ ${MONTHS_MY[date.getMonth()]} ${date.getDate()}`, language);
+  }
+  return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+}
+
+/** Short axis label: "Oct 27" / "27/10" (Burmese month names are too long for an axis). */
+export function formatShortDate(date: Date, language: Language) {
+  if (language === 'my') return toNumerals(`${date.getDate()}/${date.getMonth() + 1}`, language);
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}

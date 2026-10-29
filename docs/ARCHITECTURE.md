@@ -40,16 +40,21 @@ src/
     shared-meal.tsx    ဝိုင်းစား editor (?id=)
     text-log.tsx       Voice / text logging (?id= to fix a scan)
     search.tsx         Food search (?addTo= to add to a meal)
+    log-weight.tsx     Log weight or waist (modal, ?metric=)
+    edit-goal.tsx      Change goal, target, pace
+    health.tsx         Health conditions + body details
     paywall.tsx        Prepaid passes (modal)
   features/<area>/     Screens + their private components, grouped by product area
     onboarding/ home/ logging/ progress/ settings/ premium/ navigation/
   ui/                  Reusable design-system components (Text, Button, OptionCard, …)
   theme/               palette.ts → themes.ts → typography.ts → ThemeProvider.tsx
   i18n/                languages.ts, locales/en.ts (source of truth), locales/my.ts
-  store/               zustand stores (settings, onboarding, plan, log, scanQuota)
+  store/               zustand stores: settings, onboarding (= profile), plan (+ refreshPlan),
+                       log (meals, per-day summary, streak), weights (weight/waist history), scanQuota
   domain/              Pure logic, unit-tested in domain/__tests__ (no React):
                          nutrition.ts (BMR, BMI), plan.ts (daily targets, rice cut),
-                         meal.ts (macros incl. oil & sweetness), search.ts, parseMeal.ts
+                         meal.ts (macros incl. oil & sweetness), search.ts, parseMeal.ts,
+                         progress.ts (goal %, axis ticks), streak.ts
   services/            Outside-world calls. scan.ts = AI scan contract (MOCK) + photo compression
   lib/                 Small helpers: storage, format, haptics
   config/              Business config (pass prices, payment providers)
@@ -169,6 +174,11 @@ Tune per language in `scripts.my` / `scripts.en`: `lineHeight`, `sizeScale`, `mi
 | 20 | Progress | `/progress` | `features/progress/ProgressScreen.tsx` |
 | 21 | Settings | `/settings` | `features/settings/SettingsScreen.tsx` |
 | 22 | Paywall | `/paywall` | `features/premium/PaywallScreen.tsx` |
+| + | (new) Log weight | `/log-weight` | `features/progress/LogWeightScreen.tsx` |
+| + | (new) Edit goal | `/edit-goal` | `features/progress/EditGoalScreen.tsx` |
+| + | (new) Health | `/health` | `features/settings/HealthScreen.tsx` |
+
+How people move through these screens: [USER_FLOWS.md](USER_FLOWS.md).
 
 ## Navigation
 
@@ -206,7 +216,8 @@ MealItem { dishId, qty, oil?: less|normal|more, sweetness?: choSeint|pawSeint|ky
 | Free-scan quota | In-memory counter | Server `scan_quota` table |
 | Payments | Buttons close the paywall | KBZPay / WavePay or Play Billing (policy check first) |
 | Reminders | Permission request only | Scheduled local notifications |
-| Log storage | In memory | SQLite (offline-first) + sync |
+| Log storage | In memory, with 6 days of sample history | SQLite (offline-first) + sync |
+| Weight history | Persisted locally, seeded with ~12 weeks of sample data | `weights` table + sync |
 
 ## Data flow (planned)
 

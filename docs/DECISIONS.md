@@ -5,6 +5,19 @@ Product-level decisions from the handoff are in [PRODUCT_BRIEF.md](PRODUCT_BRIEF
 
 ---
 
+## 2026-10-30 — Flow review: weight & goal tracking, informative Progress
+
+Walked every journey (see [USER_FLOWS.md](USER_FLOWS.md)) and fixed the dead ends: weight/waist logging, editing the goal after onboarding, Settings → Health, plan recalculation, BMI from your real height, per-day history on Home, deleting a meal, barcode marked *Soon*, a real streak.
+
+- **Progress layout** follows the user's reference (goal/current weight cards with actions, then the chart) in our monochrome style: the chart line stays ink, not purple, because colour is reserved for nutrients.
+- **Chart** shows y-axis values, dates, a dashed goal line, point markers, and a value bubble you can tap or drag; periods 1M / 3M / All count back from the latest entry.
+- **This week** bar chart of calories against the target was added to Progress.
+- **Plan recalculation** (`refreshPlan`) uses the latest logged weight, so the target drops as you lose weight.
+- **Streak** counts days with a logged meal; a feast day keeps it alive (brief: "feast-day mode that doesn't break the streak").
+- **Confirmations** use an in-style bottom sheet (`ConfirmSheet`), not the platform alert, to keep the design rules.
+- **Welcome hero** is the user's mohinga scanning image (`assets/images/welcome-mohinga.jpg`, bundled so it works offline), cropped to drop the camera buttons; the app's own scan-frame overlay was removed there because the image has one.
+- Weight stays in lb (as in the designs); kg is a follow-up.
+
 ## 2026-10-30 — One set of design rules across the app; new logo
 
 Triggered by square corners on the expanded search row. The cause was an Android rendering quirk (see ARCHITECTURE → "Android rounding gotcha"): fixed by remounting with a `key` (search rows, segments) or a constant border width (week days, code boxes). A transparent base background was tried and does not work.

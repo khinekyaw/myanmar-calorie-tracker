@@ -17,6 +17,7 @@ export function SettingsScreen() {
   const { theme, language } = useStyleContext();
   const settings = useSettings();
   const resetOnboarding = useOnboarding((st) => st.reset);
+  const goal = useOnboarding((st) => st.goal);
   const resetScans = useScanQuota((st) => st.reset);
 
   return (
@@ -40,8 +41,13 @@ export function SettingsScreen() {
         </Pressable>
 
         <Section title={t('settings.sectionGoals')}>
-          <ListRow kind="link" label={t('settings.goals')} onPress={() => {}} />
-          <ListRow kind="link" label={t('settings.health')} onPress={() => {}} last />
+          <ListRow
+            kind="link"
+            label={t('settings.goals')}
+            value={goal ? t(`goal.${goal}`) : undefined}
+            onPress={() => router.push('/edit-goal')}
+          />
+          <ListRow kind="link" label={t('settings.health')} onPress={() => router.push('/health')} last />
         </Section>
 
         <Section title={t('settings.sectionDaily')}>

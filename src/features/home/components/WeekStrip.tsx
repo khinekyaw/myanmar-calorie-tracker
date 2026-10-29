@@ -1,10 +1,10 @@
-import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { tap } from '@/lib/haptics';
 import { formatNumber } from '@/lib/format';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
+import { dayKey } from '@/store/weights';
 import { Text } from '@/ui';
 
 /** Monday-first dates of the week containing `today`. */
@@ -21,18 +21,24 @@ function weekOf(today: Date) {
 
 const sameDay = (a: Date, b: Date) => a.toDateString() === b.toDateString();
 
+type Props = {
+  selected: Date;
+  onSelect: (day: Date) => void;
+  /** Day keys (YYYY-MM-DD) that have at least one logged meal. */
+  loggedDays: Set<string>;
+};
+
 /**
- * Week at a glance. Past days with logs get a dashed ring, today is solid
- * ink, future days are muted. Tapping a past day selects it.
+ * Week at a glance. Days with logs get a dashed ring, the selected day is
+ * solid ink, future days are muted. Tapping a day shows its meals on Home.
  */
-export function WeekStrip() {
+export function WeekStrip({ selected, onSelect, loggedDays }: Props) {
   const { t } = useTranslation();
   const s = useStyles();
   const { language } = useStyleContext();
   const today = new Date();
   const days = weekOf(today);
   const labels = t('home.weekdays', { returnObjects: true }) as string[];
-  const [selected, setSelected] = useState(today);
 
   return (
     <View style={s.row}>
@@ -48,13 +54,13 @@ export function WeekStrip() {
             accessibilityLabel={d.toDateString()}
             onPress={() => {
               tap();
-              setSelected(d);
+              onSelect(d);
             }}
             style={s.day}>
             <Text variant="caption" tone={isSelected ? 'default' : 'subtle'}>
               {labels[i]}
             </Text>
-            <View style={[s.date, isSelected ? s.dateSelected : !isFuture && s.dateLogged]}>
+            <View style={[s.date, isSelected ? s.dateSelected : loggedDays.has(dayKey(d)) && s.dateLogged]}>
               <Text variant="numberSm" tone={isSelected ? 'inverse' : isFuture ? 'subtle' : 'default'} style={s.dateText}>
                 {formatNumber(d.getDate(), language)}
               </Text>

@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
@@ -9,7 +9,7 @@ import { getDish } from '@/mocks/dishes';
 import { CONFIDENCE_THRESHOLD } from '@/services/scan';
 import { useEntry, useLog } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
-import { Button, Chip, Icon, PhotoSheet, Stepper, Text } from '@/ui';
+import { Button, Chip, ConfirmSheet, Icon, PhotoSheet, Stepper, Text } from '@/ui';
 
 const OIL_LABEL = { less: 'result.oilLess', normal: 'result.oilNormal', more: 'result.oilMore' } as const;
 
@@ -25,9 +25,16 @@ export function ResultScreen() {
   const { theme, language } = useStyleContext();
   const entry = useEntry(id);
   const updateEntry = useLog((st) => st.updateEntry);
+  const removeEntry = useLog((st) => st.removeEntry);
+  const [confirming, setConfirming] = useState(false);
 
   const analyzing = !entry || entry.status !== 'done';
   const lowConfidence = (entry?.confidence ?? 1) < CONFIDENCE_THRESHOLD;
+
+  // The meal was deleted (here or elsewhere): nothing left to show.
+  useEffect(() => {
+    if (id && !entry) router.dismissTo('/home');
+  }, [id, entry]);
 
   // Branch once the scan answer arrives (only for fresh, unreviewed scans).
   useEffect(() => {
@@ -70,6 +77,11 @@ export function ResultScreen() {
   const oil = first.oil ?? 'normal';
   const unitStep = dish.unit === 'plate' || dish.unit === 'bowl' ? 0.5 : 1;
 
+  const deleteEntry = () => {
+    setConfirming(false);
+    removeEntry(entry.id);
+  };
+
   const setQty = (qty: number) => updateEntry(entry.id, { items: [{ ...first, qty }] });
   const cycleOil = () => {
     const next: OilLevel = OIL_LEVELS[(OIL_LEVELS.indexOf(oil) + 1) % OIL_LEVELS.length];
@@ -81,6 +93,7 @@ export function ResultScreen() {
       photo={photo}
       backLabel={t('common.back')}
       onBack={() => router.dismissTo('/home')}
+      action={{ icon: 'trash', label: t('result.delete'), onPress: () => setConfirming(true) }}
       footer={
         <View style={s.footer}>
           <Button
@@ -155,6 +168,14 @@ export function ResultScreen() {
           />
         )}
       </View>
+      <ConfirmSheet
+        visible={confirming}
+        title={t('result.deleteTitle')}
+        confirmLabel={t('result.delete')}
+        cancelLabel={t('common.cancel')}
+        onConfirm={deleteEntry}
+        onCancel={() => setConfirming(false)}
+      />
     </PhotoSheet>
   );
 }

@@ -1,8 +1,11 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import type { Plan } from '@/domain/plan';
+import { buildPlan, type Plan } from '@/domain/plan';
 import { syncStorage } from '@/lib/storage';
+
+import { draftToPlanInput, useOnboarding } from './onboarding';
+import { series, useWeights } from './weights';
 
 type StoredPlan = Omit<Plan, 'targetDate'> & { targetDate: string | null };
 
@@ -32,3 +35,14 @@ export const usePlan = create<PlanState>()(
     { name: 'plan', storage: syncStorage, version: 1 },
   ),
 );
+
+/**
+ * Recompute the plan from the saved profile, using the latest logged weight.
+ * Call after anything that changes the inputs (weight log, goal, body details).
+ */
+export function refreshPlan() {
+  const profile = useOnboarding.getState();
+  const latest = series(useWeights.getState().entries, 'weight').at(-1);
+  const input = draftToPlanInput({ ...profile, weightLb: latest ? String(latest.value) : profile.weightLb });
+  if (input) usePlan.getState().setPlan(buildPlan(input));
+}
