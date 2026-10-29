@@ -4,12 +4,14 @@ import { ScrollView, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { buildPlan, PACES, type Goal, type Pace } from '@/domain/plan';
-import { formatMonthYear, formatPlates } from '@/lib/format';
+import { formatPlates } from '@/lib/format';
 import { draftToPlanInput, useOnboarding } from '@/store/onboarding';
 import { refreshPlan } from '@/store/plan';
 import { useLatest } from '@/store/weights';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Button, IconButton, MeasureInput, OptionCard, Screen, Segmented, Text } from '@/ui';
+
+import { ReachByLine } from '../onboarding/ReachByLine';
 
 const GOALS: Goal[] = ['lose', 'maintain', 'gain'];
 
@@ -81,11 +83,7 @@ export function EditGoalScreen() {
               onChange={(v) => setPace(Number(v) as Pace)}
               options={PACES.map((p) => ({ value: String(p), label: formatPlates(p, language) }))}
             />
-            {date && (
-              <Text variant="label" tone="muted" align="center">
-                {t('target.reachBy', { date: formatMonthYear(date, language) })}
-              </Text>
-            )}
+            <ReachByLine date={date} />
           </View>
         )}
       </ScrollView>

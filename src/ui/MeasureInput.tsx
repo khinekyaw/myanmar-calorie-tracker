@@ -1,7 +1,7 @@
-import { useRef, useState } from 'react';
-import { Pressable, TextInput, View, type TextInputInstance } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { Keyboard, Pressable, TextInput, View, type TextInputInstance } from 'react-native';
 
-import { formatNumber } from '@/lib/format';
+import { formatFixed, formatNumber } from '@/lib/format';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 
 import { RulerPicker } from './RulerPicker';
@@ -33,7 +33,14 @@ export function MeasureInput({ value, onChange, min, max, unit, scale, accessibi
   const input = useRef<TextInputInstance>(null);
   const [draft, setDraft] = useState<string | null>(null);
 
-  const shown = formatNumber(Math.round(value * 10) / 10, language);
+  // One decimal always (150.0): the number keeps its width while the ruler moves.
+  const shown = formatFixed(value, language);
+
+  // Android keeps focus when the keyboard is dismissed; end editing so "190" shows as "190.0".
+  useEffect(() => {
+    const sub = Keyboard.addListener('keyboardDidHide', () => input.current?.blur());
+    return () => sub.remove();
+  }, []);
   const invalid = draft !== null && !isValid(draft, min, max);
 
   const onType = (text: string) => {
@@ -48,7 +55,7 @@ export function MeasureInput({ value, onChange, min, max, unit, scale, accessibi
         <TextInput
           ref={input}
           value={draft ?? shown}
-          onFocus={() => setDraft(String(Math.round(value * 10) / 10))}
+          onFocus={() => setDraft(value.toFixed(1))}
           onBlur={() => setDraft(null)}
           onChangeText={onType}
           keyboardType="decimal-pad"
@@ -99,7 +106,7 @@ const useStyles = makeStyles(({ theme, type }) => ({
     letterSpacing: -2,
     color: theme.colors.text,
     textAlign: 'center',
-    minWidth: 120,
+    minWidth: 150,
     paddingVertical: 0,
   },
   invalid: { color: theme.colors.textSubtle },

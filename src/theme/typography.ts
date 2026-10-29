@@ -138,6 +138,8 @@ function resolve(variant: TextVariant, script: ScriptSpec): TextStyle {
     fontSize,
     lineHeight,
     letterSpacing: spec.useTracking && tracking ? tracking * fontSize : 0,
+    // Equal-width digits so changing numbers (kcal, %, weights) don't jiggle.
+    ...(isLatin && { fontVariant: ['tabular-nums'] }),
     // Android adds extra top padding for custom fonts; our explicit
     // lineHeight already accounts for Burmese stacking.
     includeFontPadding: false,

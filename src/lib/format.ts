@@ -22,6 +22,15 @@ export function formatNumber(value: number, language: Language) {
   return toNumerals(grouping.format(value), language);
 }
 
+/** Always `digits` decimals ("150.0"), so a value's width doesn't change as it moves. */
+export function formatFixed(value: number, language: Language, digits = 1) {
+  const text = new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
+  }).format(value);
+  return toNumerals(text, language);
+}
+
 const FRACTIONS: Record<string, string> = { '0.25': '¼', '0.5': '½', '0.75': '¾' };
 
 /** 2.5 → "2½", 3 → "3". Used for plates of rice. */

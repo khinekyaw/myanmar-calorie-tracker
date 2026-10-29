@@ -4,12 +4,13 @@ import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { buildPlan, PACES } from '@/domain/plan';
-import { formatMonthYear, formatPlates } from '@/lib/format';
+import { formatPlates } from '@/lib/format';
 import { draftToPlanInput, useOnboarding } from '@/store/onboarding';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { MeasureInput, Segmented, Text } from '@/ui';
 
 import { OnboardingLayout } from './OnboardingLayout';
+import { ReachByLine } from './ReachByLine';
 
 /** Target weight (type it or drag the ruler, 0.1 lb) and weekly pace (½ / 1 / 2 lb). */
 export function TargetWeightScreen() {
@@ -57,11 +58,7 @@ export function TargetWeightScreen() {
           onChange={(v) => update({ pace: Number(v) as typeof pace })}
           options={PACES.map((p) => ({ value: String(p), label: formatPlates(p, language) }))}
         />
-        {date && (
-          <Text variant="label" tone="muted" align="center">
-            {t('target.reachBy', { date: formatMonthYear(date, language) })}
-          </Text>
-        )}
+        <ReachByLine date={date} />
       </View>
     </OnboardingLayout>
   );
