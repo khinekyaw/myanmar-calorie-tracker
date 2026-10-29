@@ -1,3 +1,28 @@
+# Sar AI
+
+Calorie-tracking app for Myanmar (Android first, cheap phones, Burmese + English).
+Read these before changing anything:
+
+- `docs/PRODUCT_BRIEF.md` — what we're building and why (handoff).
+- `docs/ARCHITECTURE.md` — stack, folders, theming, typography, i18n, data flow.
+- `docs/DECISIONS.md` — decision log. **Add an entry when you make a non-obvious choice.**
+- Design canvas (22 screens): https://claude.ai/artifact/DYDw9tRFavDJruN3XiGX6M
+
+## Project rules
+
+- Routes in `src/app/` only re-export screens from `src/features/<area>/`.
+- Render text with `<Text variant="…">` from `@/ui` — never react-native `Text` directly — so Burmese/English metrics apply.
+- No hex codes outside `src/theme/palette.ts`. Use semantic tokens via `makeStyles(({ theme, type }) => …)`.
+- Colour only on nutrient indicators; everything else monochrome. No card borders; shadows only on the + button and sheets.
+- Every user-facing string goes in `src/i18n/locales/en.ts` **and** `my.ts` (tsc fails if `my.ts` is missing a key). Burmese copy: spoken register ("…မယ်"), ≥ 13px, one short headline per screen, no helper paragraphs.
+- Numbers through `lib/format.ts` (`formatNumber`, `formatPlates`).
+- Icon-only buttons need `accessibilityLabel`; touch targets ≥ 44px.
+- Nutrition numbers in `src/mocks/` are illustrative; never present them as verified.
+- Check layouts at 360 dp wide in **both** languages.
+- Lint with `npm run lint` and type-check with `npm run typecheck` (the `expo lint` wrapper currently fails on the ESLint version check).
+
+---
+
 This is an Expo/React Native mobile application. Prioritize mobile-first patterns, performance, and cross-platform compatibility.
 
 ## Expo has changed — do not trust your training data

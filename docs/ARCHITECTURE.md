@@ -1,0 +1,135 @@
+# Sar AI — App architecture
+
+Status: **UI prototype** (9 screens, mock data). Backend, AI scan and offline queue are designed below but not built yet.
+
+## Stack
+
+| Layer | Choice | Why |
+|---|---|---|
+| App | **Expo SDK 58** (React Native 0.88, New Architecture, React 19.3, React Compiler on) | One TypeScript codebase for Android now, iOS later; best agent tooling. |
+| Routing | **expo-router** (file-based, typed routes) | Official; deep links for free. |
+| Styling | `StyleSheet` + our own theme (`makeStyles`) | No styling dependency; tokens in one place; re-flows when language changes. |
+| i18n | **i18next + react-i18next**, `expo-localization` | Typed keys, plurals, interpolation; Expo's documented option. |
+| State | **zustand** (+ `persist` on `expo-sqlite/kv-store`) | Tiny; synchronous hydrate so language is known before first paint. |
+| Fonts | `@expo-google-fonts/inter` + `@expo-google-fonts/noto-sans-myanmar` | One family name per weight (Android needs this). |
+| Images | **expo-image** | Disk cache, fast decode, placeholders. |
+| Icons | Own SVG set (`src/ui/icons/Icon.tsx`, react-native-svg) | Matches the design; swap to a library by changing one file. |
+| Charts | Own SVG (`LineChart`, `Ring`) | No chart library on cheap phones. |
+| Camera | **expo-camera**, expo-image-picker | Photo capture + gallery. |
+| Backend (planned) | **Supabase**: phone OTP auth, Postgres, Storage, Edge Functions | AI key stays server-side. |
+| Local DB (planned) | **expo-sqlite** | Offline queue + local dish cache + search index. |
+
+## Folder layout
+
+```
+src/
+  app/                 Routes only. Each file re-exports a screen from features/.
+    _layout.tsx        Root: fonts, i18n init, ThemeProvider, root Stack + modal routes
+    index.tsx          Redirects to /welcome or /home (onboarding state)
+    (onboarding)/      welcome, about-you, workday  (Goal … SignIn to come)
+    (tabs)/            home, progress, settings  — headless tabs + custom bar
+    add.tsx            Add sheet (transparent modal)
+    camera.tsx         Full-screen camera (fullScreenModal)
+    paywall.tsx        Prepaid passes (modal)
+  features/<area>/     Screens + their private components, grouped by product area
+    onboarding/ home/ logging/ progress/ settings/ premium/ navigation/
+  ui/                  Reusable design-system components (Text, Button, OptionCard, …)
+  theme/               palette.ts → themes.ts → typography.ts → ThemeProvider.tsx
+  i18n/                languages.ts, locales/en.ts (source of truth), locales/my.ts
+  store/               zustand stores (settings, onboarding, log, scanQuota)
+  domain/              Pure logic: nutrition maths, units (no React)
+  lib/                 Small helpers: storage, format, haptics
+  config/              Business config (pass prices, payment providers)
+  mocks/               Placeholder data + photos — delete when real data lands
+```
+
+Rules:
+- `src/app/` holds **routes only**. Screens live in `src/features/`.
+- Screens import design-system pieces from `@/ui`, never raw `Text`/hex colours.
+- `domain/` stays pure so plan calculation and BMI can be unit-tested.
+
+## Theming
+
+Three layers, so a rebrand touches as few files as possible:
+
+1. **`theme/palette.ts`** — raw hex values. The only file with hex codes.
+2. **`theme/themes.ts`** — semantic tokens: `colors.surface`, `colors.textMuted`, `colors.nutrient.carbs`, `radius.lg`, `space.md`, `size.button`, `shadow.floating`. Add `darkTheme` here later; `ThemeProvider` picks by name.
+3. **`theme/typography.ts`** — the type scale (`variants`) and per-language font settings (`scripts`).
+
+Components get styles with `makeStyles`:
+
+```tsx
+const useStyles = makeStyles(({ theme, type, language }) => ({
+  title: { ...type.title, color: theme.colors.text },
+  card: { backgroundColor: theme.colors.surface, borderRadius: theme.radius.xl },
+}));
+```
+
+Styles are memoised and rebuilt only when the theme or language changes.
+
+**To change…**
+- a colour → `palette.ts` (or point a semantic token at another palette colour in `themes.ts`)
+- corner radius / spacing / button height → `themes.ts` (`radius`, `space`, `size`)
+- fonts → `fontFamilies` in `typography.ts` + the `useFonts` list in `app/_layout.tsx`
+- type sizes → `variants` in `typography.ts`
+
+## Burmese vs English typography
+
+Burmese script stacks vowels and medials above and below the base line, so it needs much more line height than Latin, and its words run longer. `typography.ts` keeps a separate `ScriptSpec` per language:
+
+| | English | Burmese |
+|---|---|---|
+| Font | Inter | Noto Sans Myanmar |
+| Line height | 1.35× (titles 1.2×) | 1.7× (titles 1.55×) |
+| Letter spacing | from variant (tight on headlines) | none |
+| Min size | 11 | **13** (design rule) |
+| Overrides | — | display 26, title 24, headline 18 |
+
+Numbers and the "Sar AI" wordmark use `role: 'latin'` variants (`numberXl`, `numberMd`, `wordmark`…) and always render in Inter with tight line height, so "1,085" looks identical in both languages.
+
+**Mixed scripts:** `<Text>` checks plain-string children. Burmese text inside the English UI (e.g. "မြန်မာ" in the language switcher) gets the Burmese metrics, and Latin-only strings inside the Burmese UI ("Premium", "KBZPay", "Wi-Fi") get Inter. Strings that mix both scripts ("[PRICE] ကျပ်") follow the current language.
+
+Tune per language in `scripts.my` / `scripts.en`: `lineHeight`, `sizeScale`, `minSize`, and per-variant `overrides`. Always use `<Text variant="…">` so these apply automatically.
+
+## Localisation
+
+- `i18n/locales/en.ts` is the **source of truth** for keys. `my.ts` is typed as `Translations`, so a missing or extra key fails `tsc`.
+- `t()` keys are type-checked (`i18n/i18next.d.ts`).
+- Language lives in the settings store (persisted). i18next follows it. Default for new installs: **Burmese** (`DEFAULT_LANGUAGE`).
+- Switch from Welcome (top-right toggle) or Settings → Language. Switching re-renders all text with the other script's metrics instantly.
+- Numbers go through `lib/format.ts` (`formatNumber`, `formatPlates` → "2½"). Flip `NUMERALS.my` to `'myanmar'` to show ၀–၉ digits everywhere.
+- Dish names are **data**, not translations: each dish has `name: { my, en }` (later `name_my`, `name_en`, aliases from the database).
+- Adding a language: add to `LANGUAGES`, add `locales/<code>.ts`, add a `scripts.<code>` entry, add to `supportedLocales` in `app.json`.
+
+## Navigation
+
+- Root `Stack` (`app/_layout.tsx`) with modal routes: `add` (transparent modal, fades), `camera` (full-screen), `paywall` (modal).
+- Tabs use **expo-router headless tabs** (`expo-router/ui`) with our own bar (`features/navigation/TabBar.tsx`): icons only + floating + button.
+- `app/index.tsx` redirects by `useOnboarding().completed`.
+
+## Data flow (planned)
+
+```
+Camera ─► compress (~800px, expo-image-manipulator) ─► SQLite queue (status: queued)
+                                                          │  online (and Wi-Fi if "Wi-Fi only")
+                                                          ▼
+                     Supabase Storage upload ─► Edge Function "scan" ─► vision model
+                     (photo + candidate dish list)          │ JSON per AI scan contract
+                                                          ▼
+          verified dish numbers from `dishes` table ─► Result / SharedMeal / PickDish ─► food_logs + log_items
+```
+
+- Text / voice / search logging works fully offline against the local dish cache in SQLite.
+- Search index: normalise Zawgyi → Unicode, then match Burmese, romanized aliases and fuzzy spellings (SQLite FTS locally, `pg_trgm` server-side).
+- Scan quota is enforced server-side (`scan_quota`), mirrored locally for the counter.
+
+## Running
+
+```bash
+npx expo start            # Metro
+npx expo run:android      # build + install the dev app on an emulator/device
+npx tsc --noEmit          # type-check
+npx eslint src            # lint
+```
+
+Expo Go isn't used: it lags SDK releases, and production fonts and native modules need a dev build anyway.
