@@ -60,7 +60,11 @@ export function WeekStrip({ selected, onSelect, loggedDays }: Props) {
             <Text variant="caption" tone={isSelected ? 'default' : 'subtle'}>
               {labels[i]}
             </Text>
-            <View style={[s.date, isSelected ? s.dateSelected : loggedDays.has(dayKey(d)) && s.dateLogged]}>
+            {/* Keyed by state so each look mounts fresh: a clean solid circle when selected,
+                a dashed ring when logged (Android only rounds styles present at mount). */}
+            <View
+              key={isSelected ? 'selected' : loggedDays.has(dayKey(d)) ? 'logged' : 'plain'}
+              style={[s.date, isSelected ? s.dateSelected : loggedDays.has(dayKey(d)) && s.dateLogged]}>
               <Text variant="numberSm" tone={isSelected ? 'inverse' : isFuture ? 'subtle' : 'default'} style={s.dateText}>
                 {formatNumber(d.getDate(), language)}
               </Text>
@@ -75,19 +79,8 @@ export function WeekStrip({ selected, onSelect, loggedDays }: Props) {
 const useStyles = makeStyles(({ theme }) => ({
   row: { flexDirection: 'row', justifyContent: 'space-between', marginTop: theme.space.lg },
   day: { flex: 1, alignItems: 'center', gap: theme.space.xs, minHeight: theme.size.minTouch },
-  // Background and border are always present; states only change colours (shape rules).
-  date: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    borderWidth: 1.5,
-    borderStyle: 'dashed',
-    borderColor: 'transparent',
-    backgroundColor: 'transparent',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  dateSelected: { backgroundColor: theme.colors.selected, borderColor: theme.colors.selected },
-  dateLogged: { borderColor: theme.colors.iconMuted },
+  date: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
+  dateSelected: { backgroundColor: theme.colors.selected },
+  dateLogged: { borderWidth: 1.5, borderStyle: 'dashed', borderColor: theme.colors.iconMuted },
   dateText: { fontSize: 13 },
 }));

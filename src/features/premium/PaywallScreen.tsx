@@ -7,7 +7,7 @@ import { PASSES, PAYMENT_PROVIDERS, type PassId } from '@/config/pricing';
 import { tap } from '@/lib/haptics';
 import { usePremium } from '@/store/premium';
 import { makeStyles, useTheme } from '@/theme/ThemeProvider';
-import { Button, Icon, IconButton, Screen, Text, type IconName } from '@/ui';
+import { Badge, Button, Icon, IconButton, Screen, Text, type IconName } from '@/ui';
 
 const FEATURES: { key: 'unlimitedScans' | 'healthGoals' | 'weeklyReport'; icon: IconName }[] = [
   { key: 'unlimitedScans', icon: 'camera' },
@@ -83,11 +83,7 @@ export function PaywallScreen() {
               }}
               style={[s.pass, selected && s.passSelected]}>
               {'bestValue' in p && p.bestValue && (
-                <View style={s.tag}>
-                  <Text variant="caption" color={theme.colors.onAccent}>
-                    {t('paywall.bestValue')}
-                  </Text>
-                </View>
+                <Badge tone="accent" label={t('paywall.bestValue')} style={s.tag} />
               )}
               <Text variant="label" tone={selected ? 'inverse' : 'muted'}>
                 {t(p.months === 1 ? 'paywall.month1' : 'paywall.month3')}
@@ -141,13 +137,10 @@ const useStyles = makeStyles(({ theme }) => ({
   passSelected: { backgroundColor: theme.colors.selected },
   tag: {
     position: 'absolute',
-    top: -12,
+    top: -15,
     left: theme.space.lg,
-    paddingHorizontal: theme.space.sm + 2,
-    borderRadius: theme.radius.pill,
     borderWidth: 2,
     borderColor: theme.colors.background,
-    backgroundColor: theme.colors.accent,
   },
   radio: {
     position: 'absolute',

@@ -8,7 +8,7 @@ import { formatNumber } from '@/lib/format';
 import { useOnboarding } from '@/store/onboarding';
 import { useLatest } from '@/store/weights';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
-import { Button, Card, Text } from '@/ui';
+import { Badge, Button, Card, Text } from '@/ui';
 
 const LABEL = {
   under: 'progress.bmiUnder',
@@ -57,10 +57,7 @@ export function BmiCard() {
       <Text variant="headline">{t('progress.bmi')}</Text>
       <View style={s.valueRow}>
         <Text variant="numberLg">{formatNumber(Math.round(value * 10) / 10, language)}</Text>
-        <View style={s.pill}>
-          <View style={[s.dot, { backgroundColor: theme.colors.bmi[category] }]} />
-          <Text variant="label">{t(LABEL[category])}</Text>
-        </View>
+        <Badge tone="white" dot={theme.colors.bmi[category]} label={t(LABEL[category])} style={s.badge} />
       </View>
       <View>
         <View style={s.bar}>
@@ -86,16 +83,7 @@ const useStyles = makeStyles(({ theme }) => ({
   card: { gap: theme.space.md },
   missing: { flexDirection: 'row', alignItems: 'center', gap: theme.space.md },
   valueRow: { flexDirection: 'row', alignItems: 'center', gap: theme.space.md },
-  pill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    paddingHorizontal: theme.space.md,
-    paddingVertical: 2,
-    borderRadius: theme.radius.pill,
-    backgroundColor: theme.colors.background,
-  },
-  dot: { width: 8, height: 8, borderRadius: 4 },
+  badge: { alignSelf: 'center' },
   bar: { flexDirection: 'row', height: 8, gap: 3 },
   seg: { borderRadius: 4 },
   marker: {

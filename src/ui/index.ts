@@ -19,3 +19,4 @@ export { Logo } from './Logo';
 export { ConfirmSheet } from './ConfirmSheet';
 export { MeasureInput } from './MeasureInput';
 export { RulerPicker } from './RulerPicker';
+export { Badge } from './Badge';

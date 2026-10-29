@@ -77,7 +77,7 @@ export function HomeScreen() {
             label={t('home.protein')}
             progress={day.proteinProgress}
             color={theme.colors.nutrient.protein}
-            icon="fish"
+            icon="protein"
           />
           <NutrientCard
             value={`${formatNumber(day.fatLeft, language)}${t('common.g')}`}

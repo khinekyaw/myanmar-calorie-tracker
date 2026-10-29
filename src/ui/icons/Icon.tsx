@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import Svg, { Circle, Path, Rect } from 'react-native-svg';
+import Svg, { Circle, Ellipse, Path, Rect } from 'react-native-svg';
 
 import { useTheme } from '@/theme/ThemeProvider';
 
@@ -112,12 +112,13 @@ const icons = {
       <Path d="M7.5 13.5h9" />
     </>
   ),
-  /** Fish — used for the protein indicator. */
-  fish: (
+  /** Chicken drumstick — used for the protein indicator. */
+  protein: (
     <>
-      <Path d="M5 12c2.5-3.5 6-5.5 9.5-5.5 3 0 5.3 2.4 6.5 5.5-1.2 3.1-3.5 5.5-6.5 5.5C11 17.5 7.5 15.5 5 12z" />
-      <Path d="M5 12 2.5 8.5M5 12l-2.5 3.5" />
-      <Circle cx={16} cy={11} r={0.6} />
+      <Ellipse cx={14.2} cy={9.8} rx={7} ry={5.6} transform="rotate(-45 14.2 9.8)" />
+      <Path d="M9.6 14.4 6.2 17.8" />
+      <Circle cx={4.6} cy={17.4} r={1.9} />
+      <Circle cx={6.6} cy={19.4} r={1.9} />
     </>
   ),
 } satisfies Record<string, ReactNode>;

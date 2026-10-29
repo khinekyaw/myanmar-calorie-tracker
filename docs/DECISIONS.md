@@ -5,6 +5,12 @@ Product-level decisions from the handoff are in [PRODUCT_BRIEF.md](PRODUCT_BRIEF
 
 ---
 
+## 2026-10-30 — Polish: day circle, protein icon, badges
+
+- The selected week day was a fill on top of an invisible dashed border, and the dashes left a jagged edge. Each look (selected / logged / plain) now mounts as its own view (keyed), so the selected day is a clean solid circle.
+- Protein icon: **chicken drumstick** instead of the fish (user feedback).
+- One `Badge` component for all small pill labels (Verified/Estimate, Best value, Closest, BMI category) with padding sized for Burmese; the old hand-made pills were too tight.
+
 ## 2026-10-30 — Brand colours: black #111217, gold accent; gold logo = Premium
 
 - **Primary** black is now `#111217` (was `#0A0A0A`); it's still used for almost everything.

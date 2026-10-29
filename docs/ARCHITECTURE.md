@@ -99,10 +99,11 @@ Styles are memoised and rebuilt only when the theme or language changes.
 | **No borders on cards or options.** Separation comes from fill: grey `surface` on white, white on grey. Hairlines only divide list rows (Settings, SharedMeal) and the tab bar. | `Card`, `OptionCard`, `Chip` have no border variants. |
 | **Selected = solid ink with white text**; unselected = `surface` grey. Same for options, chips, segments, pass cards, days. | `selected` / `onSelected` tokens. |
 | **Primary is brand black `#111217`** for nearly everything. **Accent is brand gold `#DEA84A`**, used sparingly: Premium (sparkle, paywall badge, "Best value"), the plan-ready check, and the logo for Premium members only. Gold is never text on white (2:1) and never near nutrient indicators. | `colors.primary`, `colors.accent` / `onAccent` / `accentSoft`. |
-| **Colour only on nutrient indicators** (rice amber + plate, protein coral + fish, fat violet + oil bottle) and the BMI scale. | `colors.nutrient`, `colors.bmi`. |
+| **Colour only on nutrient indicators** (rice amber + plate, protein coral + drumstick, fat violet + oil bottle) and the BMI scale. | `colors.nutrient`, `colors.bmi`. |
 | **Shadows only** on the floating + button, bottom sheets and floating chips. | `shadow.*` tokens. |
 | **Press feedback:** grey options darken to `surfaceStrong`; everything else fades to `opacity.pressed` (0.7). Disabled = `opacity.disabled` (0.35). | `theme.opacity`. |
 | **One page gutter** (`theme.gutter`, 16) on every screen. | `Screen`, tab screens, `PhotoSheet`, `AddSheet`. |
+| **Pill labels use `Badge`** (min height 28, 12 px sides, 3 px top/bottom), which is roomy enough for Burmese. No hand-made pills. | `ui/Badge.tsx`. |
 | **Body measurements** are typed or picked on a ruler; ± steppers are only for counts (portions, spoons, plates). | `MeasureInput` / `RulerPicker` vs `Stepper`. |
 | **Nothing jumps while values change.** Numbers use equal-width digits (`tabular-nums` on every number style); weights always show one decimal ("150.0"); lines that can be empty keep their space (rendered invisible, e.g. `ReachByLine`). | `typography.ts`, `formatFixed`, `ReachByLine`. |
 | **No raw colours** outside `palette.ts`, including translucent overlays (`onInkSubtle`, `photo.*`, `camera.controlActive`). | grep for `rgba(` / `#` outside `src/theme/`. |

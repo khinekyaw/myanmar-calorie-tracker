@@ -9,7 +9,7 @@ import { getDish } from '@/mocks/dishes';
 import { CONFIDENCE_THRESHOLD } from '@/services/scan';
 import { useEntry, useLog } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
-import { Button, Chip, ConfirmSheet, Icon, PhotoSheet, Stepper, Text } from '@/ui';
+import { Badge, Button, Chip, ConfirmSheet, Icon, PhotoSheet, Stepper, Text } from '@/ui';
 
 const OIL_LABEL = { less: 'result.oilLess', normal: 'result.oilNormal', more: 'result.oilMore' } as const;
 
@@ -114,12 +114,12 @@ export function ResultScreen() {
           <Text variant="headline" accessibilityRole="header" numberOfLines={2} style={s.title}>
             {title}
           </Text>
-          <View style={[s.badge, !verified && s.badgeEstimate]}>
-            {verified && <Icon name="check" size={12} strokeWidth={3} color={theme.colors.onPrimary} />}
-            <Text variant="caption" tone={verified ? 'inverse' : 'muted'}>
-              {t(verified ? 'result.verified' : 'result.estimate')}
-            </Text>
-          </View>
+          <Badge
+            key={verified ? 'verified' : 'estimate'}
+            tone={verified ? 'ink' : 'surface'}
+            icon={verified ? 'check' : undefined}
+            label={t(verified ? 'result.verified' : 'result.estimate')}
+          />
         </View>
         {single && (
           <Stepper
@@ -206,17 +206,8 @@ const useStyles = makeStyles(({ theme }) => ({
   skeletonTall: { height: 72, borderRadius: theme.radius.lg },
   skeletonTile: { flex: 1, height: 64, borderRadius: theme.radius.md },
   titleRow: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', gap: theme.space.md },
-  titleWrap: { flex: 1, gap: theme.space.xs, alignItems: 'flex-start' },
+  titleWrap: { flex: 1, gap: theme.space.sm, alignItems: 'flex-start' },
   title: { flexShrink: 1 },
-  badge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    paddingHorizontal: theme.space.sm,
-    borderRadius: theme.radius.pill,
-    backgroundColor: theme.colors.selected,
-  },
-  badgeEstimate: { backgroundColor: theme.colors.surface },
   kcalCard: {
     flexDirection: 'row',
     alignItems: 'center',

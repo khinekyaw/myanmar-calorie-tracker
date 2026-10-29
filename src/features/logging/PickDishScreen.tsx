@@ -7,7 +7,7 @@ import { popularDishes } from '@/domain/search';
 import { allDishes, getDish, type DishId } from '@/mocks/dishes';
 import { useEntry, useLog } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
-import { Button, Icon, PhotoSheet, Text } from '@/ui';
+import { Badge, Button, Icon, PhotoSheet, Text } from '@/ui';
 
 /** Options when the scan gave no runner-ups ("Fix" on a confident scan): same serving unit first. */
 function fallbackOptions(current?: DishId): DishId[] {
@@ -63,11 +63,7 @@ export function PickDishScreen() {
                 {getDish(dishId).name[language]}
               </Text>
               {i === 0 && (
-                <View style={[s.tag, selected && s.tagOnDark]}>
-                  <Text variant="caption" tone={selected ? 'inverse' : 'muted'}>
-                    {t('pick.closest')}
-                  </Text>
-                </View>
+                <Badge key={String(selected)} tone={selected ? 'onInk' : 'white'} label={t('pick.closest')} />
               )}
             </Pressable>
           );
@@ -98,6 +94,4 @@ const useStyles = makeStyles(({ theme }) => ({
   idle: { backgroundColor: theme.colors.surface },
   selected: { backgroundColor: theme.colors.selected },
   pressed: { backgroundColor: theme.colors.surfaceStrong },
-  tag: { paddingHorizontal: theme.space.sm + 2, borderRadius: theme.radius.pill, backgroundColor: theme.colors.background },
-  tagOnDark: { backgroundColor: theme.colors.onInkSubtle },
 }));

@@ -80,7 +80,7 @@ export function MealRow({ entry }: { entry: LogEntry }) {
         </View>
         <View style={s.macros}>
           <Macro color={theme.colors.nutrient.carbs} text={formatPlates(Math.round(carbsToRicePlates(m.carbG) * 4) / 4, language)} icon="rice" />
-          <Macro color={theme.colors.nutrient.protein} text={`${Math.round(m.proteinG)}${t('common.g')}`} icon="fish" />
+          <Macro color={theme.colors.nutrient.protein} text={`${Math.round(m.proteinG)}${t('common.g')}`} icon="protein" />
           <Macro color={theme.colors.nutrient.fat} text={`${Math.round(m.fatG)}${t('common.g')}`} icon="oil" />
         </View>
       </View>
@@ -91,7 +91,7 @@ export function MealRow({ entry }: { entry: LogEntry }) {
 const sourceIcon = (source: LogEntry['source']): IconName =>
   ({ photo: 'camera', voice: 'mic', text: 'keyboard', search: 'search', quick: 'plus' })[source] as IconName;
 
-function Macro({ color, text, icon }: { color: string; text: string; icon: 'rice' | 'fish' | 'oil' }) {
+function Macro({ color, text, icon }: { color: string; text: string; icon: 'rice' | 'protein' | 'oil' }) {
   const s = useStyles();
   return (
     <View style={s.macro}>
