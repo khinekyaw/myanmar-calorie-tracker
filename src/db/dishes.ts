@@ -1,13 +1,16 @@
 import { dishes as bundled, setCatalogue, type Dish } from '@/mocks/dishes';
 
-import { db, getMeta, nowIso, setMeta } from './database';
+import { db, getMeta, setMeta } from './database';
 
 /**
- * The dish catalogue lives in the database so the server can update it later
+ * The dish catalogue lives in the database so the server can update it
  * (new dishes, verified numbers) without an app release. The bundled list
- * seeds it; bump CATALOGUE_VERSION when the bundled list changes.
+ * seeds it; bump CATALOGUE_VERSION and CATALOGUE_DATE when it changes.
+ * Rows from the server are newer than CATALOGUE_DATE, so a re-seed never
+ * overwrites them.
  */
 const CATALOGUE_VERSION = 1;
+const CATALOGUE_DATE = '2026-10-30T00:00:00.000Z';
 
 export function seedCatalogue() {
   if (Number(getMeta('catalogue_version') ?? 0) >= CATALOGUE_VERSION) return;
@@ -16,10 +19,12 @@ export function seedCatalogue() {
       // Photos are bundled assets, so they aren't stored; they're matched by id on load.
       const { photo: _photo, ...data } = dish as Dish;
       db.runSync(
-        'INSERT INTO dishes (id, data, updated_at) VALUES (?, ?, ?) ON CONFLICT(id) DO UPDATE SET data = excluded.data, updated_at = excluded.updated_at',
+        `INSERT INTO dishes (id, data, updated_at) VALUES (?, ?, ?)
+         ON CONFLICT(id) DO UPDATE SET data = excluded.data, updated_at = excluded.updated_at
+         WHERE dishes.updated_at < excluded.updated_at`,
         dish.id,
         JSON.stringify(data),
-        nowIso(),
+        CATALOGUE_DATE,
       );
     }
     setMeta('catalogue_version', String(CATALOGUE_VERSION));
@@ -35,4 +40,18 @@ export function loadCatalogue() {
       return { ...dish, photo: (bundled as Record<string, Dish>)[r.id]?.photo };
     }),
   );
+}
+
+/** Dishes from the server: it owns the catalogue, so its copy always wins. */
+export function saveRemoteDishes(list: { dish: Dish; updatedAt: string }[]) {
+  db.withTransactionSync(() => {
+    for (const { dish, updatedAt } of list) {
+      db.runSync(
+        'INSERT INTO dishes (id, data, updated_at) VALUES (?, ?, ?) ON CONFLICT(id) DO UPDATE SET data = excluded.data, updated_at = excluded.updated_at',
+        dish.id,
+        JSON.stringify(dish),
+        updatedAt,
+      );
+    }
+  });
 }

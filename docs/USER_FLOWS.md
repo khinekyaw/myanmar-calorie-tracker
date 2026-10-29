@@ -7,7 +7,8 @@ Every journey below was walked on the Android emulator (360 dp, Burmese and Engl
 Welcome → **Get started** → About you (sex, birth year, height, weight) → Workday → Goal (+ blood sugar / pressure) → Target weight & pace *(skipped for "Stay the same")* → Where do you eat? → Reminders (*Remind me* asks Android permission, *Not now* skips) → Generating → **Plan ready** (kcal, plates of rice, protein, fat, rice cut 3 → 2½ → 2) → Sign in (phone → code, Google, or *Skip*) → Home.
 
 - The plan is calculated from these answers, and the onboarding weight becomes the first point on the Progress chart.
-- *I have an account* on Welcome goes straight to Sign in. With no profile, the app uses a default plan until Settings → Goals / Health are filled in.
+- *I have an account* on Welcome goes straight to Sign in. With a backend, the account's meals, weights, profile and language come down within seconds; without one (or with a new number), the app uses a default plan until Settings → Goals / Health are filled in.
+- With a backend, a code is sent by SMS; a wrong code shows "Wrong code". *Skip* still syncs, under an anonymous account.
 - The language switch is on Welcome (and in Settings). Burmese is the default.
 
 ## 2. Log a meal (the daily loop)
@@ -52,7 +53,11 @@ Progress tab:
 
 ## 7. Settings
 
-Premium (paywall) · **Goals** (= Edit goal) · **Health** (blood sugar / pressure, sex, birth year, height) · Uposatha vegetarian · Feast day · Reminders · Wi-Fi only · Language. Dev builds also show Simulate offline, Reset free scans, Restart onboarding.
+Premium (paywall) · **Phone number** (*Sign in* when not signed in; the number once signed in) · **Goals** (= Edit goal) · **Health** (blood sugar / pressure, sex, birth year, height) · Uposatha vegetarian · Feast day · Reminders · Wi-Fi only · Language · **Delete account** (confirm sheet; removes everything on the server and the phone, back to Welcome). Phone number and Delete account appear only with a backend. Dev builds also show Simulate offline, Premium (mock), Reset free scans, Changes waiting to sync, Sync now, Restart onboarding.
+
+## 7b. Several phones
+
+Sign in with the same number on another phone: everything comes down. Changes on either phone reach the other on its next sync (opening the app, coming back online, or a few seconds after a change).
 
 ## 8. Premium
 
@@ -77,8 +82,11 @@ Paywall (from the camera counter, the 4th scan, or Settings): 1- or 3-month prep
 
 ## Still open (prototype limits)
 
-- ~~Meals reset on app restart~~ Fixed: meals, the photo queue and weights are in on-phone SQLite ([OFFLINE.md](OFFLINE.md)). Nothing syncs to a server yet.
-- Scan, speech-to-text, OTP and payments are mocks (see [Mocked vs real](ARCHITECTURE.md#mocked-vs-real)).
+- ~~Meals reset on app restart~~ Fixed: meals, the photo queue and weights are in on-phone SQLite ([OFFLINE.md](OFFLINE.md)), and sync to Supabase when a backend is configured.
+- Speech-to-text, payments and Google sign-in are mocks; scan and OTP are real only with a backend (see [Mocked vs real](ARCHITECTURE.md#mocked-vs-real)).
+- When a scan fails (no connection mid-scan, server error), Result keeps showing *Analyzing…*; the photo is retried in the background and Home shows it as *Waiting*.
+- When the server says the free scans are used up for today (e.g. used on another phone), queued photos wait until tomorrow or Premium without telling the user why.
+- Meals restored on another phone show the dish photo, not the meal photo.
 - Uposatha vegetarian has no effect yet (planned: suggest vegetarian dishes first on Uposatha days).
 - Queued photos that come back low-confidence are logged with the top guess; they only ask for review when opened.
 - Weight is in lb only; kg isn't offered yet.

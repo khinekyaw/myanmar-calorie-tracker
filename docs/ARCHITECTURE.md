@@ -1,6 +1,6 @@
 # Sar AI — App architecture
 
-Status: **UI prototype — all 22 canvas screens built, offline-first** (meals, photo queue and weights in on-phone SQLite; see [OFFLINE.md](OFFLINE.md)), on mock data. The scan service, speech-to-text, phone OTP and payments are mocked; the backend (Supabase) isn't built yet. See [Mocked vs real](#mocked-vs-real).
+Status: **all 22 canvas screens built, offline-first** (meals, photo queue and weights in on-phone SQLite; see [OFFLINE.md](OFFLINE.md)), with a **Supabase backend** for sync, accounts, photo scan and account deletion, built and tested locally but not deployed ([BACKEND.md](BACKEND.md)). Builds without `EXPO_PUBLIC_SUPABASE_*` run on the prototype mocks. Speech-to-text, payments and Google sign-in are still mocked. See [Mocked vs real](#mocked-vs-real).
 
 ## Stack
 
@@ -16,7 +16,8 @@ Status: **UI prototype — all 22 canvas screens built, offline-first** (meals, 
 | Icons | Own SVG set (`src/ui/icons/Icon.tsx`, react-native-svg) | Matches the design; swap to a library by changing one file. |
 | Charts | Own SVG (`LineChart`, `Ring`) | No chart library on cheap phones. |
 | Camera | **expo-camera**, expo-image-picker | Photo capture + gallery. |
-| Backend (planned) | **Supabase**: phone OTP auth, Postgres, Storage, Edge Functions | AI key stays server-side. |
+| Backend | **Supabase** (`@supabase/supabase-js`): anonymous + phone OTP auth, Postgres with row-level security, Storage, Edge Functions (Deno) | AI key stays server-side; everything is migrations and functions in `supabase/` ([BACKEND.md](BACKEND.md)). |
+| AI scan | **Claude** (vision, structured JSON output) in the `scan` Edge Function | Identifies dishes from the catalogue; nutrition comes from our `dishes` table. |
 | Local DB | **expo-sqlite** | Source of truth: meals, photo queue, weights, dish catalogue, sync outbox ([OFFLINE.md](OFFLINE.md)). |
 | Files | **expo-file-system** | Meal photos kept in app documents (not cache). |
 | Network | **expo-network** | Online / Wi-Fi state for the offline photo queue. |
@@ -56,9 +57,13 @@ src/
                          nutrition.ts (BMR, BMI), plan.ts (daily targets, rice cut),
                          meal.ts (macros incl. oil & sweetness), search.ts, parseMeal.ts,
                          progress.ts (goal %, axis ticks), streak.ts
-  services/            Outside-world calls. scan.ts = AI scan contract (MOCK) + photo compression
+  services/            Outside-world calls: supabase.ts (client), auth.ts (anonymous / phone sign-in,
+                       delete account), scan.ts (upload + scan function; MOCK without a backend),
+                       database.types.ts (generated: npm run db:types)
+  sync/                Sync engine (push/pull, scheduling), profile watcher, account deletion,
+                       mapping.ts (phone rows ↔ server rows, lb ↔ kg; unit-tested)
   db/                  On-phone database: schema + migrations, food logs, weights, dishes, photos,
-                       first-launch init, sync outbox (see OFFLINE.md)
+                       first-launch init, outbox and sync reads/writes (see OFFLINE.md)
   lib/                 Small helpers: storage, format, dates, haptics, network
   config/              Business config (pass prices, payment providers)
   mocks/               Placeholder dishes, bundled photos, first-launch sample data — replace before launch
@@ -214,29 +219,33 @@ MealItem { dishId, qty, oil?: less|normal|more, sweetness?: choSeint|pawSeint|ky
 
 | Area | Prototype | Real version |
 |---|---|---|
-| Photo scan | `services/scan.ts` cycles 3 demo answers (single dish → shared table → low confidence) after 1.8 s | Upload to Supabase Storage + Edge Function "scan" → vision model, same `ScanResponse` shape |
-| Dish data | `mocks/dishes.ts`, illustrative numbers, 15 dishes | Verified `dishes` table (200–300), cached in SQLite |
+| Photo scan | **Real** with a backend: upload to `meal-photos` + `scan` Edge Function → Claude. Without one: `services/scan.ts` cycles 3 demo answers. Not yet run against the real model (no API key here) | Model/effort chosen with ~100 labelled photos |
+| Dish data | `mocks/dishes.ts` seeds the phone and the server (`supabase/seeds/catalogue.sql`); illustrative numbers, 15 dishes, **none verified** on the server | Verified `dishes` table (200–300) from the nutritionist |
 | Food photos | Wikimedia Commons images bundled in the app (`assets/images/dishes/`) | Our own photos (bundled + `dish-photos` bucket) |
 | Speech-to-text | Mic fills a sample sentence | Burmese STT provider (open decision); parser stays the same |
-| Phone OTP | Any 6-digit code works | Supabase phone auth + SMS provider |
-| Google sign-in | Goes straight in | Google OAuth |
-| Free-scan quota | In-memory counter | Server `scan_quota` table |
-| Payments | Pay buttons activate the pass locally (`store/premium.ts`) | KBZPay / WavePay or Play Billing (policy check first); server-side `passes` |
+| Phone OTP | **Real** with a backend (Supabase phone auth; local test numbers). Without one: any 6-digit code | SMS provider / gateway for +95 |
+| Google sign-in | MOCK (goes straight in), shown only without a backend | Google OAuth + native sign-in |
+| Free-scan quota | **Real**: server `scan_quota`, mirrored on the phone for the counter | — |
+| Payments | Pay buttons activate a **local mock** pass (`store/premium.ts`); the server ignores it | KBZPay / WavePay or Play Billing → webhook → `grant_pass` (server `passes` already read by the app) |
 | Reminders | Permission request only | Scheduled local notifications |
-| Log storage | SQLite on the phone (offline-first, sync-ready), sample history on first launch | Same, plus sync to Supabase |
-| Weight history | SQLite `weights`, ~12 weeks of sample data on first launch | Same, plus sync |
-| Sync | `outbox` filled, nothing sends yet | Push/pull engine ([BACKEND.md](BACKEND.md)) |
+| Log storage | SQLite on the phone, synced to Supabase; sample history in development builds only | — |
+| Weight history | SQLite `weights`, synced (kg on the server); sample data in development builds only | — |
+| Sync | **Real**: push/pull engine ([OFFLINE.md](OFFLINE.md#how-sync-works)) | — |
+| Account deletion | **Real**: Settings → Delete account (`delete-account` function) | — |
 
-## Data flow (planned — details in [BACKEND.md](BACKEND.md))
+## Data flow (details in [BACKEND.md](BACKEND.md))
 
 ```
 Camera ─► compress (~800px, expo-image-manipulator) ─► SQLite queue (status: queued)
                                                           │  online (and Wi-Fi if "Wi-Fi only")
                                                           ▼
-                     Supabase Storage upload ─► Edge Function "scan" ─► vision model
-                     (photo + candidate dish list)          │ JSON per AI scan contract
+                     Storage upload (meal-photos/<user>/<log>.jpg) ─► Edge Function "scan" ─► Claude
+                     free scan used atomically · catalogue in cached prompt │ JSON per AI scan contract
                                                           ▼
-          verified dish numbers from `dishes` table ─► Result / SharedMeal / PickDish ─► food_logs + log_items
+          dish ids checked against `dishes` ─► Result / SharedMeal / PickDish ─► food_logs + log_items (SQLite)
+                                                                                      │ outbox
+                                                                                      ▼
+                                                              sync_push / sync_pull ⇄ Supabase Postgres
 ```
 
 - Text / voice / search logging works fully offline against the local dish cache in SQLite.
@@ -250,7 +259,11 @@ npx expo start            # Metro
 npx expo run:android      # build + install the dev app on an emulator/device
 npm run typecheck         # tsc --noEmit
 npm run lint              # eslint src
-npm test                  # jest (domain logic)
+npm test                  # jest (domain logic, sync mapping, scan contract)
+npm run test:db           # pgTAP database tests (local Supabase running)
+npm run check:functions   # type-check Edge Functions (Deno)
 ```
+
+Backend locally: [BACKEND.md → Running locally](BACKEND.md#running-locally).
 
 Expo Go isn't used: it lags SDK releases, and production fonts and native modules need a dev build anyway.

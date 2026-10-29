@@ -4,20 +4,26 @@ import { persist } from 'zustand/middleware';
 import { syncStorage } from '@/lib/storage';
 
 /**
- * Prepaid Premium pass (the `passes` table). MOCK: activated straight from
- * the paywall until KBZPay / WavePay (or Play Billing) is connected.
+ * Prepaid Premium pass. The real state comes from the server's `passes`
+ * table (synced; only the server creates passes). MOCK: the paywall also
+ * activates a local pass until KBZPay / WavePay (or Play Billing) is connected;
+ * the server ignores it, so it only changes what the app shows.
  */
 type PremiumState = {
-  /** ISO date the current pass ends, or null. */
+  /** ISO date the mock (local) pass ends, or null. */
   activeUntil: string | null;
+  /** ISO date the server's passes end, or null. */
+  serverUntil: string | null;
   activate: (months: number) => void;
   cancel: () => void;
+  setServerUntil: (until: string | null) => void;
 };
 
 export const usePremium = create<PremiumState>()(
   persist(
     (set) => ({
       activeUntil: null,
+      serverUntil: null,
       activate: (months) =>
         set((s) => {
           // A new pass extends an active one (prepaid, no auto-renew).
@@ -26,10 +32,19 @@ export const usePremium = create<PremiumState>()(
           return { activeUntil: from.toISOString() };
         }),
       cancel: () => set({ activeUntil: null }),
+      setServerUntil: (serverUntil) => set({ serverUntil }),
     }),
     { name: 'premium', storage: syncStorage, version: 1 },
   ),
 );
 
-export const useIsPremium = () =>
-  usePremium((s) => s.activeUntil !== null && new Date(s.activeUntil).getTime() > Date.now());
+const latest = (a: string | null, b: string | null) => (!a ? b : !b ? a : a > b ? a : b);
+
+/** End of the current pass (server or mock), or null when not Premium. */
+export const usePremiumUntil = () =>
+  usePremium((s) => {
+    const until = latest(s.activeUntil, s.serverUntil);
+    return until && new Date(until).getTime() > Date.now() ? until : null;
+  });
+
+export const useIsPremium = () => usePremiumUntil() !== null;

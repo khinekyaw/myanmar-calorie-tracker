@@ -5,6 +5,27 @@ Product-level decisions from the handoff are in [PRODUCT_BRIEF.md](PRODUCT_BRIEF
 
 ---
 
+## 2026-10-30 — Backend built: sync, accounts, photo scan, account deletion
+
+Supabase project in `supabase/` (migrations, functions, pgTAP tests); app side in `src/sync/` and `src/services/`. Details: [BACKEND.md](BACKEND.md), [OFFLINE.md → How sync works](OFFLINE.md#how-sync-works). Non-obvious choices:
+
+- **Rows are keyed by `(user_id, id)`**, not `id` alone. When a phone signs in to an existing account it pushes its meals again under that account; the same phone-made id under two accounts must not clash.
+- **Two clocks.** The phone's `updated_at` decides conflicts (newest wins, capped at server time + 5 min so a wrong phone clock can't win forever). The server's `synced_at` is the pull cursor, re-read 2 minutes back each time so a write still committing during the last pull isn't missed.
+- **One round trip per direction** (`sync_push` / `sync_pull` database functions, running as the user so row-level security applies) instead of one REST call per table, because of slow mobile data.
+- **A bad row never blocks sync:** each row is written in its own sub-transaction; refused rows come back in `rejected` and the phone drops them. Where the server's copy was newer, `sync_push` returns it so the phone catches up immediately.
+- **No foreign key from `log_items.dish_id` to `dishes`**, so a phone with a newer bundled catalogue can't get stuck. Retired dishes keep their row (`deleted_at`) because old meals use them.
+- **Half-finished profiles are never pushed**, and a phone without a finished profile takes the server's. Otherwise "I have an account" on a new phone (empty answers) would overwrite the real profile.
+- **Free scans count on the day the photo was taken** (Myanmar time), so photos queued offline overnight use that day's scans; a full day falls back to today; older than 2 days counts as today (limits backdating). A failed scan gives the scan back; a repeated request for the same photo returns the stored answer and isn't charged.
+- **Scan model** defaults to `claude-opus-5-5` at **low effort** (short perception task, user is waiting), with the server-side refusal fallback; both settable without a deploy. Every scan records tokens and estimated cost; `SCAN_DAILY_BUDGET_USD` stops scans for everyone if a day's cost runs away.
+- **The server's catalogue is unverified**: the seed copies the illustrative bundled numbers with `verified_by` empty, so with a backend every dish shows *Estimate* until the nutritionist verifies it. (The bundled `verified: true` flags only demo the badge.)
+- **Anonymous account for everyone**, linked to the phone number on sign-in. **Phone confirmations must stay on**: testing showed that with them off, linking a number skipped the code check.
+- **A token can outlive its deleted account** (up to an hour). `sync_*` check the account exists, and the app then starts a new anonymous account at once instead of syncing into nothing (found in testing).
+- **Google sign-in is hidden when a backend is configured** (no OAuth client yet) rather than letting people "sign in" without an account; still shown, as a mock, in builds without a backend.
+- **Sample history only in development builds**, so release builds start empty.
+- **Builds without `EXPO_PUBLIC_SUPABASE_*` keep the prototype behaviour** (mock scan, any code), so UI work doesn't need the server running.
+- **Local SMS:** a database hook logs codes instead of sending (plus fixed test numbers); production needs a provider or a Send SMS hook to a Myanmar gateway.
+- **pgTAP tests run by piping into the database container** (`npm run test:db`): on this Mac Docker Desktop has no access to the Desktop folder, which also stops Studio and the functions runtime from mounting the project (see BACKEND.md → Running locally).
+
 ## 2026-10-30 — Offline-first storage; backend plan agreed
 
 - **The phone's SQLite database is the source of truth** (`src/db/`): `food_logs`, `log_items`, `weights`, `dishes`, `outbox`, `meta`. Stores load from it at startup and write every change to it first. Rows are sync-ready: UUIDs made on the phone, `updated_at`, tombstones via `deleted_at`, and an `outbox` entry per change. Details: [OFFLINE.md](OFFLINE.md).
@@ -165,6 +186,7 @@ Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, mea
 ## Copy review
 
 All Burmese strings in `src/i18n/locales/my.ts` need native-speaker review. New strings not on the canvas (please check first):
+Batch 3 (backend): `signIn.errorSend` (ကုဒ် ပို့လို့ မရဘူး), `signIn.errorCode` (ကုဒ် မှားနေတယ်), `signIn.offline` (အင်တာနက် မရှိဘူး), `settings.phone` / `signIn` / `deleteAccount` / `deleteTitle` / `deleteConfirm` / `deleteFailed`, `common.retry` (ပြန်စမ်းမယ်).
 Batch 2 adds (not on the canvas): `target.reachBy` ({{date}} ဆို ရောက်မယ်), `signIn.codeTitle/resend/verify`, `result.analyzing/verified/estimate/oil*`, `shared.addMore`, `textLog.*` (incl. the sample sentence), `search.empty`, `queue.*`, `home.caloriesOver` (ကယ်လိုရီ ကျော်), the `units.*` classifiers (ပန်းကန် / ပွဲ / ဇွန်း / ခု / ခွက်), and Burmese month names in `lib/format.ts`.
 Batch 1: `welcome.signIn` was on canvas; new ones: `camera.permissionTitle`, `camera.permissionAllow`, `progress.bmiUnder/Normal/Over/Obese` (အလေးချိန် နည်း / ပုံမှန် / အလေးချိန် များ / အဝလွန်), `paywall.bestValue` (ပိုတန်တယ်), `settings.sectionGoals/Daily/App`, `common.close` (ပိတ်မယ်), `home.today`.
 
@@ -173,8 +195,9 @@ Batch 1: `welcome.signIn` was on canvas; new ones: `camera.permissionTitle`, `ca
 - Food data source and the ~260 kcal per rice-plate constant (`domain/nutrition.ts`, marked PLACEHOLDER).
 - Pass prices (`config/pricing.ts`, `[PRICE]`).
 - Payments: KBZPay/WavePay vs Google Play Billing — check Play policy before building.
-- Vision model choice for the scan Edge Function.
-- SMS provider for +95 OTP.
+- Vision model and effort for the scan Edge Function (default `claude-opus-5-5`, low effort; decide with ~100 labelled photos).
+- SMS provider (or Send SMS hook to a Myanmar gateway) for +95 OTP.
+- CAPTCHA on anonymous sign-in before launch (each new install gets 3 free scans a day).
 - Burmese speech-to-text provider for voice logging (on-device vs cloud).
 - Plan rules in `domain/plan.ts` (protein g/kg, fat share, deficit caps, rice-cut steps) — nutritionist review.
 - Oil and sweetness multipliers in `domain/meal.ts` — per-dish values from the nutritionist.

@@ -6,8 +6,8 @@ Read these before changing anything:
 - `docs/PRODUCT_BRIEF.md` — what we're building and why (handoff).
 - `docs/ARCHITECTURE.md` — stack, folders, theming, typography, i18n, data flow.
 - `docs/DECISIONS.md` — decision log. **Add an entry when you make a non-obvious choice.**
-- `docs/OFFLINE.md` — on-phone database (source of truth), sync-ready rules.
-- `docs/BACKEND.md` — Supabase plan and phases (next step).
+- `docs/OFFLINE.md` — on-phone database (source of truth), sync-ready rules, how sync works.
+- `docs/BACKEND.md` — Supabase backend: schema, sync, scan function, running locally, deploying, what's left.
 - `docs/USER_FLOWS.md` — how people use the app; known gaps.
 - Design canvas (22 screens): https://claude.ai/artifact/DYDw9tRFavDJruN3XiGX6M
 
@@ -25,6 +25,9 @@ Read these before changing anything:
 - Check layouts at 360 dp wide in **both** languages.
 - Before calling work done: `npm run typecheck`, `npm run lint`, `npm test` (the `expo lint` wrapper currently fails on the ESLint version check).
 - Data the user creates goes through `src/db/` (SQLite) first, following the sync-ready rules in docs/OFFLINE.md (phone-made UUIDs, `updated_at`, `deleted_at`, `outbox`). Schema changes = a new entry in `MIGRATIONS`.
+- Server changes = a **new** file in `supabase/migrations/` (never edit a deployed one), row-level security on every table, then `npm run db:types`. A synced field also needs `src/sync/mapping.ts` (+ its test). Only the server grants scans or Premium.
+- The app must keep working without a backend (`backendEnabled` false → prototype mocks) and offline.
+- Touching `supabase/`: also run `npm run test:db` (local stack running) and `npm run check:functions`.
 - Mocks (scan, STT, OTP, payments, dish numbers) are listed in docs/ARCHITECTURE.md → "Mocked vs real"; keep that table current.
 
 ---

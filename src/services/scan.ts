@@ -1,22 +1,46 @@
+import { FunctionsHttpError } from '@supabase/supabase-js';
+import { File } from 'expo-file-system';
 import { ImageManipulator, SaveFormat } from 'expo-image-manipulator';
 
 import type { DishId } from '@/mocks/dishes';
 import type { MealItem } from '@/domain/meal';
 
+import { ensureSession } from './auth';
+import { supabase } from './supabase';
+
 /**
  * Photo scan. Mirrors the AI scan contract in docs/PRODUCT_BRIEF.md §5.
  *
- * MOCK: no network call yet. The real version uploads the compressed photo
- * to Supabase Storage and calls the "scan" Edge Function with the
- * candidate dish list; the response has the same shape as `ScanResponse`.
+ * The compressed photo is uploaded to Storage (meal-photos/<user id>/<log id>.jpg),
+ * then the "scan" Edge Function identifies the dishes
+ * (supabase/functions/scan). Builds without a backend use the MOCK below.
  */
 
 export type ScanResponse = {
   shared_table: boolean;
-  items: { dish_id: DishId | null; qty: number; unit: string; confidence: number }[];
+  /** `dish_id` null = a food not in the catalogue (its `name` is given). */
+  items: { dish_id: DishId | null; name?: string; qty: number; unit: string; confidence: number }[];
   /** Runner-up dishes for the low-confidence picker (our extension). */
   candidates?: { dish_id: DishId; confidence: number }[];
 };
+
+/**
+ * quota  — no free scans left today (server said so); wait for tomorrow or Premium
+ * photo  — the server has no photo for this meal; upload it again
+ * busy   — this photo is being scanned right now
+ * retry  — network or server trouble; try again later
+ */
+export class ScanError extends Error {
+  constructor(
+    readonly kind: 'quota' | 'photo' | 'busy' | 'retry',
+    message: string,
+  ) {
+    super(message);
+    this.name = 'ScanError';
+  }
+}
+
+export type ScanResult = { response: ScanResponse; scansLeft: number | null };
 
 /** Below this, show PickDish instead of trusting the top match. */
 export const CONFIDENCE_THRESHOLD = 0.6;
@@ -61,11 +85,43 @@ const SCENARIOS: ScanResponse[] = [
 ];
 let next = 0;
 
-export async function scanPhoto(_photoUri: string): Promise<ScanResponse> {
+async function mockScan(): Promise<ScanResult> {
   await new Promise((r) => setTimeout(r, 1800));
-  const res = SCENARIOS[next % SCENARIOS.length];
+  const response = SCENARIOS[next % SCENARIOS.length];
   next += 1;
-  return res;
+  return { response, scansLeft: null };
+}
+
+/** Upload the meal photo for scanning; returns its path on the server. */
+export async function uploadPhoto(logId: string, photoUri: string): Promise<string> {
+  if (!supabase) return '';
+  const userId = await ensureSession();
+  const path = `${userId}/${logId}.jpg`;
+  const body = await new File(photoUri).arrayBuffer().catch(() => {
+    throw new ScanError('retry', 'photo file missing on the phone');
+  });
+  // upsert: a retried upload replaces a half-finished one.
+  const { error } = await supabase.storage.from('meal-photos').upload(path, body, { contentType: 'image/jpeg', upsert: true });
+  if (error) throw new ScanError('retry', `upload: ${error.message}`);
+  return path;
+}
+
+/** Identify the dishes in an uploaded meal photo. Safe to repeat for the same meal. */
+export async function scanPhoto(logId: string, takenAt: Date): Promise<ScanResult> {
+  if (!supabase) return mockScan();
+  const { data, error } = await supabase.functions.invoke<{ scan: ScanResponse; scans_left: number | null }>('scan', {
+    body: { log_id: logId, taken_at: takenAt.toISOString() },
+    timeout: 60_000,
+  });
+  if (error) {
+    const status = error instanceof FunctionsHttpError ? (error.context as Response).status : 0;
+    if (status === 402) throw new ScanError('quota', 'no free scans left');
+    if (status === 404) throw new ScanError('photo', 'photo not on the server');
+    if (status === 409) throw new ScanError('busy', 'already scanning');
+    throw new ScanError('retry', `scan: ${status || error.message}`);
+  }
+  if (!data) throw new ScanError('retry', 'scan: empty answer');
+  return { response: data.scan, scansLeft: data.scans_left };
 }
 
 /** Map a scan response onto log items (unknown dishes are dropped for now). */

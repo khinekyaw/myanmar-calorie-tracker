@@ -15,6 +15,7 @@ type LogRow = {
   is_shared_meal: number;
   confidence: number | null;
   candidates: string | null;
+  remote_photo: string | null;
 };
 
 type ItemRow = { log_id: string; dish_id: string; qty: number; oil: string | null; sweetness: string | null };
@@ -47,17 +48,18 @@ export function loadLogs(): LogEntry[] {
     ...(r.is_shared_meal && { isSharedMeal: true }),
     ...(r.confidence !== null && { confidence: r.confidence }),
     ...(r.candidates && { candidates: JSON.parse(r.candidates) as ScanCandidate[] }),
+    ...(r.remote_photo && { remotePhoto: r.remote_photo }),
   }));
 }
 
 export function saveLog(e: LogEntry) {
   db.withTransactionSync(() => {
     db.runSync(
-      `INSERT INTO food_logs (id, eaten_at, source, status, photo_path, is_shared_meal, confidence, candidates, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `INSERT INTO food_logs (id, eaten_at, source, status, photo_path, is_shared_meal, confidence, candidates, remote_photo, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
        ON CONFLICT(id) DO UPDATE SET eaten_at = excluded.eaten_at, source = excluded.source, status = excluded.status,
          photo_path = excluded.photo_path, is_shared_meal = excluded.is_shared_meal, confidence = excluded.confidence,
-         candidates = excluded.candidates, updated_at = excluded.updated_at`,
+         candidates = excluded.candidates, remote_photo = excluded.remote_photo, updated_at = excluded.updated_at`,
       e.id,
       e.eatenAt.toISOString(),
       e.source,
@@ -66,6 +68,7 @@ export function saveLog(e: LogEntry) {
       e.isSharedMeal ? 1 : 0,
       e.confidence ?? null,
       e.candidates ? JSON.stringify(e.candidates) : null,
+      e.remotePhoto ?? null,
       nowIso(),
     );
     db.runSync('DELETE FROM log_items WHERE log_id = ?', e.id);

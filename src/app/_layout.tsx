@@ -19,14 +19,16 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 
 import { useScanQueue } from '@/features/logging/scanQueue';
+import { useSync } from '@/sync/useSync';
 import { ThemeProvider } from '@/theme/ThemeProvider';
 import { lightTheme } from '@/theme/themes';
 
 SplashScreen.preventAutoHideAsync();
 
-/** Sends queued food photos whenever uploads are allowed. Renders nothing. */
-function ScanQueue() {
+/** Sends queued food photos and syncs with the server. Renders nothing. */
+function Background() {
   useScanQueue();
+  useSync();
   return null;
 }
 
@@ -79,7 +81,7 @@ export default function RootLayout() {
         <Stack.Screen name="edit-goal" />
         <Stack.Screen name="health" />
       </Stack>
-      <ScanQueue />
+      <Background />
     </ThemeProvider>
   );
 }

@@ -13,11 +13,6 @@ import { usePlan } from './plan';
 import { useSettings } from './settings';
 import { dayKey } from './weights';
 
-/**
- * Today's food log. In-memory for the UI prototype; the real version is
- * the offline-first SQLite queue in docs/ARCHITECTURE.md (food_logs + log_items).
- */
-
 export type LogSource = 'photo' | 'voice' | 'text' | 'search' | 'quick';
 
 /**
@@ -36,6 +31,8 @@ export type LogEntry = {
   status: LogStatus;
   items: MealItem[];
   photoUri?: string;
+  /** Where the photo is on the server, once uploaded for the scan. */
+  remotePhoto?: string;
   isSharedMeal?: boolean;
   /** Top candidates from the scan, for PickDish. */
   candidates?: ScanCandidate[];
@@ -49,6 +46,8 @@ type LogState = {
   updateEntry: (id: string, patch: Partial<LogEntry>) => void;
   removeEntry: (id: string) => void;
   quickAdd: (dishId: DishId) => void;
+  /** Re-read the database after sync wrote to it. */
+  reload: () => void;
 };
 
 /**
@@ -79,6 +78,12 @@ export const useLog = create<LogState>()((set, get) => ({
   },
   quickAdd: (dishId) => {
     get().addEntry({ source: 'quick', status: 'done', items: [{ dishId, qty: 1 }] });
+  },
+  reload: () => {
+    // A scan in flight is only "analyzing" in memory (the database copy reads
+    // back as queued), so keep those entries as they are.
+    const inFlight = new Map(get().entries.filter((e) => e.status === 'analyzing').map((e) => [e.id, e]));
+    set({ entries: loadLogs().map((e) => inFlight.get(e.id) ?? e) });
   },
 }));
 

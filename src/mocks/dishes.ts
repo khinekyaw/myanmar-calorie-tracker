@@ -27,6 +27,8 @@ export type Dish = {
   isVegetarian?: boolean;
   /** Set when the nutritionist has verified the numbers. */
   verified: boolean;
+  /** Removed from the catalogue: old meals still show it, search doesn't. */
+  retired?: boolean;
   photo?: PhotoSource;
 };
 
@@ -260,7 +262,7 @@ export function setCatalogue(list: Dish[]) {
 
 export const getDish = (id: DishId): Dish => catalogue.get(id) ?? dishes[id];
 
-export const listDishes = (): Dish[] => [...catalogue.values()];
+export const listDishes = (): Dish[] => [...catalogue.values()].filter((d) => !d.retired);
 
 /** Quick re-log chips in the add sheet. */
 export const quickRelog: DishId[] = ['tea', 'palata', 'riceCurry', 'mohinga'];

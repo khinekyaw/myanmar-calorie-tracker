@@ -59,6 +59,10 @@ const MIGRATIONS: string[] = [
   );
   CREATE TABLE meta (key TEXT PRIMARY KEY NOT NULL, value TEXT);
   `,
+  // 2 — where the photo is stored on the server (meal-photos/<user id>/<log id>.jpg)
+  `
+  ALTER TABLE food_logs ADD COLUMN remote_photo TEXT;
+  `,
 ];
 
 function migrate() {
@@ -87,11 +91,23 @@ export function newId(): string {
   });
 }
 
-export type Entity = 'food_log' | 'weight';
+/** `profile` has one row ("me"): onboarding answers, preferences and plan. */
+export type Entity = 'food_log' | 'weight' | 'profile';
+
+const outboxListeners = new Set<() => void>();
+
+/** Called after every change is queued (the sync engine pushes soon after). */
+export function onOutboxChange(listener: () => void) {
+  outboxListeners.add(listener);
+  return () => {
+    outboxListeners.delete(listener);
+  };
+}
 
 /** Record a change for the sync engine to push later. */
 export function enqueue(entity: Entity, entityId: string, op: 'upsert' | 'delete') {
   db.runSync('INSERT INTO outbox (entity, entity_id, op, created_at) VALUES (?, ?, ?, ?)', entity, entityId, op, nowIso());
+  outboxListeners.forEach((listener) => listener());
 }
 
 export function getMeta(key: string): string | null {
@@ -102,6 +118,6 @@ export function setMeta(key: string, value: string) {
   db.runSync('INSERT INTO meta (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value', key, value);
 }
 
-/** Changes not yet sent to the server (shown in Settings → Developer). */
+/** Rows with changes not yet sent to the server (shown in Settings → Developer). */
 export const pendingSyncCount = () =>
-  db.getFirstSync<{ n: number }>('SELECT COUNT(*) AS n FROM outbox')?.n ?? 0;
+  db.getFirstSync<{ n: number }>('SELECT COUNT(DISTINCT entity || entity_id) AS n FROM outbox')?.n ?? 0;

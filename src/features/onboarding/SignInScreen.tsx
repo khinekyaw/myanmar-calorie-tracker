@@ -1,9 +1,13 @@
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useRef, useState } from 'react';
 import { KeyboardAvoidingView, Pressable, TextInput, View, type TextInputInstance } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
+import { useConnectivity } from '@/lib/network';
+import { requestCode, verifyCode, type CodeRequest } from '@/services/auth';
+import { backendEnabled } from '@/services/supabase';
 import { useOnboarding } from '@/store/onboarding';
+import { scheduleSync } from '@/sync/engine';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Button, IconButton, Screen, Text } from '@/ui';
 
@@ -13,23 +17,34 @@ const CODE_LENGTH = 6;
 const normalizePhone = (raw: string) => raw.replace(/\D/g, '').replace(/^0/, '');
 const isValidPhone = (digits: string) => /^9\d{7,9}$/.test(digits);
 
+type Problem = 'errorSend' | 'errorCode' | 'offline';
+
 /**
- * Phone OTP first, Google second, skip allowed. No Facebook (blocked
- * without VPN). PLACEHOLDER: no SMS is sent yet — any 6-digit code works
- * until Supabase phone auth is connected.
+ * Phone OTP first, skip allowed (the data still syncs under an anonymous
+ * account). No Facebook (blocked without VPN). Opened from onboarding, or
+ * from Settings (`?from=settings`) to sign in later.
+ *
+ * Without a backend (prototype builds) no SMS is sent and any 6-digit code
+ * works; Google is shown only there (MOCK) until the OAuth client exists.
  */
 export function SignInScreen() {
   const { t } = useTranslation();
   const s = useStyles();
   const { theme, type } = useStyleContext();
+  const { from } = useLocalSearchParams<{ from?: string }>();
+  const { online } = useConnectivity();
   const complete = useOnboarding((st) => st.complete);
   const [phone, setPhone] = useState('');
   const [step, setStep] = useState<'phone' | 'code'>('phone');
   const [code, setCode] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [problem, setProblem] = useState<Problem | null>(null);
+  const request = useRef<CodeRequest | null>(null);
   const codeInput = useRef<TextInputInstance>(null);
 
   const digits = normalizePhone(phone);
   const finish = () => {
+    if (from === 'settings') return router.back();
     complete();
     router.dismissAll();
     router.replace('/home');
@@ -39,6 +54,42 @@ export function SignInScreen() {
     if (step === 'phone') return router.back();
     setStep('phone');
     setCode('');
+    setProblem(null);
+  };
+
+  const sendCode = async () => {
+    setProblem(null);
+    setCode('');
+    if (!backendEnabled) return setStep('code');
+    if (!online) return setProblem('offline');
+    setBusy(true);
+    try {
+      request.current = await requestCode(`+95${digits}`);
+      setStep('code');
+    } catch {
+      setProblem('errorSend');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const verify = async () => {
+    if (!backendEnabled || !request.current) return finish();
+    if (!online) return setProblem('offline');
+    setBusy(true);
+    setProblem(null);
+    try {
+      await verifyCode(request.current, code);
+      // Signing in to an existing account brings its meals and profile down.
+      scheduleSync();
+      finish();
+    } catch {
+      setProblem('errorCode');
+      setCode('');
+      codeInput.current?.focus();
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
@@ -47,13 +98,13 @@ export function SignInScreen() {
         footer={
           step === 'phone' ? (
             <View style={s.footer}>
-              <Button label={t('signIn.sendCode')} disabled={!isValidPhone(digits)} onPress={() => setStep('code')} />
-              <Button variant="secondary" label={t('signIn.google')} onPress={finish} />
+              <Button label={t('signIn.sendCode')} disabled={!isValidPhone(digits) || busy} onPress={sendCode} />
+              {!backendEnabled && <Button variant="secondary" label={t('signIn.google')} onPress={finish} />}
             </View>
           ) : (
             <View style={s.footer}>
-              <Button label={t('signIn.verify')} disabled={code.length < CODE_LENGTH} onPress={finish} />
-              <Button variant="ghost" label={t('signIn.resend')} onPress={() => setCode('')} />
+              <Button label={t('signIn.verify')} disabled={code.length < CODE_LENGTH || busy} onPress={verify} />
+              <Button variant="ghost" label={t('signIn.resend')} disabled={busy} onPress={sendCode} />
             </View>
           )
         }>
@@ -112,6 +163,12 @@ export function SignInScreen() {
             />
           </Pressable>
         )}
+
+        {problem && (
+          <Text variant="callout" accessibilityLiveRegion="polite" style={s.problem}>
+            {t(`signIn.${problem}`)}
+          </Text>
+        )}
       </Screen>
     </KeyboardAvoidingView>
   );
@@ -146,5 +203,6 @@ const useStyles = makeStyles(({ theme }) => ({
   },
   cellActive: { borderColor: theme.colors.selected },
   hiddenInput: { position: 'absolute', opacity: 0, width: 1, height: 1 },
+  problem: { marginTop: theme.space.md },
   footer: { gap: theme.space.sm },
 }));

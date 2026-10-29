@@ -36,6 +36,9 @@ export const usePlan = create<PlanState>()(
   ),
 );
 
+/** Back to the default plan (after the account is deleted). */
+export const resetPlan = () => usePlan.setState({ plan: fallback });
+
 /**
  * Recompute the plan from the saved profile, using the latest logged weight.
  * Call after anything that changes the inputs (weight log, goal, body details).

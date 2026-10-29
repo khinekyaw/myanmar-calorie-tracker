@@ -12,8 +12,9 @@ let ready = false;
 
 /**
  * Run once before the stores load (they call it from their initialisers):
- * dish catalogue, first-launch sample data, and moving weights saved by the
- * previous version (key-value store) into the database.
+ * dish catalogue, first-launch sample data (development builds only), and
+ * moving weights saved by the previous version (key-value store) into the
+ * database.
  */
 export function initDatabase() {
   if (ready) return;
@@ -22,8 +23,10 @@ export function initDatabase() {
   loadCatalogue();
 
   if (!getMeta('samples_v1')) {
-    if (countLogs() === 0) sampleLogs().forEach(saveLog);
-    if (countWeights() === 0) (legacyWeights() ?? sampleWeights()).forEach(saveWeight);
+    // Sample history is for trying the UI; release builds start empty.
+    if (__DEV__ && countLogs() === 0) sampleLogs().forEach(saveLog);
+    const legacy = legacyWeights();
+    if (countWeights() === 0) (legacy ?? (__DEV__ ? sampleWeights() : [])).forEach(saveWeight);
     setMeta('samples_v1', '1');
   }
 }
