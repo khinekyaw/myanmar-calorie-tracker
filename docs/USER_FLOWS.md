@@ -77,7 +77,7 @@ Paywall (from the camera counter, the 4th scan, or Settings): 1- or 3-month prep
 
 ## Still open (prototype limits)
 
-- Meals and the plan reset on app restart: meals are in memory, while weight and settings persist. Next step: SQLite.
+- ~~Meals reset on app restart~~ Fixed: meals, the photo queue and weights are in on-phone SQLite ([OFFLINE.md](OFFLINE.md)). Nothing syncs to a server yet.
 - Scan, speech-to-text, OTP and payments are mocks (see [Mocked vs real](ARCHITECTURE.md#mocked-vs-real)).
 - Uposatha vegetarian has no effect yet (planned: suggest vegetarian dishes first on Uposatha days).
 - Queued photos that come back low-confidence are logged with the top guess; they only ask for review when opened.

@@ -10,6 +10,8 @@ import { useTranslation } from 'react-i18next';
 import { tap } from '@/lib/haptics';
 import { formatNumber } from '@/lib/format';
 import { useConnectivity } from '@/lib/network';
+import { newId } from '@/db/database';
+import { keepPhoto } from '@/db/photos';
 import { compressPhoto } from '@/services/scan';
 import { useLog } from '@/store/log';
 import { FREE_SCANS_PER_DAY, useScanQuota, useScansLeft } from '@/store/scanQuota';
@@ -39,8 +41,11 @@ export function CameraScreen() {
   // (the scan queue picks it up); offline → back Home, where it waits.
   const afterCapture = async ({ uri, width, height }: { uri: string; width: number; height: number }) => {
     consume();
-    const photoUri = await compressPhoto(uri, width, height).catch(() => uri);
-    const id = addEntry({ source: 'photo', status: 'queued', photoUri, items: [] });
+    const compressed = await compressPhoto(uri, width, height).catch(() => uri);
+    // Keep the photo in permanent storage (not cache) so a queued scan survives restarts.
+    const id = newId();
+    const photoUri = keepPhoto(compressed, id);
+    addEntry({ id, source: 'photo', status: 'queued', photoUri, items: [] });
     if (canUpload) router.replace({ pathname: '/result', params: { id } });
     else router.back();
   };

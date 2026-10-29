@@ -1,6 +1,6 @@
 # Sar AI — App architecture
 
-Status: **UI prototype — all 22 canvas screens built**, on mock data. The scan service, speech-to-text, phone OTP and payments are mocked; the backend (Supabase) isn't built yet. See [Mocked vs real](#mocked-vs-real).
+Status: **UI prototype — all 22 canvas screens built, offline-first** (meals, photo queue and weights in on-phone SQLite; see [OFFLINE.md](OFFLINE.md)), on mock data. The scan service, speech-to-text, phone OTP and payments are mocked; the backend (Supabase) isn't built yet. See [Mocked vs real](#mocked-vs-real).
 
 ## Stack
 
@@ -17,7 +17,8 @@ Status: **UI prototype — all 22 canvas screens built**, on mock data. The scan
 | Charts | Own SVG (`LineChart`, `Ring`) | No chart library on cheap phones. |
 | Camera | **expo-camera**, expo-image-picker | Photo capture + gallery. |
 | Backend (planned) | **Supabase**: phone OTP auth, Postgres, Storage, Edge Functions | AI key stays server-side. |
-| Local DB (planned) | **expo-sqlite** | Offline queue + local dish cache + search index. |
+| Local DB | **expo-sqlite** | Source of truth: meals, photo queue, weights, dish catalogue, sync outbox ([OFFLINE.md](OFFLINE.md)). |
+| Files | **expo-file-system** | Meal photos kept in app documents (not cache). |
 | Network | **expo-network** | Online / Wi-Fi state for the offline photo queue. |
 | Photo compression | **expo-image-manipulator** | 800 px long edge, JPEG 0.7, before queueing. |
 | Notifications | **expo-notifications** | Reminder permission (scheduling comes later). |
@@ -56,9 +57,11 @@ src/
                          meal.ts (macros incl. oil & sweetness), search.ts, parseMeal.ts,
                          progress.ts (goal %, axis ticks), streak.ts
   services/            Outside-world calls. scan.ts = AI scan contract (MOCK) + photo compression
-  lib/                 Small helpers: storage, format, haptics
+  db/                  On-phone database: schema + migrations, food logs, weights, dishes, photos,
+                       first-launch init, sync outbox (see OFFLINE.md)
+  lib/                 Small helpers: storage, format, dates, haptics, network
   config/              Business config (pass prices, payment providers)
-  mocks/               Placeholder data + photos — delete when real data lands
+  mocks/               Placeholder dishes, bundled photos, first-launch sample data — replace before launch
 ```
 
 Rules:
@@ -205,7 +208,7 @@ MealItem { dishId, qty, oil?: less|normal|more, sweetness?: choSeint|pawSeint|ky
 - Nutrition is never stored on the entry; it's computed from the dish table (`domain/meal.ts → itemMacros/sumMacros`), so verified numbers from the nutritionist apply everywhere at once.
 - `useScanQueue()` (mounted once in the root layout) sends every `queued` photo when `useConnectivity().canUpload` is true — online, and on Wi-Fi if "Wi-Fi only" is on. Settings → Developer → "Simulate offline" forces offline in dev builds.
 - `confidence: 1` marks an entry the user has confirmed (PickDish, SharedMeal Save), so it doesn't re-route again.
-- The prototype keeps entries in memory; persisting them in SQLite is the next backend step.
+- Entries are saved in SQLite first (`src/db/foodLogs.ts`) and queued in `outbox` for sync; the store is an in-memory view.
 
 ## Mocked vs real
 
@@ -213,17 +216,18 @@ MealItem { dishId, qty, oil?: less|normal|more, sweetness?: choSeint|pawSeint|ky
 |---|---|---|
 | Photo scan | `services/scan.ts` cycles 3 demo answers (single dish → shared table → low confidence) after 1.8 s | Upload to Supabase Storage + Edge Function "scan" → vision model, same `ScanResponse` shape |
 | Dish data | `mocks/dishes.ts`, illustrative numbers, 15 dishes | Verified `dishes` table (200–300), cached in SQLite |
-| Food photos | Wikimedia Commons hot-links (`mocks/photos.ts`) | Our own photos |
+| Food photos | Wikimedia Commons images bundled in the app (`assets/images/dishes/`) | Our own photos (bundled + `dish-photos` bucket) |
 | Speech-to-text | Mic fills a sample sentence | Burmese STT provider (open decision); parser stays the same |
 | Phone OTP | Any 6-digit code works | Supabase phone auth + SMS provider |
 | Google sign-in | Goes straight in | Google OAuth |
 | Free-scan quota | In-memory counter | Server `scan_quota` table |
 | Payments | Pay buttons activate the pass locally (`store/premium.ts`) | KBZPay / WavePay or Play Billing (policy check first); server-side `passes` |
 | Reminders | Permission request only | Scheduled local notifications |
-| Log storage | In memory, with 6 days of sample history | SQLite (offline-first) + sync |
-| Weight history | Persisted locally, seeded with ~12 weeks of sample data | `weights` table + sync |
+| Log storage | SQLite on the phone (offline-first, sync-ready), sample history on first launch | Same, plus sync to Supabase |
+| Weight history | SQLite `weights`, ~12 weeks of sample data on first launch | Same, plus sync |
+| Sync | `outbox` filled, nothing sends yet | Push/pull engine ([BACKEND.md](BACKEND.md)) |
 
-## Data flow (planned)
+## Data flow (planned — details in [BACKEND.md](BACKEND.md))
 
 ```
 Camera ─► compress (~800px, expo-image-manipulator) ─► SQLite queue (status: queued)

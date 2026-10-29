@@ -1,6 +1,6 @@
 import type { Language } from '@/i18n/languages';
 
-import { photos } from './photos';
+import { photos, type PhotoSource } from './photos';
 
 export type LocalizedText = Record<Language, string>;
 
@@ -27,7 +27,7 @@ export type Dish = {
   isVegetarian?: boolean;
   /** Set when the nutritionist has verified the numbers. */
   verified: boolean;
-  photo?: string;
+  photo?: PhotoSource;
 };
 
 const d = (dish: Dish) => dish;
@@ -247,9 +247,20 @@ export const dishes = {
 
 export type DishId = keyof typeof dishes;
 
-export const allDishes: Dish[] = Object.values(dishes);
+/**
+ * Dishes known on this phone: the bundled list until the database copy is
+ * loaded at startup (db/dishes.ts), later updated from the server.
+ */
+const catalogue = new Map<string, Dish>(Object.entries(dishes));
 
-export const getDish = (id: DishId): Dish => dishes[id];
+export function setCatalogue(list: Dish[]) {
+  catalogue.clear();
+  for (const dish of list) catalogue.set(dish.id, dish);
+}
+
+export const getDish = (id: DishId): Dish => catalogue.get(id) ?? dishes[id];
+
+export const listDishes = (): Dish[] => [...catalogue.values()];
 
 /** Quick re-log chips in the add sheet. */
 export const quickRelog: DishId[] = ['tea', 'palata', 'riceCurry', 'mohinga'];

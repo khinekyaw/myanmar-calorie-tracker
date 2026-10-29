@@ -1,4 +1,4 @@
-import { allDishes, type Dish, type DishId } from '@/mocks/dishes';
+import { listDishes, type Dish, type DishId } from '@/mocks/dishes';
 
 /**
  * Local dish search: Burmese names, romanized spellings and loose variants.
@@ -46,7 +46,7 @@ function score(dish: Dish, query: string): number {
 
 export function searchDishes(query: string, limit = 20): Dish[] {
   if (!query.trim()) return [];
-  return allDishes
+  return listDishes()
     .map((dish) => ({ dish, s: score(dish, query.trim()) }))
     .filter((r) => r.s > 0)
     .sort((a, b) => b.s - a.s)

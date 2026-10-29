@@ -3,6 +3,10 @@ import { create } from 'zustand';
 import { carbsToRicePlates, sumMacros, type MealItem } from '@/domain/meal';
 import type { DishId } from '@/mocks/dishes';
 
+import { initDatabase } from '@/db/init';
+import { newId } from '@/db/database';
+import { deleteLog, loadLogs, saveLog } from '@/db/foodLogs';
+import { deletePhoto } from '@/db/photos';
 import { streakDays } from '@/domain/streak';
 
 import { usePlan } from './plan';
@@ -40,64 +44,42 @@ export type LogEntry = {
 
 type LogState = {
   entries: LogEntry[];
-  addEntry: (entry: Omit<LogEntry, 'id' | 'eatenAt'> & { eatenAt?: Date }) => string;
+  /** Pass `id` when it must be known first (e.g. to name the photo file). */
+  addEntry: (entry: Omit<LogEntry, 'id' | 'eatenAt'> & { id?: string; eatenAt?: Date }) => string;
   updateEntry: (id: string, patch: Partial<LogEntry>) => void;
   removeEntry: (id: string) => void;
   quickAdd: (dishId: DishId) => void;
 };
 
-const at = (h: number, m: number, daysAgo = 0) => {
-  const d = new Date();
-  d.setDate(d.getDate() - daysAgo);
-  d.setHours(h, m, 0, 0);
-  return d;
-};
-
-/** ILLUSTRATIVE history for the last 6 days, so the week strip and charts have data. */
-const HISTORY: [DishId, number, number][][] = [
-  [['mohinga', 7, 30], ['tea', 10, 0], ['riceCurry', 19, 0]],
-  [['palata', 8, 0], ['tea', 8, 5], ['riceCurry', 13, 0], ['riceCurry', 19, 30]],
-  [['nanbyaPePyote', 7, 45], ['laphetThoke', 15, 0], ['riceCurry', 19, 15]],
-  [['mohinga', 7, 20], ['tea', 16, 0], ['samusa', 16, 5], ['riceCurry', 19, 0]],
-  [['palata', 8, 30], ['riceCurry', 12, 45], ['riceCurry', 20, 0]],
-  [['mohinga', 7, 50], ['tea', 9, 30], ['riceCurry', 18, 45]],
-];
-
-const history: LogEntry[] = HISTORY.flatMap((day, i) =>
-  day.map(([dishId, h, m], j) => ({
-    id: `h${i}-${j}`,
-    eatenAt: at(h, m, i + 1),
-    source: 'photo' as const,
-    status: 'done' as const,
-    items: [{ dishId, qty: 1 }],
-  })),
-);
-
-let seq = 100;
-const newId = () => `${Date.now()}-${seq++}`;
-
-export const useLog = create<LogState>()((set) => ({
-  entries: [
-    { id: '3', eatenAt: at(12, 30), source: 'photo', status: 'done', items: [{ dishId: 'laphetThoke', qty: 1 }] },
-    { id: '2', eatenAt: at(8, 10), source: 'quick', status: 'done', items: [{ dishId: 'tea', qty: 1, sweetness: 'pawSeint' }] },
-    { id: '1', eatenAt: at(7, 40), source: 'photo', status: 'done', items: [{ dishId: 'mohinga', qty: 1 }] },
-    ...history,
-  ],
+/**
+ * In-memory view of the food log. The on-phone database is the source of
+ * truth: every change is written there first (and queued for sync), so meals
+ * and queued photos survive closing the app and work fully offline.
+ */
+export const useLog = create<LogState>()((set, get) => ({
+  entries: (initDatabase(), loadLogs()),
   addEntry: (entry) => {
-    const id = newId();
-    set((s) => ({ entries: [{ ...entry, id, eatenAt: entry.eatenAt ?? new Date() }, ...s.entries] }));
-    return id;
+    const full: LogEntry = { ...entry, id: entry.id ?? newId(), eatenAt: entry.eatenAt ?? new Date() };
+    saveLog(full);
+    set((s) => ({ entries: [full, ...s.entries] }));
+    return full.id;
   },
-  updateEntry: (id, patch) =>
-    set((s) => ({ entries: s.entries.map((e) => (e.id === id ? { ...e, ...patch } : e)) })),
-  removeEntry: (id) => set((s) => ({ entries: s.entries.filter((e) => e.id !== id) })),
-  quickAdd: (dishId) =>
-    set((s) => ({
-      entries: [
-        { id: newId(), eatenAt: new Date(), source: 'quick', status: 'done', items: [{ dishId, qty: 1 }] },
-        ...s.entries,
-      ],
-    })),
+  updateEntry: (id, patch) => {
+    const current = get().entries.find((e) => e.id === id);
+    if (!current) return;
+    const next = { ...current, ...patch };
+    saveLog(next);
+    set((s) => ({ entries: s.entries.map((e) => (e.id === id ? next : e)) }));
+  },
+  removeEntry: (id) => {
+    const current = get().entries.find((e) => e.id === id);
+    deleteLog(id);
+    deletePhoto(current?.photoUri);
+    set((s) => ({ entries: s.entries.filter((e) => e.id !== id) }));
+  },
+  quickAdd: (dishId) => {
+    get().addEntry({ source: 'quick', status: 'done', items: [{ dishId, qty: 1 }] });
+  },
 }));
 
 export const useEntry = (id: string | undefined) => useLog((s) => s.entries.find((e) => e.id === id));

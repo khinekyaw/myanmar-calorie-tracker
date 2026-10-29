@@ -5,13 +5,14 @@ import type { ReactNode } from 'react';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import type { PhotoSource } from '@/mocks/photos';
 import { makeStyles } from '@/theme/ThemeProvider';
 
 import { type IconName } from './icons/Icon';
 import { IconButton } from './IconButton';
 
 type Props = {
-  photo?: string;
+  photo?: PhotoSource;
   backLabel: string;
   children: ReactNode;
   /** Pinned under the content (buttons). */

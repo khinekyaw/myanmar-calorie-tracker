@@ -5,6 +5,16 @@ Product-level decisions from the handoff are in [PRODUCT_BRIEF.md](PRODUCT_BRIEF
 
 ---
 
+## 2026-10-30 — Offline-first storage; backend plan agreed
+
+- **The phone's SQLite database is the source of truth** (`src/db/`): `food_logs`, `log_items`, `weights`, `dishes`, `outbox`, `meta`. Stores load from it at startup and write every change to it first. Rows are sync-ready: UUIDs made on the phone, `updated_at`, tombstones via `deleted_at`, and an `outbox` entry per change. Details: [OFFLINE.md](OFFLINE.md).
+- **Meal photos** move from the cache folder (Android can clear it) to app documents (`meal-photos/<log id>.jpg`), so queued scans survive restarts. Added `expo-file-system`.
+- **Dish photos are bundled** instead of hot-linked, so they show offline.
+- **Free-scan count** is saved per day (closing the app no longer resets it).
+- **Dish catalogue** is stored in the database (seeded from the bundled list, versioned) so the server can update it later without an app release.
+- Previous builds' weights (key-value store) are migrated into the database on first launch.
+- **Backend:** hosted Supabase (Singapore), SQL + TypeScript Edge Functions, phased plan in [BACKEND.md](BACKEND.md). Offline-first was built first because the phone is the source of truth and it fixed the data-loss gap without any accounts.
+
 ## 2026-10-30 — Polish: day circle, protein icon, badges
 
 - The selected week day was a fill on top of an invisible dashed border, and the dashes left a jagged edge. Each look (selected / logged / plain) now mounts as its own view (keyed), so the selected day is a clean solid circle.

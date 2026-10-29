@@ -1,4 +1,4 @@
-import { allDishes, getDish, type DishId } from '@/mocks/dishes';
+import { getDish, listDishes, type DishId } from '@/mocks/dishes';
 
 import type { MealItem, Sweetness } from './meal';
 import { normalizeMy, normalizeRoman } from './search';
@@ -30,7 +30,7 @@ type Hit = { dishId: DishId; index: number; end: number };
 function findHits(text: string): Hit[] {
   const lower = text.toLowerCase();
   const hits: Hit[] = [];
-  for (const dish of allDishes) {
+  for (const dish of listDishes()) {
     const names = [dish.name.my, ...dish.aliasesMy, dish.name.en.toLowerCase(), ...dish.aliasesRoman];
     // Longest alias first so "laphet yay" wins over "laphet".
     for (const name of [...names].sort((a, b) => b.length - a.length)) {

@@ -4,7 +4,7 @@ import { Pressable, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { popularDishes } from '@/domain/search';
-import { allDishes, getDish, type DishId } from '@/mocks/dishes';
+import { getDish, listDishes, type DishId } from '@/mocks/dishes';
 import { useEntry, useLog } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Badge, Button, Icon, PhotoSheet, Text } from '@/ui';
@@ -12,7 +12,7 @@ import { Badge, Button, Icon, PhotoSheet, Text } from '@/ui';
 /** Options when the scan gave no runner-ups ("Fix" on a confident scan): same serving unit first. */
 function fallbackOptions(current?: DishId): DishId[] {
   const unit = current && getDish(current).unit;
-  const sameUnit = allDishes.filter((d) => d.unit === unit).map((d) => d.id as DishId);
+  const sameUnit = listDishes().filter((d) => d.unit === unit).map((d) => d.id as DishId);
   return [...new Set([...(current ? [current] : []), ...sameUnit, ...popularDishes])];
 }
 

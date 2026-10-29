@@ -6,6 +6,9 @@ Read these before changing anything:
 - `docs/PRODUCT_BRIEF.md` — what we're building and why (handoff).
 - `docs/ARCHITECTURE.md` — stack, folders, theming, typography, i18n, data flow.
 - `docs/DECISIONS.md` — decision log. **Add an entry when you make a non-obvious choice.**
+- `docs/OFFLINE.md` — on-phone database (source of truth), sync-ready rules.
+- `docs/BACKEND.md` — Supabase plan and phases (next step).
+- `docs/USER_FLOWS.md` — how people use the app; known gaps.
 - Design canvas (22 screens): https://claude.ai/artifact/DYDw9tRFavDJruN3XiGX6M
 
 ## Project rules
@@ -21,6 +24,7 @@ Read these before changing anything:
 - Nutrition numbers in `src/mocks/` are illustrative; never present them as verified.
 - Check layouts at 360 dp wide in **both** languages.
 - Before calling work done: `npm run typecheck`, `npm run lint`, `npm test` (the `expo lint` wrapper currently fails on the ESLint version check).
+- Data the user creates goes through `src/db/` (SQLite) first, following the sync-ready rules in docs/OFFLINE.md (phone-made UUIDs, `updated_at`, `deleted_at`, `outbox`). Schema changes = a new entry in `MIGRATIONS`.
 - Mocks (scan, STT, OTP, payments, dish numbers) are listed in docs/ARCHITECTURE.md → "Mocked vs real"; keep that table current.
 
 ---

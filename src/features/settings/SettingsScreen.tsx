@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { LANGUAGE_SHORT, LANGUAGES } from '@/i18n/languages';
 import { formatDayLabel } from '@/lib/format';
 import { useOnboarding } from '@/store/onboarding';
+import { pendingSyncCount } from '@/db/database';
 import { useIsPremium, usePremium } from '@/store/premium';
 import { useScanQuota } from '@/store/scanQuota';
 import { useSettings } from '@/store/settings';
@@ -123,6 +124,11 @@ export function SettingsScreen() {
               onValueChange={(on) => (on ? activatePremium(1) : cancelPremium())}
             />
             <ListRow kind="link" label="Reset free scans" onPress={resetScans} />
+            <ListRow
+              kind="custom"
+              label="Changes waiting to sync"
+              right={<Text variant="numberSm">{pendingSyncCount()}</Text>}
+            />
             <ListRow
               kind="link"
               label="Restart onboarding"
