@@ -183,6 +183,10 @@ Real Myanmar dishes (mohinga, laphet thoke, tea, palata, shared table) instead o
 
 The streak pill on Home shows an orange fire that flickers (`ui/StreakFlame.tsx`), asked for by the team: a small reward for logging every day. It's the one decorative colour outside nutrients and BMI, kept to that pill only (the calorie ring keeps the ink outline flame). Grey and still when the streak is 0; still when Android's "remove animations" is on. Runs on the UI thread with Reanimated, so it costs nothing on cheap phones' JS thread.
 
+## Milestones: badges worked out on the phone (2026-10-31)
+
+25 badges in six groups (streaks, logging, ways to log, Myanmar favourites, balance, body), list and art prompt in [BADGES.md](BADGES.md). They're computed from data already on the phone each time the screen opens (`domain/badges.ts`), not stored or synced: no schema change, offline, and a second phone shows the same badges because the meals sync. Streak and weight badges use the best ever reached so they're never lost; deleting meals can lower counts. Badge art is the second exception to "colour only on nutrients": full colour when earned, faded greyscale (a view `filter`) when locked, so only one picture per badge is needed. The art is SVG, loaded as an asset by expo-image; generated pictures are traced to SVG with open-source vtracer (`scripts/trace_badges.py`) rather than a paid Figma plan. Art style is deliberately not Cal AI's glossy 3D shields: one soft-shaded object per badge (same family as the streak fire), no frame, no digits, on the app's grey circle with the number in an ink pill drawn by the app. Gold lacquerware medallions were tried and dropped: too ornate and too gold for the app. The "badges earned" hero is a holographic coin drawn in code (`DiamondBadge.tsx`, colours in `colors.holo`), not a generated or traced picture. Not yet: a "you earned a badge" moment after logging.
+
 ## Tests for domain logic only (for now)
 
 Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, meal parsing, search). UI is checked on the emulator. Component tests can come once screens stop changing. Note: TypeScript 6 no longer loads global types automatically, so `tsconfig.json` lists `"types": ["jest"]`.
@@ -190,6 +194,7 @@ Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, mea
 ## Copy review
 
 All Burmese strings in `src/i18n/locales/my.ts` need native-speaker review. New strings not on the canvas (please check first):
+Batch 4 (milestones): every `milestones.*` string — screen title ဆုတံဆိပ်, the 25 badge names (e.g. မီးပွား စပြီ, လပြည့်, သင်္ကြန်မှ သင်္ကြန်, လက်ဖက်ရည်ဆိုင် ဖောက်သည်) and their rules.
 Batch 3 (backend): `signIn.errorSend` (ကုဒ် ပို့လို့ မရဘူး), `signIn.errorCode` (ကုဒ် မှားနေတယ်), `signIn.offline` (အင်တာနက် မရှိဘူး), `settings.phone` / `signIn` / `deleteAccount` / `deleteTitle` / `deleteConfirm` / `deleteFailed`, `common.retry` (ပြန်စမ်းမယ်).
 Batch 2 adds (not on the canvas): `target.reachBy` ({{date}} ဆို ရောက်မယ်), `signIn.codeTitle/resend/verify`, `result.analyzing/verified/estimate/oil*`, `shared.addMore`, `textLog.*` (incl. the sample sentence), `search.empty`, `queue.*`, `home.caloriesOver` (ကယ်လိုရီ ကျော်), the `units.*` classifiers (ပန်းကန် / ပွဲ / ဇွန်း / ခု / ခွက်), and Burmese month names in `lib/format.ts`.
 Batch 1: `welcome.signIn` was on canvas; new ones: `camera.permissionTitle`, `camera.permissionAllow`, `progress.bmiUnder/Normal/Over/Obese` (အလေးချိန် နည်း / ပုံမှန် / အလေးချိန် များ / အဝလွန်), `paywall.bestValue` (ပိုတန်တယ်), `settings.sectionGoals/Daily/App`, `common.close` (ပိတ်မယ်), `home.today`.

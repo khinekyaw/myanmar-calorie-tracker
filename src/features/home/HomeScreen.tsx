@@ -5,11 +5,12 @@ import { useTranslation } from 'react-i18next';
 
 import { formatDayLabel, formatNumber, formatPlates } from '@/lib/format';
 import { useConnectivity } from '@/lib/network';
-import { useDaySummary, useLog, useStreak } from '@/store/log';
+import { useDaySummary, useLog } from '@/store/log';
 import { dayKey } from '@/store/weights';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
-import { Card, Icon, Logo, Ring, StreakFlame, Text } from '@/ui';
+import { Card, Icon, Logo, Ring, Text } from '@/ui';
 
+import { StreakPill } from '../milestones/StreakPill';
 import { MealRow } from './components/MealRow';
 import { NutrientCard } from './components/NutrientCard';
 import { WeekStrip } from './components/WeekStrip';
@@ -22,7 +23,6 @@ export function HomeScreen() {
   const day = useDaySummary(selectedDay);
   const allEntries = useLog((st) => st.entries);
   const loggedDays = new Set(allEntries.filter((e) => e.status === 'done').map((e) => dayKey(e.eatenAt)));
-  const streak = useStreak();
   const isToday = dayKey(selectedDay) === dayKey(new Date());
   const { online } = useConnectivity();
 
@@ -43,10 +43,7 @@ export function HomeScreen() {
                 </Text>
               </View>
             )}
-            <View style={s.streak} accessible accessibilityLabel={t('home.streak', { count: streak })}>
-              <StreakFlame size={20} active={streak > 0} />
-              <Text variant="numberSm">{formatNumber(streak, language)}</Text>
-            </View>
+            <StreakPill />
           </View>
         </View>
 
@@ -127,15 +124,6 @@ const useStyles = makeStyles(({ theme }) => ({
     paddingHorizontal: theme.space.md,
     borderRadius: theme.radius.pill,
     backgroundColor: theme.colors.primary,
-  },
-  streak: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: theme.space.xs,
-    height: 36,
-    paddingHorizontal: theme.space.md,
-    borderRadius: theme.radius.pill,
-    backgroundColor: theme.colors.surface,
   },
   kcalCard: {
     marginTop: theme.space.lg,

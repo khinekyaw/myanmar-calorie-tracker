@@ -107,7 +107,7 @@ Styles are memoised and rebuilt only when the theme or language changes.
 | **No borders on cards or options.** Separation comes from fill: grey `surface` on white, white on grey. Hairlines only divide list rows (Settings, SharedMeal) and the tab bar. | `Card`, `OptionCard`, `Chip` have no border variants. |
 | **Selected = solid ink with white text**; unselected = `surface` grey. Same for options, chips, segments, pass cards, days. | `selected` / `onSelected` tokens. |
 | **Primary is brand black `#111217`** for nearly everything. **Accent is brand gold `#DEA84A`**, used sparingly: Premium (sparkle, paywall badge, "Best value"), the plan-ready check, and the logo for Premium members only. Gold is never text on white (2:1) and never near nutrient indicators. | `colors.primary`, `colors.accent` / `onAccent` / `accentSoft`. |
-| **Colour only on nutrient indicators** (rice amber + plate, protein coral + drumstick, fat violet + oil bottle), the BMI scale and the animated streak fire on Home. | `colors.nutrient`, `colors.bmi`, `colors.streak` (`ui/StreakFlame.tsx`). |
+| **Colour only on nutrient indicators** (rice amber + plate, protein coral + drumstick, fat violet + oil bottle), the BMI scale, the animated streak fire and earned badge art. | `colors.nutrient`, `colors.bmi`, `colors.streak` (`ui/StreakFlame.tsx`); badge art lives in `assets/badges/`. |
 | **Shadows only** on the floating + button, bottom sheets and floating chips. | `shadow.*` tokens. |
 | **Press feedback:** grey options darken to `surfaceStrong`; everything else fades to `opacity.pressed` (0.7). Disabled = `opacity.disabled` (0.35). | `theme.opacity`. |
 | **One page gutter** (`theme.gutter`, 16) on every screen. | `Screen`, tab screens, `PhotoSheet`, `AddSheet`. |
@@ -189,6 +189,7 @@ Tune per language in `scripts.my` / `scripts.en`: `lineHeight`, `sizeScale`, `mi
 | + | (new) Log weight | `/log-weight` | `features/progress/LogWeightScreen.tsx` |
 | + | (new) Edit goal | `/edit-goal` | `features/progress/EditGoalScreen.tsx` |
 | + | (new) Health | `/health` | `features/settings/HealthScreen.tsx` |
+| + | (new) Milestones | `/milestones` | `features/milestones/MilestonesScreen.tsx` (from the streak pill; badges in [BADGES.md](BADGES.md)) |
 
 How people move through these screens: [USER_FLOWS.md](USER_FLOWS.md).
 

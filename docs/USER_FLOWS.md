@@ -51,6 +51,10 @@ Progress tab:
 - **BMI** (Asian cut-offs 18.5 / 23 / 27.5) from the latest weight and height; *Add height* if missing.
 - Streak in the corner: days in a row with a logged meal (a feast day counts).
 
+## 6b. Milestones
+
+Home or Progress → tap the streak pill (fire + days) → Milestones: current streak, badges earned, longest streak, then 25 badges by group; earned ones in colour, the rest greyed. Tap a badge → sheet with what it takes and the day it was earned, or a progress bar ("3 / 7"). List in [BADGES.md](BADGES.md).
+
 ## 7. Settings
 
 Premium (paywall) · **Phone number** (*Sign in* when not signed in; the number once signed in) · **Goals** (= Edit goal) · **Health** (blood sugar / pressure, sex, birth year, height) · Uposatha vegetarian · Feast day · Reminders · Wi-Fi only · Language · **Delete account** (confirm sheet; removes everything on the server and the phone, back to Welcome). Phone number and Delete account appear only with a backend. Dev builds also show Simulate offline, Premium (mock), Reset free scans, Changes waiting to sync, Sync now, Restart onboarding.

@@ -6,12 +6,12 @@ import { useTranslation } from 'react-i18next';
 
 import { goalProgress } from '@/domain/progress';
 import { formatDayLabel, formatNumber, formatShortDate } from '@/lib/format';
-import { useStreak } from '@/store/log';
 import { useOnboarding } from '@/store/onboarding';
 import { fromDayKey, series, useWeights, type Metric } from '@/store/weights';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
-import { Button, Card, Icon, Segmented, Text } from '@/ui';
+import { Button, Card, Segmented, Text } from '@/ui';
 
+import { StreakPill } from '../milestones/StreakPill';
 import { BmiCard } from './components/BmiCard';
 import { LineChart } from './components/LineChart';
 import { WeekCalories } from './components/WeekCalories';
@@ -32,7 +32,6 @@ export function ProgressScreen() {
   const entries = useWeights((st) => st.entries);
   const goal = useOnboarding((st) => st.goal);
   const target = useOnboarding((st) => st.targetWeightLb);
-  const streak = useStreak();
 
   const all = series(entries, metric).map((p) => ({ date: fromDayKey(p.day), value: p.value }));
   // Period counts back from the latest entry (keeps render pure; no Date.now()).
@@ -57,10 +56,7 @@ export function ProgressScreen() {
           <Text variant="title" accessibilityRole="header">
             {t('progress.title')}
           </Text>
-          <View style={s.streak} accessible accessibilityLabel={t('home.streak', { count: streak })}>
-            <Icon name="flame" size={16} strokeWidth={2} />
-            <Text variant="numberSm">{formatNumber(streak, language)}</Text>
-          </View>
+          <StreakPill />
         </View>
 
         <Card size="md" style={s.row}>
@@ -180,15 +176,6 @@ const useStyles = makeStyles(({ theme }) => ({
     justifyContent: 'space-between',
     marginTop: theme.space.lg,
     marginBottom: theme.space.sm,
-  },
-  streak: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: theme.space.xs,
-    height: 36,
-    paddingHorizontal: theme.space.md,
-    borderRadius: theme.radius.pill,
-    backgroundColor: theme.colors.surface,
   },
   row: { flexDirection: 'row', alignItems: 'center', gap: theme.space.md },
   chartCard: { gap: theme.space.md },

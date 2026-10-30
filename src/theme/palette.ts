@@ -34,6 +34,18 @@ export const palette = {
   flameYellow: '#F7D488',
   flameYellowLight: '#FCEAB0',
 
+  /** Holographic "badges earned" coin on Milestones. */
+  holoPink: '#F4B4D6',
+  holoLavender: '#CBB8F3',
+  holoBlue: '#AED3F7',
+  holoMint: '#AEE7D0',
+  holoPeach: '#F8D2AC',
+  holoYellow: '#F3E7A8',
+  holoRim: '#D6C2EE',
+  holoEmblem: '#F1B9D5',
+  holoEmblemLight: '#FBE1EE',
+  holoEdge: '#DDA0C2',
+
   /** Brand gold (from the logo) and its cream. */
   gold: '#DEA84A',
   cream: '#FCF8F2',

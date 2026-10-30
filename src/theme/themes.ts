@@ -69,6 +69,23 @@ export const lightTheme = {
       innerBottom: palette.flameYellow,
       inactive: palette.gray400,
     },
+    /** Holographic "badges earned" coin on Milestones. */
+    holo: {
+      facets: [
+        palette.holoPink,
+        palette.holoLavender,
+        palette.holoBlue,
+        palette.holoMint,
+        palette.holoYellow,
+        palette.holoPeach,
+      ],
+      base: palette.white,
+      rim: palette.holoRim,
+      emblem: palette.holoEmblem,
+      emblemLight: palette.holoEmblemLight,
+      edge: palette.holoEdge,
+      shine: palette.white,
+    },
     bmi: {
       under: palette.blue,
       normal: palette.green,
