@@ -52,8 +52,9 @@ export const palette = {
   googleYellow: '#FBBC05',
   googleGreen: '#34A853',
 
-  /** Brand gold (from the logo) and its cream. */
+  /** Brand gold (from the logo), its light tint (Premium surfaces) and cream. */
   gold: '#DEA84A',
+  goldLight: '#F7ECD4',
   cream: '#FCF8F2',
 
   // Translucent overlays

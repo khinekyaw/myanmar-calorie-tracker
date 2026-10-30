@@ -348,6 +348,7 @@ const my: Translations = {
     month3: '3 လ',
     bestValue: 'ပိုတန်တယ်',
     price: '{{price}} ကျပ်',
+    perMonth: 'တစ်လ ≈ {{price}} ကျပ်',
     noAutoRenew: 'အလိုအလျောက် ငွေ မဖြတ်ဘူး',
   },
 };

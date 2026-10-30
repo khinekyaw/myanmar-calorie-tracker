@@ -31,7 +31,8 @@ export const lightTheme = {
      */
     accent: palette.gold,
     onAccent: palette.ink,
-    accentSoft: palette.cream,
+    /** Light gold behind Premium (Settings row, paywall tile); ink text on it. */
+    accentSoft: palette.goldLight,
     selected: palette.ink,
     onSelected: palette.white,
     switchOff: palette.gray300,

@@ -345,6 +345,7 @@ const en = {
     month3: '3 months',
     bestValue: 'Best value',
     price: '{{price}} Ks',
+    perMonth: '≈ {{price}} Ks a month',
     noAutoRenew: 'No auto-renew',
   },
 };

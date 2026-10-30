@@ -45,7 +45,7 @@ Supabase project in `supabase/` (migrations, functions, pgTAP tests); app side i
 ## 2026-10-30 — Brand colours: black #111217, gold accent; gold logo = Premium
 
 - **Primary** black is now `#111217` (was `#0A0A0A`); it's still used for almost everything.
-- **Accent** gold `#DEA84A` (sampled from the user's logo artwork, with cream `#FCF8F2`) is for brand and premium moments only: the Premium sparkle in Settings, the paywall badge and "Best value" tag, and the plan-ready check. Ink text sits on gold (white on gold fails contrast). Gold stays away from nutrient indicators, because rice amber `#F5A524` is a similar hue.
+- **Accent** gold `#DEA84A` (sampled from the user's logo artwork, with cream `#FCF8F2`) is for brand and premium moments only: the gold logo for Premium (Settings row, paywall tile on ink; it replaced a sparkle icon on 2026-10-31), the "Best value" tag, and the plan-ready check. Ink text sits on gold (white on gold fails contrast). Gold stays away from nutrient indicators, because rice amber (now `#EDB75A`) is a similar hue.
 - **Logo:** black for everyone; **gold only for Premium members** (user's call), so the gold mark doubles as a membership signal.
 - **Premium state** (`store/premium.ts`): a prepaid pass with an end date. Buying on the paywall activates it (MOCK, no payment yet); a new pass extends an active one. Premium hides the free-scan counter and lifts the 3-a-day limit. Settings shows "Active until …". Dev builds: Settings → Developer → "Premium (mock)".
 
@@ -193,6 +193,10 @@ The streak pill on Home shows an orange fire that flickers (`ui/StreakFlame.tsx`
 
 The Waist tab on Log weight and the weight ↔ waist switch on the Progress chart are removed from the UI to keep Progress simple. The data layer is unchanged: `weights.waist_in` on the phone, `waist_cm` on the server, sync mapping and the `progress.waist` / `logWeight.titleWaist` strings all stay, so bringing it back is a UI change only. Dev sample data still includes waist rows.
 
+## Premium in light gold, not black (2026-10-31)
+
+The black Premium row in Settings and the black selected pass on the paywall read like warnings, not a perk. Premium surfaces now use light gold `accentSoft` (`#F7ECD4`) with ink text: the Settings row (gold logo in a white tile, subtitle = Premium end date, or "Unlimited photo scans" before buying), the paywall's logo tile, and the selected pass (gold check). The KBZPay / WavePay buttons stay ink as the main action.
+
 ## Tests for domain logic only (for now)
 
 Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, meal parsing, search). UI is checked on the emulator. Component tests can come once screens stop changing. Note: TypeScript 6 no longer loads global types automatically, so `tsconfig.json` lists `"types": ["jest"]`.
@@ -200,6 +204,7 @@ Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, mea
 ## Copy review
 
 All Burmese strings in `src/i18n/locales/my.ts` need native-speaker review. New strings not on the canvas (please check first):
+Batch 7 (paywall): `paywall.perMonth` (တစ်လ ≈ {{price}} ကျပ်).
 Batch 6 (week strip): `home.dayOnTarget` (ကယ်လိုရီ ကိုက်, screen readers only).
 Batch 5 (Google sign-in): `signIn.google` (Google နဲ့ ဝင်မယ်), `signIn.or` (ဒါမှမဟုတ်), `signIn.errorGoogle` (Google နဲ့ ဝင်လို့ မရဘူး), `settings.account` (အကောင့်).
 Batch 4 (milestones): every `milestones.*` string — screen title ဆုတံဆိပ်, the 25 badge names (e.g. မီးပွား စပြီ, လပြည့်, သင်္ကြန်မှ သင်္ကြန်, လက်ဖက်ရည်ဆိုင် ဖောက်သည်) and their rules.
@@ -210,7 +215,7 @@ Batch 1: `welcome.signIn` was on canvas; new ones: `camera.permissionTitle`, `ca
 ## Open
 
 - Food data source and the ~260 kcal per rice-plate constant (`domain/nutrition.ts`, marked PLACEHOLDER).
-- Pass prices (`config/pricing.ts`, `[PRICE]`).
+- Pass prices: MOCK 4,900 Ks (1 month) and 12,900 Ks (3 months) in `config/pricing.ts`, shown with "≈ 4,300 Ks a month" on the 3-month pass; not decided.
 - Payments: KBZPay/WavePay vs Google Play Billing — check Play policy before building.
 - Vision model and effort for the scan Edge Function (default `claude-opus-5-5`, low effort; decide with ~100 labelled photos).
 - SMS provider (or Send SMS hook to a Myanmar gateway) for +95 OTP.

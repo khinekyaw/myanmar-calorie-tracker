@@ -16,7 +16,7 @@ import { useSettings } from '@/store/settings';
 import { deleteAccountAndData } from '@/sync/account';
 import { syncNow } from '@/sync/engine';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
-import { ConfirmSheet, Icon, ListRow, Segmented, Text } from '@/ui';
+import { ConfirmSheet, Icon, ListRow, Logo, Segmented, Text } from '@/ui';
 
 /** "959123456789" → "+95 9123456789" */
 const formatPhone = (e164: string) => `+${e164.slice(0, 2)} ${e164.slice(2)}`;
@@ -64,19 +64,17 @@ export function SettingsScreen() {
           onPress={() => router.push('/paywall')}
           style={({ pressed }) => [s.premium, pressed && s.pressed]}>
           <View style={s.premiumIcon}>
-            <Icon name="sparkle" size={20} color={theme.colors.accent} />
+            <Logo size={22} color={theme.colors.accent} />
           </View>
           <View style={s.flex}>
-            <Text variant="bodyStrong" tone="inverse">
-              {t('settings.premium')}
+            <Text variant="bodyStrong">{t('settings.premium')}</Text>
+            <Text variant="caption" tone="muted">
+              {premiumUntil
+                ? t('settings.premiumUntil', { date: formatDayLabel(new Date(premiumUntil), language) })
+                : t('paywall.unlimitedScans')}
             </Text>
-            {premiumUntil && (
-              <Text variant="caption" tone="inverse" style={s.premiumUntil}>
-                {t('settings.premiumUntil', { date: formatDayLabel(new Date(premiumUntil), language) })}
-              </Text>
-            )}
           </View>
-          <Icon name="chevronRight" size={20} color={theme.colors.onPrimary} />
+          <Icon name="chevronRight" size={20} color={theme.colors.iconMuted} />
         </Pressable>
 
         <Section title={t('settings.sectionGoals')}>
@@ -237,7 +235,7 @@ const useStyles = makeStyles(({ theme }) => ({
     minHeight: 64,
     paddingHorizontal: theme.space.lg,
     borderRadius: theme.radius.lg,
-    backgroundColor: theme.colors.primary,
+    backgroundColor: theme.colors.accentSoft,
     flexDirection: 'row',
     alignItems: 'center',
     gap: theme.space.md,
@@ -246,10 +244,9 @@ const useStyles = makeStyles(({ theme }) => ({
     width: 36,
     height: 36,
     borderRadius: theme.radius.sm,
-    backgroundColor: theme.colors.onInkSubtle,
+    backgroundColor: theme.colors.background,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  premiumUntil: { opacity: 0.7 },
   section: { marginTop: theme.space.xxl, gap: theme.space.xs },
 }));
