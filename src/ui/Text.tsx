@@ -2,7 +2,7 @@ import { Text as RNText, type TextProps as RNTextProps } from 'react-native';
 
 import { useStyleContext } from '@/theme/ThemeProvider';
 import type { Theme } from '@/theme/themes';
-import { buildTypeScale, type TextVariant } from '@/theme/typography';
+import { buildTypeScale, burmeseWordsScale, isNumberVariant, type TextVariant } from '@/theme/typography';
 
 type Tone = 'default' | 'muted' | 'subtle' | 'inverse';
 
@@ -31,11 +31,17 @@ const MYANMAR = /[\u1000-\u109F\uAA60-\uAA7F\uA9E0-\uA9FF]/;
  * Plain strings in the "other" script follow their own script: Burmese inside
  * the English UI ("မြန်မာ" in the switcher) gets the Burmese font and metrics,
  * and Latin-only strings inside the Burmese UI ("Premium", "KBZPay") get Inter.
+ * A number style holding Burmese words gets the Burmese font at the same size.
  */
 export function Text({ variant = 'body', tone = 'default', color, align, style, children, ...rest }: TextProps) {
   const { theme, type, language } = useStyleContext();
   const script = typeof children === 'string' ? (MYANMAR.test(children) ? 'my' : 'en') : language;
-  const scale = script === language ? type : buildTypeScale(script);
+  const scale =
+    typeof children === 'string' && script === 'my' && isNumberVariant(variant)
+      ? burmeseWordsScale()
+      : script === language
+        ? type
+        : buildTypeScale(script);
   return (
     <RNText
       {...rest}

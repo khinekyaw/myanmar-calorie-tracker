@@ -42,7 +42,7 @@ src/
     shared-meal.tsx    ဝိုင်းစား editor (?id=)
     text-log.tsx       Voice / text logging (?id= to fix a scan)
     search.tsx         Food search (?addTo= to add to a meal)
-    log-weight.tsx     Log weight or waist (modal, ?metric=)
+    log-weight.tsx     Log weight (modal; waist hidden for now)
     edit-goal.tsx      Change goal, target, pace
     health.tsx         Health conditions + body details
     paywall.tsx        Prepaid passes (modal)

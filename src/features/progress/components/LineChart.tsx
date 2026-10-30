@@ -19,7 +19,11 @@ type Props = {
   height?: number;
 };
 
-const AXIS_W = 36; // y labels
+/** Width of a digit and of a "." in the 11px y labels (Inter, equal-width digits), and the gap to the plot. */
+const DIGIT_W = 6.5;
+const DOT_W = 3;
+const AXIS_GAP = 6;
+const labelWidth = (label: string) => [...label].reduce((w, ch) => w + (ch === '.' ? DOT_W : DIGIT_W), 0);
 const PAD_R = 10;
 const PAD_T = 34; // room for the value bubble
 const PAD_B = 24; // x labels
@@ -40,16 +44,19 @@ export function LineChart({ points, goal, goalLabel, formatValue, formatDate, ac
 
   const values = points.map((p) => p.value).concat(goal !== undefined ? [goal] : []);
   const ticks = axisTicks(Math.min(...values), Math.max(...values));
+  // The label column is only as wide as the longest label, so the plot sits nearer the middle.
+  const tickLabels = ticks.map(formatValue);
+  const axisW = Math.ceil(Math.max(...tickLabels.map(labelWidth))) + AXIS_GAP;
   const lo = ticks[0];
   const hi = ticks[ticks.length - 1];
-  const plotW = Math.max(width - AXIS_W - PAD_R, 1);
+  const plotW = Math.max(width - axisW - PAD_R, 1);
   const plotH = height - PAD_T - PAD_B;
   const t0 = points[0].date.getTime();
   const span = Math.max(points[points.length - 1].date.getTime() - t0, 1);
 
-  const x = (d: Date) => AXIS_W + ((d.getTime() - t0) / span) * plotW;
+  const x = (d: Date) => axisW + ((d.getTime() - t0) / span) * plotW;
   const y = (v: number) => PAD_T + ((hi - v) / (hi - lo || 1)) * plotH;
-  const pts = points.map((p) => ({ x: points.length === 1 ? AXIS_W + plotW / 2 : x(p.date), y: y(p.value) }));
+  const pts = points.map((p) => ({ x: points.length === 1 ? axisW + plotW / 2 : x(p.date), y: y(p.value) }));
 
   // Catmull-Rom → cubic Bézier for a gentle curve.
   const line = pts.reduce((d, p, i) => {
@@ -74,7 +81,7 @@ export function LineChart({ points, goal, goalLabel, formatValue, formatDate, ac
 
   const sel = pts[selected];
   const bubbleW = 92;
-  const bubbleLeft = Math.min(Math.max(sel.x - bubbleW / 2, AXIS_W - 8), width - bubbleW);
+  const bubbleLeft = Math.min(Math.max(sel.x - bubbleW / 2, axisW - 8), width - bubbleW);
   const xLabels = points.length > 2 ? [0, Math.floor((points.length - 1) / 2), points.length - 1] : points.map((_, i) => i);
   const showDots = points.length <= 20;
 
@@ -101,7 +108,7 @@ export function LineChart({ points, goal, goalLabel, formatValue, formatDate, ac
             {ticks.map((v) => (
               <Line
                 key={v}
-                x1={AXIS_W}
+                x1={axisW}
                 x2={width - PAD_R}
                 y1={y(v)}
                 y2={y(v)}
@@ -111,7 +118,7 @@ export function LineChart({ points, goal, goalLabel, formatValue, formatDate, ac
             ))}
             {goal !== undefined && (
               <Line
-                x1={AXIS_W}
+                x1={axisW}
                 x2={width - PAD_R}
                 y1={y(goal)}
                 y2={y(goal)}
@@ -133,9 +140,9 @@ export function LineChart({ points, goal, goalLabel, formatValue, formatDate, ac
             <Circle cx={sel.x} cy={sel.y} r={5} fill={theme.colors.primary} />
           </Svg>
 
-          {ticks.map((v) => (
-            <Text key={v} variant="caption" tone="subtle" style={[s.yLabel, { top: y(v) - 9 }]}>
-              {formatValue(v)}
+          {ticks.map((v, i) => (
+            <Text key={v} variant="caption" tone="subtle" style={[s.yLabel, { top: y(v) - 9, width: axisW - AXIS_GAP }]}>
+              {tickLabels[i]}
             </Text>
           ))}
 
@@ -173,7 +180,7 @@ export function LineChart({ points, goal, goalLabel, formatValue, formatDate, ac
 
 const useStyles = makeStyles(({ theme }) => ({
   abs: { position: 'absolute', top: 0, left: 0 },
-  yLabel: { position: 'absolute', left: 0, width: AXIS_W - 6, textAlign: 'right', fontSize: 11, lineHeight: 18 },
+  yLabel: { position: 'absolute', left: 0, fontSize: 11, lineHeight: 18 },
   xLabel: { position: 'absolute', bottom: 0, width: 60, textAlign: 'center', fontSize: 11, lineHeight: 18 },
   goalTag: { position: 'absolute', right: PAD_R },
   bubble: {

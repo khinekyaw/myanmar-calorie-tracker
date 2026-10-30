@@ -1,37 +1,33 @@
-import { router, useLocalSearchParams } from 'expo-router';
+import { router } from 'expo-router';
 import { useState } from 'react';
 import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { formatDayLabel, formatNumber } from '@/lib/format';
 import { refreshPlan } from '@/store/plan';
-import { fromDayKey, useLatest, useWeights, type Metric } from '@/store/weights';
+import { fromDayKey, useLatest, useWeights } from '@/store/weights';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
-import { Button, IconButton, MeasureInput, Screen, Segmented, Text } from '@/ui';
+import { Button, IconButton, MeasureInput, Screen, Text } from '@/ui';
 
-const RANGE: Record<Metric, [number, number]> = { weight: [60, 400], waist: [15, 70] };
-const DEFAULT: Record<Metric, number> = { weight: 140, waist: 32 };
+const RANGE: [number, number] = [60, 400];
+const DEFAULT_LB = 140;
 
-/** Log today's weight or waist (homes without a scale can track waist instead). */
+/**
+ * Log today's weight. Waist tracking is hidden for now (2026-10-31); the data
+ * layer still stores it (`useWeights().log('waist', …)`).
+ */
 export function LogWeightScreen() {
-  const params = useLocalSearchParams<{ metric?: Metric }>();
   const { t } = useTranslation();
   const s = useStyles();
   const { language } = useStyleContext();
   const log = useWeights((st) => st.log);
-  const [metric, setMetric] = useState<Metric>(params.metric === 'waist' ? 'waist' : 'weight');
-  const lastWeight = useLatest('weight');
-  const lastWaist = useLatest('waist');
-  const last = metric === 'weight' ? lastWeight : lastWaist;
-  const [values, setValues] = useState<Record<Metric, number>>({
-    weight: lastWeight?.value ?? DEFAULT.weight,
-    waist: lastWaist?.value ?? DEFAULT.waist,
-  });
-  const unit = metric === 'weight' ? t('common.lb') : t('common.inch');
+  const last = useLatest('weight');
+  const [value, setValue] = useState(last?.value ?? DEFAULT_LB);
+  const unit = t('common.lb');
 
   const save = () => {
-    log(metric, values[metric]);
-    if (metric === 'weight') refreshPlan();
+    log('weight', value);
+    refreshPlan();
     router.back();
   };
 
@@ -39,30 +35,19 @@ export function LogWeightScreen() {
     <Screen footer={<Button label={t('common.save')} onPress={save} />}>
       <View style={s.header}>
         <IconButton icon="close" accessibilityLabel={t('common.close')} onPress={() => router.back()} />
-        <Segmented
-          tone="light"
-          accessibilityLabel={t('progress.title')}
-          value={metric}
-          onChange={setMetric}
-          options={[
-            { value: 'weight', label: t('progress.weight') },
-            { value: 'waist', label: t('progress.waist') },
-          ]}
-        />
       </View>
       <Text variant="title" accessibilityRole="header" style={s.title}>
-        {t(metric === 'weight' ? 'logWeight.titleWeight' : 'logWeight.titleWaist')}
+        {t('logWeight.titleWeight')}
       </Text>
       <View style={s.center}>
         <MeasureInput
-          key={metric}
-          value={values[metric]}
-          min={RANGE[metric][0]}
-          max={RANGE[metric][1]}
+          value={value}
+          min={RANGE[0]}
+          max={RANGE[1]}
           unit={unit}
-          scale={metric === 'weight' ? 'lb' : 'in'}
-          onChange={(v) => setValues((cur) => ({ ...cur, [metric]: v }))}
-          accessibilityLabel={t(metric === 'weight' ? 'progress.weight' : 'progress.waist')}
+          scale="lb"
+          onChange={setValue}
+          accessibilityLabel={t('progress.weight')}
         />
         {last && (
           <Text variant="label" tone="muted">

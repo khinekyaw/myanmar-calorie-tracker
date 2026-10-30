@@ -189,6 +189,10 @@ The streak pill on Home shows an orange fire that flickers (`ui/StreakFlame.tsx`
 
 25 badges in six groups (streaks, logging, ways to log, Myanmar favourites, balance, body), list and art prompt in [BADGES.md](BADGES.md). They're computed from data already on the phone each time the screen opens (`domain/badges.ts`), not stored or synced: no schema change, offline, and a second phone shows the same badges because the meals sync. Streak and weight badges use the best ever reached so they're never lost; deleting meals can lower counts. Badge art is the second exception to "colour only on nutrients": full colour when earned, faded greyscale (a view `filter`) when locked, so only one picture per badge is needed. The art is SVG, loaded as an asset by expo-image; generated pictures are traced to SVG with open-source vtracer (`scripts/trace_badges.py`) rather than a paid Figma plan. Art style is deliberately not Cal AI's glossy 3D shields: one soft-shaded object per badge (same family as the streak fire), no frame, no digits, on the app's grey circle with the number in an ink pill drawn by the app. Gold lacquerware medallions were tried and dropped: too ornate and too gold for the app. The "badges earned" hero is a holographic coin drawn in code (`DiamondBadge.tsx`, colours in `colors.holo`), not a generated or traced picture. Not yet: a "you earned a badge" moment after logging.
 
+## Waist hidden for now (2026-10-31)
+
+The Waist tab on Log weight and the weight ↔ waist switch on the Progress chart are removed from the UI to keep Progress simple. The data layer is unchanged: `weights.waist_in` on the phone, `waist_cm` on the server, sync mapping and the `progress.waist` / `logWeight.titleWaist` strings all stay, so bringing it back is a UI change only. Dev sample data still includes waist rows.
+
 ## Tests for domain logic only (for now)
 
 Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, meal parsing, search). UI is checked on the emulator. Component tests can come once screens stop changing. Note: TypeScript 6 no longer loads global types automatically, so `tsconfig.json` lists `"types": ["jest"]`.

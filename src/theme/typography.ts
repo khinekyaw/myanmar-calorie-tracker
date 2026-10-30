@@ -121,9 +121,9 @@ export const scripts: Record<Language, ScriptSpec> = {
 
 export type TypeScale = Record<TextVariant, TextStyle>;
 
-function resolve(variant: TextVariant, script: ScriptSpec): TextStyle {
+function resolve(variant: TextVariant, script: ScriptSpec, words = false): TextStyle {
   const base = variants[variant];
-  const isLatin = base.role === 'latin';
+  const isLatin = base.role === 'latin' && !words;
   const spec = isLatin ? latinNumbers : script;
   const override = isLatin ? undefined : spec.overrides?.[variant];
 
@@ -157,6 +157,23 @@ export function buildTypeScale(language: Language): TypeScale {
   ) as TypeScale;
   cache.set(language, scale);
   return scale;
+}
+
+/** True for the number styles (Inter, tight line height, equal-width digits). */
+export const isNumberVariant = (variant: TextVariant) => variants[variant].role === 'latin';
+
+let burmeseWords: TypeScale | null = null;
+
+/**
+ * Number styles for text that turns out to be Burmese words (e.g. "no goal yet"
+ * where a weight would be): same size and weight, but the Burmese font and line
+ * height, since Inter has no Burmese and its tight lines clip the stacked marks.
+ */
+export function burmeseWordsScale(): TypeScale {
+  burmeseWords ??= Object.fromEntries(
+    (Object.keys(variants) as TextVariant[]).map((v) => [v, resolve(v, scripts.my, true)]),
+  ) as TypeScale;
+  return burmeseWords;
 }
 
 /** Font family for a weight in the current language (for TextInput etc.). */
