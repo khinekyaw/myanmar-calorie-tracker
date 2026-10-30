@@ -179,6 +179,10 @@ Real Myanmar dishes (mohinga, laphet thoke, tea, palata, shared table) instead o
 - Settings: rows grouped under small headers (You / Daily / App); language is an inline segmented control.
 - Paywall: feature icons in rounded squares; selected pass has a check and a "Best value" tag on 3 months.
 
+## Coloured, animated streak fire (2026-10-31)
+
+The streak pill on Home shows an orange fire that flickers (`ui/StreakFlame.tsx`), asked for by the team: a small reward for logging every day. It's the one decorative colour outside nutrients and BMI, kept to that pill only (the calorie ring keeps the ink outline flame). Grey and still when the streak is 0; still when Android's "remove animations" is on. Runs on the UI thread with Reanimated, so it costs nothing on cheap phones' JS thread.
+
 ## Tests for domain logic only (for now)
 
 Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, meal parsing, search). UI is checked on the emulator. Component tests can come once screens stop changing. Note: TypeScript 6 no longer loads global types automatically, so `tsconfig.json` lists `"types": ["jest"]`.

@@ -28,6 +28,12 @@ export const palette = {
   green: '#30A46C',
   red: '#E5484D',
 
+  /** Streak fire gradient (outer flame, then its yellow core). */
+  flameOrangeLight: '#F2A04A',
+  flameOrange: '#E3883A',
+  flameYellow: '#F7D488',
+  flameYellowLight: '#FCEAB0',
+
   /** Brand gold (from the logo) and its cream. */
   gold: '#DEA84A',
   cream: '#FCF8F2',

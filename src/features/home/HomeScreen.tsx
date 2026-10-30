@@ -8,7 +8,7 @@ import { useConnectivity } from '@/lib/network';
 import { useDaySummary, useLog, useStreak } from '@/store/log';
 import { dayKey } from '@/store/weights';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
-import { Card, Icon, Logo, Ring, Text } from '@/ui';
+import { Card, Icon, Logo, Ring, StreakFlame, Text } from '@/ui';
 
 import { MealRow } from './components/MealRow';
 import { NutrientCard } from './components/NutrientCard';
@@ -44,7 +44,7 @@ export function HomeScreen() {
               </View>
             )}
             <View style={s.streak} accessible accessibilityLabel={t('home.streak', { count: streak })}>
-              <Icon name="flame" size={16} strokeWidth={2} />
+              <StreakFlame size={20} active={streak > 0} />
               <Text variant="numberSm">{formatNumber(streak, language)}</Text>
             </View>
           </View>

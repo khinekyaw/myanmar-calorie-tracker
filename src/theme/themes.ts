@@ -61,6 +61,14 @@ export const lightTheme = {
       protein: palette.coral,
       fat: palette.violet,
     },
+    /** Home streak fire: the one decorative colour outside nutrients and BMI. */
+    streak: {
+      outerTop: palette.flameOrangeLight,
+      outerBottom: palette.flameOrange,
+      innerTop: palette.flameYellowLight,
+      innerBottom: palette.flameYellow,
+      inactive: palette.gray400,
+    },
     bmi: {
       under: palette.blue,
       normal: palette.green,

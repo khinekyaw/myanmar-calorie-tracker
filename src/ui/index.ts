@@ -20,3 +20,4 @@ export { ConfirmSheet } from './ConfirmSheet';
 export { MeasureInput } from './MeasureInput';
 export { RulerPicker } from './RulerPicker';
 export { Badge } from './Badge';
+export { StreakFlame } from './StreakFlame';
