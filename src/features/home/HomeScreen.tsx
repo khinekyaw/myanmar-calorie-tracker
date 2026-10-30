@@ -3,9 +3,11 @@ import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 
+import { sumMacros } from '@/domain/meal';
 import { formatDayLabel, formatNumber, formatPlates } from '@/lib/format';
 import { useConnectivity } from '@/lib/network';
 import { useDaySummary, useLog } from '@/store/log';
+import { usePlan } from '@/store/plan';
 import { dayKey } from '@/store/weights';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Card, Icon, Logo, Ring, Text } from '@/ui';
@@ -22,7 +24,14 @@ export function HomeScreen() {
   const [selectedDay, setSelectedDay] = useState(() => new Date());
   const day = useDaySummary(selectedDay);
   const allEntries = useLog((st) => st.entries);
-  const loggedDays = new Set(allEntries.filter((e) => e.status === 'done').map((e) => dayKey(e.eatenAt)));
+  const targetKcal = usePlan((st) => st.plan.kcal);
+  // kcal eaten per day, for the rings on the week strip.
+  const kcalByDay = new Map<string, number>();
+  for (const e of allEntries) {
+    if (e.status !== 'done') continue;
+    const key = dayKey(e.eatenAt);
+    kcalByDay.set(key, (kcalByDay.get(key) ?? 0) + sumMacros(e.items).kcal);
+  }
   const isToday = dayKey(selectedDay) === dayKey(new Date());
   const { online } = useConnectivity();
 
@@ -47,7 +56,7 @@ export function HomeScreen() {
           </View>
         </View>
 
-        <WeekStrip selected={selectedDay} onSelect={setSelectedDay} loggedDays={loggedDays} />
+        <WeekStrip selected={selectedDay} onSelect={setSelectedDay} kcalByDay={kcalByDay} targetKcal={targetKcal} />
 
         <Card style={s.kcalCard}>
           <View style={s.kcalText}>

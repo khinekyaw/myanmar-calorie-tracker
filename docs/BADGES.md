@@ -59,7 +59,7 @@ Layout: a 3×3 grid of 9 separate icons, read left to right, top to bottom. Each
 Style (identical for all 9):
 - ONE single object per icon, drawn as a modern app illustration: simple rounded geometric shapes, soft 2–3 tone gradients for gentle volume (like Apple or Microsoft Fluent emoji, but flatter and calmer), no outlines.
 - Matte, clean and friendly. No gloss highlights, no metal, no bevel, no heavy 3D, no drop shadows, no background shape.
-- Limited palette, used sparingly: warm orange #E3883A to #F2A04A, pale yellow #FCEAB0, amber #F5A524, coral #E5674B, violet #8B5CF6, blue #3E7BFA, green #30A46C, cream #FCF8F2, cool grey #D4D4D8, near-black #111217 only for tiny details. Avoid gold.
+- Limited palette, used sparingly: warm orange #E3883A to #F2A04A, pale yellow #FCEAB0, amber #EDB75A, coral #E5674B, violet #8B5CF6, blue #3E7BFA, green #30A46C, cream #FCF8F2, cool grey #D4D4D8, near-black #111217 only for tiny details. Avoid gold.
 - Colours are clear and warm, never washed out: no large cream, beige or pale areas (they disappear on a light grey background).
 - Front or slight three-quarter view. The object fills about 70% of its cell and reads clearly at 60 px.
 ```

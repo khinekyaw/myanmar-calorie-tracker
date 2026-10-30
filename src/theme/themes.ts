@@ -61,6 +61,10 @@ export const lightTheme = {
       protein: palette.coral,
       fat: palette.violet,
     },
+    /** Week strip on Home: a day that went over its calorie target. */
+    kcal: {
+      over: palette.amber,
+    },
     /** Home streak fire: the one decorative colour outside nutrients and BMI. */
     streak: {
       outerTop: palette.flameOrangeLight,

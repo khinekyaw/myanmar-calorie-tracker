@@ -178,6 +178,7 @@ const my: Translations = {
     empty: 'မှတ်ထားတာ မရှိဘူး',
     caloriesLeft: 'ကယ်လိုရီ ကျန်',
     caloriesOver: 'ကယ်လိုရီ ကျော်',
+    dayOnTarget: 'ကယ်လိုရီ ကိုက်',
     rice: 'ထမင်း',
     protein: 'အသား',
     fat: 'အဆီ',

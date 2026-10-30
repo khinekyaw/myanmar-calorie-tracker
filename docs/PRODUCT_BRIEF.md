@@ -36,7 +36,7 @@ UI design canvas (22 screens, Claude Design): https://claude.ai/artifact/DYDw9tR
 | Surface / cards | `#F4F4F5`, ring track `#E4E4E7` |
 | Hairline | `#EFEFEF` |
 | Background | `#FFFFFF` |
-| Carbs / rice | `#F5A524` |
+| Carbs / rice | `#EDB75A` (softened from `#F5A524`, 2026-10-31) |
 | Protein | `#E5674B` |
 | Fat | `#8B5CF6` violet (was `#3E7BFA` blue; changed 2026-10-30 because blue + a drop read as water) |
 | Fonts | Inter + Noto Sans Myanmar |

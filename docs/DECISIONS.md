@@ -172,6 +172,8 @@ Real Myanmar dishes (mohinga, laphet thoke, tea, palata, shared table) instead o
 
 - Welcome: real food photo in the scan frame; result chip shows the three nutrient-colour dots; language toggle is a two-option segmented pill.
 - Workday: icons sit in white rounded squares inside the option for a cleaner rhythm.
+- Home week strip: calorie ring per day, check when a finished day is on target, amber when over (was a dashed ring for any logged day). The selected day is a full-size solid circle (ink; amber with ink text when over).
+- Amber softened app-wide to `#EDB75A` (was `#F5A524`): rice indicator, BMI "over", calories over. Brand gold `#DEA84A` unchanged. Rule shared with the badges: `calorieDay` in `domain/badges.ts`; amber via `colors.kcal.over`.
 - Home: nutrient rings carry small icons (rice plate, egg, drop); calorie ring has a flame; "Today" list uses photo cards with time, kcal and per-meal macros (rice plates, protein, fat).
 - AddSheet: quick re-log chips show a small dish photo.
 - Camera: full-screen live camera with the scan frame overlay (instead of a framed box).
@@ -194,6 +196,7 @@ Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, mea
 ## Copy review
 
 All Burmese strings in `src/i18n/locales/my.ts` need native-speaker review. New strings not on the canvas (please check first):
+Batch 6 (week strip): `home.dayOnTarget` (ကယ်လိုရီ ကိုက်, screen readers only).
 Batch 5 (Google sign-in): `signIn.google` (Google နဲ့ ဝင်မယ်), `signIn.or` (ဒါမှမဟုတ်), `signIn.errorGoogle` (Google နဲ့ ဝင်လို့ မရဘူး), `settings.account` (အကောင့်).
 Batch 4 (milestones): every `milestones.*` string — screen title ဆုတံဆိပ်, the 25 badge names (e.g. မီးပွား စပြီ, လပြည့်, သင်္ကြန်မှ သင်္ကြန်, လက်ဖက်ရည်ဆိုင် ဖောက်သည်) and their rules.
 Batch 3 (backend): `signIn.errorSend` (ကုဒ် ပို့လို့ မရဘူး), `signIn.errorCode` (ကုဒ် မှားနေတယ်), `signIn.offline` (အင်တာနက် မရှိဘူး), `settings.phone` / `signIn` / `deleteAccount` / `deleteTitle` / `deleteConfirm` / `deleteFailed`, `common.retry` (ပြန်စမ်းမယ်).

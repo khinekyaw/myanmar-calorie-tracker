@@ -175,6 +175,7 @@ const en = {
     empty: 'Nothing logged',
     caloriesLeft: 'Calories left',
     caloriesOver: 'Calories over',
+    dayOnTarget: 'Calories on target',
     rice: 'Rice plates',
     protein: 'Protein',
     fat: 'Fat',

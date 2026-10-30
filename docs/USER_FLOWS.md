@@ -25,6 +25,8 @@ Home → **+** opens the add sheet:
 
 After logging, Home updates the calories left (or *Calories over*), plates of rice, protein, fat and the meal list. Free scans: 3 a day; the counter on the camera opens the paywall, and the 4th shutter press opens it too.
 
+**Week strip** (top of Home): a ring around each day with meals fills with that day's share of the calorie target. A finished day on target (85–105 %, the same rule as the *On Target* badge) gets a small check; a day over the target turns amber; today shows its live ring but no check until it's over. The selected day is solid ink; future days are muted.
+
 ## 3. When the scan isn't sure
 
 - **Shared table** (several curries) → **SharedMeal**: rice in ½-plates, each curry in spoonfuls, soup / ngapi toggles, *+* adds any dish via Search → *Save*.

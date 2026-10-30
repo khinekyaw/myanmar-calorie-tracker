@@ -1,4 +1,4 @@
-import { BADGES, evaluateBadges, longestStreak, type BadgeInput, type BadgeMeal } from '../badges';
+import { BADGES, calorieDay, evaluateBadges, longestStreak, type BadgeInput, type BadgeMeal } from '../badges';
 
 const meal = (day: string, patch: Partial<BadgeMeal> = {}): BadgeMeal => ({
   day,
@@ -114,5 +114,15 @@ describe('evaluateBadges', () => {
   it('hides weight-goal badges while maintaining', () => {
     expect(status({ goal: 'maintain' }, 'first5lb').available).toBe(false);
     expect(status({ goal: 'maintain' }, 'firstWeighIn').available).toBe(true);
+  });
+});
+
+describe('calorieDay', () => {
+  it('sorts a day by its share of the target', () => {
+    expect(calorieDay(0, 2000)).toBe('none');
+    expect(calorieDay(1600, 2000)).toBe('under');
+    expect(calorieDay(1700, 2000)).toBe('onTarget');
+    expect(calorieDay(2100, 2000)).toBe('onTarget');
+    expect(calorieDay(2101, 2000)).toBe('over');
   });
 });

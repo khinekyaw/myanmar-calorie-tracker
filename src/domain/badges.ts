@@ -122,6 +122,18 @@ export type BadgeStatus = {
 const KCAL_LOW = 0.85;
 const KCAL_HIGH = 1.05;
 
+export type CalorieDay = 'none' | 'under' | 'onTarget' | 'over';
+
+/**
+ * How a day's calories compare with the target (also the "On Target" badge
+ * and the week strip on Home): on target between 85 % and 105 %.
+ */
+export function calorieDay(kcal: number, target: number): CalorieDay {
+  if (kcal <= 0) return 'none';
+  if (kcal > target * KCAL_HIGH) return 'over';
+  return kcal >= target * KCAL_LOW ? 'onTarget' : 'under';
+}
+
 const DAY_MS = 86_400_000;
 const dayNumber = (key: string) => {
   const [y, m, d] = key.split('-').map(Number);
@@ -158,9 +170,7 @@ function evaluate(def: BadgeDef, input: BadgeInput, ctx: Context): Omit<BadgeSta
       return count(ctx.finishedDays.filter((d) => d.ricePlates <= input.targets.ricePlates).map((d) => d.day));
     case 'kcalDays':
       return count(
-        ctx.finishedDays
-          .filter((d) => d.kcal >= input.targets.kcal * KCAL_LOW && d.kcal <= input.targets.kcal * KCAL_HIGH)
-          .map((d) => d.day),
+        ctx.finishedDays.filter((d) => calorieDay(d.kcal, input.targets.kcal) === 'onTarget').map((d) => d.day),
       );
     case 'proteinDays':
       return count(ctx.finishedDays.filter((d) => d.proteinG >= input.targets.proteinG).map((d) => d.day));

@@ -21,7 +21,7 @@ export const palette = {
   gray700: '#3F3F46',
   gray900: '#1C1C1E',
 
-  amber: '#F5A524',
+  amber: '#EDB75A',
   coral: '#E5674B',
   blue: '#3E7BFA',
   violet: '#8B5CF6',
