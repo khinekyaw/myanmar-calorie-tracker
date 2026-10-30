@@ -225,7 +225,7 @@ MealItem { dishId, qty, oil?: less|normal|more, sweetness?: choSeint|pawSeint|ky
 | Food photos | Wikimedia Commons images bundled in the app (`assets/images/dishes/`) | Our own photos (bundled + `dish-photos` bucket) |
 | Speech-to-text | Mic fills a sample sentence | Burmese STT provider (open decision); parser stays the same |
 | Phone OTP | **Real** with a backend (Supabase phone auth; local test numbers). Without one: any 6-digit code | SMS provider / gateway for +95 |
-| Google sign-in | MOCK (goes straight in), shown only without a backend | Google OAuth + native sign-in |
+| Google sign-in | Real with a backend (Supabase Google OAuth in a browser sheet, `services/auth.ts`); MOCK (goes straight in) without one | Google Cloud OAuth client (id + secret in Supabase) |
 | Free-scan quota | **Real**: server `scan_quota`, mirrored on the phone for the counter | — |
 | Payments | Pay buttons activate a **local mock** pass (`store/premium.ts`); the server ignores it | KBZPay / WavePay or Play Billing → webhook → `grant_pass` (server `passes` already read by the app) |
 | Reminders | Permission request only | Scheduled local notifications |

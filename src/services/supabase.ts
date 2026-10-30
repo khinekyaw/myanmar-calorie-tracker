@@ -1,4 +1,5 @@
 import 'expo-sqlite/localStorage/install';
+import '@/lib/webCrypto';
 
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import { AppState } from 'react-native';
@@ -26,6 +27,8 @@ export const supabase: SupabaseClient<Database> | null = backendEnabled
         autoRefreshToken: true,
         persistSession: true,
         detectSessionInUrl: false,
+        // Google sign-in returns a one-time code to the app, exchanged here for a session.
+        flowType: 'pkce',
       },
     })
   : null;

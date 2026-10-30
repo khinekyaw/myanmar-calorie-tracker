@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { Pressable, type PressableProps, type StyleProp, type ViewStyle } from 'react-native';
 
 import { makeStyles } from '@/theme/ThemeProvider';
@@ -12,13 +13,15 @@ type Props = Omit<PressableProps, 'style' | 'children'> & {
   label: string;
   variant?: Variant;
   icon?: IconName;
+  /** Custom mark before the label (e.g. the Google logo), instead of `icon`. */
+  leading?: ReactNode;
   /** 'md' = 56px main action; 'sm' = 40px inline action inside a card. */
   size?: 'md' | 'sm';
   style?: StyleProp<ViewStyle>;
 };
 
 /** Pill button. Primary = solid ink. */
-export function Button({ label, variant = 'primary', icon, size = 'md', disabled, style, ...rest }: Props) {
+export function Button({ label, variant = 'primary', icon, leading, size = 'md', disabled, style, ...rest }: Props) {
   const s = useStyles();
   const inverse = variant === 'primary';
   return (
@@ -35,6 +38,7 @@ export function Button({ label, variant = 'primary', icon, size = 'md', disabled
         style,
       ]}
       {...rest}>
+      {leading}
       {icon && <Icon name={icon} size={20} color={inverse ? s.inverseText.color : undefined} />}
       <Text variant={size === 'sm' ? 'label' : 'bodyStrong'} tone={inverse ? 'inverse' : 'default'} numberOfLines={1}>
         {label}

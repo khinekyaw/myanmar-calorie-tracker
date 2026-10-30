@@ -4,12 +4,12 @@ import { KeyboardAvoidingView, Pressable, TextInput, View, type TextInputInstanc
 import { useTranslation } from 'react-i18next';
 
 import { useConnectivity } from '@/lib/network';
-import { requestCode, verifyCode, type CodeRequest } from '@/services/auth';
+import { requestCode, signInWithGoogle, verifyCode, type CodeRequest } from '@/services/auth';
 import { backendEnabled } from '@/services/supabase';
 import { useOnboarding } from '@/store/onboarding';
 import { scheduleSync } from '@/sync/engine';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
-import { Button, IconButton, Screen, Text } from '@/ui';
+import { Button, GoogleLogo, IconButton, Screen, Text } from '@/ui';
 
 const CODE_LENGTH = 6;
 
@@ -17,15 +17,15 @@ const CODE_LENGTH = 6;
 const normalizePhone = (raw: string) => raw.replace(/\D/g, '').replace(/^0/, '');
 const isValidPhone = (digits: string) => /^9\d{7,9}$/.test(digits);
 
-type Problem = 'errorSend' | 'errorCode' | 'offline';
+type Problem = 'errorSend' | 'errorCode' | 'errorGoogle' | 'offline';
 
 /**
- * Phone OTP first, skip allowed (the data still syncs under an anonymous
- * account). No Facebook (blocked without VPN). Opened from onboarding, or
- * from Settings (`?from=settings`) to sign in later.
+ * Phone OTP first, or Google; skip allowed (the data still syncs under an
+ * anonymous account). No Facebook (blocked without VPN). Opened from
+ * onboarding, or from Settings (`?from=settings`) to sign in later.
  *
- * Without a backend (prototype builds) no SMS is sent and any 6-digit code
- * works; Google is shown only there (MOCK) until the OAuth client exists.
+ * Without a backend (prototype builds) no SMS is sent, any 6-digit code
+ * works and Google just continues (MOCK).
  */
 export function SignInScreen() {
   const { t } = useTranslation();
@@ -92,22 +92,26 @@ export function SignInScreen() {
     }
   };
 
+  const google = async () => {
+    setProblem(null);
+    if (!backendEnabled) return finish();
+    if (!online) return setProblem('offline');
+    setBusy(true);
+    try {
+      if ((await signInWithGoogle()) === 'signedIn') {
+        scheduleSync();
+        finish();
+      }
+    } catch {
+      setProblem('errorGoogle');
+    } finally {
+      setBusy(false);
+    }
+  };
+
   return (
     <KeyboardAvoidingView style={s.fill} behavior="padding">
-      <Screen
-        footer={
-          step === 'phone' ? (
-            <View style={s.footer}>
-              <Button label={t('signIn.sendCode')} disabled={!isValidPhone(digits) || busy} onPress={sendCode} />
-              {!backendEnabled && <Button variant="secondary" label={t('signIn.google')} onPress={finish} />}
-            </View>
-          ) : (
-            <View style={s.footer}>
-              <Button label={t('signIn.verify')} disabled={code.length < CODE_LENGTH || busy} onPress={verify} />
-              <Button variant="ghost" label={t('signIn.resend')} disabled={busy} onPress={sendCode} />
-            </View>
-          )
-        }>
+      <Screen>
         <View style={s.header}>
           <IconButton icon="chevronLeft" accessibilityLabel={t('common.back')} onPress={back} />
           <Pressable accessibilityRole="button" onPress={finish} hitSlop={8} style={s.skip}>
@@ -169,6 +173,32 @@ export function SignInScreen() {
             {t(`signIn.${problem}`)}
           </Text>
         )}
+
+        {/* Actions sit right under the field, above the keyboard; Google is the alternative below a divider. */}
+        {step === 'phone' ? (
+          <View style={s.actions}>
+            <Button label={t('signIn.sendCode')} disabled={!isValidPhone(digits) || busy} onPress={sendCode} />
+            <View style={s.divider} accessible={false}>
+              <View style={s.line} />
+              <Text variant="caption" tone="muted">
+                {t('signIn.or')}
+              </Text>
+              <View style={s.line} />
+            </View>
+            <Button
+              variant="secondary"
+              label={t('signIn.google')}
+              leading={<GoogleLogo />}
+              disabled={busy}
+              onPress={google}
+            />
+          </View>
+        ) : (
+          <View style={s.actions}>
+            <Button label={t('signIn.verify')} disabled={code.length < CODE_LENGTH || busy} onPress={verify} />
+            <Button variant="ghost" label={t('signIn.resend')} disabled={busy} onPress={sendCode} />
+          </View>
+        )}
       </Screen>
     </KeyboardAvoidingView>
   );
@@ -204,5 +234,7 @@ const useStyles = makeStyles(({ theme }) => ({
   cellActive: { borderColor: theme.colors.selected },
   hiddenInput: { position: 'absolute', opacity: 0, width: 1, height: 1 },
   problem: { marginTop: theme.space.md },
-  footer: { gap: theme.space.sm },
+  actions: { marginTop: theme.space.xl, gap: theme.space.md },
+  divider: { flexDirection: 'row', alignItems: 'center', gap: theme.space.md, paddingVertical: theme.space.xs },
+  line: { flex: 1, height: 1, backgroundColor: theme.colors.surfaceStrong },
 }));

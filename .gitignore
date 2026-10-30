@@ -44,3 +44,5 @@ example
 
 # Python env for scripts/trace_badges.py
 .venv-trace/
+# Supabase CLI secrets (Google OAuth client for local sign-in)
+supabase/.env

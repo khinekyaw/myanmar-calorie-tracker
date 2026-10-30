@@ -46,6 +46,12 @@ export const palette = {
   holoEmblemLight: '#FBE1EE',
   holoEdge: '#DDA0C2',
 
+  /** Google "G" logo (brand colours, required on the sign-in button). */
+  googleBlue: '#4285F4',
+  googleRed: '#EA4335',
+  googleYellow: '#FBBC05',
+  googleGreen: '#34A853',
+
   /** Brand gold (from the logo) and its cream. */
   gold: '#DEA84A',
   cream: '#FCF8F2',

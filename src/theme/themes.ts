@@ -86,6 +86,13 @@ export const lightTheme = {
       edge: palette.holoEdge,
       shine: palette.white,
     },
+    /** Google "G" logo on the sign-in button. */
+    google: {
+      blue: palette.googleBlue,
+      red: palette.googleRed,
+      yellow: palette.googleYellow,
+      green: palette.googleGreen,
+    },
     bmi: {
       under: palette.blue,
       normal: palette.green,

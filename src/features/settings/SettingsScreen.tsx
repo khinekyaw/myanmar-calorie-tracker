@@ -34,6 +34,7 @@ export function SettingsScreen() {
   const activatePremium = usePremium((st) => st.activate);
   const cancelPremium = usePremium((st) => st.cancel);
   const phone = useAccount((st) => st.phone);
+  const googleEmail = useAccount((st) => st.googleEmail);
   const [deleting, setDeleting] = useState<'confirm' | 'failed' | null>(null);
   const [busy, setBusy] = useState(false);
 
@@ -79,25 +80,36 @@ export function SettingsScreen() {
         </Pressable>
 
         <Section title={t('settings.sectionGoals')}>
-          {backendEnabled &&
-            (phone ? (
-              <ListRow
-                kind="custom"
-                label={t('settings.phone')}
-                right={
-                  <Text variant="callout" tone="muted">
-                    {formatPhone(phone)}
-                  </Text>
-                }
-              />
-            ) : (
-              <ListRow
-                kind="link"
-                label={t('settings.phone')}
-                value={t('settings.signIn')}
-                onPress={() => router.push({ pathname: '/sign-in', params: { from: 'settings' } })}
-              />
-            ))}
+          {backendEnabled && phone && (
+            <ListRow
+              kind="custom"
+              label={t('settings.phone')}
+              right={
+                <Text variant="callout" tone="muted">
+                  {formatPhone(phone)}
+                </Text>
+              }
+            />
+          )}
+          {backendEnabled && googleEmail && (
+            <ListRow
+              kind="custom"
+              label={t('settings.google')}
+              right={
+                <Text variant="callout" tone="muted" numberOfLines={1} style={s.email}>
+                  {googleEmail}
+                </Text>
+              }
+            />
+          )}
+          {backendEnabled && !phone && !googleEmail && (
+            <ListRow
+              kind="link"
+              label={t('settings.account')}
+              value={t('settings.signIn')}
+              onPress={() => router.push({ pathname: '/sign-in', params: { from: 'settings' } })}
+            />
+          )}
           <ListRow
             kind="link"
             label={t('settings.goals')}
@@ -215,6 +227,7 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
 
 const useStyles = makeStyles(({ theme }) => ({
   root: { flex: 1, backgroundColor: theme.colors.background },
+  email: { maxWidth: 200 },
   content: { paddingHorizontal: theme.gutter, paddingBottom: theme.size.fab + theme.space.xxl },
   title: { marginTop: theme.space.lg },
   flex: { flex: 1 },

@@ -8,7 +8,7 @@ Welcome → **Get started** → About you (sex, birth year, height, weight) → 
 
 - The plan is calculated from these answers, and the onboarding weight becomes the first point on the Progress chart.
 - *I have an account* on Welcome goes straight to Sign in. With a backend, the account's meals, weights, profile and language come down within seconds; without one (or with a new number), the app uses a default plan until Settings → Goals / Health are filled in.
-- With a backend, a code is sent by SMS; a wrong code shows "Wrong code". *Skip* still syncs, under an anonymous account.
+- With a backend, a code is sent by SMS; a wrong code shows "Wrong code". *Continue with Google* opens Google's account picker in a browser sheet and comes back signed in (an anonymous account keeps its data; an existing Google account is switched to and merged). *Skip* still syncs, under an anonymous account.
 - The language switch is on Welcome (and in Settings). Burmese is the default.
 
 ## 2. Log a meal (the daily loop)
@@ -87,7 +87,7 @@ Paywall (from the camera counter, the 4th scan, or Settings): 1- or 3-month prep
 ## Still open (prototype limits)
 
 - ~~Meals reset on app restart~~ Fixed: meals, the photo queue and weights are in on-phone SQLite ([OFFLINE.md](OFFLINE.md)), and sync to Supabase when a backend is configured.
-- Speech-to-text, payments and Google sign-in are mocks; scan and OTP are real only with a backend (see [Mocked vs real](ARCHITECTURE.md#mocked-vs-real)).
+- Speech-to-text and payments are mocks; Google sign-in is built but needs the Google OAuth client to work; scan and OTP are real only with a backend (see [Mocked vs real](ARCHITECTURE.md#mocked-vs-real)).
 - When a scan fails (no connection mid-scan, server error), Result keeps showing *Analyzing…*; the photo is retried in the background and Home shows it as *Waiting*.
 - When the server says the free scans are used up for today (e.g. used on another phone), queued photos wait until tomorrow or Premium without telling the user why.
 - Meals restored on another phone show the dish photo, not the meal photo.

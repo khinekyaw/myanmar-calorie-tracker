@@ -21,3 +21,4 @@ export { MeasureInput } from './MeasureInput';
 export { RulerPicker } from './RulerPicker';
 export { Badge } from './Badge';
 export { StreakFlame } from './StreakFlame';
+export { GoogleLogo } from './GoogleLogo';

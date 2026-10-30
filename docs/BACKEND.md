@@ -63,6 +63,7 @@ Settings (function secrets, see `functions/.env.example`): `ANTHROPIC_API_KEY` (
 
 - Every phone gets an **anonymous account** the first time it's online, so data syncs even after *Skip*.
 - **Sign in with a phone number** (Welcome → *I have an account*, the end of onboarding, or Settings → Phone number): if the phone is anonymous, the number is **linked** to that account (same id, nothing moves). If the number already has an account, the phone **switches** to it and pushes its local meals into it (merge).
+- **Sign in with Google** (same places, *Continue with Google*): an in-app browser sheet runs Supabase's Google OAuth (PKCE) and returns to `sarai://auth/callback`. An anonymous phone **links** Google to its account with `linkIdentity` (needs *manual linking* on); if that Google account already has a Sar AI account, the phone **switches** to it and merges, as with a phone number. Settings shows the Google email. Code: `services/auth.ts → signInWithGoogle`.
 - **Phone confirmations must stay on** (`[auth.sms] enable_confirmations = true`, and the same switch in the dashboard). Without it, linking a number skips the code check, so anyone could claim someone else's number. Found and fixed during testing.
 - **Delete account** (Settings): `delete-account` removes photos, then the auth user; every row cascades. The phone then wipes its data and starts a fresh anonymous account. Required by Google Play.
 - A token stays valid for up to an hour after its account is deleted elsewhere; `sync_*` refuse it (`28000`) and the app starts over at once with everything still on the phone.
@@ -77,6 +78,7 @@ npx expo start              # Metro reads .env.local; the app now syncs to the l
 
 - The Android emulator reaches the Mac at `10.0.2.2`; a real phone needs the Mac's LAN address.
 - **Sign-in test numbers** (no SMS): +95 9123456789 → `123456`, +95 9987654321 → `654321`. Other numbers: the code is in `docker logs supabase_db_sar-ai 2>&1 | grep "SMS code"`. One code per number per 30 seconds.
+- **Google sign-in** needs an OAuth client: put `SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID` / `_SECRET` in `supabase/.env` (not committed) and restart the stack. In Google Cloud the client's authorized redirect URI is `http://127.0.0.1:54321/auth/v1/callback`; on the emulator run `adb reverse tcp:54321 tcp:54321` so the browser can reach it. Without a client the button opens Google with an invalid client id.
 - **Scans** need the functions running with a key: copy `supabase/functions/.env.example` to `supabase/functions/.env`, set `ANTHROPIC_API_KEY`, then `npx supabase functions serve --env-file supabase/functions/.env`.
 - Without `.env.local` the app runs exactly as the prototype did (mock scan, any sign-in code).
 - **macOS:** Docker Desktop needs access to the Desktop folder (System Settings → Privacy & Security → Files and Folders → Docker → Desktop Folder) to mount this project. Without it, Studio and the functions runtime can't start: use `npx supabase start -x edge-runtime,studio`, and serve functions from a copy of `supabase/` outside Desktop (`--workdir`).
@@ -113,9 +115,10 @@ Schema changes = a **new** migration file (never edit one that has been deployed
 1. Create the project (Singapore). Dashboard → Auth: enable **anonymous sign-ins**, **phone** with **confirmations on**, and an SMS route (provider, or a *Send SMS* hook to a Myanmar SMS gateway); set rate limits (mobile networks in Myanmar share IPs, so per-IP limits need care) and turn on **CAPTCHA for anonymous sign-ins** (needs a small app change).
 2. `npx supabase link --project-ref <ref>` → `npx supabase db push` (migrations only; `seeds/dev.sql` is never pushed).
 3. Load the catalogue once: run `supabase/seeds/catalogue.sql` in the SQL editor (it never overwrites existing dishes).
-4. `npx supabase secrets set --env-file <file>` (see `functions/.env.example`; set `SCAN_DAILY_BUDGET_USD`), then `npx supabase functions deploy scan delete-account`.
-5. App build env: `EXPO_PUBLIC_SUPABASE_URL=https://<ref>.supabase.co`, `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_…` (EAS environment variables). Never ship a secret key.
-6. Smoke test: sign in with a real +95 number, log a meal, scan a photo, delete the account.
+4. Google: in Google Cloud create an OAuth client of type *Web application* with authorized redirect URI `https://<ref>.supabase.co/auth/v1/callback` (and the OAuth consent screen). Dashboard → Auth → Providers → Google: enable, paste client id and secret. Auth → URL Configuration: add `sarai://auth/callback` to the redirect URLs. Auth → Sign In / Providers: turn on **Allow manual linking**.
+5. `npx supabase secrets set --env-file <file>` (see `functions/.env.example`; set `SCAN_DAILY_BUDGET_USD`), then `npx supabase functions deploy scan delete-account`.
+6. App build env: `EXPO_PUBLIC_SUPABASE_URL=https://<ref>.supabase.co`, `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_…` (EAS environment variables). Never ship a secret key.
+7. Smoke test: sign in with a real +95 number and with Google, log a meal, scan a photo, delete the account.
 
 ## What's left
 
@@ -123,7 +126,7 @@ Schema changes = a **new** migration file (never edit one that has been deployed
 |---|---|---|
 | Real scans + model/effort choice | Anthropic API key; ~100 labelled Myanmar meal photos for an accuracy test | 2 |
 | SMS delivery to +95 | SMS provider account or gateway (+ Send SMS hook) | 3 |
-| Google sign-in | Google Cloud OAuth client; native sign-in module (button hidden while a backend is set) | 3 |
+| Google sign-in | Built (browser OAuth, links the anonymous account). Needs a Google Cloud OAuth client (Web application) and its id/secret in `supabase/.env` locally or the dashboard; not yet tried against real Google | 3 |
 | Payments: webhook → `grant_pass` | KBZPay / WavePay vs Play Billing decision + merchant accounts. The paywall still activates a **local mock** pass; the server ignores it, so scans past 3/day are refused | 4 |
 | CAPTCHA on anonymous sign-in | Turnstile/hCaptcha keys + app widget | 5 |
 | Monitoring | Sentry for the app; alert on `scans.cost_usd` and failed scans | 5 |

@@ -20,7 +20,7 @@ Supabase project in `supabase/` (migrations, functions, pgTAP tests); app side i
 - **The server's catalogue is unverified**: the seed copies the illustrative bundled numbers with `verified_by` empty, so with a backend every dish shows *Estimate* until the nutritionist verifies it. (The bundled `verified: true` flags only demo the badge.)
 - **Anonymous account for everyone**, linked to the phone number on sign-in. **Phone confirmations must stay on**: testing showed that with them off, linking a number skipped the code check.
 - **A token can outlive its deleted account** (up to an hour). `sync_*` check the account exists, and the app then starts a new anonymous account at once instead of syncing into nothing (found in testing).
-- **Google sign-in is hidden when a backend is configured** (no OAuth client yet) rather than letting people "sign in" without an account; still shown, as a mock, in builds without a backend.
+- **Google sign-in uses Supabase's browser OAuth (PKCE) in an in-app browser sheet** (`expo-web-browser`), not the native Google SDK: one Web OAuth client instead of Android signing-key fingerprints, no dependency on the free google-signin library's deprecated API, and `linkIdentity` keeps an anonymous user's id and data. `expo-crypto` backs a small Web Crypto polyfill (`lib/webCrypto.ts`) so PKCE uses SHA-256. Native one-tap can come later if the browser step feels slow. (2026-10-31; before this the button was a mock, hidden with a backend.)
 - **Sample history only in development builds**, so release builds start empty.
 - **Builds without `EXPO_PUBLIC_SUPABASE_*` keep the prototype behaviour** (mock scan, any code), so UI work doesn't need the server running.
 - **Local SMS:** a database hook logs codes instead of sending (plus fixed test numbers); production needs a provider or a Send SMS hook to a Myanmar gateway.
@@ -194,6 +194,7 @@ Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, mea
 ## Copy review
 
 All Burmese strings in `src/i18n/locales/my.ts` need native-speaker review. New strings not on the canvas (please check first):
+Batch 5 (Google sign-in): `signIn.google` (Google နဲ့ ဝင်မယ်), `signIn.or` (ဒါမှမဟုတ်), `signIn.errorGoogle` (Google နဲ့ ဝင်လို့ မရဘူး), `settings.account` (အကောင့်).
 Batch 4 (milestones): every `milestones.*` string — screen title ဆုတံဆိပ်, the 25 badge names (e.g. မီးပွား စပြီ, လပြည့်, သင်္ကြန်မှ သင်္ကြန်, လက်ဖက်ရည်ဆိုင် ဖောက်သည်) and their rules.
 Batch 3 (backend): `signIn.errorSend` (ကုဒ် ပို့လို့ မရဘူး), `signIn.errorCode` (ကုဒ် မှားနေတယ်), `signIn.offline` (အင်တာနက် မရှိဘူး), `settings.phone` / `signIn` / `deleteAccount` / `deleteTitle` / `deleteConfirm` / `deleteFailed`, `common.retry` (ပြန်စမ်းမယ်).
 Batch 2 adds (not on the canvas): `target.reachBy` ({{date}} ဆို ရောက်မယ်), `signIn.codeTitle/resend/verify`, `result.analyzing/verified/estimate/oil*`, `shared.addMore`, `textLog.*` (incl. the sample sentence), `search.empty`, `queue.*`, `home.caloriesOver` (ကယ်လိုရီ ကျော်), the `units.*` classifiers (ပန်းကန် / ပွဲ / ဇွန်း / ခု / ခွက်), and Burmese month names in `lib/format.ts`.
