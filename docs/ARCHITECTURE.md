@@ -223,7 +223,7 @@ MealItem { dishId, qty, oil?: less|normal|more, sweetness?: choSeint|pawSeint|ky
 | Area | Prototype | Real version |
 |---|---|---|
 | Photo scan | **Real** with a backend: upload to `meal-photos` + `scan` Edge Function → Claude. Without one: `services/scan.ts` cycles 3 demo answers. Not yet run against the real model (no API key here) | Model/effort chosen with ~100 labelled photos |
-| Dish data | `mocks/dishes.ts` seeds the phone and the server (`supabase/seeds/catalogue.sql`); illustrative numbers, 15 dishes, **none verified** on the server. Recipe-calculated numbers for the same 15 are in `catalogue/` ([CATALOGUE.md](CATALOGUE.md)), drafts, not wired in yet | Verified `dishes` table (200–300) from the nutritionist |
+| Dish data | `mocks/dishes.ts` (names, aliases, photos) seeds the phone and the server (`supabase/seeds/catalogue.sql`). Its numbers, including sugar and sodium, come from the recipe calculation in `catalogue/` ([CATALOGUE.md](CATALOGUE.md)). 15 dishes, all **draft recipes**, so they show *Calculated* and none are verified | Verified `dishes` table (200–300) from the nutritionist |
 | Food photos | Wikimedia Commons images bundled in the app (`assets/images/dishes/`) | Our own photos (bundled + `dish-photos` bucket) |
 | Speech-to-text | Mic fills a sample sentence | Burmese STT provider (open decision); parser stays the same |
 | Phone OTP | **Real** with a backend (Supabase phone auth; local test numbers). Without one: any 6-digit code | SMS provider / gateway for +95 |

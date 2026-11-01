@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
-import { OIL_LEVELS, sumMacros, type OilLevel } from '@/domain/meal';
+import { numbersTier, OIL_LEVELS, sumMacros, type OilLevel } from '@/domain/meal';
 import { formatNumber, formatPlates } from '@/lib/format';
 import { getDish } from '@/mocks/dishes';
 import { CONFIDENCE_THRESHOLD } from '@/services/scan';
@@ -73,7 +73,7 @@ export function ResultScreen() {
   const single = entry.items.length === 1;
   const totals = sumMacros(entry.items);
   const title = entry.items.map((i) => getDish(i.dishId).name[language]).join(', ');
-  const verified = entry.items.every((i) => getDish(i.dishId).verified);
+  const tier = numbersTier(entry.items.map((i) => getDish(i.dishId)));
   const oil = first.oil ?? 'normal';
   const unitStep = dish.unit === 'plate' || dish.unit === 'bowl' ? 0.5 : 1;
 
@@ -115,10 +115,10 @@ export function ResultScreen() {
             {title}
           </Text>
           <Badge
-            key={verified ? 'verified' : 'estimate'}
-            tone={verified ? 'ink' : 'surface'}
-            icon={verified ? 'check' : undefined}
-            label={t(verified ? 'result.verified' : 'result.estimate')}
+            key={tier}
+            tone={tier === 'verified' ? 'ink' : 'surface'}
+            icon={tier === 'verified' ? 'check' : undefined}
+            label={t(`result.${tier}`)}
           />
         </View>
         {single && (

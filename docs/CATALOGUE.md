@@ -2,7 +2,7 @@
 
 How dish numbers are made. Every dish gets a **standard recipe**. Code calculates its nutrition from an **ingredient table**, and the nutritionist reviews it. Why this method, and the plan to reach 500–1,000 dishes: [reports/Dish data plan.md](../reports/Dish%20data%20plan.md).
 
-The app does **not** read this yet. It still uses `src/mocks/dishes.ts`. Wiring `catalogue/calculated.json` into the app and server is the next step (see "Not done yet").
+The app reads `catalogue/calculated.json`: `src/mocks/dishes.ts` takes each dish's unit and numbers from it, and the server seed is generated from that. Result shows **Verified** (reviewed), **Calculated** (draft recipe) or **Estimate** (no recipe).
 
 ## Files
 
@@ -30,6 +30,11 @@ npm run catalogue:ingredients -- <path to FoodData_Central_sr_legacy_food_csv_20
 ```
 
 `npm test` fails when a recipe has errors or the generated files are out of date.
+
+After a build that changes numbers:
+1. Run `UPDATE_SEED=1 npx jest scripts/__tests__/catalogueSeed.test.ts` to regenerate the server seed.
+2. Bump `CATALOGUE_VERSION` and `CATALOGUE_DATE` in `src/db/dishes.ts` so phones re-seed.
+3. A new dish also needs an entry in `src/mocks/dishes.ts` (names, aliases, flags, photo).
 
 ## Ingredients
 
@@ -86,7 +91,8 @@ The **biggest error is portion size**. Weigh real servings: a serving spoon of c
 
 ## Not done yet
 
-- **The app and server don't use `calculated.json` yet.** Next step: generate `src/mocks/dishes.ts` numbers (or a bundled catalogue) and `supabase/seeds/catalogue.sql` from it. Add a third tier, **Calculated**, next to Verified and Estimate. Add `sugar_g` and `sodium_mg` to the phone database, a server migration and the sync mapping.
-- **Units changed:** `gourdFritter` is a piece here but a spoon in the app. Curry `spoon` = 30 g is a guess.
+- **Sugar and sodium** reach the phone and server dish catalogue, but not logged meals (`log_items`), and no screen shows them.
+- **Curry `spoon` = 30 g** is a guess.
 - **Placeholder values** for laphet, ngapi and banana stem: get a label, a paper or a lab value.
 - **The 15 drafts have no sources.** Check them against published recipes.
+- **Staging and production** need the new migration and the regenerated seed when they're set up. The seed never overwrites a row that already exists.

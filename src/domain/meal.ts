@@ -1,4 +1,4 @@
-import { getDish, type DishId } from '@/mocks/dishes';
+import { getDish, type Dish, type DishId } from '@/mocks/dishes';
 
 import { KCAL_PER_RICE_PLATE } from './nutrition';
 
@@ -58,3 +58,12 @@ export function sumMacros(items: MealItem[]): Macros {
 }
 
 export const carbsToRicePlates = (carbG: number) => (carbG * 4) / KCAL_PER_RICE_PLATE;
+
+/** How far a meal's numbers can be trusted: the weakest dish decides. */
+export type NumbersTier = 'verified' | 'calculated' | 'estimate';
+
+export function numbersTier(list: Pick<Dish, 'verified' | 'calculated'>[]): NumbersTier {
+  if (list.every((d) => d.verified)) return 'verified';
+  if (list.every((d) => d.verified || d.calculated)) return 'calculated';
+  return 'estimate';
+}

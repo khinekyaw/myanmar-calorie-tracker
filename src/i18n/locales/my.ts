@@ -120,6 +120,7 @@ const my: Translations = {
     deleteTitle: 'ဒီအစားအစာ ဖျက်မလား?',
     analyzing: 'စစ်နေတယ်…',
     verified: 'အတည်ပြုထားတယ်',
+    calculated: 'တွက်ထားတယ်',
     estimate: 'ခန့်မှန်း',
     less: 'လျှော့မယ်',
     more: 'တိုးမယ်',

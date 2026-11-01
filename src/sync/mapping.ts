@@ -248,13 +248,19 @@ export type ServerDish = {
   carb_g: number;
   protein_g: number;
   fat_g: number;
+  sugar_g: number | null;
+  sodium_mg: number | null;
   oil_sensitive: boolean;
   has_sweetness: boolean;
   is_vegetarian: boolean;
+  source: string | null;
   verified_at: string | null;
   deleted_at: string | null;
   updated_at: string;
 };
+
+/** `dishes.source` for numbers from the recipe calculation (docs/CATALOGUE.md). */
+export const RECIPE_SOURCE = 'recipe';
 
 /** A catalogue dish as the app uses it (photos stay bundled, matched by id). */
 export function dishFromServer(d: ServerDish): Dish {
@@ -269,10 +275,13 @@ export function dishFromServer(d: ServerDish): Dish {
     carbG: Number(d.carb_g),
     proteinG: Number(d.protein_g),
     fatG: Number(d.fat_g),
+    ...(d.sugar_g !== null && d.sugar_g !== undefined && { sugarG: Number(d.sugar_g) }),
+    ...(d.sodium_mg !== null && d.sodium_mg !== undefined && { sodiumMg: Number(d.sodium_mg) }),
     ...(d.oil_sensitive && { oilSensitive: true }),
     ...(d.has_sweetness && { hasSweetness: true }),
     ...(d.is_vegetarian && { isVegetarian: true }),
     verified: d.verified_at !== null,
+    ...(d.source === RECIPE_SOURCE && { calculated: true }),
     ...(d.deleted_at !== null && { retired: true }),
   };
 }

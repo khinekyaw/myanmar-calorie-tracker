@@ -117,6 +117,7 @@ const en = {
     deleteTitle: 'Delete this meal?',
     analyzing: 'Analyzing…',
     verified: 'Verified',
+    calculated: 'Calculated',
     estimate: 'Estimate',
     less: 'Less',
     more: 'More',

@@ -139,17 +139,56 @@ describe('dishes', () => {
       carb_g: 18,
       protein_g: 3,
       fat_g: 4,
+      sugar_g: '16.1' as never,
+      sodium_mg: 61,
       oil_sensitive: false,
       has_sweetness: true,
       is_vegetarian: true,
+      source: 'recipe',
       verified_at: null,
       deleted_at: '2026-10-30T00:00:00Z',
       updated_at: '2026-10-30T00:00:00Z',
     });
-    expect(d).toMatchObject({ kcal: 120, hasSweetness: true, verified: false, retired: true });
+    expect(d).toMatchObject({
+      kcal: 120,
+      sugarG: 16.1,
+      sodiumMg: 61,
+      hasSweetness: true,
+      verified: false,
+      calculated: true,
+      retired: true,
+    });
     expect(d.aliasesMy).toContain('zawgyi-tea');
     expect(d.oilSensitive).toBeUndefined();
     expect(Object.keys(d)).toEqual(expect.arrayContaining(Object.keys(dishes.tea).filter((k) => k !== 'photo')));
+  });
+
+  it('leaves out missing sugar and sodium, and guessed numbers are not calculated', () => {
+    const d = dishFromServer({
+      id: 'x',
+      name_my: 'x',
+      name_en: 'x',
+      aliases_my: [],
+      aliases_zawgyi: [],
+      aliases_roman: [],
+      unit: 'plate',
+      kcal: 100,
+      carb_g: 10,
+      protein_g: 5,
+      fat_g: 4,
+      sugar_g: null,
+      sodium_mg: null,
+      oil_sensitive: false,
+      has_sweetness: false,
+      is_vegetarian: false,
+      source: 'illustrative placeholder',
+      verified_at: null,
+      deleted_at: null,
+      updated_at: '2026-10-30T00:00:00Z',
+    });
+    expect(d.sugarG).toBeUndefined();
+    expect(d.sodiumMg).toBeUndefined();
+    expect(d.calculated).toBeUndefined();
   });
 });
 

@@ -18,7 +18,7 @@ migrations/
   20261030120100_sync.sql          sync_push / sync_pull
   20261030120200_scans_passes.sql  free-scan quota, scan log, Premium passes
   20261030120300_storage.sql       meal-photos (private) and dish-photos (public) buckets
-seeds/catalogue.sql         dish list, generated from src/mocks/dishes.ts (illustrative numbers)
+seeds/catalogue.sql         dish list, generated from src/mocks/dishes.ts (recipe-calculated numbers, drafts)
 seeds/dev.sql               local only: logs SMS codes instead of sending them
 functions/scan/             photo → dishes (Claude vision)
 functions/delete-account/   deletes the account, its photos and every row

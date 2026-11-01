@@ -24,7 +24,7 @@ Read these before changing anything:
 - Every user-facing string goes in `src/i18n/locales/en.ts` **and** `my.ts` (tsc fails if `my.ts` is missing a key). Burmese copy: spoken register ("…မယ်"), ≥ 13px, one short headline per screen, no helper paragraphs.
 - Numbers through `lib/format.ts` (`formatNumber`, `formatPlates`).
 - Icon-only buttons need `accessibilityLabel`; touch targets ≥ 44px.
-- Nutrition numbers in `src/mocks/` are illustrative; never present them as verified.
+- Dish nutrition comes from the recipe calculation in `catalogue/` (docs/CATALOGUE.md): change a recipe and run `npm run catalogue:build`, never type numbers into `src/mocks/dishes.ts`. They are drafts until the nutritionist reviews them; never present them as verified.
 - Check layouts at 360 dp wide in **both** languages.
 - Before calling work done: `npm run typecheck`, `npm run lint`, `npm test` (the `expo lint` wrapper currently fails on the ESLint version check).
 - Data the user creates goes through `src/db/` (SQLite) first, following the sync-ready rules in docs/OFFLINE.md (phone-made UUIDs, `updated_at`, `deleted_at`, `outbox`). Schema changes = a new entry in `MIGRATIONS`.

@@ -17,7 +17,7 @@ Supabase project in `supabase/` (migrations, functions, pgTAP tests); app side i
 - **Half-finished profiles are never pushed**, and a phone without a finished profile takes the server's. Otherwise "I have an account" on a new phone (empty answers) would overwrite the real profile.
 - **Free scans count on the day the photo was taken** (Myanmar time), so photos queued offline overnight use that day's scans; a full day falls back to today; older than 2 days counts as today (limits backdating). A failed scan gives the scan back; a repeated request for the same photo returns the stored answer and isn't charged.
 - **Scan model** defaults to `claude-opus-5-5` at **low effort** (short perception task, user is waiting), with the server-side refusal fallback; both settable without a deploy. Every scan records tokens and estimated cost; `SCAN_DAILY_BUDGET_USD` stops scans for everyone if a day's cost runs away.
-- **The server's catalogue is unverified**: the seed copies the illustrative bundled numbers with `verified_by` empty, so with a backend every dish shows *Estimate* until the nutritionist verifies it. (The bundled `verified: true` flags only demo the badge.)
+- **The server's catalogue is unverified**: the seed copies the bundled numbers with `verified_by` empty. Since 2026-11-01 those are recipe-calculated (`source = 'recipe'`), so dishes show *Calculated* until the nutritionist verifies them. (The bundled `verified: true` flags only demo the badge.)
 - **Anonymous account for everyone**, linked to the phone number on sign-in. **Phone confirmations must stay on**: testing showed that with them off, linking a number skipped the code check.
 - **A token can outlive its deleted account** (up to an hour). `sync_*` check the account exists, and the app then starts a new anonymous account at once instead of syncing into nothing (found in testing).
 - **Google sign-in uses Supabase's browser OAuth (PKCE) in an in-app browser sheet** (`expo-web-browser`), not the native Google SDK: one Web OAuth client instead of Android signing-key fingerprints, no dependency on the free google-signin library's deprecated API, and `linkIdentity` keeps an anonymous user's id and data. `expo-crypto` backs a small Web Crypto polyfill (`lib/webCrypto.ts`) so PKCE uses SHA-256. Native one-tap can come later if the browser step feels slow. (2026-10-31; before this the button was a mock, hidden with a backend.)
@@ -214,6 +214,11 @@ No Myanmar dish table can be used commercially ([reports/Dish data plan.md](../r
 - **Placeholder ingredients** (no source yet) are allowed but flagged, and block `reviewed`.
 - **Components** (`_` prefix) are shared parts, such as broths, fried beans and dough. They let one reviewed base serve many dishes.
 - **Scripts run as plain Node TypeScript** (`node file.ts`, with `allowImportingTsExtensions` in tsconfig and `"type": "module"` in `scripts/catalogue/package.json`), so there's no new dependency. Jest checks the generated files are current, like the catalogue seed.
+- **Wired in:** `mocks/dishes.ts` takes unit and numbers from `catalogue/calculated.json` (`fromRecipe`); it keeps names, aliases, flags and photos. A missing dish is a type error.
+- **Three tiers on Result:** *Verified* (reviewed), *Calculated* (recipe, not reviewed), *Estimate* (anything else, e.g. a server dish with no recipe). A meal takes its weakest dish's tier (`numbersTier`). The server marks calculated dishes with `source = 'recipe'`.
+- **Sugar and sodium** are stored per dish (in the phone's JSON row, plus server columns `sugar_g` and `sodium_mg`), but not per logged item yet. No screen shows them; they're for the blood-sugar and salt features.
+- **Catalogue version 2** re-seeds phones with the new numbers. A local server seeded earlier keeps the old ones (the seed never overwrites), so run `npm run db:reset`.
+- **Gourd fritter is now logged per piece** (it was per spoon).
 - **Review sheets are CSV with a BOM** so the nutritionist can work in Google Sheets or Excel, with Burmese intact.
 
 ## Tests for domain logic only (for now)
@@ -223,6 +228,7 @@ Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, mea
 ## Copy review
 
 All Burmese strings in `src/i18n/locales/my.ts` need native-speaker review. New strings not on the canvas (please check first):
+Batch 9 (dish numbers): `result.calculated` (တွက်ထားတယ်), the badge for recipe-calculated numbers.
 Batch 8 (weekly report): every `report.*` string — title အပတ်စဉ် အစီရင်ခံစာ, the six tips (e.g. ညစာမှာ ထမင်း နည်းနည်း လျှော့မယ်, ထမင်းနပ် မလွတ်စေနဲ့), and the notification (အပတ်စဉ် အစီရင်ခံစာ ရပြီ / ပြီးခဲ့တဲ့ အပတ် ဘယ်လိုလဲ ကြည့်မယ်).
 Batch 7 (paywall): `paywall.perMonth` (တစ်လ ≈ {{price}} ကျပ်).
 Batch 6 (week strip): `home.dayOnTarget` (ကယ်လိုရီ ကိုက်, screen readers only).
