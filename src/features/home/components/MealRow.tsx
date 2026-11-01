@@ -10,6 +10,17 @@ import type { LogEntry } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Icon, Text, type IconName } from '@/ui';
 
+import { useWaitReason, type WaitReason } from '@/features/logging/scanQueue';
+
+/** Card label for a photo that isn't a meal yet. */
+const WAIT_LABEL = {
+  analyzing: 'queue.analyzing',
+  offline: 'queue.waiting',
+  quota: 'queue.quota',
+  failed: 'queue.failed',
+  empty: 'queue.empty',
+} as const satisfies Record<WaitReason, string>;
+
 /** A logged meal (photo, name, time, kcal, macros) or a photo still in the queue. */
 export function MealRow({ entry }: { entry: LogEntry }) {
   const { t } = useTranslation();
@@ -17,16 +28,16 @@ export function MealRow({ entry }: { entry: LogEntry }) {
   const { theme, language } = useStyleContext();
   const first = entry.items[0] ? getDish(entry.items[0].dishId) : undefined;
   const photo = entry.photoUri ?? first?.photo;
-  const pending = entry.status !== 'done';
+  const reason = useWaitReason(entry);
 
   const open = () => router.push({ pathname: '/result', params: { id: entry.id } });
 
-  if (pending) {
-    const analyzing = entry.status === 'analyzing';
+  if (reason) {
+    const analyzing = reason === 'analyzing';
+    // Every waiting photo opens Result, which says why and offers a way on.
     return (
       <Pressable
         accessibilityRole="button"
-        disabled={!analyzing}
         onPress={open}
         style={({ pressed }) => [s.row, pressed && s.pressed]}>
         <View>
@@ -40,7 +51,7 @@ export function MealRow({ entry }: { entry: LogEntry }) {
           </View>
         </View>
         <View style={s.body}>
-          <Text variant="bodyStrong">{analyzing ? t('queue.analyzing') : t('queue.waiting')}</Text>
+          <Text variant="bodyStrong">{t(WAIT_LABEL[reason])}</Text>
           <Text variant="caption" tone="subtle">
             {formatTime(entry.eatenAt, language)}
           </Text>

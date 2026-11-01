@@ -9,14 +9,25 @@ import { getDish } from '@/mocks/dishes';
 import { CONFIDENCE_THRESHOLD } from '@/services/scan';
 import { useEntry, useLog } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
-import { Badge, Button, Chip, ConfirmSheet, Icon, PhotoSheet, Stepper, Text } from '@/ui';
+import { Badge, Button, Chip, ConfirmSheet, Icon, PhotoSheet, Stepper, Text, type IconName } from '@/ui';
+
+import { retryScan, useWaitReason, type WaitReason } from './scanQueue';
 
 const OIL_LABEL = { less: 'result.oilLess', normal: 'result.oilNormal', more: 'result.oilMore' } as const;
+
+/** A photo that isn't a meal yet, and why (see useWaitReason). */
+const WAITING = {
+  quota: { icon: 'clock', title: 'result.waitQuota' },
+  offline: { icon: 'cloudOff', title: 'result.waitOffline' },
+  failed: { icon: 'image', title: 'result.waitFailed' },
+  empty: { icon: 'search', title: 'result.waitEmpty' },
+} as const satisfies Record<Exclude<WaitReason, 'analyzing'>, { icon: IconName; title: string }>;
 
 /**
  * Scan result for one log entry. While the photo is being analysed it shows
  * a loading state, then routes low-confidence scans to PickDish and shared
- * tables to SharedMeal (AI scan contract rules).
+ * tables to SharedMeal (AI scan contract rules). A photo that is waiting
+ * (no free scans, offline, failed) or had no food says why, with a way on.
  */
 export function ResultScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -30,6 +41,7 @@ export function ResultScreen() {
 
   const analyzing = !entry || entry.status !== 'done';
   const lowConfidence = (entry?.confidence ?? 1) < CONFIDENCE_THRESHOLD;
+  const reason = useWaitReason(entry);
 
   // The meal was deleted (here or elsewhere): nothing left to show.
   useEffect(() => {
@@ -38,7 +50,7 @@ export function ResultScreen() {
 
   // Branch once the scan answer arrives (only for fresh, unreviewed scans).
   useEffect(() => {
-    if (!entry || entry.status !== 'done' || entry.source !== 'photo') return;
+    if (!entry || entry.status !== 'done' || entry.source !== 'photo' || !entry.items.length) return;
     if (entry.isSharedMeal && entry.confidence !== 1) {
       router.replace({ pathname: '/shared-meal', params: { id: entry.id } });
     } else if (lowConfidence) {
@@ -49,6 +61,63 @@ export function ResultScreen() {
   const first = entry?.items[0];
   const dish = first ? getDish(first.dishId) : undefined;
   const photo = entry?.photoUri ?? dish?.photo;
+
+  const deleteEntry = () => {
+    setConfirming(false);
+    if (entry) removeEntry(entry.id);
+  };
+  const confirmDelete = (
+    <ConfirmSheet
+      visible={confirming}
+      title={t('result.deleteTitle')}
+      confirmLabel={t('result.delete')}
+      cancelLabel={t('common.cancel')}
+      onConfirm={deleteEntry}
+      onCancel={() => setConfirming(false)}
+    />
+  );
+
+  if (entry && reason && reason !== 'analyzing') {
+    // Log it by words instead: replaces the items, no scan used.
+    const sayOrType = () => router.replace({ pathname: '/text-log', params: { id: entry.id } });
+    return (
+      <PhotoSheet
+        photo={photo}
+        backLabel={t('common.back')}
+        onBack={() => router.dismissTo('/home')}
+        action={{ icon: 'trash', label: t('result.delete'), onPress: () => setConfirming(true) }}
+        footer={
+          <View style={s.footer}>
+            <Button
+              variant={reason === 'empty' ? 'primary' : 'secondary'}
+              label={t('add.voice')}
+              style={s.flex}
+              onPress={sayOrType}
+            />
+            {reason === 'quota' && (
+              <Button label={t('paywall.title')} style={s.flex} onPress={() => router.push('/paywall')} />
+            )}
+            {reason === 'failed' && <Button label={t('common.retry')} style={s.flex} onPress={() => retryScan(entry)} />}
+            {reason === 'offline' && (
+              <Button label={t('result.done')} style={s.flex} onPress={() => router.dismissTo('/home')} />
+            )}
+          </View>
+        }>
+        <View style={s.waiting} accessibilityLiveRegion="polite">
+          <Icon name={WAITING[reason].icon} size={28} color={theme.colors.icon} />
+          <Text variant="headline" accessibilityRole="header">
+            {t(WAITING[reason].title)}
+          </Text>
+          {reason === 'quota' && (
+            <Text variant="body" tone="muted">
+              {t('result.waitQuotaNote')}
+            </Text>
+          )}
+        </View>
+        {confirmDelete}
+      </PhotoSheet>
+    );
+  }
 
   if (analyzing || !entry || !first || !dish) {
     return (
@@ -76,11 +145,6 @@ export function ResultScreen() {
   const tier = numbersTier(entry.items.map((i) => getDish(i.dishId)));
   const oil = first.oil ?? 'normal';
   const unitStep = dish.unit === 'plate' || dish.unit === 'bowl' ? 0.5 : 1;
-
-  const deleteEntry = () => {
-    setConfirming(false);
-    removeEntry(entry.id);
-  };
 
   const setQty = (qty: number) => updateEntry(entry.id, { items: [{ ...first, qty }] });
   const cycleOil = () => {
@@ -168,14 +232,7 @@ export function ResultScreen() {
           />
         )}
       </View>
-      <ConfirmSheet
-        visible={confirming}
-        title={t('result.deleteTitle')}
-        confirmLabel={t('result.delete')}
-        cancelLabel={t('common.cancel')}
-        onConfirm={deleteEntry}
-        onCancel={() => setConfirming(false)}
-      />
+      {confirmDelete}
     </PhotoSheet>
   );
 }
@@ -202,6 +259,7 @@ function MacroTile({ label, grams, color }: { label: string; grams: number; colo
 const useStyles = makeStyles(({ theme }) => ({
   flex: { flex: 1 },
   loading: { flexDirection: 'row', alignItems: 'center', gap: theme.space.md },
+  waiting: { gap: theme.space.md, alignItems: 'flex-start' },
   skeleton: { height: 22, borderRadius: theme.radius.sm, backgroundColor: theme.colors.surface },
   skeletonTall: { height: 72, borderRadius: theme.radius.lg },
   skeletonTile: { flex: 1, height: 64, borderRadius: theme.radius.md },

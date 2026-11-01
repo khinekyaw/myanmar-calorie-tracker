@@ -93,12 +93,22 @@ Paywall (from the camera counter, the 4th scan, Settings, or the weekly report):
 | Streak was a fixed number | **Fixed**: counted from logged days (feast day keeps it) |
 | Progress chart showed only a line | **Fixed**: axis labels, dates, goal line, values on tap, periods, weekly calories |
 
+## Photos that aren't meals yet (2026-11-01)
+
+A queued photo's Home card and its Result screen say why it is waiting. Every card opens Result, which offers a way on. *Say or type* logs it in words, uses no scan, and keeps the photo.
+
+| Why | Home card | Result |
+|---|---|---|
+| Being sent or analysed | *Analyzing…* | spinner |
+| No connection, or not on Wi-Fi in Wi-Fi-only mode | *Waiting* | *Waiting for a connection* · Say or type · Done |
+| Today's free scans used up (also when used on another phone) | *Free scans used up* | *Today's free scans are used up* + "scanned tomorrow" · Say or type · Premium |
+| The last attempt failed (it is still retried in the background) | *Couldn't scan* | *Couldn't scan this photo* · Say or type · Try again |
+| The scan found no food | *No food found* | *No food found in this photo* · Say or type (delete from the top) |
+
 ## Still open (prototype limits)
 
 - ~~Meals reset on app restart~~ Fixed: meals, the photo queue and weights are in on-phone SQLite ([OFFLINE.md](OFFLINE.md)), and sync to Supabase when a backend is configured.
 - Voice works only where the phone's keyboard does Burmese voice typing. Payments are a mock; Google sign-in is built but needs the Google OAuth client to work; scan and OTP are real only with a backend (see [Mocked vs real](ARCHITECTURE.md#mocked-vs-real)).
-- When a scan fails (no connection mid-scan, server error), Result keeps showing *Analyzing…*; the photo is retried in the background and Home shows it as *Waiting*.
-- When the server says the free scans are used up for today (e.g. used on another phone), queued photos wait until tomorrow or Premium without telling the user why.
 - Meals restored on another phone show the dish photo, not the meal photo.
 - Uposatha vegetarian is hidden until it does something (planned: suggest vegetarian dishes first on Uposatha days).
 - Queued photos that come back low-confidence are logged with the top guess; they only ask for review when opened.

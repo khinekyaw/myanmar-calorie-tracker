@@ -243,6 +243,13 @@ Nothing in the app says *Soon* or promises something that doesn't work yet:
 - **The paywall lists only working features:** unlimited scans and the weekly report. *Blood sugar & pressure goals* (`paywall.healthGoals`) returns when it's built.
 - **Kept:** the blood sugar / pressure answers on the goal and Health screens. They're plain questions that promise nothing, and the future features will use them.
 
+## Waiting photos say why (2026-11-01)
+
+A photo that isn't a meal yet used to show *Waiting* or *Analyzing…* forever. Now Home and Result give the reason (`domain/waitReason.ts`, tested) and a way on: *Say or type*, *Try again*, *Premium* or *Done*.
+- **Order of reasons:** no free scans → offline → failed. The first one is what the user can act on.
+- **Failures are remembered in memory** (`useFailedScans` in `scanQueue.ts`), like the retry times. After a restart, the photo is simply tried again.
+- **A scan with no food** stays on Result (*No food found*) instead of opening PickDish with unrelated guesses.
+
 ## Tests for domain logic only (for now)
 
 Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, meal parsing, search). UI is checked on the emulator. Component tests can come once screens stop changing. Note: TypeScript 6 no longer loads global types automatically, so `tsconfig.json` lists `"types": ["jest"]`.
@@ -250,6 +257,7 @@ Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, mea
 ## Copy review
 
 All Burmese strings in `src/i18n/locales/my.ts` need native-speaker review. New strings not on the canvas (please check first):
+Batch 12 (waiting photos): `result.waitQuota` (ဒီနေ့ အခမဲ့ စစ်ခွင့် ကုန်ပြီ), `result.waitQuotaNote` (မနက်ဖြန် စစ်ပေးမယ်), `result.waitOffline` (အင်တာနက် စောင့်နေတယ်), `result.waitFailed` (ဒီဓာတ်ပုံ စစ်လို့ မရဘူး), `result.waitEmpty` (ဒီဓာတ်ပုံမှာ အစားအစာ မတွေ့ဘူး), `queue.quota` / `failed` / `empty`.
 Batch 11 (voice through the keyboard): `textLog.keyboardMic` (ပြောချင်ရင် ကီးဘုတ်က မိုက်ကို နှိပ်ပါ), `add.voice` (ပြောမယ် / ရိုက်မယ်), and the `firstVoice` rule (ပြော ဒါမှမဟုတ် ရိုက်ပြီး မှတ်မယ်).
 Batch 10 (dish names): the Burmese names and spellings of the 100 dishes added on 2026-11-01, in `catalogue/recipes/*.json` (`name.my`, `aliases.my`).
 Batch 9 (dish numbers): `result.calculated` (တွက်ထားတယ်), the badge for recipe-calculated numbers.

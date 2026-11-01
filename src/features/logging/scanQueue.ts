@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
+import { create } from 'zustand';
 
+import { waitReason, type WaitReason } from '@/domain/waitReason';
 import { dayKey } from '@/lib/dates';
 import { useConnectivity } from '@/lib/network';
 import { ensureSession } from '@/services/auth';
@@ -15,6 +17,19 @@ const retryAt = new Map<string, number>();
 
 /** 30 s, 1 min, 2 min … up to 15 minutes. */
 const backoff = (n: number) => Math.min(30_000 * 2 ** (n - 1), 15 * 60_000);
+
+/** Photos whose last scan attempt failed, for Home and Result (in memory, like the retry times). */
+const useFailedScans = create<{ ids: Record<string, true> }>(() => ({ ids: {} }));
+
+function markFailed(id: string, failed: boolean) {
+  useFailedScans.setState((s) => {
+    if (Boolean(s.ids[id]) === failed) return s;
+    const ids = { ...s.ids };
+    if (failed) ids[id] = true;
+    else delete ids[id];
+    return { ids };
+  });
+}
 
 /** Send one photo entry to the scan service and store the answer on the entry. */
 export async function analyzeEntry(entry: LogEntry) {
@@ -40,6 +55,7 @@ export async function analyzeEntry(entry: LogEntry) {
     useScanQuota.getState().syncLeft(scansLeft);
     failures.delete(entry.id);
     retryAt.delete(entry.id);
+    markFailed(entry.id, false);
   } catch (e) {
     const kind = e instanceof ScanError ? e.kind : 'retry';
     // Keep it queued; it is sent again later.
@@ -51,9 +67,30 @@ export async function analyzeEntry(entry: LogEntry) {
       failures.set(entry.id, n);
       // A missing photo is uploaded again straight away, once.
       retryAt.set(entry.id, Date.now() + (kind === 'photo' && n === 1 ? 0 : backoff(n)));
+      if (kind === 'retry' || (kind === 'photo' && n > 1)) markFailed(entry.id, true);
     }
     if (kind !== 'busy') console.warn('[scan]', kind, e instanceof Error ? e.message : e);
   }
+}
+
+/** Try a failed photo again now instead of waiting for its retry time. */
+export function retryScan(entry: LogEntry) {
+  failures.delete(entry.id);
+  retryAt.delete(entry.id);
+  markFailed(entry.id, false);
+  void analyzeEntry(entry);
+}
+
+export type { WaitReason };
+
+/** Why this photo isn't a meal yet (see domain/waitReason.ts). */
+export function useWaitReason(entry: LogEntry | undefined): WaitReason | null {
+  const { canUpload } = useConnectivity();
+  const premium = useIsPremium();
+  const blocked = useScanQuota((s) => s.blockedDay === dayKey(new Date())) && !premium;
+  const failed = useFailedScans((s) => (entry ? Boolean(s.ids[entry.id]) : false));
+  if (!entry) return null;
+  return waitReason({ status: entry.status, itemCount: entry.items.length, blocked, canUpload, failed });
 }
 
 /**

@@ -72,8 +72,8 @@ Target: 2–3 GB RAM, Android 9 or later, slow 3G/4G.
 
 ## 6. Feature gaps to finish
 
-- [ ] **Must · Claude** — When a scan fails, Result stays on *Analyzing…*. Show a clear state with Retry.
-- [ ] **Must · Claude** — When the server says today's free scans are used up (for example, on another phone), tell the user instead of silently waiting.
+- [x] **Must · Claude** — When a scan fails, Result stays on *Analyzing…*. Show a clear state with Retry. *Done 2026-11-01: Result says why a photo waits (failed, offline, no free scans, no food found), with Retry or Say or type.*
+- [x] **Must · Claude** — When the server says today's free scans are used up (for example, on another phone), tell the user instead of silently waiting. *Done 2026-11-01: the Home card reads "Free scans used up"; Result offers Premium or Say or type.*
 - [ ] **Must · You** — **Decide**: are blood sugar / pressure goals (next section) in version 1? Until they're built, the paywall doesn't mention them (hidden 2026-11-01). The weekly report is built.
 - [ ] **Should · Claude** — "You earned a badge" moment after logging.
 - [ ] **Later · Claude** — Uposatha vegetarian: hidden in Settings for version 1 (2026-11-01). To bring it back, suggest vegetarian dishes first on Uposatha days.
