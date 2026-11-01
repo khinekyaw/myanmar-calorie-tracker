@@ -10,7 +10,7 @@ import { formatNumber, formatPlates } from '@/lib/format';
 import { getDish, type Dish, type DishId } from '@/mocks/dishes';
 import { useLog } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
-import { Chip, EdgeScrollView, Icon, IconButton, Screen, Stepper, Text } from '@/ui';
+import { Chip, EdgeScrollView, FadeEdge, Icon, IconButton, Screen, Stepper, Text } from '@/ui';
 
 import { SaveBar } from './components/SaveBar';
 import { useMealDraft } from './mealDraft';
@@ -116,74 +116,79 @@ export function FoodSearchScreen() {
           </EdgeScrollView>
         )}
 
-        <FlatList
-          data={results}
-          keyExtractor={(d) => d.id}
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={s.list}
-          ListEmptyComponent={
-            <Text variant="body" tone="muted" align="center" style={s.empty}>
-              {t('search.empty')}
-            </Text>
-          }
-          renderItem={({ item: dish }) => {
-            const item = picked.find((i) => i.dishId === dish.id);
-            const other = language === 'my' ? dish.name.en : dish.name.my;
-            return (
-              // New key when picked: Android must mount the row with its fill to round it (shape rules).
-              <View key={item ? 'picked' : 'idle'} style={[s.result, item && s.resultPicked]}>
-                <Pressable
-                  accessibilityRole="checkbox"
-                  accessibilityState={{ checked: Boolean(item) }}
-                  onPress={() => toggle(dish)}
-                  style={s.resultRow}>
-                  <View style={s.flex}>
-                    <Text variant="bodyStrong">{dish.name[language]}</Text>
-                    <Text variant="caption" tone="subtle">
-                      {other}
-                    </Text>
-                  </View>
-                  <Text variant="numberSm">{formatNumber(Math.round(item ? itemMacros(item).kcal : dish.kcal), language)}</Text>
-                  <Icon name={item ? 'check' : 'plus'} size={18} strokeWidth={2.2} color={item ? theme.colors.text : theme.colors.textMuted} />
-                </Pressable>
-
-                {item && (
-                  <View style={s.details}>
-                    {dish.hasSweetness && (
-                      <View style={s.chips} accessibilityRole="radiogroup">
-                        {SWEETNESS.map((k) => (
-                          <Chip
-                            key={k}
-                            label={t(`search.${k}`)}
-                            selected={item.sweetness === k}
-                            look="onSurface"
-                            onPress={() => change({ ...item, sweetness: k })}
-                          />
-                        ))}
-                      </View>
-                    )}
-                    <View style={s.amountRow}>
-                      <Stepper
-                        variant="pill"
-                        value={item.qty}
-                        step={dish.unit === 'plate' || dish.unit === 'bowl' ? 0.5 : 1}
-                        min={0.5}
-                        max={20}
-                        display={formatPlates(item.qty, language)}
-                        onChange={(qty) => change({ ...item, qty })}
-                        decreaseLabel={t('result.less')}
-                        increaseLabel={t('result.more')}
-                      />
-                      <Text variant="caption" tone="muted" style={s.flex}>
-                        {t(`units.${dish.unit}`, { count: item.qty })}
+        <View style={s.flex}>
+          <FlatList
+            data={results}
+            keyExtractor={(d) => d.id}
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={s.list}
+            ListEmptyComponent={
+              <Text variant="body" tone="muted" align="center" style={s.empty}>
+                {t('search.empty')}
+              </Text>
+            }
+            renderItem={({ item: dish }) => {
+              const item = picked.find((i) => i.dishId === dish.id);
+              const other = language === 'my' ? dish.name.en : dish.name.my;
+              return (
+                // New key when picked: Android must mount the row with its fill to round it (shape rules).
+                <View key={item ? 'picked' : 'idle'} style={[s.result, item && s.resultPicked]}>
+                  <Pressable
+                    accessibilityRole="checkbox"
+                    accessibilityState={{ checked: Boolean(item) }}
+                    onPress={() => toggle(dish)}
+                    style={s.resultRow}>
+                    <View style={s.flex}>
+                      <Text variant="bodyStrong">{dish.name[language]}</Text>
+                      <Text variant="caption" tone="subtle">
+                        {other}
                       </Text>
                     </View>
-                  </View>
-                )}
-              </View>
-            );
-          }}
-        />
+                    <Text variant="numberSm">{formatNumber(Math.round(item ? itemMacros(item).kcal : dish.kcal), language)}</Text>
+                    <Icon name={item ? 'check' : 'plus'} size={18} strokeWidth={2.2} color={item ? theme.colors.text : theme.colors.textMuted} />
+                  </Pressable>
+
+                  {item && (
+                    <View style={s.details}>
+                      {dish.hasSweetness && (
+                        <View style={s.chips} accessibilityRole="radiogroup">
+                          {SWEETNESS.map((k) => (
+                            <Chip
+                              key={k}
+                              label={t(`search.${k}`)}
+                              selected={item.sweetness === k}
+                              look="onSurface"
+                              onPress={() => change({ ...item, sweetness: k })}
+                            />
+                          ))}
+                        </View>
+                      )}
+                      <View style={s.amountRow}>
+                        <Stepper
+                          variant="pill"
+                          value={item.qty}
+                          step={dish.unit === 'plate' || dish.unit === 'bowl' ? 0.5 : 1}
+                          min={0.5}
+                          max={20}
+                          display={formatPlates(item.qty, language)}
+                          onChange={(qty) => change({ ...item, qty })}
+                          decreaseLabel={t('result.less')}
+                          increaseLabel={t('result.more')}
+                        />
+                        <Text variant="caption" tone="muted" style={s.flex}>
+                          {t(`units.${dish.unit}`, { count: item.qty })}
+                        </Text>
+                      </View>
+                    </View>
+                  )}
+                </View>
+              );
+            }}
+          />
+          {/* Results fade out under the search field, chips and Add button instead of being cut. */}
+          <FadeEdge />
+          {picked.length > 0 && <FadeEdge edge="bottom" />}
+        </View>
       </Screen>
     </KeyboardAvoidingView>
   );
@@ -204,7 +209,8 @@ const useStyles = makeStyles(({ theme }) => ({
     backgroundColor: theme.colors.surface,
   },
   input: { flex: 1, paddingVertical: 0, color: theme.colors.text },
-  list: { paddingTop: theme.space.lg, paddingBottom: theme.space.xxxl, gap: theme.space.xs },
+  // Padding ≥ FadeEdge height, so the fades cover nothing until the list scrolls.
+  list: { paddingTop: theme.space.xxl, paddingBottom: theme.space.xxxl, gap: theme.space.xs },
   empty: { marginTop: theme.space.xxxl },
   result: { borderRadius: theme.radius.lg },
   resultPicked: { backgroundColor: theme.colors.surface },
