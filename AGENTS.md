@@ -19,7 +19,7 @@ Read these before changing anything:
 - Routes in `src/app/` only re-export screens from `src/features/<area>/`.
 - Render text with `<Text variant="…">` from `@/ui` — never react-native `Text` directly — so Burmese/English metrics apply.
 - No hex codes outside `src/theme/palette.ts`. Use semantic tokens via `makeStyles(({ theme, type }) => …)`.
-- Follow docs/ARCHITECTURE.md → "Design rules": filled = rounded (radius tokens), no borders on cards/options, selected = solid ink, colour only on nutrient indicators, shadows only on the + button and sheets, one gutter (`theme.gutter`), press feedback from `theme.opacity`.
+- Follow docs/ARCHITECTURE.md → "Design rules": filled = rounded (radius tokens), no borders on cards/options, selected = solid ink, colour only on nutrient indicators, shadows only on the + button and sheets, one gutter (`theme.gutter`), horizontal scroll rows run edge to edge (`EdgeScrollView`, never clipped by the gutter), press feedback from `theme.opacity`.
 - Android: a rounded view whose fill/border changes with state needs `backgroundColor` and `borderWidth` in its base style (see "Android rounding gotcha").
 - Every user-facing string goes in `src/i18n/locales/en.ts` **and** `my.ts` (tsc fails if `my.ts` is missing a key). Burmese copy: spoken register ("…မယ်"), ≥ 13px, one short headline per screen, no helper paragraphs.
 - Numbers through `lib/format.ts` (`formatNumber`, `formatPlates`).

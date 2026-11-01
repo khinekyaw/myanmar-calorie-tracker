@@ -1,6 +1,6 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
-import { FlatList, KeyboardAvoidingView, Pressable, ScrollView, TextInput, View } from 'react-native';
+import { FlatList, KeyboardAvoidingView, Pressable, TextInput, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { itemMacros, sumMacros, SWEETNESS, type MealItem, type Sweetness } from '@/domain/meal';
@@ -10,7 +10,7 @@ import { formatNumber, formatPlates } from '@/lib/format';
 import { getDish, type Dish, type DishId } from '@/mocks/dishes';
 import { useLog } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
-import { Chip, Icon, IconButton, Screen, Stepper, Text } from '@/ui';
+import { Chip, EdgeScrollView, Icon, IconButton, Screen, Stepper, Text } from '@/ui';
 
 import { SaveBar } from './components/SaveBar';
 import { useMealDraft } from './mealDraft';
@@ -99,12 +99,7 @@ export function FoodSearchScreen() {
         </View>
 
         {picked.length > 0 && (
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            keyboardShouldPersistTaps="handled"
-            style={s.pickedBar}
-            contentContainerStyle={s.picked}>
+          <EdgeScrollView keyboardShouldPersistTaps="handled" style={s.pickedBar} contentContainerStyle={s.picked}>
             {picked.map((item) => {
               const dish = getDish(item.dishId);
               return (
@@ -118,7 +113,7 @@ export function FoodSearchScreen() {
                 />
               );
             })}
-          </ScrollView>
+          </EdgeScrollView>
         )}
 
         <FlatList
@@ -213,7 +208,7 @@ const useStyles = makeStyles(({ theme }) => ({
   empty: { marginTop: theme.space.xxxl },
   result: { borderRadius: theme.radius.lg },
   resultPicked: { backgroundColor: theme.colors.surface },
-  pickedBar: { flexGrow: 0, marginTop: theme.space.md },
+  pickedBar: { marginTop: theme.space.md },
   picked: { gap: theme.space.sm },
   resultRow: {
     flexDirection: 'row',

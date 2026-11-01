@@ -13,6 +13,7 @@ export { Switch } from './Switch';
 export { Text } from './Text';
 export { ScanFrame } from './ScanFrame';
 export { Chip } from './Chip';
+export { EdgeScrollView } from './EdgeScrollView';
 export { PhotoSheet } from './PhotoSheet';
 export { Stepper } from './Stepper';
 export { Logo } from './Logo';

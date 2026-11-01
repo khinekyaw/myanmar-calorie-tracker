@@ -127,7 +127,8 @@ export function RulerPicker({
 }
 
 const useStyles = makeStyles(({ theme }) => ({
-  root: { alignSelf: 'stretch', height: 84, justifyContent: 'center' },
+  // Runs past the gutter to the screen edges so ticks aren't cut off at the padding.
+  root: { alignSelf: 'stretch', marginHorizontal: -theme.gutter, height: 84, justifyContent: 'center' },
   track: { height: 84 },
   tickSlot: { position: 'absolute', top: 8, width: 1, alignItems: 'center' },
   tick: { width: 2, borderRadius: 1, backgroundColor: theme.colors.switchOff },
