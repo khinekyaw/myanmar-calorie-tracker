@@ -63,7 +63,9 @@
     "db:start": "supabase start",
     "db:reset": "supabase db reset",
     "db:types": "supabase gen types typescript --local > src/services/database.types.ts",
-    "check:functions": "cd supabase/functions && npx --yes deno@2 check --no-lock --node-modules-dir=none --no-config scan/index.ts delete-account/index.ts"
+    "check:functions": "cd supabase/functions && npx --yes deno@2 check --no-lock --node-modules-dir=none --no-config scan/index.ts delete-account/index.ts",
+    "catalogue:ingredients": "node scripts/catalogue/ingredients.ts",
+    "catalogue:build": "node scripts/catalogue/build.ts"
   },
   "private": true,
   "jest": {

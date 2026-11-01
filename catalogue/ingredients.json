@@ -1,0 +1,587 @@
+{
+  "bananaStem": {
+    "name": "Banana stem",
+    "source": "PLACEHOLDER: rough guess, no source.",
+    "placeholder": true,
+    "per100g": {
+      "kcal": 15,
+      "carbG": 3,
+      "proteinG": 0.5,
+      "fatG": 0.1,
+      "sugarG": null,
+      "sodiumMg": 10
+    }
+  },
+  "blackPepper": {
+    "name": "Black pepper",
+    "fdcId": 170931,
+    "per100g": {
+      "kcal": 251,
+      "carbG": 63.95,
+      "proteinG": 10.39,
+      "fatG": 3.26,
+      "sugarG": 0.64,
+      "sodiumMg": 20
+    },
+    "usdaName": "Spices, pepper, black"
+  },
+  "bottleGourd": {
+    "name": "Bottle gourd",
+    "fdcId": 169232,
+    "per100g": {
+      "kcal": 14,
+      "carbG": 3.39,
+      "proteinG": 0.62,
+      "fatG": 0.02,
+      "sugarG": null,
+      "sodiumMg": 2
+    },
+    "usdaName": "Gourd, white-flowered (calabash), raw"
+  },
+  "cabbage": {
+    "name": "Cabbage",
+    "fdcId": 169975,
+    "per100g": {
+      "kcal": 25,
+      "carbG": 5.8,
+      "proteinG": 1.28,
+      "fatG": 0.1,
+      "sugarG": 3.2,
+      "sodiumMg": 18
+    },
+    "usdaName": "Cabbage, raw"
+  },
+  "catfish": {
+    "name": "Catfish, raw",
+    "fdcId": 174186,
+    "per100g": {
+      "kcal": 95,
+      "carbG": 0,
+      "proteinG": 16.38,
+      "fatG": 2.82,
+      "sugarG": null,
+      "sodiumMg": 43
+    },
+    "usdaName": "Fish, catfish, channel, wild, raw"
+  },
+  "chickenWithSkin": {
+    "name": "Chicken, meat and skin, raw",
+    "fdcId": 171447,
+    "per100g": {
+      "kcal": 215,
+      "carbG": 0,
+      "proteinG": 18.6,
+      "fatG": 15.06,
+      "sugarG": 0,
+      "sodiumMg": 70
+    },
+    "usdaName": "Chicken, broilers or fryers, meat and skin, raw"
+  },
+  "chickpeaFlour": {
+    "name": "Chickpea flour (besan)",
+    "fdcId": 174288,
+    "per100g": {
+      "kcal": 387,
+      "carbG": 57.82,
+      "proteinG": 22.39,
+      "fatG": 6.69,
+      "sugarG": 10.85,
+      "sodiumMg": 64
+    },
+    "usdaName": "Chickpea flour (besan)"
+  },
+  "chiliRed": {
+    "name": "Chilli, fresh red",
+    "fdcId": 170106,
+    "per100g": {
+      "kcal": 40,
+      "carbG": 8.81,
+      "proteinG": 1.87,
+      "fatG": 0.44,
+      "sugarG": 5.3,
+      "sodiumMg": 9
+    },
+    "usdaName": "Peppers, hot chili, red, raw"
+  },
+  "chineseCabbage": {
+    "name": "Chinese cabbage",
+    "fdcId": 169979,
+    "per100g": {
+      "kcal": 16,
+      "carbG": 3.23,
+      "proteinG": 1.2,
+      "fatG": 0.2,
+      "sugarG": 1.41,
+      "sodiumMg": 9
+    },
+    "usdaName": "Cabbage, chinese (pe-tsai), raw"
+  },
+  "condensedMilk": {
+    "name": "Sweetened condensed milk",
+    "fdcId": 171275,
+    "per100g": {
+      "kcal": 321,
+      "carbG": 54.4,
+      "proteinG": 7.91,
+      "fatG": 8.7,
+      "sugarG": 54.4,
+      "sodiumMg": 127
+    },
+    "usdaName": "Milk, canned, condensed, sweetened"
+  },
+  "coriander": {
+    "name": "Coriander leaves",
+    "fdcId": 169997,
+    "per100g": {
+      "kcal": 23,
+      "carbG": 3.67,
+      "proteinG": 2.13,
+      "fatG": 0.52,
+      "sugarG": 0.87,
+      "sodiumMg": 46
+    },
+    "usdaName": "Coriander (cilantro) leaves, raw"
+  },
+  "curryPowder": {
+    "name": "Curry powder",
+    "fdcId": 170924,
+    "per100g": {
+      "kcal": 325,
+      "carbG": 55.83,
+      "proteinG": 14.29,
+      "fatG": 14.01,
+      "sugarG": 2.76,
+      "sodiumMg": 52
+    },
+    "usdaName": "Spices, curry powder"
+  },
+  "driedSaltedFish": {
+    "name": "Dried salted fish (cod, proxy)",
+    "fdcId": 174190,
+    "per100g": {
+      "kcal": 290,
+      "carbG": 0,
+      "proteinG": 62.82,
+      "fatG": 2.37,
+      "sugarG": 0,
+      "sodiumMg": 7027
+    },
+    "usdaName": "Fish, cod, Atlantic, dried and salted"
+  },
+  "eggBoiled": {
+    "name": "Egg, boiled",
+    "fdcId": 173424,
+    "per100g": {
+      "kcal": 155,
+      "carbG": 1.12,
+      "proteinG": 12.58,
+      "fatG": 10.61,
+      "sugarG": 1.12,
+      "sodiumMg": 124
+    },
+    "usdaName": "Egg, whole, cooked, hard-boiled"
+  },
+  "eggRaw": {
+    "name": "Egg, raw",
+    "fdcId": 171287,
+    "per100g": {
+      "kcal": 143,
+      "carbG": 0.72,
+      "proteinG": 12.56,
+      "fatG": 9.51,
+      "sugarG": 0.37,
+      "sodiumMg": 142
+    },
+    "usdaName": "Egg, whole, raw, fresh"
+  },
+  "evaporatedMilk": {
+    "name": "Evaporated milk",
+    "fdcId": 171276,
+    "per100g": {
+      "kcal": 134,
+      "carbG": 10.04,
+      "proteinG": 6.81,
+      "fatG": 7.56,
+      "sugarG": 10.04,
+      "sodiumMg": 106
+    },
+    "usdaName": "Milk, canned, evaporated, with added vitamin D and without added vitamin A"
+  },
+  "fishSauce": {
+    "name": "Fish sauce",
+    "fdcId": 174531,
+    "per100g": {
+      "kcal": 35,
+      "carbG": 3.64,
+      "proteinG": 5.06,
+      "fatG": 0.01,
+      "sugarG": 3.64,
+      "sodiumMg": 7851
+    },
+    "usdaName": "Sauce, fish, ready-to-serve"
+  },
+  "garlic": {
+    "name": "Garlic",
+    "fdcId": 169230,
+    "per100g": {
+      "kcal": 149,
+      "carbG": 33.06,
+      "proteinG": 6.36,
+      "fatG": 0.5,
+      "sugarG": 1,
+      "sodiumMg": 17
+    },
+    "usdaName": "Garlic, raw"
+  },
+  "ginger": {
+    "name": "Ginger",
+    "fdcId": 169231,
+    "per100g": {
+      "kcal": 80,
+      "carbG": 17.77,
+      "proteinG": 1.82,
+      "fatG": 0.75,
+      "sugarG": 1.7,
+      "sodiumMg": 13
+    },
+    "usdaName": "Ginger root, raw"
+  },
+  "laphet": {
+    "name": "Fermented tea leaves (laphet), plain",
+    "source": "PLACEHOLDER: rough guess, no source. Needs a lab value or a product label.",
+    "placeholder": true,
+    "per100g": {
+      "kcal": 70,
+      "carbG": 10,
+      "proteinG": 4,
+      "fatG": 1,
+      "sugarG": null,
+      "sodiumMg": 400
+    }
+  },
+  "lemongrass": {
+    "name": "Lemongrass",
+    "fdcId": 168573,
+    "per100g": {
+      "kcal": 99,
+      "carbG": 25.31,
+      "proteinG": 1.82,
+      "fatG": 0.49,
+      "sugarG": null,
+      "sodiumMg": 6
+    },
+    "usdaName": "Lemon grass (citronella), raw"
+  },
+  "limeJuice": {
+    "name": "Lime juice",
+    "fdcId": 168156,
+    "per100g": {
+      "kcal": 25,
+      "carbG": 8.42,
+      "proteinG": 0.42,
+      "fatG": 0.07,
+      "sugarG": 1.69,
+      "sodiumMg": 2
+    },
+    "usdaName": "Lime juice, raw"
+  },
+  "ngapi": {
+    "name": "Fermented fish paste (ngapi)",
+    "source": "PLACEHOLDER: rough guess; ngapi is 10–25 % salt (GNLM). Needs a lab value or a product label.",
+    "placeholder": true,
+    "per100g": {
+      "kcal": 150,
+      "carbG": 3,
+      "proteinG": 25,
+      "fatG": 4,
+      "sugarG": 0,
+      "sodiumMg": 7000
+    }
+  },
+  "onion": {
+    "name": "Onion",
+    "fdcId": 170000,
+    "per100g": {
+      "kcal": 40,
+      "carbG": 9.34,
+      "proteinG": 1.1,
+      "fatG": 0.1,
+      "sugarG": 4.24,
+      "sodiumMg": 4
+    },
+    "usdaName": "Onions, raw"
+  },
+  "paprika": {
+    "name": "Chilli powder, mild (paprika)",
+    "fdcId": 171329,
+    "per100g": {
+      "kcal": 282,
+      "carbG": 53.99,
+      "proteinG": 14.14,
+      "fatG": 12.89,
+      "sugarG": 10.34,
+      "sodiumMg": 68
+    },
+    "usdaName": "Spices, paprika"
+  },
+  "peanutOil": {
+    "name": "Peanut oil",
+    "fdcId": 171410,
+    "per100g": {
+      "kcal": 884,
+      "carbG": 0,
+      "proteinG": 0,
+      "fatG": 100,
+      "sugarG": 0,
+      "sodiumMg": 0
+    },
+    "usdaName": "Oil, peanut, salad or cooking"
+  },
+  "peanutsRoasted": {
+    "name": "Peanuts, roasted",
+    "fdcId": 173806,
+    "per100g": {
+      "kcal": 587,
+      "carbG": 21.26,
+      "proteinG": 24.35,
+      "fatG": 49.66,
+      "sugarG": 4.9,
+      "sodiumMg": 6
+    },
+    "usdaName": "Peanuts, all types, dry-roasted, without salt"
+  },
+  "peasCooked": {
+    "name": "Peas, boiled (proxy for pe byote)",
+    "fdcId": 172429,
+    "per100g": {
+      "kcal": 118,
+      "carbG": 21.1,
+      "proteinG": 8.34,
+      "fatG": 0.39,
+      "sugarG": 2.9,
+      "sodiumMg": 2
+    },
+    "usdaName": "Peas, split, mature seeds, cooked, boiled, without salt"
+  },
+  "porkBelly": {
+    "name": "Pork belly, raw",
+    "fdcId": 167812,
+    "per100g": {
+      "kcal": 518,
+      "carbG": 0,
+      "proteinG": 9.34,
+      "fatG": 53.01,
+      "sugarG": 0,
+      "sodiumMg": 32
+    },
+    "usdaName": "Pork, fresh, belly, raw"
+  },
+  "porkShoulder": {
+    "name": "Pork shoulder, lean and fat, raw",
+    "fdcId": 167843,
+    "per100g": {
+      "kcal": 236,
+      "carbG": 0,
+      "proteinG": 17.18,
+      "fatG": 17.99,
+      "sugarG": 0,
+      "sodiumMg": 65
+    },
+    "usdaName": "Pork, fresh, shoulder, whole, separable lean and fat, raw"
+  },
+  "potato": {
+    "name": "Potato",
+    "fdcId": 170026,
+    "per100g": {
+      "kcal": 77,
+      "carbG": 17.49,
+      "proteinG": 2.05,
+      "fatG": 0.09,
+      "sugarG": 0.82,
+      "sodiumMg": 6
+    },
+    "usdaName": "Potatoes, flesh and skin, raw"
+  },
+  "riceCooked": {
+    "name": "Rice, white, cooked",
+    "fdcId": 168930,
+    "per100g": {
+      "kcal": 130,
+      "carbG": 28.59,
+      "proteinG": 2.38,
+      "fatG": 0.21,
+      "sugarG": null,
+      "sodiumMg": 0
+    },
+    "usdaName": "Rice, white, medium-grain, cooked, unenriched"
+  },
+  "riceFlour": {
+    "name": "Rice flour",
+    "fdcId": 169714,
+    "per100g": {
+      "kcal": 366,
+      "carbG": 80.13,
+      "proteinG": 5.95,
+      "fatG": 1.42,
+      "sugarG": 0.12,
+      "sodiumMg": 0
+    },
+    "usdaName": "Rice flour, white, unenriched"
+  },
+  "riceNoodlesCooked": {
+    "name": "Rice noodles, cooked",
+    "fdcId": 168914,
+    "per100g": {
+      "kcal": 108,
+      "carbG": 24.01,
+      "proteinG": 1.79,
+      "fatG": 0.2,
+      "sugarG": 0.03,
+      "sodiumMg": 19
+    },
+    "usdaName": "Rice noodles, cooked"
+  },
+  "salt": {
+    "name": "Salt",
+    "fdcId": 173468,
+    "per100g": {
+      "kcal": 0,
+      "carbG": 0,
+      "proteinG": 0,
+      "fatG": 0,
+      "sugarG": 0,
+      "sodiumMg": 38758
+    },
+    "usdaName": "Salt, table"
+  },
+  "sesameRoasted": {
+    "name": "Sesame seeds, toasted",
+    "fdcId": 170151,
+    "per100g": {
+      "kcal": 565,
+      "carbG": 25.74,
+      "proteinG": 16.96,
+      "fatG": 48,
+      "sugarG": null,
+      "sodiumMg": 11
+    },
+    "usdaName": "Seeds, sesame seeds, whole, roasted and toasted"
+  },
+  "splitPeasRaw": {
+    "name": "Split peas, dry",
+    "fdcId": 172428,
+    "per100g": {
+      "kcal": 364,
+      "carbG": 61.63,
+      "proteinG": 23.12,
+      "fatG": 3.89,
+      "sugarG": 3.14,
+      "sodiumMg": 5
+    },
+    "usdaName": "Peas, green, split, mature seeds, raw"
+  },
+  "sugar": {
+    "name": "Sugar",
+    "fdcId": 169655,
+    "per100g": {
+      "kcal": 387,
+      "carbG": 99.98,
+      "proteinG": 0,
+      "fatG": 0,
+      "sugarG": 99.8,
+      "sodiumMg": 1
+    },
+    "usdaName": "Sugars, granulated"
+  },
+  "teaBrewed": {
+    "name": "Black tea, brewed",
+    "fdcId": 173227,
+    "per100g": {
+      "kcal": 1,
+      "carbG": 0.3,
+      "proteinG": 0,
+      "fatG": 0,
+      "sugarG": 0,
+      "sodiumMg": 3
+    },
+    "usdaName": "Beverages, tea, black, brewed, prepared with tap water"
+  },
+  "tilapia": {
+    "name": "Tilapia, raw",
+    "fdcId": 175176,
+    "per100g": {
+      "kcal": 96,
+      "carbG": 0,
+      "proteinG": 20.08,
+      "fatG": 1.7,
+      "sugarG": 0,
+      "sodiumMg": 52
+    },
+    "usdaName": "Fish, tilapia, raw"
+  },
+  "tomato": {
+    "name": "Tomato",
+    "fdcId": 170457,
+    "per100g": {
+      "kcal": 18,
+      "carbG": 3.89,
+      "proteinG": 0.88,
+      "fatG": 0.2,
+      "sugarG": 2.63,
+      "sodiumMg": 5
+    },
+    "usdaName": "Tomatoes, red, ripe, raw, year round average"
+  },
+  "turmeric": {
+    "name": "Turmeric, ground",
+    "fdcId": 172231,
+    "per100g": {
+      "kcal": 312,
+      "carbG": 67.14,
+      "proteinG": 9.68,
+      "fatG": 3.25,
+      "sugarG": 3.21,
+      "sodiumMg": 27
+    },
+    "usdaName": "Spices, turmeric, ground"
+  },
+  "water": {
+    "name": "Water",
+    "fdcId": 173647,
+    "per100g": {
+      "kcal": 0,
+      "carbG": 0,
+      "proteinG": 0,
+      "fatG": 0,
+      "sugarG": 0,
+      "sodiumMg": 4
+    },
+    "usdaName": "Beverages, water, tap, drinking"
+  },
+  "wheatFlour": {
+    "name": "Wheat flour, plain",
+    "fdcId": 168894,
+    "per100g": {
+      "kcal": 364,
+      "carbG": 76.31,
+      "proteinG": 10.33,
+      "fatG": 0.98,
+      "sugarG": 0.27,
+      "sodiumMg": 2
+    },
+    "usdaName": "Wheat flour, white, all-purpose, enriched, bleached"
+  },
+  "yeast": {
+    "name": "Dry yeast",
+    "fdcId": 175043,
+    "per100g": {
+      "kcal": 325,
+      "carbG": 41.22,
+      "proteinG": 40.44,
+      "fatG": 7.61,
+      "sugarG": 0,
+      "sodiumMg": 51
+    },
+    "usdaName": "Leavening agents, yeast, baker's, active dry"
+  }
+}

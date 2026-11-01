@@ -206,6 +206,16 @@ The black Premium row in Settings and the black selected pass on the paywall rea
 - **One tip**, the first that applies: few days logged → log more; rice over the plan → less rice at dinner; protein under 85 % → add egg/fish/chicken; 3+ days over → fried snacks and sweet tea; average under 85 % → don't skip meals; else praise. Thresholds are ours, not the nutritionist's; review with the rest of the plan rules.
 - **Free vs Premium:** free sees days logged and average calories; the rest is Premium (gold card → paywall), per LAUNCH_CHECKLIST.
 
+## Dish numbers by recipe calculation (2026-11-01)
+
+No Myanmar dish table can be used commercially ([reports/Dish data plan.md](../reports/Dish%20data%20plan.md)). So each dish gets a standard recipe, and `scripts/catalogue/` calculates its nutrition from an ingredient table ([CATALOGUE.md](CATALOGUE.md)).
+- **USDA SR Legacy (CC0) is the ingredient source**, filled in from the CSV download rather than the API, so there's no key and no rate limit. Thai, ASEAN and FAO values are non-commercial, so we don't use them without a licence.
+- **Recipes hold grams, never nutrition numbers.** An LLM may draft a recipe, but the numbers come only from the ingredients, because LLMs are weakest at kcal for mixed and local dishes.
+- **Placeholder ingredients** (no source yet) are allowed but flagged, and block `reviewed`.
+- **Components** (`_` prefix) are shared parts, such as broths, fried beans and dough. They let one reviewed base serve many dishes.
+- **Scripts run as plain Node TypeScript** (`node file.ts`, with `allowImportingTsExtensions` in tsconfig and `"type": "module"` in `scripts/catalogue/package.json`), so there's no new dependency. Jest checks the generated files are current, like the catalogue seed.
+- **Review sheets are CSV with a BOM** so the nutritionist can work in Google Sheets or Excel, with Burmese intact.
+
 ## Tests for domain logic only (for now)
 
 Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, meal parsing, search). UI is checked on the emulator. Component tests can come once screens stop changing. Note: TypeScript 6 no longer loads global types automatically, so `tsconfig.json` lists `"types": ["jest"]`.

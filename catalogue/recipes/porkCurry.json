@@ -1,0 +1,29 @@
+{
+  "id": "porkCurry",
+  "name": {
+    "en": "Pork curry",
+    "my": "ဝက်သားဆီပြန်"
+  },
+  "unit": "spoon",
+  "servingG": 30,
+  "servingWeighed": false,
+  "yieldG": 1400,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "porkBelly", "g": 500 },
+    { "ing": "porkShoulder", "g": 500 },
+    { "ing": "onion", "g": 300 },
+    { "ing": "garlic", "g": 50 },
+    { "ing": "ginger", "g": 30 },
+    { "ing": "turmeric", "g": 5 },
+    { "ing": "paprika", "g": 10 },
+    { "ing": "peanutOil", "g": 100 },
+    { "ing": "fishSauce", "g": 30 },
+    { "ing": "salt", "g": 8 },
+    { "ing": "water", "g": 500 }
+  ],
+  "method": "Slow-cook pork with the paste until tender and the oil separates.",
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. Half belly, half shoulder. One spoon = one serving spoon; weigh a few."
+}

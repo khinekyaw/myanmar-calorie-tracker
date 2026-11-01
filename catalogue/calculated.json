@@ -1,0 +1,265 @@
+{
+  "chickenCurry": {
+    "name": {
+      "en": "Chicken curry",
+      "my": "ကြက်သားဆီပြန်"
+    },
+    "unit": "spoon",
+    "servingG": 30,
+    "kcal": 80,
+    "carbG": 1.3,
+    "proteinG": 4.2,
+    "fatG": 6.5,
+    "sugarG": 0.4,
+    "sodiumMg": 133,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "clearSoup": {
+    "name": {
+      "en": "Clear soup",
+      "my": "ဟင်းချို"
+    },
+    "unit": "bowl",
+    "servingG": 200,
+    "kcal": 17,
+    "carbG": 2.3,
+    "proteinG": 0.4,
+    "fatG": 0.9,
+    "sugarG": 0.2,
+    "sodiumMg": 514,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "driedFish": {
+    "name": {
+      "en": "Fried dried fish",
+      "my": "ငါးခြောက်ကြော်"
+    },
+    "unit": "spoon",
+    "servingG": 15,
+    "kcal": 58,
+    "carbG": 0.6,
+    "proteinG": 6.8,
+    "fatG": 2.9,
+    "sugarG": 0.1,
+    "sodiumMg": 753,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "fishCurry": {
+    "name": {
+      "en": "Fish curry",
+      "my": "ငါးဆီပြန်"
+    },
+    "unit": "spoon",
+    "servingG": 30,
+    "kcal": 46,
+    "carbG": 1.2,
+    "proteinG": 4.2,
+    "fatG": 2.8,
+    "sugarG": 0.4,
+    "sodiumMg": 105,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "gourdFritter": {
+    "name": {
+      "en": "Gourd fritter",
+      "my": "ဘူးသီးကြော်"
+    },
+    "unit": "piece",
+    "servingG": 25,
+    "kcal": 65,
+    "carbG": 4.6,
+    "proteinG": 0.5,
+    "fatG": 5.1,
+    "sugarG": 0,
+    "sodiumMg": 65,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "laphetThoke": {
+    "name": {
+      "en": "Tea leaf salad",
+      "my": "လက်ဖက်သုပ်"
+    },
+    "unit": "plate",
+    "servingG": 164,
+    "kcal": 350,
+    "carbG": 22.2,
+    "proteinG": 9,
+    "fatG": 26.5,
+    "sugarG": 3.6,
+    "sodiumMg": 501,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": [
+      "laphet"
+    ]
+  },
+  "mohinga": {
+    "name": {
+      "en": "Mohinga",
+      "my": "မုန့်ဟင်းခါး"
+    },
+    "unit": "bowl",
+    "servingG": 533,
+    "kcal": 390,
+    "carbG": 50,
+    "proteinG": 16.9,
+    "fatG": 13.3,
+    "sugarG": 2.6,
+    "sodiumMg": 907,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": [
+      "bananaStem"
+    ]
+  },
+  "nanbyaPePyote": {
+    "name": {
+      "en": "Naan & boiled peas",
+      "my": "နံပြား + ပဲပြုတ်"
+    },
+    "unit": "plate",
+    "servingG": 189,
+    "kcal": 376,
+    "carbG": 70.3,
+    "proteinG": 14.1,
+    "fatG": 4,
+    "sugarG": 2.7,
+    "sodiumMg": 794,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "ngapiYay": {
+    "name": {
+      "en": "Fish paste dip",
+      "my": "ငါးပိရည်"
+    },
+    "unit": "spoon",
+    "servingG": 15,
+    "kcal": 4,
+    "carbG": 0.3,
+    "proteinG": 0.6,
+    "fatG": 0.1,
+    "sugarG": 0,
+    "sodiumMg": 151,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": [
+      "ngapi"
+    ]
+  },
+  "palata": {
+    "name": {
+      "en": "Palata",
+      "my": "ပလာတာ"
+    },
+    "unit": "piece",
+    "servingG": 90,
+    "kcal": 300,
+    "carbG": 41.5,
+    "proteinG": 5.8,
+    "fatG": 12,
+    "sugarG": 1.2,
+    "sodiumMg": 314,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "porkCurry": {
+    "name": {
+      "en": "Pork curry",
+      "my": "ဝက်သားဆီပြန်"
+    },
+    "unit": "spoon",
+    "servingG": 30,
+    "kcal": 106,
+    "carbG": 1.3,
+    "proteinG": 3.1,
+    "fatG": 9.8,
+    "sugarG": 0.3,
+    "sodiumMg": 128,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "rice": {
+    "name": {
+      "en": "Rice",
+      "my": "ထမင်း"
+    },
+    "unit": "plate",
+    "servingG": 200,
+    "kcal": 260,
+    "carbG": 57.2,
+    "proteinG": 4.8,
+    "fatG": 0.4,
+    "sugarG": 0,
+    "sodiumMg": 0,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "riceCurry": {
+    "name": {
+      "en": "Rice & curry",
+      "my": "ထမင်းဟင်း"
+    },
+    "unit": "plate",
+    "servingG": 475,
+    "kcal": 726,
+    "carbG": 93.6,
+    "proteinG": 25.1,
+    "fatG": 26.7,
+    "sugarG": 2.9,
+    "sodiumMg": 690,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": [
+      "ngapi"
+    ]
+  },
+  "samusa": {
+    "name": {
+      "en": "Samosa",
+      "my": "စမူဆာ"
+    },
+    "unit": "piece",
+    "servingG": 45,
+    "kcal": 130,
+    "carbG": 14.8,
+    "proteinG": 2,
+    "fatG": 7.1,
+    "sugarG": 0.4,
+    "sodiumMg": 114,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "tea": {
+    "name": {
+      "en": "Milk tea",
+      "my": "လက်ဖက်ရည်"
+    },
+    "unit": "cup",
+    "servingG": 150,
+    "kcal": 115,
+    "carbG": 16.4,
+    "proteinG": 3.7,
+    "fatG": 4.1,
+    "sugarG": 16.1,
+    "sodiumMg": 61,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  }
+}

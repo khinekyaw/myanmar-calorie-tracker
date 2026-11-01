@@ -9,6 +9,7 @@ Read these before changing anything:
 - `docs/OFFLINE.md` — on-phone database (source of truth), sync-ready rules, how sync works.
 - `docs/BACKEND.md` — Supabase backend: schema, sync, scan function, running locally, deploying, what's left.
 - `docs/USER_FLOWS.md` — how people use the app; known gaps.
+- `docs/CATALOGUE.md` — dish numbers by recipe calculation: ingredient table, recipes, review sheets.
 - `docs/BADGES.md` — milestones: the 25 badges, their rules and art.
 - `docs/LAUNCH_CHECKLIST.md` — what's left before launch (security, performance, setup) and how the Premium features will work.
 - Design canvas (22 screens): https://claude.ai/artifact/DYDw9tRFavDJruN3XiGX6M

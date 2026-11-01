@@ -1,0 +1,27 @@
+{
+  "id": "samusa",
+  "name": {
+    "en": "Samosa",
+    "my": "စမူဆာ"
+  },
+  "unit": "piece",
+  "servingG": 45,
+  "servingWeighed": false,
+  "yieldG": 1250,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "potato", "g": 500 },
+    { "ing": "onion", "g": 150 },
+    { "ing": "peanutOil", "g": 30 },
+    { "ing": "curryPowder", "g": 10 },
+    { "ing": "salt", "g": 8 },
+    { "ing": "wheatFlour", "g": 400 },
+    { "ing": "water", "g": 180 },
+    { "ing": "peanutOil", "g": 40 },
+    { "ing": "peanutOil", "g": 1500, "kept": 0.08 }
+  ],
+  "method": "Potato and onion filling with curry powder; folded pastry; deep-fried.",
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. Lines: filling oil, dough oil, then deep-frying oil (8 % kept). Piece size is a guess."
+}

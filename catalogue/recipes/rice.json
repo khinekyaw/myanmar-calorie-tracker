@@ -1,0 +1,17 @@
+{
+  "id": "rice",
+  "name": {
+    "en": "Rice",
+    "my": "ထမင်း"
+  },
+  "unit": "plate",
+  "servingG": 200,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "riceCooked", "g": 200 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. KCAL_PER_RICE_PLATE (src/domain/nutrition.ts) assumes the same 200 g."
+}

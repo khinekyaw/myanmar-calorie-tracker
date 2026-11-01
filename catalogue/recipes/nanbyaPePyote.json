@@ -1,0 +1,22 @@
+{
+  "id": "nanbyaPePyote",
+  "name": {
+    "en": "Naan & boiled peas",
+    "my": "နံပြား + ပဲပြုတ်"
+  },
+  "unit": "plate",
+  "servingG": 189,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "dish": "_naan", "g": 100 },
+    { "ing": "peasCooked", "g": 80 },
+    { "ing": "peanutOil", "g": 3 },
+    { "ing": "onion", "g": 5 },
+    { "ing": "salt", "g": 1 }
+  ],
+  "method": "One naan with boiled peas, a little oil, onion and salt.",
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. USDA has no pe byote; boiled split peas stand in for it."
+}

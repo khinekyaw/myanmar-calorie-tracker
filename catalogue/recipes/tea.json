@@ -1,0 +1,20 @@
+{
+  "id": "tea",
+  "name": {
+    "en": "Milk tea",
+    "my": "လက်ဖက်ရည်"
+  },
+  "unit": "cup",
+  "servingG": 150,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "teaBrewed", "g": 100 },
+    { "ing": "evaporatedMilk", "g": 25 },
+    { "ing": "condensedMilk", "g": 25 }
+  ],
+  "method": "Strong tea with evaporated and condensed milk, as poured in a tea shop (ပေါ့စိမ့် is the default).",
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes."
+}

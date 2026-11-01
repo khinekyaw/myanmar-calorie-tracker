@@ -1,0 +1,25 @@
+{
+  "id": "gourdFritter",
+  "name": {
+    "en": "Gourd fritter",
+    "my": "ဘူးသီးကြော်"
+  },
+  "unit": "piece",
+  "servingG": 25,
+  "servingWeighed": false,
+  "yieldG": 750,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "bottleGourd", "g": 500 },
+    { "ing": "riceFlour", "g": 100 },
+    { "ing": "wheatFlour", "g": 50 },
+    { "ing": "water", "g": 200 },
+    { "ing": "salt", "g": 5 },
+    { "ing": "turmeric", "g": 2 },
+    { "ing": "peanutOil", "g": 1500, "kept": 0.1 }
+  ],
+  "method": "Gourd strips in rice-flour batter, deep-fried.",
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. The app logs this in spoons today; a piece fits better. Oil kept 10 % of the frying oil."
+}

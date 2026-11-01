@@ -1,0 +1,28 @@
+{
+  "id": "laphetThoke",
+  "name": {
+    "en": "Tea leaf salad",
+    "my": "လက်ဖက်သုပ်"
+  },
+  "unit": "plate",
+  "servingG": 164,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "laphet", "g": 25 },
+    { "dish": "_friedSplitPeas", "g": 20 },
+    { "ing": "peanutsRoasted", "g": 10 },
+    { "dish": "_friedGarlic", "g": 5 },
+    { "ing": "sesameRoasted", "g": 3 },
+    { "ing": "cabbage", "g": 40 },
+    { "ing": "tomato", "g": 40 },
+    { "ing": "peanutOil", "g": 12 },
+    { "ing": "limeJuice", "g": 5 },
+    { "ing": "chiliRed", "g": 3 },
+    { "ing": "salt", "g": 1 }
+  ],
+  "method": "Toss everything by hand just before serving.",
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. Vegetarian version (salt, no fish sauce or dried shrimp), as in the app."
+}

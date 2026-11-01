@@ -1,0 +1,29 @@
+{
+  "id": "fishCurry",
+  "name": {
+    "en": "Fish curry",
+    "my": "ငါးဆီပြန်"
+  },
+  "unit": "spoon",
+  "servingG": 30,
+  "servingWeighed": false,
+  "yieldG": 1500,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "tilapia", "g": 1000 },
+    { "ing": "onion", "g": 250 },
+    { "ing": "garlic", "g": 40 },
+    { "ing": "ginger", "g": 30 },
+    { "ing": "turmeric", "g": 5 },
+    { "ing": "paprika", "g": 10 },
+    { "ing": "tomato", "g": 150 },
+    { "ing": "peanutOil", "g": 120 },
+    { "ing": "fishSauce", "g": 30 },
+    { "ing": "salt", "g": 6 },
+    { "ing": "water", "g": 200 }
+  ],
+  "method": "Fry the paste and tomato, add fish pieces, simmer gently until the oil separates.",
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. Fish weight without bones. One spoon = one serving spoon; weigh a few."
+}

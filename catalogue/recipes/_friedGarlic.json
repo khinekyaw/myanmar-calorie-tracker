@@ -1,0 +1,18 @@
+{
+  "id": "_friedGarlic",
+  "name": {
+    "en": "Fried garlic",
+    "my": "ကြက်သွန်ဖြူကြော်"
+  },
+  "servingWeighed": false,
+  "yieldG": 70,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "garlic", "g": 100 },
+    { "ing": "peanutOil", "g": 150, "kept": 0.3 }
+  ],
+  "method": "Slice thin, fry slowly until golden, drain.",
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes."
+}
