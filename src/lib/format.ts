@@ -57,14 +57,25 @@ export function formatMonthYear(date: Date, language: Language) {
   return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 }
 
-const WEEKDAYS_MY = ['တနင်္ဂနွေ', 'တနင်္လာ', 'အင်္ဂါ', 'ဗုဒ္ဓဟူး', 'ကြာသပတေး', 'သောကြာ', 'စနေ'];
+/** "Oct 27" / "အောက်တိုဘာ 27": a date without the year, for ranges. */
+export function formatMonthDay(date: Date, language: Language) {
+  if (language === 'my') return toNumerals(`${MONTHS_MY[date.getMonth()]} ${date.getDate()}`, language);
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
 
-/** "Tue, Oct 27" / "အင်္ဂါ၊ အောက်တိုဘာ 27". */
+/**
+ * The app's date: "Oct 27, 2026" / "အောက်တိုဘာ 27၊ 2026". No weekday (people
+ * rarely need it) and always the year.
+ */
 export function formatDayLabel(date: Date, language: Language) {
-  if (language === 'my') {
-    return toNumerals(`${WEEKDAYS_MY[date.getDay()]}၊ ${MONTHS_MY[date.getMonth()]} ${date.getDate()}`, language);
-  }
-  return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+  if (language === 'my') return toNumerals(`${formatMonthDay(date, language)}၊ ${date.getFullYear()}`, language);
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+/** "Oct 27 – Nov 2, 2026": the year once at the end, or on both ends across a new year. */
+export function formatDayRange(start: Date, end: Date, language: Language) {
+  const from = start.getFullYear() === end.getFullYear() ? formatMonthDay(start, language) : formatDayLabel(start, language);
+  return `${from} – ${formatDayLabel(end, language)}`;
 }
 
 /** Short axis label: "Oct 27" / "27/10" (Burmese month names are too long for an axis). */

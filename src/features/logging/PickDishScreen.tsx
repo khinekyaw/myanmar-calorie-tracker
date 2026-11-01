@@ -4,7 +4,7 @@ import { Pressable, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { popularDishes } from '@/domain/search';
-import { getDish, listDishes, type DishId } from '@/mocks/dishes';
+import { getDish, listDishes, type DishId } from '@/data/dishes';
 import { useEntry, useLog } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Badge, Button, Icon, PhotoSheet, Text } from '@/ui';

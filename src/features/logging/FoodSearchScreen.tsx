@@ -7,7 +7,7 @@ import { itemMacros, sumMacros, SWEETNESS, type MealItem, type Sweetness } from 
 import { popularDishes, searchDishes } from '@/domain/search';
 import { tap } from '@/lib/haptics';
 import { formatNumber, formatPlates } from '@/lib/format';
-import { getDish, type Dish, type DishId } from '@/mocks/dishes';
+import { getDish, type Dish, type DishId } from '@/data/dishes';
 import { useLog } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Chip, EdgeScrollView, FadeEdge, Icon, IconButton, Screen, Stepper, Text } from '@/ui';
@@ -26,7 +26,7 @@ export function FoodSearchScreen() {
   const { addTo } = useLocalSearchParams<{ addTo?: string }>();
   const { t } = useTranslation();
   const s = useStyles();
-  const { theme, language, type } = useStyleContext();
+  const { theme, language } = useStyleContext();
   const addEntry = useLog((st) => st.addEntry);
   const draftId = useMealDraft((st) => st.id);
   const putInDraft = useMealDraft((st) => st.put);
@@ -88,7 +88,7 @@ export function FoodSearchScreen() {
               cursorColor={theme.colors.cursor}
               selectionHandleColor={theme.colors.cursor}
               accessibilityLabel={t('search.placeholder')}
-              style={[type.body, s.input]}
+              style={s.input}
             />
             {query !== '' && (
               <Pressable accessibilityRole="button" accessibilityLabel={t('common.close')} hitSlop={10} onPress={() => setQuery('')}>
@@ -194,7 +194,7 @@ export function FoodSearchScreen() {
   );
 }
 
-const useStyles = makeStyles(({ theme }) => ({
+const useStyles = makeStyles(({ theme, type }) => ({
   fill: { flex: 1, backgroundColor: theme.colors.background },
   flex: { flex: 1 },
   header: { flexDirection: 'row', alignItems: 'center', gap: theme.space.sm, paddingTop: theme.space.md },
@@ -208,7 +208,17 @@ const useStyles = makeStyles(({ theme }) => ({
     borderRadius: theme.radius.pill,
     backgroundColor: theme.colors.surface,
   },
-  input: { flex: 1, paddingVertical: 0, color: theme.colors.text },
+  // Fills the pill and centres its text. No fixed lineHeight: Android's text
+  // field draws Burmese stacked letters taller than it and clips them.
+  input: {
+    fontFamily: type.body.fontFamily,
+    fontSize: type.body.fontSize,
+    flex: 1,
+    height: '100%',
+    paddingVertical: 0,
+    textAlignVertical: 'center',
+    color: theme.colors.text,
+  },
   // Padding ≥ FadeEdge height, so the fades cover nothing until the list scrolls.
   list: { paddingTop: theme.space.xxl, paddingBottom: theme.space.xxxl, gap: theme.space.xs },
   empty: { marginTop: theme.space.xxxl },

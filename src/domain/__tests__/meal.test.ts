@@ -1,4 +1,4 @@
-import { dishes } from '@/mocks/dishes';
+import { dishes } from '@/data/dishes';
 
 import { itemMacros, numbersTier } from '../meal';
 import { KCAL_PER_RICE_PLATE } from '../nutrition';

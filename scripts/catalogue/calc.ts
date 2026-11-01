@@ -8,7 +8,7 @@ export const NUTRIENTS = ['kcal', 'carbG', 'proteinG', 'fatG', 'sugarG', 'sodium
 export type Nutrient = (typeof NUTRIENTS)[number];
 export type Nutrients = Record<Nutrient, number>;
 
-/** Same as `Unit` in src/mocks/dishes.ts (the test checks they match). */
+/** Same as `Unit` in src/data/dishes.ts (the test checks they match). */
 export type Unit = 'plate' | 'bowl' | 'spoon' | 'piece' | 'cup';
 
 export type Ingredient = {

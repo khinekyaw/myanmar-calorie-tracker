@@ -57,8 +57,6 @@ const my: Translations = {
   },
   target: {
     title: 'ရည်မှန်း အလေးချိန်',
-    decrease: 'လျှော့မယ်',
-    increase: 'တိုးမယ်',
     perWeek: 'တစ်ပတ် (lb)',
     reachBy: '{{date}} ဆို ရောက်မယ်',
   },
@@ -243,6 +241,10 @@ const my: Translations = {
     titleWeight: 'ကိုယ်အလေးချိန် မှတ်မယ်',
     titleWaist: 'ခါးလုံးပတ် မှတ်မယ်',
     last: 'နောက်ဆုံး: {{value}} · {{date}}',
+    yesterday: 'မနေ့က',
+    pickDay: 'ရက်ပြောင်းမယ်',
+    earlierMonth: 'အရင်လ',
+    laterMonth: 'နောက်လ',
   },
   health: {
     body: 'ခန္ဓာကိုယ်',

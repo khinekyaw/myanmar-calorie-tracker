@@ -22,6 +22,12 @@ const icons = {
   close: <Path d="M6 6l12 12M18 6 6 18" />,
   chevronLeft: <Path d="m15 18-6-6 6-6" />,
   chevronRight: <Path d="m9 18 6-6-6-6" />,
+  calendar: (
+    <>
+      <Rect x={3.5} y={5} width={17} height={15.5} rx={2.5} />
+      <Path d="M3.5 10h17M8 3v4M16 3v4" />
+    </>
+  ),
   camera: (
     <>
       <Path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.8l1.4-2h4.6l1.4 2h1.8A2.5 2.5 0 0 1 20 8.5v9a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 17.5z" />

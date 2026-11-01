@@ -3,7 +3,7 @@ import { dayKey } from '@/lib/dates';
 import type { LogEntry } from '@/store/log';
 import type { Measurement } from '@/store/weights';
 
-import type { DishId } from './dishes';
+import type { DishId } from '@/data/dishes';
 
 /**
  * ILLUSTRATIVE data written to the on-phone database on first launch only,

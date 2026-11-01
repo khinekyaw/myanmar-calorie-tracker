@@ -2,7 +2,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { dishes } from '@/mocks/dishes';
+import { dishes } from '@/data/dishes';
 
 import { catalogueSeedSql } from '../catalogueSeed';
 

@@ -2,7 +2,7 @@
 
 How dish numbers are made. Every dish gets a **standard recipe**. Code calculates its nutrition from an **ingredient table**, and the nutritionist reviews it. Why this method, and the plan to reach 500–1,000 dishes: [reports/Dish data plan.md](../reports/Dish%20data%20plan.md).
 
-The app reads `catalogue/calculated.json`. `src/mocks/dishes.ts` builds every dish from it (names, aliases, flags, unit, numbers) and only adds bundled photos, and the server seed is generated from that. Result shows **Verified** (reviewed), **Calculated** (draft recipe) or **Estimate** (no recipe).
+The app reads `catalogue/calculated.json`. `src/data/dishes.ts` builds every dish from it (names, aliases, flags, unit, numbers) and only adds bundled photos, and the server seed is generated from that. Result shows **Verified** (reviewed), **Calculated** (draft recipe) or **Estimate** (no recipe).
 
 ## Files
 
@@ -34,7 +34,7 @@ npm run catalogue:ingredients -- <path to FoodData_Central_sr_legacy_food_csv_20
 After a build that changes numbers:
 1. Run `UPDATE_SEED=1 npx jest scripts/__tests__/catalogueSeed.test.ts` to regenerate the server seed.
 2. Bump `CATALOGUE_VERSION` and `CATALOGUE_DATE` in `src/db/dishes.ts` so phones re-seed.
-3. A new dish needs nothing else in the app. Only a bundled photo goes in `dishPhotos` in `src/mocks/dishes.ts`.
+3. A new dish needs nothing else in the app. Only a bundled photo goes in `dishPhotos` in `src/data/dishes.ts`.
 
 ## Ingredients
 

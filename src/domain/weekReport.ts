@@ -1,3 +1,5 @@
+import { daysBetween, shiftDay } from '@/lib/dates';
+
 import { calorieDay } from './badges';
 
 /**
@@ -48,26 +50,11 @@ export type WeekReport = {
   tip: TipId;
 };
 
-const DAY_MS = 86_400_000;
-const toNumber = (key: string) => {
-  const [y, m, d] = key.split('-').map(Number);
-  return Math.round(Date.UTC(y, m - 1, d) / DAY_MS);
-};
-const toKey = (n: number) => new Date(n * DAY_MS).toISOString().slice(0, 10);
-
-export const addDays = (key: string, days: number) => toKey(toNumber(key) + days);
-
-/** Monday of the week a day falls in (1970-01-01 was a Thursday). */
-export const weekStartOf = (key: string) => {
-  const n = toNumber(key);
-  return toKey(n - ((n + 3) % 7));
-};
-
 const average = (values: number[]) => (values.length ? values.reduce((a, b) => a + b, 0) / values.length : 0);
 
 export function weekReport(input: ReportInput): WeekReport {
   const { weekStart, targets } = input;
-  const weekEnd = addDays(weekStart, 6);
+  const weekEnd = shiftDay(weekStart, 6);
   const inWeek = (day: string) => day >= weekStart && day <= weekEnd;
 
   const days = input.days.filter((d) => inWeek(d.day) && d.kcal > 0);
@@ -104,7 +91,7 @@ export function weekReport(input: ReportInput): WeekReport {
     topDishes,
   };
   // Finished days so far (today isn't over, so it isn't expected yet).
-  const elapsed = report.complete ? 7 : toNumber(input.today) - toNumber(weekStart);
+  const elapsed = report.complete ? 7 : daysBetween(weekStart, input.today);
   return { ...report, tip: pickTip(report, targets, elapsed) };
 }
 

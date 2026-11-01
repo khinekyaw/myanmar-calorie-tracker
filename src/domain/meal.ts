@@ -1,4 +1,4 @@
-import { getDish, type Dish, type DishId } from '@/mocks/dishes';
+import { getDish, type Dish, type DishId } from '@/data/dishes';
 
 import { KCAL_PER_RICE_PLATE } from './nutrition';
 

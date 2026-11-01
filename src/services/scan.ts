@@ -2,7 +2,7 @@ import { FunctionsHttpError } from '@supabase/supabase-js';
 import { File } from 'expo-file-system';
 import { ImageManipulator, SaveFormat } from 'expo-image-manipulator';
 
-import type { DishId } from '@/mocks/dishes';
+import type { DishId } from '@/data/dishes';
 import type { MealItem } from '@/domain/meal';
 
 import { ensureSession } from './auth';

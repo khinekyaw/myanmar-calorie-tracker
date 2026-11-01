@@ -54,8 +54,6 @@ const en = {
   },
   target: {
     title: 'Target weight',
-    decrease: 'Decrease',
-    increase: 'Increase',
     perWeek: 'Per week (lb)',
     reachBy: 'By {{date}}',
   },
@@ -240,6 +238,10 @@ const en = {
     titleWeight: 'Log weight',
     titleWaist: 'Log waist',
     last: 'Last: {{value}} · {{date}}',
+    yesterday: 'Yesterday',
+    pickDay: 'change date',
+    earlierMonth: 'Previous month',
+    laterMonth: 'Next month',
   },
   health: {
     body: 'Body',

@@ -12,6 +12,13 @@ export type TextProps = RNTextProps & {
   /** Escape hatch for one-off colours (e.g. nutrient colours). */
   color?: string;
   align?: 'left' | 'center' | 'right';
+  /**
+   * The text decides the width of its box (a pill, chip or badge). Android
+   * measures Burmese a little narrower than it draws, so at large font sizes
+   * the last mark (the dot in နေ့) is cut off; this adds a no-break space
+   * after Burmese text to make room.
+   */
+  hugged?: boolean;
 };
 
 const toneColor = (theme: Theme, tone: Tone) =>
@@ -33,7 +40,7 @@ const MYANMAR = /[\u1000-\u109F\uAA60-\uAA7F\uA9E0-\uA9FF]/;
  * and Latin-only strings inside the Burmese UI ("Premium", "KBZPay") get Inter.
  * A number style holding Burmese words gets the Burmese font at the same size.
  */
-export function Text({ variant = 'body', tone = 'default', color, align, style, children, ...rest }: TextProps) {
+export function Text({ variant = 'body', tone = 'default', color, align, hugged, style, children, ...rest }: TextProps) {
   const { theme, type, language } = useStyleContext();
   const script = typeof children === 'string' ? (MYANMAR.test(children) ? 'my' : 'en') : language;
   const scale =
@@ -46,7 +53,7 @@ export function Text({ variant = 'body', tone = 'default', color, align, style, 
     <RNText
       {...rest}
       style={[scale[variant], { color: color ?? toneColor(theme, tone) }, align && { textAlign: align }, style]}>
-      {children}
+      {hugged && typeof children === 'string' && script === 'my' ? `${children}\u00A0` : children}
     </RNText>
   );
 }

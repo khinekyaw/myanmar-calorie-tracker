@@ -42,7 +42,7 @@ export function Chip({ label, icon, onPress, selected, look = 'fill', accessibil
       ]}>
       {icon && <Icon name={icon} size={16} strokeWidth={2.2} color={fg} />}
       {label && (
-        <Text variant="label" color={fg}>
+        <Text variant="label" color={fg} hugged>
           {label}
         </Text>
       )}

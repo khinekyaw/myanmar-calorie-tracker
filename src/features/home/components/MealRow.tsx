@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import { carbsToRicePlates, sumMacros } from '@/domain/meal';
 import { formatNumber, formatPlates, formatTime } from '@/lib/format';
-import { getDish } from '@/mocks/dishes';
+import { getDish } from '@/data/dishes';
 import type { LogEntry } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Icon, Text, type IconName } from '@/ui';

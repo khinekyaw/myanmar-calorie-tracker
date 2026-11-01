@@ -1,4 +1,4 @@
-import { dishes } from '@/mocks/dishes';
+import { dishes } from '@/data/dishes';
 import type { OnboardingDraft } from '@/store/onboarding';
 
 import {

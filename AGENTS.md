@@ -24,14 +24,14 @@ Read these before changing anything:
 - Every user-facing string goes in `src/i18n/locales/en.ts` **and** `my.ts` (tsc fails if `my.ts` is missing a key). Burmese copy: spoken register ("…မယ်"), ≥ 13px, one short headline per screen, no helper paragraphs.
 - Numbers through `lib/format.ts` (`formatNumber`, `formatPlates`).
 - Icon-only buttons need `accessibilityLabel`; touch targets ≥ 44px.
-- Dish nutrition comes from the recipe calculation in `catalogue/` (docs/CATALOGUE.md): change a recipe and run `npm run catalogue:build`, never type numbers into `src/mocks/dishes.ts`. They are drafts until the nutritionist reviews them; never present them as verified.
+- Dish nutrition comes from the recipe calculation in `catalogue/` (docs/CATALOGUE.md): change a recipe and run `npm run catalogue:build`, never type numbers into `src/data/dishes.ts`. They are drafts until the nutritionist reviews them; never present them as verified.
 - Check layouts at 360 dp wide in **both** languages.
 - Before calling work done: `npm run typecheck`, `npm run lint`, `npm test` (the `expo lint` wrapper currently fails on the ESLint version check).
 - Data the user creates goes through `src/db/` (SQLite) first, following the sync-ready rules in docs/OFFLINE.md (phone-made UUIDs, `updated_at`, `deleted_at`, `outbox`). Schema changes = a new entry in `MIGRATIONS`.
 - Server changes = a **new** file in `supabase/migrations/` (never edit a deployed one), row-level security on every table, then `npm run db:types`. A synced field also needs `src/sync/mapping.ts` (+ its test). Only the server grants scans or Premium.
 - The app must keep working without a backend (`backendEnabled` false → prototype mocks) and offline.
 - Touching `supabase/`: also run `npm run test:db` (local stack running) and `npm run check:functions`.
-- Mocks (scan, STT, OTP, payments, dish numbers) are listed in docs/ARCHITECTURE.md → "Mocked vs real"; keep that table current.
+- Mocks (scan without a backend, OTP, payments, draft dish numbers) are listed in docs/ARCHITECTURE.md → "Mocked vs real"; keep that table current.
 
 ---
 

@@ -34,7 +34,7 @@ export function Badge({ label, tone = 'surface', icon, dot, style }: Props) {
     <View style={[s.base, s[tone], style]}>
       {icon && <Icon name={icon} size={12} strokeWidth={3} color={fg} />}
       {dot && <View style={[s.dot, { backgroundColor: dot }]} />}
-      <Text variant="caption" color={fg} numberOfLines={1}>
+      <Text variant="caption" color={fg} numberOfLines={1} hugged>
         {label}
       </Text>
     </View>

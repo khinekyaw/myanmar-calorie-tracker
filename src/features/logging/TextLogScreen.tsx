@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { itemMacros, sumMacros } from '@/domain/meal';
 import { parseMeal } from '@/domain/parseMeal';
 import { formatNumber } from '@/lib/format';
-import { getDish } from '@/mocks/dishes';
+import { getDish } from '@/data/dishes';
 import { useLog } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Icon, IconButton, Screen, Text } from '@/ui';

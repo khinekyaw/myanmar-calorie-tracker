@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import { itemMacros, sumMacros, type MealItem } from '@/domain/meal';
 import { formatNumber, formatPlates } from '@/lib/format';
-import { freeSides, getDish, type DishId } from '@/mocks/dishes';
+import { freeSides, getDish, type DishId } from '@/data/dishes';
 import { useEntry, useLog } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Chip, Icon, IconButton, Screen, Stepper, Text } from '@/ui';

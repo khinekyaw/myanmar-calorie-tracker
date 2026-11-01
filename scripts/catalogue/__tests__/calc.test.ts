@@ -1,4 +1,4 @@
-import type { Unit as AppUnit } from '@/mocks/dishes';
+import type { Unit as AppUnit } from '@/data/dishes';
 
 import { calculate, reviewCsv, type Ingredient, type Recipe, type Unit } from '../calc.ts';
 import { parseCsvLine } from '../usda.ts';

@@ -47,7 +47,7 @@ No connection → Home shows *Offline*. Photos are compressed (800 px) and wait 
 Progress tab:
 
 - **Goal weight** card → *Edit goal* → goal, target, pace, "reach by" date → *Save* (plan recalculated).
-- **Current weight** card → *Log weight* → tap the number and type it, or drag the ruler (0.1 lb steps) → *Save* (plan recalculated from the new weight).
+- **Current weight** card → *Log weight* → tap the date (Today by default) to pick another on a month calendar (up to a year back, never the future; days with a weight have a dot; a day that already has a weight starts from it, so this corrects it) → tap the number and type it, or drag the ruler (0.1 lb steps) → *Save* (plan recalculated from the latest weight).
 - **Goal progress** chart: % of the way to the goal, lb to go, 1M / 3M / All, dashed goal line, tap or drag for any day's value. (Waist logging and the waist chart are hidden for now; stored waist data is kept and still syncs.)
 - **This week**: calories per day against the target; tap a bar for that day.
 - **BMI** (Asian cut-offs 18.5 / 23 / 27.5) from the latest weight and height; *Add height* if missing.

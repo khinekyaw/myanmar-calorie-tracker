@@ -1,4 +1,4 @@
-import { dishes as bundled, setCatalogue, type Dish } from '@/mocks/dishes';
+import { dishes as bundled, setCatalogue, type Dish } from '@/data/dishes';
 
 import { db, getMeta, setMeta } from './database';
 

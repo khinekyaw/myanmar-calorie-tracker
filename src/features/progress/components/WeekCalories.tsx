@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
+import { weekDates } from '@/lib/dates';
 import { tap } from '@/lib/haptics';
 import { formatDayLabel, formatNumber } from '@/lib/format';
 import { kcalOn, useLog } from '@/store/log';
@@ -10,17 +11,6 @@ import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Card, Text } from '@/ui';
 
 const BAR_H = 120;
-
-function weekDays(today: Date) {
-  const monday = new Date(today);
-  monday.setHours(0, 0, 0, 0);
-  monday.setDate(today.getDate() - ((today.getDay() + 6) % 7));
-  return Array.from({ length: 7 }, (_, i) => {
-    const d = new Date(monday);
-    d.setDate(monday.getDate() + i);
-    return d;
-  });
-}
 
 /** This week's calories per day against the daily target. Tap a bar for its total. */
 export function WeekCalories() {
@@ -31,7 +21,7 @@ export function WeekCalories() {
   const target = usePlan((st) => st.plan.kcal);
 
   const today = new Date();
-  const days = weekDays(today);
+  const days = weekDates(today);
   const todayIndex = (today.getDay() + 6) % 7;
   const kcal = days.map((d, i) => (i > todayIndex ? null : Math.round(kcalOn(entries, d))));
   const [selected, setSelected] = useState(todayIndex);

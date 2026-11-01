@@ -1,4 +1,6 @@
-import { addDays, weekReport, weekStartOf, type ReportDay, type ReportInput } from '../weekReport';
+import { shiftDay, weekStart } from '@/lib/dates';
+
+import { weekReport, type ReportDay, type ReportInput } from '../weekReport';
 
 // 2026-10-26 is a Monday.
 const day = (d: string, patch: Partial<ReportDay> = {}): ReportDay => ({
@@ -11,7 +13,7 @@ const day = (d: string, patch: Partial<ReportDay> = {}): ReportDay => ({
 });
 
 const week = (patch: Partial<ReportDay> = {}) =>
-  Array.from({ length: 7 }, (_, i) => day(addDays('2026-10-26', i), patch));
+  Array.from({ length: 7 }, (_, i) => day(shiftDay('2026-10-26', i), patch));
 
 const base: ReportInput = {
   weekStart: '2026-10-26',
@@ -24,15 +26,15 @@ const base: ReportInput = {
 
 describe('week helpers', () => {
   it('finds the Monday of any day', () => {
-    expect(weekStartOf('2026-10-26')).toBe('2026-10-26');
-    expect(weekStartOf('2026-11-01')).toBe('2026-10-26');
-    expect(weekStartOf('2026-11-02')).toBe('2026-11-02');
-    expect(weekStartOf('2027-01-01')).toBe('2026-12-28');
+    expect(weekStart('2026-10-26')).toBe('2026-10-26');
+    expect(weekStart('2026-11-01')).toBe('2026-10-26');
+    expect(weekStart('2026-11-02')).toBe('2026-11-02');
+    expect(weekStart('2027-01-01')).toBe('2026-12-28');
   });
 
   it('adds days across months and years', () => {
-    expect(addDays('2026-10-26', 6)).toBe('2026-11-01');
-    expect(addDays('2026-12-28', 7)).toBe('2027-01-04');
+    expect(shiftDay('2026-10-26', 6)).toBe('2026-11-01');
+    expect(shiftDay('2026-12-28', 7)).toBe('2027-01-04');
   });
 });
 

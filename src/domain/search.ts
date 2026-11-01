@@ -1,4 +1,4 @@
-import { listDishes, type Dish, type DishId } from '@/mocks/dishes';
+import { listDishes, type Dish, type DishId } from '@/data/dishes';
 
 /**
  * Local dish search: Burmese names, romanized spellings and loose variants.

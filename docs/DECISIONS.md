@@ -214,7 +214,7 @@ No Myanmar dish table can be used commercially ([reports/Dish data plan.md](../r
 - **Placeholder ingredients** (no source yet) are allowed but flagged, and block `reviewed`.
 - **Components** (`_` prefix) are shared parts, such as broths, fried beans and dough. They let one reviewed base serve many dishes.
 - **Scripts run as plain Node TypeScript** (`node file.ts`, with `allowImportingTsExtensions` in tsconfig and `"type": "module"` in `scripts/catalogue/package.json`), so there's no new dependency. Jest checks the generated files are current, like the catalogue seed.
-- **Wired in:** `mocks/dishes.ts` builds every dish from `catalogue/calculated.json`. Names, aliases and flags live in the recipe file, so a new dish is one file; `DishId` is the JSON's keys. Only photos stay in code (`dishPhotos`).
+- **Wired in:** `data/dishes.ts` builds every dish from `catalogue/calculated.json`. Names, aliases and flags live in the recipe file, so a new dish is one file; `DishId` is the JSON's keys. Only photos stay in code (`dishPhotos`).
 - **115 dishes (2026-11-01):** 100 added, weighted to lunch: curries, vegetables, soups, salads, rice and noodles, plus tea-shop snacks, desserts, drinks and fruit. Curry and vegetable dishes are logged by the serving spoon (30 g and 40 g, both guesses). Catalogue version 3.
 - **Three tiers on Result:** *Verified* (reviewed), *Calculated* (recipe, not reviewed), *Estimate* (anything else, e.g. a server dish with no recipe). A meal takes its weakest dish's tier (`numbersTier`). The server marks calculated dishes with `source = 'recipe'`.
 - **Sugar and sodium** are stored per dish (in the phone's JSON row, plus server columns `sugar_g` and `sodium_mg`), but not per logged item yet. No screen shows them; they're for the blood-sugar and salt features.
@@ -269,6 +269,16 @@ The editor used to write every stepper tap straight into the meal (and Search "+
 - **Search picks several dishes.** Tapping a result toggles it; picked rows show their amount (and tea sweetness). Picks stay as chips under the field across searches. *Add N dishes* (with the kcal total) logs them as one meal, or puts them all into the shared-meal draft from its "+".
 - **Search fix:** a dish name counts as "inside a longer query" only when it's at least 4 letters (normalized). "3 in 1" became "in" and matched "mohin".
 
+## Date picker: a month calendar sheet (2026-11-02)
+
+`ui/DatePickerSheet` is a bottom sheet with ‹ month › and a Monday-first grid (`lib/dates.ts` `monthGrid`, tested), always six rows so it doesn't jump between months. Selected = solid ink circle, today = bold, days with an entry = a dot, days outside min/max faded. Tapping a day picks it and closes the sheet. Log weight opens it from a date button (calendar icon + Today / Yesterday / date) instead of ‹ › day steps. No date-picker library: the platform pickers can't follow the design or show which days have a weight.
+
+## Dates, sheets and clipped Burmese (2026-11-02)
+
+- **One date format**, "Oct 27, 2026" / "အောက်တိုဘာ 27၊ 2026". The weekday is dropped and the year always shown, everywhere a date is written out: the Home day header, the weight date, "current weight on…", Premium "active until", week calories, the week report range and the badge "earned on" date. Chart axes keep "Oct 27" / "27/10".
+- **Bottom sheets share one motion** (`ui/BottomSheet.tsx`). Before, each sheet faded and slid in on its own and vanished at once on close. Now they spring in with a small bounce (damping ratio about 0.78), slide out in 170 ms with the scrim fading, and travel their own height, so they appear at once. They reach 48 px below the screen edge so the bounce shows no gap. `BottomSheet` stays mounted until its exit has played. The `AddSheet` route uses `useSheetMotion` and navigates after the exit, Android back included.
+- **`Text hugged`**: Android measures Burmese text narrower than it draws. In content-sized boxes (pills, chips, badges) the last mark was cut at large system font sizes ("ဒီနေ့" lost its dot). End padding and `textBreakStrategy="simple"` didn't help; a trailing no-break space did, so `hugged` adds one after Burmese strings.
+
 ## Tests for domain logic only (for now)
 
 Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, meal parsing, search). UI is checked on the emulator. Component tests can come once screens stop changing. Note: TypeScript 6 no longer loads global types automatically, so `tsconfig.json` lists `"types": ["jest"]`.
@@ -276,6 +286,7 @@ Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, mea
 ## Copy review
 
 All Burmese strings in `src/i18n/locales/my.ts` need native-speaker review. New strings not on the canvas (please check first):
+Batch 14 (weight date): `logWeight.yesterday` (မနေ့က), `logWeight.pickDay` (ရက်ပြောင်းမယ်), `logWeight.earlierMonth` (အရင်လ), `logWeight.laterMonth` (နောက်လ).
 Batch 13 (search): `search.addDishes` ({{count}} မျိုး ထည့်မယ်), `search.remove` (ဖယ်မယ်).
 Batch 12 (waiting photos): `result.waitQuota` (ဒီနေ့ အခမဲ့ စစ်ခွင့် ကုန်ပြီ), `result.waitQuotaNote` (မနက်ဖြန် စစ်ပေးမယ်), `result.waitOffline` (အင်တာနက် စောင့်နေတယ်), `result.waitFailed` (ဒီဓာတ်ပုံ စစ်လို့ မရဘူး), `result.waitEmpty` (ဒီဓာတ်ပုံမှာ အစားအစာ မတွေ့ဘူး), `queue.quota` / `failed` / `empty`.
 Batch 11 (voice through the keyboard): `textLog.keyboardMic` (ပြောချင်ရင် ကီးဘုတ်က မိုက်ကို နှိပ်ပါ), `add.voice` (ပြောမယ် / ရိုက်မယ်), and the `firstVoice` rule (ပြော ဒါမှမဟုတ် ရိုက်ပြီး မှတ်မယ်).

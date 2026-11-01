@@ -2,23 +2,12 @@ import { Pressable, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { calorieDay } from '@/domain/badges';
+import { weekDates } from '@/lib/dates';
 import { tap } from '@/lib/haptics';
 import { formatNumber } from '@/lib/format';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { dayKey } from '@/store/weights';
 import { Icon, Ring, Text } from '@/ui';
-
-/** Monday-first dates of the week containing `today`. */
-function weekOf(today: Date) {
-  const monday = new Date(today);
-  monday.setHours(0, 0, 0, 0);
-  monday.setDate(today.getDate() - ((today.getDay() + 6) % 7));
-  return Array.from({ length: 7 }, (_, i) => {
-    const d = new Date(monday);
-    d.setDate(monday.getDate() + i);
-    return d;
-  });
-}
 
 const sameDay = (a: Date, b: Date) => a.toDateString() === b.toDateString();
 
@@ -45,7 +34,7 @@ export function WeekStrip({ selected, onSelect, kcalByDay, targetKcal }: Props) 
   const s = useStyles();
   const { theme, language } = useStyleContext();
   const today = new Date();
-  const days = weekOf(today);
+  const days = weekDates(today);
   const labels = t('home.weekdays', { returnObjects: true }) as string[];
 
   return (

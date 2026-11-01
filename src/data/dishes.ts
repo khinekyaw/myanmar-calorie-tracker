@@ -1,7 +1,7 @@
 import type { Language } from '@/i18n/languages';
 
 import calculated from '../../catalogue/calculated.json';
-import { photos, type PhotoSource } from './photos';
+import { photos, type PhotoSource } from '@/mocks/photos';
 
 export type LocalizedText = Record<Language, string>;
 

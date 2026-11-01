@@ -1,22 +1,24 @@
 import { Image } from 'expo-image';
-import { router } from 'expo-router';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import Animated, { FadeIn, SlideInDown } from 'react-native-reanimated';
+import { router, type Href } from 'expo-router';
+import { useEffect, useRef } from 'react';
+import { BackHandler, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 
 import { tap } from '@/lib/haptics';
-import { dishes, quickRelog, type DishId } from '@/mocks/dishes';
+import { dishes, quickRelog, type DishId } from '@/data/dishes';
 import { useLog } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
-import { Icon, Text, type IconName } from '@/ui';
+import { Icon, SHEET_OVERHANG, Text, useSheetMotion, type IconName } from '@/ui';
 
-type Tile = { key: 'photo' | 'voice'; icon: IconName; onPress: () => void };
+type Tile = { key: 'photo' | 'voice'; icon: IconName; href: Href };
 
 /**
  * Bottom sheet: a search box, photo and say-or-type tiles, and one-tap
  * re-log chips. Only finished features appear here (barcode is later scope:
- * docs/PRODUCT_BRIEF.md §6).
+ * docs/PRODUCT_BRIEF.md §6). It's a route, so it plays the shared sheet
+ * motion itself (useSheetMotion): slide in, then slide out before leaving.
  */
 export function AddSheet() {
   const { t } = useTranslation();
@@ -24,34 +26,49 @@ export function AddSheet() {
   const { theme, language } = useStyleContext();
   const insets = useSafeAreaInsets();
   const quickAdd = useLog((st) => st.quickAdd);
+  const { show, hide, scrimStyle, sheetStyle, onSheetLayout } = useSheetMotion();
+  const leaving = useRef(false);
+
+  useEffect(show, [show]);
+
+  /** Slide out, then close the sheet or replace it with the next screen. */
+  const leave = (href?: Href) => {
+    if (leaving.current) return;
+    leaving.current = true;
+    hide(() => (href ? router.replace(href) : router.back()));
+  };
+
+  // Android back slides the sheet out too.
+  useEffect(() => {
+    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
+      leave();
+      return true;
+    });
+    return () => sub.remove();
+  });
 
   const tiles: Tile[] = [
-    { key: 'photo', icon: 'camera', onPress: () => router.replace('/camera') },
-    { key: 'voice', icon: 'mic', onPress: () => router.replace('/text-log') },
+    { key: 'photo', icon: 'camera', href: '/camera' },
+    { key: 'voice', icon: 'mic', href: '/text-log' },
   ];
 
   const relog = (id: DishId) => {
     tap();
     quickAdd(id);
-    router.back();
+    leave();
   };
 
   return (
     <View style={s.root}>
-      <Animated.View entering={FadeIn.duration(180)} style={StyleSheet.absoluteFill}>
-        <Pressable
-          style={s.scrim}
-          accessibilityRole="button"
-          accessibilityLabel={t('common.close')}
-          onPress={() => router.back()}
-        />
+      <Animated.View style={[StyleSheet.absoluteFill, scrimStyle]}>
+        <Pressable style={s.scrim} accessibilityRole="button" accessibilityLabel={t('common.close')} onPress={() => leave()} />
       </Animated.View>
 
       <Animated.View
-        entering={SlideInDown.duration(260)}
         accessibilityViewIsModal
         accessibilityLabel={t('add.title')}
-        style={[s.sheet, { paddingBottom: insets.bottom + theme.space.xxl }]}>
+        onLayout={onSheetLayout}
+        style={[s.sheet, { paddingBottom: insets.bottom + theme.space.xxl + SHEET_OVERHANG }, sheetStyle]}>
         <View style={s.handle} />
 
         {/* Looks like the search field; opens Search with the keyboard up. */}
@@ -60,7 +77,7 @@ export function AddSheet() {
           accessibilityLabel={t('search.placeholder')}
           onPress={() => {
             tap();
-            router.replace('/search');
+            leave('/search');
           }}
           style={({ pressed }) => [s.search, pressed && s.pressed]}>
           <Icon name="search" size={20} color={theme.colors.textMuted} />
@@ -76,7 +93,7 @@ export function AddSheet() {
               accessibilityRole="button"
               onPress={() => {
                 tap();
-                tile.onPress();
+                leave(tile.href);
               }}
               style={({ pressed }) => [s.tile, pressed && s.pressed]}>
               <Icon name={tile.icon} size={26} color={theme.colors.onPrimary} />
@@ -95,7 +112,9 @@ export function AddSheet() {
               onPress={() => relog(id)}
               style={({ pressed }) => [s.chip, pressed && s.pressed]}>
               <Image source={dishes[id].photo} style={s.chipPhoto} contentFit="cover" />
-              <Text variant="label">{dishes[id].name[language]}</Text>
+              <Text variant="label" hugged>
+                {dishes[id].name[language]}
+              </Text>
               <Icon name="plus" size={16} strokeWidth={2.2} />
             </Pressable>
           ))}
@@ -109,6 +128,7 @@ const useStyles = makeStyles(({ theme }) => ({
   root: { flex: 1, justifyContent: 'flex-end' },
   scrim: { flex: 1, backgroundColor: theme.colors.scrim },
   sheet: {
+    marginBottom: -SHEET_OVERHANG,
     backgroundColor: theme.colors.background,
     borderTopLeftRadius: theme.radius.xxl,
     borderTopRightRadius: theme.radius.xxl,

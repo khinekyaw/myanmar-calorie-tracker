@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import { numbersTier, OIL_LEVELS, sumMacros, type OilLevel } from '@/domain/meal';
 import { formatNumber, formatPlates } from '@/lib/format';
-import { getDish } from '@/mocks/dishes';
+import { getDish } from '@/data/dishes';
 import { CONFIDENCE_THRESHOLD } from '@/services/scan';
 import { useEntry, useLog } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';

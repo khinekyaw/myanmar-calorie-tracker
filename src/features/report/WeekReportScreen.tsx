@@ -4,10 +4,10 @@ import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 
-import { addDays } from '@/domain/weekReport';
-import { formatFixed, formatNumber, formatPlates, formatShortDate } from '@/lib/format';
+import { shiftDay } from '@/lib/dates';
+import { formatDayRange, formatFixed, formatNumber, formatPlates } from '@/lib/format';
 import { tap } from '@/lib/haptics';
-import { getDish, type DishId } from '@/mocks/dishes';
+import { getDish, type DishId } from '@/data/dishes';
 import { useIsPremium } from '@/store/premium';
 import { fromDayKey } from '@/store/weights';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
@@ -40,9 +40,9 @@ export function WeekReportScreen() {
 
   const step = (days: number) => {
     tap();
-    setWeek(clamp(addDays(week, days)));
+    setWeek(clamp(shiftDay(week, days)));
   };
-  const dates = `${formatShortDate(fromDayKey(report.weekStart), language)} – ${formatShortDate(fromDayKey(report.weekEnd), language)}`;
+  const dates = formatDayRange(fromDayKey(report.weekStart), fromDayKey(report.weekEnd), language);
   const which = week === range.last ? t('report.thisWeek') : week === range.previous ? t('report.lastWeek') : null;
   const change = report.weightChangeLb;
 

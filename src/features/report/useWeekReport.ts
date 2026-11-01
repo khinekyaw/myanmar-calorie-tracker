@@ -1,6 +1,7 @@
 import { carbsToRicePlates, sumMacros } from '@/domain/meal';
 import { streakDays } from '@/domain/streak';
-import { addDays, weekReport, weekStartOf, type ReportDay } from '@/domain/weekReport';
+import { weekReport, type ReportDay } from '@/domain/weekReport';
+import { shiftDay, weekStart } from '@/lib/dates';
 import { useLog } from '@/store/log';
 import { usePlan } from '@/store/plan';
 import { useSettings } from '@/store/settings';
@@ -14,8 +15,8 @@ export function useWeekRange() {
   const weights = useWeights((s) => s.entries);
   const today = dayKey(new Date());
   const firstDay = [...entries.map((e) => dayKey(e.eatenAt)), ...weights.map((w) => w.day), today].sort()[0];
-  const last = weekStartOf(today);
-  return { first: weekStartOf(firstDay), last, previous: addDays(last, -7) };
+  const last = weekStart(today);
+  return { first: weekStart(firstDay), last, previous: shiftDay(last, -7) };
 }
 
 /** The report for the week starting `weekStart`, from the meals, weights and plan on the phone. */
@@ -27,7 +28,7 @@ export function useWeekReport(weekStart: string) {
   const { badges } = useBadges();
 
   const today = dayKey(new Date());
-  const weekEnd = addDays(weekStart, 6);
+  const weekEnd = shiftDay(weekStart, 6);
   const done = entries.filter((e) => e.status === 'done');
   const inWeek = done.filter((e) => {
     const day = dayKey(e.eatenAt);

@@ -1,5 +1,5 @@
 import type { MealItem } from '@/domain/meal';
-import type { DishId } from '@/mocks/dishes';
+import type { DishId } from '@/data/dishes';
 import type { LogEntry, ScanCandidate } from '@/store/log';
 
 import { db, enqueue, newId, nowIso } from './database';

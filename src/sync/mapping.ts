@@ -2,7 +2,7 @@ import type { Sex, Workday } from '@/domain/nutrition';
 import { PACES, type Goal, type Pace } from '@/domain/plan';
 import { ftInToCm, kgToLb, lbToKg } from '@/domain/units';
 import type { Language } from '@/i18n/languages';
-import type { Dish, Unit } from '@/mocks/dishes';
+import type { Dish, Unit } from '@/data/dishes';
 import type { EatingPlace, HealthFlag, OnboardingDraft } from '@/store/onboarding';
 
 /**

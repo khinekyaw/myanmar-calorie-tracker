@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 import { carbsToRicePlates, sumMacros, type MealItem } from '@/domain/meal';
-import type { DishId } from '@/mocks/dishes';
+import type { DishId } from '@/data/dishes';
 
 import { initDatabase } from '@/db/init';
 import { newId } from '@/db/database';

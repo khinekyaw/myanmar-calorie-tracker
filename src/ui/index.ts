@@ -19,6 +19,8 @@ export { PhotoSheet } from './PhotoSheet';
 export { Stepper } from './Stepper';
 export { Logo } from './Logo';
 export { ConfirmSheet } from './ConfirmSheet';
+export { BottomSheet, SHEET_OVERHANG, useSheetMotion } from './BottomSheet';
+export { DatePickerSheet } from './DatePickerSheet';
 export { MeasureInput } from './MeasureInput';
 export { RulerPicker } from './RulerPicker';
 export { Badge } from './Badge';

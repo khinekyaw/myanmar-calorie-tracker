@@ -49,7 +49,9 @@ src/
     week.tsx           Weekly report (?week=YYYY-MM-DD, a Monday; default last week)
   features/<area>/     Screens + their private components, grouped by product area
     onboarding/ home/ logging/ progress/ settings/ premium/ milestones/ report/ navigation/
-  ui/                  Reusable design-system components (Text, Button, OptionCard, …)
+  ui/                  Reusable design-system components (Text, Button, OptionCard, Chip, Badge,
+                       BottomSheet + useSheetMotion, ConfirmSheet, DatePickerSheet, EdgeScrollView,
+                       FadeEdge, RulerPicker, icons/, …), all exported from ui/index.ts
   theme/               palette.ts → themes.ts → typography.ts → ThemeProvider.tsx
   i18n/                languages.ts, locales/en.ts (source of truth), locales/my.ts
   store/               zustand stores: settings, onboarding (= profile), plan (+ refreshPlan),
@@ -67,7 +69,8 @@ src/
                        first-launch init, outbox and sync reads/writes (see OFFLINE.md)
   lib/                 Small helpers: storage, format, dates, haptics, network
   config/              Business config (pass prices, payment providers)
-  mocks/               Placeholder dishes, bundled photos, first-launch sample data — replace before launch
+  data/                dishes.ts: the dish catalogue built from catalogue/calculated.json (see CATALOGUE.md)
+  mocks/               Bundled dish photos, first-launch sample data (development builds) — replace before launch
 ```
 
 Rules:
@@ -115,6 +118,9 @@ Styles are memoised and rebuilt only when the theme or language changes.
 | **Horizontal scrolling runs edge to edge.** Chip rows, card carousels and rulers scroll past the gutter to the screen edges, never cut off at the padding. The first item still lines up with the gutter. | `ui/EdgeScrollView.tsx` (negative gutter margin + gutter padding); `RulerPicker` does the same; `AddSheet` chips sit in an unpadded sheet. |
 | **Scrolling content fades under fixed sections** (a search field, a chip row) instead of being cut by a hard edge. Pad the list's top by the fade's height, so nothing is covered until it scrolls. | `ui/FadeEdge.tsx` (background-coloured SVG gradient, top or bottom); used on Search under the field and chips and above the Add button. |
 | **Pill labels use `Badge`** (min height 28, 12 px sides, 3 px top/bottom), which is roomy enough for Burmese. No hand-made pills. | `ui/Badge.tsx`. |
+| **Bottom sheets share one motion:** slide in with a small spring bounce, slide out faster (170 ms) with the scrim fading, and reach 48 px below the screen edge, so the bounce never shows a gap. | `ui/BottomSheet.tsx` (`BottomSheet`, `useSheetMotion`, `SHEET_OVERHANG`); the `AddSheet` route uses the hook. |
+| **Dates read "Oct 27, 2026" / "အောက်တိုဘာ 27၊ 2026"**: no weekday, always the year. Ranges give the year once ("Oct 27 – Nov 2, 2026"). Chart axes keep the short "Oct 27" / "27/10". | `formatDayLabel`, `formatDayRange`, `formatShortDate` in `lib/format.ts`. |
+| **Text that sets its own width** (in a pill, chip or badge) gets `hugged`. Android measures Burmese a little narrower than it draws, and at large font sizes the last mark is cut off. | `Text` `hugged` prop (adds a no-break space after Burmese); used by `Badge`, `Chip`, the date button and the + sheet chips. |
 | **Body measurements** are typed or picked on a ruler; ± steppers are only for counts (portions, spoons, plates). | `MeasureInput` / `RulerPicker` vs `Stepper`. |
 | **Nothing jumps while values change.** Numbers use equal-width digits (`tabular-nums` on every number style); weights always show one decimal ("150.0"); lines that can be empty keep their space (rendered invisible, e.g. `ReachByLine`). | `typography.ts`, `formatFixed`, `ReachByLine`. |
 | **No raw colours** outside `palette.ts`, including translucent overlays (`onInkSubtle`, `photo.*`, `camera.controlActive`). | grep for `rgba(` / `#` outside `src/theme/`. |
@@ -224,8 +230,8 @@ MealItem { dishId, qty, oil?: less|normal|more, sweetness?: choSeint|pawSeint|ky
 
 | Area | Prototype | Real version |
 |---|---|---|
-| Photo scan | **Real** with a backend: upload to `meal-photos` + `scan` Edge Function → Claude. Without one: `services/scan.ts` cycles 3 demo answers. Not yet run against the real model (no API key here) | Model/effort chosen with ~100 labelled photos |
-| Dish data | `catalogue/` recipes ([CATALOGUE.md](CATALOGUE.md)) → `catalogue/calculated.json` → `mocks/dishes.ts` (adds bundled photos), which seeds the phone and the server (`supabase/seeds/catalogue.sql`). 115 dishes with sugar and sodium, all **draft recipes**, so they show *Calculated* and none are verified | Verified `dishes` table (200–300) from the nutritionist |
+| Photo scan | **Real** with a backend: upload to `meal-photos` + `scan` Edge Function → Claude or Gemini (`SCAN_MODEL`, [BACKEND.md](BACKEND.md)). Without one: `services/scan.ts` cycles 3 demo answers. Not yet run against the real model (no API key here) | Model/effort chosen with ~100 labelled photos |
+| Dish data | `catalogue/` recipes ([CATALOGUE.md](CATALOGUE.md)) → `catalogue/calculated.json` → `data/dishes.ts` (adds bundled photos), which seeds the phone and the server (`supabase/seeds/catalogue.sql`). 115 dishes with sugar and sodium, all **draft recipes**, so they show *Calculated* and none are verified | Verified `dishes` table (200–300) from the nutritionist |
 | Food photos | Wikimedia Commons images bundled in the app (`assets/images/dishes/`) | Our own photos (bundled + `dish-photos` bucket) |
 | Speech-to-text | **Real, at no cost:** the phone keyboard's own voice typing (its mic key) fills the text box; we run no speech service | Works where the keyboard supports Burmese voice typing; check on target phones |
 | Phone OTP | **Real** with a backend (Supabase phone auth; local test numbers). Without one: any 6-digit code | SMS provider / gateway for +95 |

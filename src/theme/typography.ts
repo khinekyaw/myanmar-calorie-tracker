@@ -175,8 +175,3 @@ export function burmeseWordsScale(): TypeScale {
   ) as TypeScale;
   return burmeseWords;
 }
-
-/** Font family for a weight in the current language (for TextInput etc.). */
-export function fontFor(language: Language, weight: FontWeight) {
-  return scripts[language].fonts[weight];
-}

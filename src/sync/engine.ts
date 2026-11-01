@@ -159,10 +159,6 @@ let again = false;
 let timer: ReturnType<typeof setTimeout> | null = null;
 let failures = 0;
 
-/** Last sync result, for Settings → Developer. */
-let lastSync: { at: string; ok: boolean; error?: string } | null = null;
-export const getLastSync = () => lastSync;
-
 export function setOnline(value: boolean) {
   const cameOnline = value && !online;
   online = value;
@@ -189,11 +185,9 @@ export function syncNow(): Promise<void> {
     try {
       await runSync();
       failures = 0;
-      lastSync = { at: new Date().toISOString(), ok: true };
     } catch (e) {
       failures += 1;
-      lastSync = { at: new Date().toISOString(), ok: false, error: e instanceof Error ? e.message : String(e) };
-      console.warn('[sync] failed, retrying later', lastSync.error);
+      console.warn('[sync] failed, retrying later', e instanceof Error ? e.message : String(e));
       // 5 s, 10 s, 20 s … up to 5 minutes.
       scheduleSync(Math.min(5_000 * 2 ** (failures - 1), 5 * 60_000));
     } finally {

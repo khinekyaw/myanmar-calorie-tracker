@@ -18,7 +18,7 @@ migrations/
   20261030120100_sync.sql          sync_push / sync_pull
   20261030120200_scans_passes.sql  free-scan quota, scan log, Premium passes
   20261030120300_storage.sql       meal-photos (private) and dish-photos (public) buckets
-seeds/catalogue.sql         dish list, generated from src/mocks/dishes.ts (recipe-calculated numbers, drafts)
+seeds/catalogue.sql         dish list, generated from src/data/dishes.ts (recipe-calculated numbers, drafts)
 seeds/dev.sql               local only: logs SMS codes instead of sending them
 functions/scan/             photo → dishes (Claude vision)
 functions/delete-account/   deletes the account, its photos and every row
@@ -97,7 +97,7 @@ npx expo start              # Metro reads .env.local; the app now syncs to the l
 | `npm run db:reset` | re-apply migrations and seeds (wipes local data) |
 | `npm run db:types` | regenerate `src/services/database.types.ts` after a schema change |
 
-Schema changes = a **new** migration file (never edit one that has been deployed), then `db:types`. After changing `src/mocks/dishes.ts`: `UPDATE_SEED=1 npx jest scripts/__tests__/catalogueSeed.test.ts`.
+Schema changes = a **new** migration file (never edit one that has been deployed), then `db:types`. After changing `src/data/dishes.ts`: `UPDATE_SEED=1 npx jest scripts/__tests__/catalogueSeed.test.ts`.
 
 ## Tested
 

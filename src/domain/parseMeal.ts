@@ -1,4 +1,4 @@
-import { getDish, listDishes, type DishId } from '@/mocks/dishes';
+import { getDish, listDishes, type DishId } from '@/data/dishes';
 
 import type { MealItem, Sweetness } from './meal';
 import { normalizeMy, normalizeRoman } from './search';
