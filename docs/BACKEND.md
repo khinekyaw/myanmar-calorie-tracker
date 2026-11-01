@@ -51,13 +51,19 @@ One round trip each, for slow mobile data. Details and the reasons in [OFFLINE.m
 `POST /functions/v1/scan { log_id, taken_at }` with the user's token, after the app uploads `meal-photos/<user id>/<log id>.jpg`:
 
 1. `begin_scan` (atomic): returns the stored answer if this photo was already scanned; refuses a second request for the same photo while one runs; uses a free scan on the day the photo was **taken** (Myanmar time; queued photos from yesterday use yesterday's scans; older than 2 days counts as today), skipped with an active pass; stops everyone if the day's AI budget is spent.
-2. Photo + catalogue (cached prompt) → Claude with structured JSON output (plus the server-side refusal fallback on Sonnet and Opus; Haiku has none).
+2. Photo + catalogue (cached prompt) → the vision model with structured JSON output: Claude (plus the server-side refusal fallback on Sonnet and Opus; Haiku has none) or Gemini, depending on `SCAN_MODEL` (`_shared/vision.ts`).
 3. `parseScanOutput` checks the answer: unknown dishes become `dish_id: null` with a name, units come from the catalogue, numbers are clamped, runner-ups must be real dishes.
 4. `finish_scan` stores the answer and cost; a failure **gives the free scan back**.
 
 Answers: `200 { scan, scans_left }` · `402` no free scans · `404` photo not uploaded · `409` already scanning · `502` failed (retry) · `503` not configured or over budget.
 
-Settings (function secrets, see `functions/.env.example`): `ANTHROPIC_API_KEY` (required), `SCAN_MODEL` (default `claude-haiku-5-5`), `SCAN_EFFORT` (default `low`: a short perception task while the user waits), `FREE_SCANS_PER_DAY` (3), `SCAN_DAILY_BUDGET_USD` (no cap when empty). Model and effort are to be chosen with the ~100 labelled photos (phase 2).
+Settings (function secrets, see `functions/.env.example`):
+- `SCAN_MODEL` (default `claude-haiku-5-5`): any `claude-*` or `gemini-*` id, e.g. `gemini-3.1-flash-lite` (Gemini 2.5 models are closed to new accounts). The provider follows from the name.
+- `ANTHROPIC_API_KEY` for Claude models, `GEMINI_API_KEY` for Gemini models. Without the matching key, scans answer `503 not_configured`. **For Gemini, use a key from a project with billing on.** On the free tier, Google may use and have people review the photos ([terms](https://ai.google.dev/gemini-api/terms)).
+- `SCAN_EFFORT` (default `low`: a short perception task while the user waits). On Gemini, `low` asks for the least thinking: `thinkingBudget: 0` on 2.5, `thinkingLevel: minimal` on 3.x, which rejects a zero budget.
+- `FREE_SCANS_FIRST_WEEK` (3), `FREE_SCANS_PER_DAY` (1), `SCAN_DAILY_BUDGET_USD` (no cap when empty).
+
+Model and effort are to be chosen with the ~100 labelled photos. To add a model, give its price in `PRICES` (`_shared/vision.ts`) so the cost log stays right; an unknown model logs no cost.
 
 ### Accounts
 
@@ -79,7 +85,7 @@ npx expo start              # Metro reads .env.local; the app now syncs to the l
 - The Android emulator reaches the Mac at `10.0.2.2`; a real phone needs the Mac's LAN address.
 - **Sign-in test numbers** (no SMS): +95 9123456789 → `123456`, +95 9987654321 → `654321`. Other numbers: the code is in `docker logs supabase_db_sar-ai 2>&1 | grep "SMS code"`. One code per number per 30 seconds.
 - **Google sign-in** needs an OAuth client: put `SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID` / `_SECRET` in `supabase/.env` (not committed) and restart the stack. In Google Cloud the client's authorized redirect URI is `http://127.0.0.1:54321/auth/v1/callback`; on the emulator run `adb reverse tcp:54321 tcp:54321` so the browser can reach it. Without a client the button opens Google with an invalid client id.
-- **Scans** need the functions running with a key: copy `supabase/functions/.env.example` to `supabase/functions/.env`, set `ANTHROPIC_API_KEY`, then `npx supabase functions serve --env-file supabase/functions/.env`.
+- **Scans** need the functions running with a key: copy `supabase/functions/.env.example` to `supabase/functions/.env`, set the key for `SCAN_MODEL` (`ANTHROPIC_API_KEY` or `GEMINI_API_KEY`), then `npx supabase functions serve --env-file supabase/functions/.env`.
 - Without `.env.local` the app runs exactly as the prototype did (mock scan, any sign-in code).
 - **macOS:** Docker Desktop needs access to the Desktop folder (System Settings → Privacy & Security → Files and Folders → Docker → Desktop Folder) to mount this project. Without it, Studio and the functions runtime can't start: use `npx supabase start -x edge-runtime,studio`, and serve functions from a copy of `supabase/` outside Desktop (`--workdir`).
 

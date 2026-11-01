@@ -2,7 +2,8 @@
 //
 // POST { log_id, taken_at } with the user's JWT. The app uploads the photo
 // to meal-photos/<user id>/<log id>.jpg first. Steps: use one free scan
-// (atomic, skipped for Premium) → photo + catalogue to Claude → validate the
+// (atomic, skipped for Premium) → photo + catalogue to the vision model (Claude or
+// Gemini, by SCAN_MODEL) → validate the
 // JSON → record cost → { scan: ScanResponse, scans_left }.
 //
 // Retry-safe: the same log_id is never charged twice, and a scan that already
@@ -21,13 +22,24 @@ import {
   SCAN_OUTPUT_SCHEMA,
   type CatalogueDish,
 } from '../_shared/scanContract.ts';
+import {
+  costUsd,
+  geminiRequest,
+  geminiThinking,
+  providerOf,
+  readGeminiResponse,
+  type VisionAnswer,
+  type VisionUsage,
+} from '../_shared/vision.ts';
 
 type SupabaseAdmin = SupabaseContext['supabaseAdmin'];
 type Effort = 'low' | 'medium' | 'high' | 'xhigh' | 'max';
 
-// Haiku: the cheapest model for picking dishes from a fixed list (reports/Scan model
-// choice.md). Raise to Sonnet only if the labelled photo set shows Haiku missing too many.
+// Any `claude-*` or `gemini-*` model id; the provider follows from the name.
+// Haiku: the cheapest Claude for picking dishes from a fixed list (reports/Scan model
+// choice.md). Compare others on the labelled photo set by changing this setting.
 const MODEL = Deno.env.get('SCAN_MODEL') ?? 'claude-haiku-5-5';
+const PROVIDER = providerOf(MODEL);
 // Haiku has no server-side refusal fallback; the parameter only helps the larger models.
 const SERVER_FALLBACK = !MODEL.startsWith('claude-haiku');
 // Identifying a dish is a short perception task, and people wait on the
@@ -39,20 +51,13 @@ const FREE_SCANS_PER_DAY = Number(Deno.env.get('FREE_SCANS_PER_DAY') ?? 1);
 const DAILY_BUDGET_USD = Deno.env.get('SCAN_DAILY_BUDGET_USD')
   ? Number(Deno.env.get('SCAN_DAILY_BUDGET_USD'))
   : null;
-const API_KEY = Deno.env.get('ANTHROPIC_API_KEY');
+const ANTHROPIC_API_KEY = Deno.env.get('ANTHROPIC_API_KEY');
+// Use a key from a Gemini project with billing on: on the free tier Google may
+// use and have people review what is sent (ai.google.dev/gemini-api/terms).
+const GEMINI_API_KEY = Deno.env.get('GEMINI_API_KEY');
 
 const MAX_PHOTO_BYTES = 2 * 1024 * 1024;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-
-// USD per million tokens: input, output, cache read, cache write (5 min).
-// Used for the cost log only; check https://claude.com/pricing when changing models.
-const PRICES: Record<string, [number, number, number, number]> = {
-  'claude-opus-5-5': [4, 20, 0.2, 5],
-  'claude-opus-5': [5, 25, 0.5, 6.25],
-  'claude-opus-4-8': [5, 25, 0.5, 6.25],
-  'claude-sonnet-5-5': [2, 10, 0.1, 2.5],
-  'claude-haiku-5-5': [0.1, 0.5, 0.01, 0.125],
-};
 
 const SYSTEM_RULES = `You identify food in meal photos for Sar AI, a calorie-tracking app used in Myanmar.
 
@@ -68,13 +73,77 @@ Rules:
 - confidence (0 to 1) is how sure you are that the dish is right.
 - shared_table is true when several curries and sides are laid out to share, usually around rice (a family table, ဝိုင်းစား). List every dish on the table then, with rice in plates and each curry in spoons.
 - When the photo shows one main dish and you are not sure what it is (confidence below 0.6), put up to 3 likely catalogue dishes in "candidates", most likely first. Otherwise leave candidates empty.
+- Toppings and sides that are catalogue dishes of their own are separate items, each in its own unit: fritters on mohinga or noodles (split pea fritter, gourd fritter, onion fritter), a fried or boiled egg on rice, fried fish next to a curry. Count them (e.g. 2 pieces). Don't list garnishes that belong to the dish itself: herbs, lime, sliced onion, fried garlic, chilli flakes, or the half boiled egg in mohinga.
+- One bowl or plate with toppings is not a shared table.
 - If there is no food in the photo, return an empty items list.
 - Curries are cooked with the usual amount of oil; don't adjust for oil.
 
 Catalogue (id | Burmese | English | unit):
 `;
 
-const anthropic = API_KEY ? new Anthropic({ apiKey: API_KEY, timeout: 45_000, maxRetries: 1 }) : null;
+const anthropic =
+  PROVIDER === 'anthropic' && ANTHROPIC_API_KEY
+    ? new Anthropic({ apiKey: ANTHROPIC_API_KEY, timeout: 45_000, maxRetries: 1 })
+    : null;
+const configured = PROVIDER === 'anthropic' ? anthropic !== null : PROVIDER === 'gemini' && Boolean(GEMINI_API_KEY);
+
+const PROMPT = 'What food is in this photo, and how much?';
+
+async function askClaude(system: string, image: string): Promise<VisionAnswer> {
+  const message = await anthropic!.beta.messages.create({
+    model: MODEL,
+    max_tokens: 16000,
+    ...(SERVER_FALLBACK && { betas: ['server-side-fallback-2026-07-01'], fallbacks: 'default' as const }),
+    output_config: { effort: EFFORT, format: { type: 'json_schema', schema: SCAN_OUTPUT_SCHEMA } },
+    // Rules + catalogue are identical for every scan: cache them.
+    system: [{ type: 'text', text: system, cache_control: { type: 'ephemeral' } }],
+    messages: [
+      {
+        role: 'user',
+        content: [
+          { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: image } },
+          { type: 'text', text: PROMPT },
+        ],
+      },
+    ],
+  });
+  const u = message.usage;
+  const usage: VisionUsage = {
+    input: u.input_tokens,
+    output: u.output_tokens,
+    cacheRead: u.cache_read_input_tokens ?? 0,
+    cacheWrite: u.cache_creation_input_tokens ?? 0,
+  };
+  const model = message.model;
+  if (message.stop_reason === 'refusal') return { ok: false, reason: 'refused', detail: 'model declined the photo', model, usage };
+  if (message.stop_reason === 'max_tokens') return { ok: false, reason: 'truncated', detail: 'answer cut off', model, usage };
+  const text = message.content.find((b) => b.type === 'text');
+  if (!text || text.type !== 'text') return { ok: false, reason: 'no_answer', detail: 'no text in answer', model, usage };
+  return { ok: true, text: text.text, model, usage };
+}
+
+async function askGemini(system: string, image: string): Promise<VisionAnswer> {
+  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', 'x-goog-api-key': GEMINI_API_KEY! },
+    body: JSON.stringify(
+      geminiRequest({
+        system,
+        imageBase64: image,
+        prompt: PROMPT,
+        schema: SCAN_OUTPUT_SCHEMA,
+        thinking: geminiThinking(MODEL, EFFORT),
+      }),
+    ),
+    signal: AbortSignal.timeout(45_000),
+  });
+  const body = await res.json().catch(() => null);
+  if (!res.ok) {
+    const message = (body as { error?: { message?: string } } | null)?.error?.message ?? '';
+    throw new ScanFailure(502, 'ai_error', `gemini ${res.status} ${message}`.trim());
+  }
+  return readGeminiResponse(body, MODEL);
+}
 
 // The catalogue changes rarely; warm workers reuse it for 10 minutes.
 let catalogueCache: { at: number; dishes: CatalogueDish[] } | null = null;
@@ -103,18 +172,6 @@ class ScanFailure extends Error {
   }
 }
 
-function costUsd(model: string, u: Anthropic.Beta.BetaUsage): number | null {
-  const p = PRICES[model];
-  if (!p) return null;
-  return (
-    (u.input_tokens * p[0] +
-      u.output_tokens * p[1] +
-      (u.cache_read_input_tokens ?? 0) * p[2] +
-      (u.cache_creation_input_tokens ?? 0) * p[3]) /
-    1_000_000
-  );
-}
-
 export default {
   fetch: withSupabase({ auth: 'user', cors: 'disabled' }, async (req, ctx) => {
     if (req.method !== 'POST') return json(405, { error: 'method_not_allowed' });
@@ -125,7 +182,7 @@ export default {
     const logId = typeof body?.log_id === 'string' && UUID.test(body.log_id) ? body.log_id.toLowerCase() : null;
     const takenAt = typeof body?.taken_at === 'string' && !Number.isNaN(Date.parse(body.taken_at)) ? body.taken_at : null;
     if (!logId) return json(400, { error: 'bad_request' });
-    if (!anthropic) return json(503, { error: 'not_configured' });
+    if (!configured) return json(503, { error: 'not_configured' });
 
     const allowance = await admin.rpc('free_scans_per_day', {
       p_user: userId,
@@ -164,7 +221,7 @@ export default {
     }
 
     const started = Date.now();
-    let usage: Anthropic.Beta.BetaUsage | null = null;
+    let usage: VisionUsage | null = null;
     let servedBy: string | null = null;
     const finish = (ok: boolean, response: unknown, error: string | null) =>
       admin.rpc('finish_scan', {
@@ -174,11 +231,11 @@ export default {
         p_response: response,
         p_error: error,
         p_model: servedBy,
-        p_input_tokens: usage?.input_tokens ?? null,
-        p_output_tokens: usage?.output_tokens ?? null,
-        p_cache_read_tokens: usage?.cache_read_input_tokens ?? null,
-        p_cache_write_tokens: usage?.cache_creation_input_tokens ?? null,
-        p_cost_usd: usage && servedBy ? costUsd(servedBy, usage) : null,
+        p_input_tokens: usage?.input ?? null,
+        p_output_tokens: usage?.output ?? null,
+        p_cache_read_tokens: usage?.cacheRead ?? null,
+        p_cache_write_tokens: usage?.cacheWrite ?? null,
+        p_cost_usd: usage && servedBy ? costUsd([servedBy, MODEL], usage) : null,
         p_latency_ms: Date.now() - started,
         p_free_per_day: freePerDay,
       });
@@ -190,39 +247,18 @@ export default {
       const image = encodeBase64(new Uint8Array(await photo.data.arrayBuffer()));
 
       const dishes = await loadCatalogue(admin);
-      const message = await anthropic.beta.messages.create({
-        model: MODEL,
-        max_tokens: 16000,
-        ...(SERVER_FALLBACK && { betas: ['server-side-fallback-2026-07-01'], fallbacks: 'default' as const }),
-        output_config: { effort: EFFORT, format: { type: 'json_schema', schema: SCAN_OUTPUT_SCHEMA } },
-        system: [
-          // Rules + catalogue are identical for every scan: cache them.
-          { type: 'text', text: SYSTEM_RULES + catalogueLines(dishes), cache_control: { type: 'ephemeral' } },
-        ],
-        messages: [
-          {
-            role: 'user',
-            content: [
-              { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: image } },
-              { type: 'text', text: 'What food is in this photo, and how much?' },
-            ],
-          },
-        ],
-      });
-      usage = message.usage;
-      servedBy = message.model;
+      const system = SYSTEM_RULES + catalogueLines(dishes);
+      const answer = PROVIDER === 'gemini' ? await askGemini(system, image) : await askClaude(system, image);
+      usage = answer.usage;
+      servedBy = answer.model;
+      if (!answer.ok) throw new ScanFailure(502, answer.reason, answer.detail);
 
-      if (message.stop_reason === 'refusal') throw new ScanFailure(502, 'refused', 'model declined the photo');
-      if (message.stop_reason === 'max_tokens') throw new ScanFailure(502, 'truncated', 'answer cut off');
-      const text = message.content.find((b) => b.type === 'text');
-      if (!text || text.type !== 'text') throw new ScanFailure(502, 'no_answer', 'no text in answer');
-
-      const scan = parseScanOutput(JSON.parse(text.text), new Map(dishes.map((d) => [d.id, d])));
+      const scan = parseScanOutput(JSON.parse(answer.text), new Map(dishes.map((d) => [d.id, d])));
       const done = await finish(true, scan, null);
       console.log(JSON.stringify({
         event: 'scan', outcome: 'ok', model: servedBy, ms: Date.now() - started,
-        items: scan.items.length, input_tokens: usage.input_tokens, output_tokens: usage.output_tokens,
-        cache_read: usage.cache_read_input_tokens,
+        items: scan.items.length, input_tokens: answer.usage.input, output_tokens: answer.usage.output,
+        cache_read: answer.usage.cacheRead,
       }));
       return json(200, { scan, scans_left: (done.data as { scans_left: number | null } | null)?.scans_left ?? null });
     } catch (e) {

@@ -250,6 +250,15 @@ A photo that isn't a meal yet used to show *Waiting* or *Analyzing…* forever. 
 - **Failures are remembered in memory** (`useFailedScans` in `scanQueue.ts`), like the retry times. After a restart, the photo is simply tried again.
 - **A scan with no food** stays on Result (*No food found*) instead of opening PickDish with unrelated guesses.
 
+## Scan model is a setting, Claude or Gemini (2026-11-01)
+
+`SCAN_MODEL` picks the vision model by name: `claude-*` goes to Anthropic, `gemini-*` to Google's Gemini API, so models can be compared on the labelled photos without code changes. Both go through the same prompt, the same JSON schema, `parseScanOutput` and the cost log (`_shared/vision.ts`, tested).
+- **Gemini is called over REST (`generateContent`), no SDK.** The schema is converted to Gemini's OpenAPI-style `responseSchema`: nullable instead of a null branch, no `additionalProperties`. Rules and catalogue go first so implicit caching can reuse them. `low` effort asks for the least thinking (`thinkingBudget: 0` on 2.5, `thinkingLevel: minimal` on 3.x, which answers 400 to a zero budget).
+- **Gemini 2.5 Flash-Lite is closed to new accounts** ("no longer available to new users", checked 2026-11-01). Test with `gemini-3.1-flash-lite` ($0.25 / $1.50 per MTok) or `gemini-3.5-flash-lite` ($0.30 / $2.50).
+- **Toppings are separate items** (2026-11-01): the scan prompt asks for toppings and sides that are their own catalogue dishes (fritters on mohinga, an egg on rice) as extra items, but not garnishes that belong to the recipe. A Gemini test missed the fritter on a mohinga bowl, about 100–200 kcal.
+- **Gemini keys must come from a project with billing on** before real users: on the free tier Google may use and have people review the photos.
+- **Checked against the live Gemini API** with a text request (3.1 and 3.5 Flash-Lite answer schema-valid JSON). Not yet run on a real photo.
+
 ## Tests for domain logic only (for now)
 
 Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, meal parsing, search). UI is checked on the emulator. Component tests can come once screens stop changing. Note: TypeScript 6 no longer loads global types automatically, so `tsconfig.json` lists `"types": ["jest"]`.

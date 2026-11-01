@@ -63,7 +63,12 @@ export function PickDishScreen() {
                 {getDish(dishId).name[language]}
               </Text>
               {i === 0 && (
-                <Badge key={String(selected)} tone={selected ? 'onInk' : 'white'} label={t('pick.closest')} />
+                <Badge
+                  key={String(selected)}
+                  tone={selected ? 'onInk' : 'white'}
+                  label={t('pick.closest')}
+                  style={s.badge}
+                />
               )}
             </Pressable>
           );
@@ -82,6 +87,8 @@ export function PickDishScreen() {
 
 const useStyles = makeStyles(({ theme }) => ({
   flex: { flex: 1 },
+  // Badge aligns itself to the top by default (for columns); centre it on the row.
+  badge: { alignSelf: 'center' },
   list: { gap: theme.space.sm },
   option: {
     minHeight: 60,
