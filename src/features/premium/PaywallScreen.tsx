@@ -10,9 +10,9 @@ import { usePremium } from '@/store/premium';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Badge, Button, Icon, IconButton, Logo, Screen, Text, type IconName } from '@/ui';
 
-const FEATURES: { key: 'unlimitedScans' | 'healthGoals' | 'weeklyReport'; icon: IconName }[] = [
+/** Only what Premium does today. Blood sugar & pressure goals (`paywall.healthGoals`) return once built. */
+const FEATURES: { key: 'unlimitedScans' | 'weeklyReport'; icon: IconName }[] = [
   { key: 'unlimitedScans', icon: 'camera' },
-  { key: 'healthGoals', icon: 'drop' },
   { key: 'weeklyReport', icon: 'chart' },
 ];
 

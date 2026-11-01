@@ -182,12 +182,10 @@ const en = {
     weekdays: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
   },
   add: {
-    soon: 'Soon',
     title: 'Add food',
     photo: 'Photo',
     voice: 'Say or type',
     search: 'Search',
-    barcode: 'Barcode',
   },
   camera: {
     freeScans_one: '{{count}} free scan left today',

@@ -118,12 +118,7 @@ export function SettingsScreen() {
         </Section>
 
         <Section title={t('settings.sectionDaily')}>
-          <ListRow
-            kind="switch"
-            label={t('settings.uposatha')}
-            value={settings.uposathaVegetarian}
-            onValueChange={() => settings.toggle('uposathaVegetarian')}
-          />
+          {/* Uposatha vegetarian is hidden until it does something (LAUNCH_CHECKLIST §6). */}
           <ListRow
             kind="switch"
             label={t('settings.feastDay')}

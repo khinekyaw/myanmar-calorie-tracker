@@ -89,7 +89,7 @@ Paywall (from the camera counter, the 4th scan, Settings, or the weekly report):
 | BMI used a fixed sample height | **Fixed**: uses your height; asks for it if missing |
 | Week strip day selection changed nothing | **Fixed**: Home shows the selected day |
 | A wrongly logged meal couldn't be removed | **Fixed**: delete on Result with confirm sheet |
-| Barcode looked usable but opened the normal camera | **Fixed**: marked *Soon*; removed from the camera bar |
+| Barcode looked usable but opened the normal camera | **Fixed**: removed from the app for version 1 (2026-11-01) |
 | Streak was a fixed number | **Fixed**: counted from logged days (feast day keeps it) |
 | Progress chart showed only a line | **Fixed**: axis labels, dates, goal line, values on tap, periods, weekly calories |
 
@@ -100,7 +100,7 @@ Paywall (from the camera counter, the 4th scan, Settings, or the weekly report):
 - When a scan fails (no connection mid-scan, server error), Result keeps showing *Analyzing…*; the photo is retried in the background and Home shows it as *Waiting*.
 - When the server says the free scans are used up for today (e.g. used on another phone), queued photos wait until tomorrow or Premium without telling the user why.
 - Meals restored on another phone show the dish photo, not the meal photo.
-- Uposatha vegetarian has no effect yet (planned: suggest vegetarian dishes first on Uposatha days).
+- Uposatha vegetarian is hidden until it does something (planned: suggest vegetarian dishes first on Uposatha days).
 - Queued photos that come back low-confidence are logged with the top guess; they only ask for review when opened.
 - Weight is in lb only; kg isn't offered yet.
 - The Welcome image (shown whole) has "Scanning Meal…" and "2/3" in English baked into the picture.

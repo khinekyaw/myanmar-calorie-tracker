@@ -185,12 +185,10 @@ const my: Translations = {
     weekdays: ['လာ', 'ဂါ', 'ဟူး', 'ကြာ', 'သော', 'နေ', 'နွေ'],
   },
   add: {
-    soon: 'မကြာခင်',
     title: 'အစားအစာ ထည့်မယ်',
     photo: 'ဓာတ်ပုံ',
     voice: 'ပြောမယ် / ရိုက်မယ်',
     search: 'ရှာမယ်',
-    barcode: 'ဘားကုဒ်',
   },
   camera: {
     freeScans_one: 'ဒီနေ့ အခမဲ့ {{count}} ကြိမ် ကျန်',

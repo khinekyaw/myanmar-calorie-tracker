@@ -235,6 +235,14 @@ No speech-to-text service: there's no budget for one, and we don't expect heavy 
 - Meals saved there keep `source: 'voice'` (the *Say or type* way of logging), so the *Just Say It* badge now reads "Log a meal by saying or typing it".
 - A later option, only if people ask: Android's built-in speech recognition, detected per phone. It needs a native library and a new build.
 
+## Version 1 shows only finished features (2026-11-01)
+
+Nothing in the app says *Soon* or promises something that doesn't work yet:
+- **Barcode tile removed** from the Add sheet. *Search* now sits alone on a short full-width row. Barcode is later scope (PRODUCT_BRIEF §6).
+- **Uposatha vegetarian hidden** in Settings. The setting and its sync stay, so it can come back.
+- **The paywall lists only working features:** unlimited scans and the weekly report. *Blood sugar & pressure goals* (`paywall.healthGoals`) returns when it's built.
+- **Kept:** the blood sugar / pressure answers on the goal and Health screens. They're plain questions that promise nothing, and the future features will use them.
+
 ## Tests for domain logic only (for now)
 
 Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, meal parsing, search). UI is checked on the emulator. Component tests can come once screens stop changing. Note: TypeScript 6 no longer loads global types automatically, so `tsconfig.json` lists `"types": ["jest"]`.

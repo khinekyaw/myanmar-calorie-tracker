@@ -74,9 +74,9 @@ Target: 2–3 GB RAM, Android 9 or later, slow 3G/4G.
 
 - [ ] **Must · Claude** — When a scan fails, Result stays on *Analyzing…*. Show a clear state with Retry.
 - [ ] **Must · Claude** — When the server says today's free scans are used up (for example, on another phone), tell the user instead of silently waiting.
-- [ ] **Must · Claude** — **Premium features**: blood sugar / pressure (next section). Until it exists, the paywall promises something the app doesn't do. The weekly report is built (2026-11-01).
+- [ ] **Must · You** — **Decide**: are blood sugar / pressure goals (next section) in version 1? Until they're built, the paywall doesn't mention them (hidden 2026-11-01). The weekly report is built.
 - [ ] **Should · Claude** — "You earned a badge" moment after logging.
-- [ ] **Should · Claude** — Uposatha vegetarian toggle has no effect yet (suggest vegetarian dishes first on Uposatha days).
+- [ ] **Later · Claude** — Uposatha vegetarian: hidden in Settings for version 1 (2026-11-01). To bring it back, suggest vegetarian dishes first on Uposatha days.
 - [ ] **Should · Claude** — Meals restored on another phone show the dish photo, not the meal photo (needs signed photo URLs).
 - [ ] **Later · Claude** — kg as well as lb; bring back waist tracking (hidden for now, data kept).
 
@@ -91,7 +91,7 @@ Target: 2–3 GB RAM, Android 9 or later, slow 3G/4G.
 
 ## How the Premium features will work
 
-The paywall lists three Premium features. Status today:
+Premium has three planned features; the paywall lists only the two that work (blood sugar / pressure hidden until built). Status today:
 
 | Feature | Today | To build |
 |---|---|---|

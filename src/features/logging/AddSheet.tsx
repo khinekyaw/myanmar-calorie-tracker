@@ -11,10 +11,12 @@ import { useLog } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Icon, Text, type IconName } from '@/ui';
 
-/** A tile without `onPress` isn't available yet and shows "Soon". */
-type Tile = { key: 'photo' | 'voice' | 'search' | 'barcode'; icon: IconName; primary: boolean; onPress?: () => void };
+type Tile = { key: 'photo' | 'voice' | 'search'; icon: IconName; primary: boolean; onPress: () => void };
 
-/** Bottom sheet: four ways to log + one-tap re-log chips. */
+/**
+ * Bottom sheet: three ways to log + one-tap re-log chips. Only finished
+ * features appear here (barcode is later scope: docs/PRODUCT_BRIEF.md §6).
+ */
 export function AddSheet() {
   const { t } = useTranslation();
   const s = useStyles();
@@ -26,7 +28,6 @@ export function AddSheet() {
     { key: 'photo', icon: 'camera', primary: true, onPress: () => router.replace('/camera') },
     { key: 'voice', icon: 'mic', primary: true, onPress: () => router.replace('/text-log') },
     { key: 'search', icon: 'search', primary: false, onPress: () => router.replace('/search') },
-    { key: 'barcode', icon: 'barcode', primary: false }, // later scope (docs/PRODUCT_BRIEF.md §6)
   ];
 
   const relog = (id: DishId) => {
@@ -60,26 +61,17 @@ export function AddSheet() {
                 <Pressable
                   key={tile.key}
                   accessibilityRole="button"
-                  accessibilityState={{ disabled: !tile.onPress }}
-                  disabled={!tile.onPress}
                   onPress={() => {
                     tap();
-                    tile.onPress?.();
+                    tile.onPress();
                   }}
                   style={({ pressed }) => [
                     s.tile,
                     tile.primary ? s.tilePrimary : s.tileSecondary,
+                    row.length === 1 && s.tileWide,
                     pressed && s.pressed,
-                    !tile.onPress && s.unavailable,
                   ]}>
-                  <View style={s.tileTop}>
-                    <Icon name={tile.icon} size={26} color={tile.primary ? theme.colors.onPrimary : theme.colors.icon} />
-                    {!tile.onPress && (
-                      <Text variant="caption" tone="muted">
-                        {t('add.soon')}
-                      </Text>
-                    )}
-                  </View>
+                  <Icon name={tile.icon} size={26} color={tile.primary ? theme.colors.onPrimary : theme.colors.icon} />
                   <Text variant="bodyStrong" tone={tile.primary ? 'inverse' : 'default'}>
                     {t(`add.${tile.key}`)}
                   </Text>
@@ -135,8 +127,8 @@ const useStyles = makeStyles(({ theme }) => ({
     justifyContent: 'space-between',
   },
   tilePrimary: { backgroundColor: theme.colors.primary },
-  tileTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  unavailable: { opacity: theme.opacity.disabled + 0.25 },
+  /** A tile alone on its row: short, icon and label side by side. */
+  tileWide: { height: 64, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: theme.space.md },
   tileSecondary: { backgroundColor: theme.colors.surface },
   pressed: { opacity: theme.opacity.pressed },
   chips: { gap: theme.space.sm, paddingHorizontal: theme.gutter },
