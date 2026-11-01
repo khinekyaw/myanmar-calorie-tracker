@@ -1,0 +1,27 @@
+{
+  "id": "friedNoodles",
+  "name": { "en": "Fried noodles", "my": "ခေါက်ဆွဲကြော်" },
+  "aliases": {
+    "roman": ["khauk swe kyaw", "fried noodles"],
+    "my": ["ခေါက်ဆွဲကြော်"]
+  },
+  "oilSensitive": true,
+  "unit": "plate",
+  "servingG": 388,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "eggNoodlesCooked", "g": 220 },
+    { "ing": "chickenMeat", "g": 40 },
+    { "ing": "cabbage", "g": 40 },
+    { "ing": "carrot", "g": 20 },
+    { "ing": "eggRaw", "g": 25 },
+    { "ing": "garlic", "g": 5 },
+    { "ing": "peanutOil", "g": 20 },
+    { "ing": "soySauce", "g": 10 },
+    { "ing": "oysterSauce", "g": 8 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes."
+}

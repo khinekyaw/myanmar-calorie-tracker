@@ -1,0 +1,23 @@
+{
+  "id": "avocadoShake",
+  "name": { "en": "Avocado shake", "my": "ထောပတ်သီးဖျော်ရည်" },
+  "aliases": {
+    "roman": ["htaw bat thee phyaw yay", "avocado juice", "avocado shake"],
+    "my": ["ထောပတ်သီးဖျော်ရည်"]
+  },
+  "isVegetarian": true,
+  "unit": "cup",
+  "servingG": 320,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "avocado", "g": 120 },
+    { "ing": "milk", "g": 100 },
+    { "ing": "condensedMilk", "g": 40 },
+    { "ing": "sugar", "g": 10 },
+    { "ing": "water", "g": 50 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes."
+}

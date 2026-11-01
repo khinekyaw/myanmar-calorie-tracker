@@ -1,0 +1,32 @@
+{
+  "id": "danBauk",
+  "name": { "en": "Chicken biryani", "my": "ဒံပေါက်" },
+  "aliases": {
+    "roman": ["dan bauk", "danpauk", "biryani"],
+    "my": ["ဒံပေါက်", "ကြက်သားဒံပေါက်"]
+  },
+  "oilSensitive": true,
+  "unit": "plate",
+  "servingG": 450,
+  "servingWeighed": false,
+  "yieldG": 3700,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "riceRaw", "g": 1000 },
+    { "ing": "chickenWithSkin", "g": 1000 },
+    { "ing": "ghee", "g": 100 },
+    { "ing": "peanutOil", "g": 50 },
+    { "ing": "onion", "g": 200 },
+    { "ing": "garlic", "g": 30 },
+    { "ing": "ginger", "g": 30 },
+    { "ing": "yogurt", "g": 150 },
+    { "ing": "curryPowder", "g": 20 },
+    { "ing": "cashews", "g": 30 },
+    { "ing": "salt", "g": 20 },
+    { "ing": "water", "g": 1500 }
+  ],
+  "method": "Spiced chicken layered with rice and ghee, cooked together.",
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. One plate includes a piece of chicken; pickles and soup are separate."
+}

@@ -1,0 +1,19 @@
+{
+  "id": "instantNoodles",
+  "name": { "en": "Instant noodles", "my": "အသင့်စားခေါက်ဆွဲ" },
+  "aliases": {
+    "roman": ["instant noodles", "mama", "yum yum", "ramen"],
+    "my": ["အသင့်စားခေါက်ဆွဲ", "မာမား", "ခေါက်ဆွဲခြောက်"]
+  },
+  "unit": "bowl",
+  "servingG": 360,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "ramenDry", "g": 60 },
+    { "ing": "water", "g": 300 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. One 60 g pack with its seasoning; check against local pack labels."
+}

@@ -1,0 +1,23 @@
+{
+  "id": "riceCongee",
+  "name": { "en": "Rice porridge", "my": "ဆန်ပြုတ်" },
+  "aliases": {
+    "roman": ["san byoke", "congee", "rice porridge"],
+    "my": ["ဆန်ပြုတ်"]
+  },
+  "isVegetarian": true,
+  "unit": "bowl",
+  "servingG": 300,
+  "servingWeighed": false,
+  "yieldG": 1600,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "riceRaw", "g": 200 },
+    { "ing": "water", "g": 1800 },
+    { "ing": "ginger", "g": 10 },
+    { "ing": "salt", "g": 5 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes."
+}

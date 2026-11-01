@@ -1,9 +1,11 @@
 {
   "id": "porkCurry",
-  "name": {
-    "en": "Pork curry",
-    "my": "ဝက်သားဆီပြန်"
+  "name": { "en": "Pork curry", "my": "ဝက်သားဆီပြန်" },
+  "aliases": {
+    "roman": ["wet thar hin", "pork curry", "wet thar see pyan"],
+    "my": ["ဝက်သားဟင်း", "ဝက်သားဆီပြန်"]
   },
+  "oilSensitive": true,
   "unit": "spoon",
   "servingG": 30,
   "servingWeighed": false,

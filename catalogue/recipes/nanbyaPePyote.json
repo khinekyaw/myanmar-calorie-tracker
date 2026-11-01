@@ -1,9 +1,11 @@
 {
   "id": "nanbyaPePyote",
-  "name": {
-    "en": "Naan & boiled peas",
-    "my": "နံပြား + ပဲပြုတ်"
+  "name": { "en": "Naan & boiled peas", "my": "နံပြား + ပဲပြုတ်" },
+  "aliases": {
+    "roman": ["nan bya", "naan bya", "nanbya", "pe byoke", "pe pyote", "naan"],
+    "my": ["နံပြား", "ပဲပြုတ်"]
   },
+  "isVegetarian": true,
   "unit": "plate",
   "servingG": 189,
   "servingWeighed": false,

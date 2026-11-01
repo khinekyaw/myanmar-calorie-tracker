@@ -1,0 +1,22 @@
+{
+  "id": "limeJuiceDrink",
+  "name": { "en": "Lime juice", "my": "သံပုရာရည်" },
+  "aliases": {
+    "roman": ["than ba yar yay", "lime juice", "lemon juice"],
+    "my": ["သံပုရာရည်"]
+  },
+  "isVegetarian": true,
+  "unit": "cup",
+  "servingG": 256,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "limeJuice", "g": 30 },
+    { "ing": "sugar", "g": 25 },
+    { "ing": "water", "g": 200 },
+    { "ing": "salt", "g": 0.5 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes."
+}

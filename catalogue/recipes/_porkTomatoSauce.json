@@ -1,0 +1,18 @@
+{
+  "id": "_porkTomatoSauce",
+  "name": { "en": "Pork and tomato topping", "my": "ဝက်သားခရမ်းချဉ်ဆီ" },
+  "yieldG": 850,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "porkGround", "g": 500 },
+    { "ing": "tomato", "g": 400 },
+    { "ing": "garlic", "g": 30 },
+    { "ing": "peanutOil", "g": 50 },
+    { "ing": "soySauce", "g": 20 },
+    { "ing": "salt", "g": 5 }
+  ],
+  "method": "Minced pork fried with garlic and tomatoes until saucy.",
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes."
+}

@@ -1,0 +1,22 @@
+{
+  "id": "rakhineMonti",
+  "name": { "en": "Rakhine mont di", "my": "ရခိုင်မုန့်တီ" },
+  "aliases": {
+    "roman": ["rakhine mont di", "rakhine noodles", "arakan mont di"],
+    "my": ["ရခိုင်မုန့်တီ"]
+  },
+  "unit": "bowl",
+  "servingG": 539,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "riceNoodlesCooked", "g": 180 },
+    { "dish": "_rakhineBroth", "g": 350 },
+    { "ing": "garlic", "g": 3 },
+    { "ing": "chiliRed", "g": 3 },
+    { "ing": "coriander", "g": 3 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes."
+}

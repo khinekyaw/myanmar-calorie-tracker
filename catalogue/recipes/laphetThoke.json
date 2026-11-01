@@ -1,9 +1,12 @@
 {
   "id": "laphetThoke",
-  "name": {
-    "en": "Tea leaf salad",
-    "my": "လက်ဖက်သုပ်"
+  "name": { "en": "Tea leaf salad", "my": "လက်ဖက်သုပ်" },
+  "aliases": {
+    "roman": ["laphet thoke", "lahpet thoke", "laphet thote", "tea leaf salad"],
+    "my": ["လက်ဖက်သုပ်", "လဘက်သုပ်"]
   },
+  "oilSensitive": true,
+  "isVegetarian": true,
   "unit": "plate",
   "servingG": 164,
   "servingWeighed": false,

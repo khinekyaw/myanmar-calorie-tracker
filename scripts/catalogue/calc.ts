@@ -35,6 +35,13 @@ export type Recipe = {
   /** The app's dish id. Components (broths, fried beans) start with "_" and never ship. */
   id: string;
   name: { en: string; my: string };
+  /** Other spellings people type or say: romanized, and other Burmese spellings. */
+  aliases?: { roman: string[]; my: string[] };
+  /** Curries and fried food: the user can set oil less / normal / more. */
+  oilSensitive?: boolean;
+  /** Tea-shop drinks: the user picks the sweetness. */
+  hasSweetness?: boolean;
+  isVegetarian?: boolean;
   unit?: Unit;
   /** Grams of cooked food in one unit. */
   servingG?: number;
@@ -187,8 +194,9 @@ export function calculate(
 
     if (isComponent(recipe)) {
       if (recipe.unit || recipe.servingG) warnings.push('components are not logged, so unit and servingG are ignored');
-    } else if (!recipe.unit || !(recipe.servingG && recipe.servingG > 0)) {
-      errors.push('needs a unit and servingG');
+    } else {
+      if (!recipe.unit || !(recipe.servingG && recipe.servingG > 0)) errors.push('needs a unit and servingG');
+      if (!recipe.aliases) errors.push('needs aliases (roman and my)');
     }
     if (recipe.status === 'reviewed' && !recipe.reviewedBy) errors.push('reviewed needs reviewedBy');
     if (recipe.status === 'reviewed' && placeholders.size) errors.push('cannot be reviewed while it uses placeholder ingredients');
@@ -231,6 +239,11 @@ export function catalogueJson(results: Map<string, DishResult>) {
     if (!r.perServing || !r.recipe.unit) continue;
     dishes[id] = {
       name: r.recipe.name,
+      aliasesRoman: r.recipe.aliases?.roman ?? [],
+      aliasesMy: r.recipe.aliases?.my ?? [],
+      oilSensitive: Boolean(r.recipe.oilSensitive),
+      hasSweetness: Boolean(r.recipe.hasSweetness),
+      isVegetarian: Boolean(r.recipe.isVegetarian),
       unit: r.recipe.unit,
       servingG: r.recipe.servingG,
       ...roundNutrients(r.perServing),

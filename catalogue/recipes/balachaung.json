@@ -1,0 +1,28 @@
+{
+  "id": "balachaung",
+  "name": { "en": "Dried shrimp relish", "my": "ဘာလချောင်" },
+  "aliases": {
+    "roman": ["balachaung", "ba la chaung", "balachong"],
+    "my": ["ဘာလချောင်", "ပုစွန်ခြောက်ကြော်"]
+  },
+  "oilSensitive": true,
+  "unit": "spoon",
+  "servingG": 15,
+  "servingWeighed": false,
+  "yieldG": 520,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "driedShrimp", "g": 200 },
+    { "ing": "shallot", "g": 300 },
+    { "ing": "garlic", "g": 150 },
+    { "ing": "peanutOil", "g": 300 },
+    { "ing": "paprika", "g": 15 },
+    { "ing": "tamarind", "g": 20 },
+    { "ing": "salt", "g": 5 },
+    { "ing": "sugar", "g": 10 }
+  ],
+  "method": "Shallots and garlic fried crisp, pounded dried shrimp added, fried dry with chilli and tamarind.",
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes."
+}

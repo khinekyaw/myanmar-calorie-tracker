@@ -1,0 +1,24 @@
+{
+  "id": "chickenSoup",
+  "name": { "en": "Chicken soup", "my": "ကြက်သားဟင်းချို" },
+  "aliases": {
+    "roman": ["kyet thar hin cho", "chicken soup"],
+    "my": ["ကြက်သားဟင်းချို"]
+  },
+  "unit": "bowl",
+  "servingG": 200,
+  "servingWeighed": false,
+  "yieldG": 2400,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "water", "g": 2000 },
+    { "ing": "chickenWithSkin", "g": 300 },
+    { "ing": "chineseCabbage", "g": 300 },
+    { "ing": "garlic", "g": 20 },
+    { "ing": "salt", "g": 12 },
+    { "ing": "blackPepper", "g": 2 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes."
+}

@@ -1,0 +1,27 @@
+{
+  "id": "tomatoSalad",
+  "name": { "en": "Tomato salad", "my": "ခရမ်းချဉ်သီးသုပ်" },
+  "aliases": {
+    "roman": ["khayan chin thee thoke", "tomato salad"],
+    "my": ["ခရမ်းချဉ်သီးသုပ်"]
+  },
+  "oilSensitive": true,
+  "unit": "plate",
+  "servingG": 210,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "tomato", "g": 150 },
+    { "ing": "onion", "g": 20 },
+    { "ing": "peanutsRoasted", "g": 10 },
+    { "dish": "_friedGarlic", "g": 3 },
+    { "ing": "chickpeaFlour", "g": 5 },
+    { "ing": "peanutOil", "g": 10 },
+    { "ing": "fishSauce", "g": 4 },
+    { "ing": "limeJuice", "g": 5 },
+    { "ing": "coriander", "g": 3 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes."
+}

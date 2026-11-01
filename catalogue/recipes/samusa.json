@@ -1,9 +1,12 @@
 {
   "id": "samusa",
-  "name": {
-    "en": "Samosa",
-    "my": "စမူဆာ"
+  "name": { "en": "Samosa", "my": "စမူဆာ" },
+  "aliases": {
+    "roman": ["samusa", "samosa", "sa mu sa"],
+    "my": ["စမူဆာ"]
   },
+  "oilSensitive": true,
+  "isVegetarian": true,
   "unit": "piece",
   "servingG": 45,
   "servingWeighed": false,

@@ -1,0 +1,29 @@
+{
+  "id": "tofuSalad",
+  "name": { "en": "Shan tofu salad", "my": "တိုဟူးသုပ်" },
+  "aliases": {
+    "roman": ["to hu thoke", "tofu salad"],
+    "my": ["တိုဟူးသုပ်", "ရှမ်းတိုဟူးသုပ်"]
+  },
+  "oilSensitive": true,
+  "isVegetarian": true,
+  "unit": "plate",
+  "servingG": 222,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "dish": "_shanTofu", "g": 150 },
+    { "ing": "cabbage", "g": 20 },
+    { "ing": "onion", "g": 15 },
+    { "ing": "peanutsRoasted", "g": 8 },
+    { "ing": "sesameRoasted", "g": 3 },
+    { "ing": "peanutOil", "g": 10 },
+    { "ing": "soySauce", "g": 5 },
+    { "ing": "limeJuice", "g": 5 },
+    { "ing": "chiliRed", "g": 3 },
+    { "ing": "coriander", "g": 3 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes."
+}

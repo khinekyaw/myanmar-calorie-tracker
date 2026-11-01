@@ -1,0 +1,24 @@
+{
+  "id": "fishCakeFried",
+  "name": { "en": "Fried fish cake", "my": "ငါးဖယ်ကြော်" },
+  "aliases": {
+    "roman": ["nga phe kyaw", "fish cake"],
+    "my": ["ငါးဖယ်ကြော်", "ငါးဖယ်"]
+  },
+  "oilSensitive": true,
+  "unit": "piece",
+  "servingG": 30,
+  "servingWeighed": false,
+  "yieldG": 520,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "surimi", "g": 500 },
+    { "ing": "riceFlour", "g": 30 },
+    { "ing": "salt", "g": 5 },
+    { "ing": "peanutOil", "g": 1000, "kept": 0.06 }
+  ],
+  "method": "Fish paste shaped and deep-fried.",
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. Surimi stands in for knifefish paste."
+}

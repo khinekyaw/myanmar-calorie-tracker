@@ -1,0 +1,24 @@
+{
+  "id": "moteSeinBaung",
+  "name": { "en": "Steamed rice cake", "my": "မုန့်စိမ်းပေါင်း" },
+  "aliases": {
+    "roman": ["mont sein baung", "steamed rice cake"],
+    "my": ["မုန့်စိမ်းပေါင်း"]
+  },
+  "isVegetarian": true,
+  "unit": "piece",
+  "servingG": 60,
+  "servingWeighed": false,
+  "yieldG": 1400,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "riceFlour", "g": 500 },
+    { "ing": "water", "g": 600 },
+    { "ing": "brownSugar", "g": 200 },
+    { "ing": "coconutMeat", "g": 150 },
+    { "ing": "salt", "g": 2 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes."
+}

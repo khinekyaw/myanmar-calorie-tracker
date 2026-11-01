@@ -1,0 +1,23 @@
+{
+  "id": "stickyRice",
+  "name": { "en": "Sticky rice", "my": "ကောက်ညှင်းပေါင်း" },
+  "aliases": {
+    "roman": ["kauk hnyin baung", "sticky rice"],
+    "my": ["ကောက်ညှင်းပေါင်း", "ကောက်ညှင်း"]
+  },
+  "isVegetarian": true,
+  "unit": "plate",
+  "servingG": 204,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "glutinousRiceCooked", "g": 160 },
+    { "ing": "peasCooked", "g": 30 },
+    { "ing": "coconutMeat", "g": 10 },
+    { "ing": "sesameRoasted", "g": 3 },
+    { "ing": "salt", "g": 0.5 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. Breakfast sticky rice with peas, coconut and sesame."
+}

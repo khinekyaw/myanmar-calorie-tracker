@@ -1,9 +1,12 @@
 {
   "id": "gourdFritter",
-  "name": {
-    "en": "Gourd fritter",
-    "my": "ဘူးသီးကြော်"
+  "name": { "en": "Gourd fritter", "my": "ဘူးသီးကြော်" },
+  "aliases": {
+    "roman": ["bu thee kyaw", "gourd fritter", "buthi kyaw"],
+    "my": ["ဘူးသီးကြော်"]
   },
+  "oilSensitive": true,
+  "isVegetarian": true,
   "unit": "piece",
   "servingG": 25,
   "servingWeighed": false,

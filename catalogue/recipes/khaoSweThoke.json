@@ -1,0 +1,28 @@
+{
+  "id": "khaoSweThoke",
+  "name": { "en": "Noodle salad", "my": "ခေါက်ဆွဲသုပ်" },
+  "aliases": {
+    "roman": ["khauk swe thoke", "noodle salad"],
+    "my": ["ခေါက်ဆွဲသုပ်"]
+  },
+  "oilSensitive": true,
+  "unit": "plate",
+  "servingG": 240,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "eggNoodlesCooked", "g": 150 },
+    { "ing": "cabbage", "g": 30 },
+    { "ing": "onion", "g": 15 },
+    { "dish": "_friedGarlic", "g": 5 },
+    { "ing": "chickpeaFlour", "g": 8 },
+    { "ing": "driedShrimp", "g": 5 },
+    { "ing": "peanutOil", "g": 15 },
+    { "ing": "fishSauce", "g": 5 },
+    { "ing": "limeJuice", "g": 5 },
+    { "ing": "chiliRed", "g": 2 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes."
+}

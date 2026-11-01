@@ -1,9 +1,12 @@
 {
   "id": "palata",
-  "name": {
-    "en": "Palata",
-    "my": "ပလာတာ"
+  "name": { "en": "Palata", "my": "ပလာတာ" },
+  "aliases": {
+    "roman": ["palata", "paratha", "palatha"],
+    "my": ["ပလာတာ"]
   },
+  "oilSensitive": true,
+  "isVegetarian": true,
   "unit": "piece",
   "servingG": 90,
   "servingWeighed": false,

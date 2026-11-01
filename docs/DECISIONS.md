@@ -214,7 +214,8 @@ No Myanmar dish table can be used commercially ([reports/Dish data plan.md](../r
 - **Placeholder ingredients** (no source yet) are allowed but flagged, and block `reviewed`.
 - **Components** (`_` prefix) are shared parts, such as broths, fried beans and dough. They let one reviewed base serve many dishes.
 - **Scripts run as plain Node TypeScript** (`node file.ts`, with `allowImportingTsExtensions` in tsconfig and `"type": "module"` in `scripts/catalogue/package.json`), so there's no new dependency. Jest checks the generated files are current, like the catalogue seed.
-- **Wired in:** `mocks/dishes.ts` takes unit and numbers from `catalogue/calculated.json` (`fromRecipe`); it keeps names, aliases, flags and photos. A missing dish is a type error.
+- **Wired in:** `mocks/dishes.ts` builds every dish from `catalogue/calculated.json`. Names, aliases and flags live in the recipe file, so a new dish is one file; `DishId` is the JSON's keys. Only photos stay in code (`dishPhotos`).
+- **115 dishes (2026-11-01):** 100 added, weighted to lunch: curries, vegetables, soups, salads, rice and noodles, plus tea-shop snacks, desserts, drinks and fruit. Curry and vegetable dishes are logged by the serving spoon (30 g and 40 g, both guesses). Catalogue version 3.
 - **Three tiers on Result:** *Verified* (reviewed), *Calculated* (recipe, not reviewed), *Estimate* (anything else, e.g. a server dish with no recipe). A meal takes its weakest dish's tier (`numbersTier`). The server marks calculated dishes with `source = 'recipe'`.
 - **Sugar and sodium** are stored per dish (in the phone's JSON row, plus server columns `sugar_g` and `sodium_mg`), but not per logged item yet. No screen shows them; they're for the blood-sugar and salt features.
 - **Catalogue version 2** re-seeds phones with the new numbers. A local server seeded earlier keeps the old ones (the seed never overwrites), so run `npm run db:reset`.
@@ -228,6 +229,7 @@ Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, mea
 ## Copy review
 
 All Burmese strings in `src/i18n/locales/my.ts` need native-speaker review. New strings not on the canvas (please check first):
+Batch 10 (dish names): the Burmese names and spellings of the 100 dishes added on 2026-11-01, in `catalogue/recipes/*.json` (`name.my`, `aliases.my`).
 Batch 9 (dish numbers): `result.calculated` (တွက်ထားတယ်), the badge for recipe-calculated numbers.
 Batch 8 (weekly report): every `report.*` string — title အပတ်စဉ် အစီရင်ခံစာ, the six tips (e.g. ညစာမှာ ထမင်း နည်းနည်း လျှော့မယ်, ထမင်းနပ် မလွတ်စေနဲ့), and the notification (အပတ်စဉ် အစီရင်ခံစာ ရပြီ / ပြီးခဲ့တဲ့ အပတ် ဘယ်လိုလဲ ကြည့်မယ်).
 Batch 7 (paywall): `paywall.perMonth` (တစ်လ ≈ {{price}} ကျပ်).

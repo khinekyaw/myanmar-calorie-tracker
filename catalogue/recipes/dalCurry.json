@@ -1,0 +1,29 @@
+{
+  "id": "dalCurry",
+  "name": { "en": "Lentil soup", "my": "ပဲဟင်း" },
+  "aliases": {
+    "roman": ["pe hin", "dal", "lentil soup", "pel hin"],
+    "my": ["ပဲဟင်း", "ပဲဟင်းချို"]
+  },
+  "isVegetarian": true,
+  "unit": "bowl",
+  "servingG": 200,
+  "servingWeighed": false,
+  "yieldG": 1800,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "lentilsRed", "g": 300 },
+    { "ing": "water", "g": 1500 },
+    { "ing": "potato", "g": 200 },
+    { "ing": "onion", "g": 100 },
+    { "ing": "garlic", "g": 20 },
+    { "ing": "tomato", "g": 100 },
+    { "ing": "turmeric", "g": 3 },
+    { "ing": "peanutOil", "g": 40 },
+    { "ing": "salt", "g": 10 }
+  ],
+  "method": "Lentils boiled soft with potato, finished with fried onion, garlic and turmeric.",
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. Myanmar pe hin may use other split pulses; red lentils stand in."
+}

@@ -2,7 +2,7 @@
 
 How dish numbers are made. Every dish gets a **standard recipe**. Code calculates its nutrition from an **ingredient table**, and the nutritionist reviews it. Why this method, and the plan to reach 500–1,000 dishes: [reports/Dish data plan.md](../reports/Dish%20data%20plan.md).
 
-The app reads `catalogue/calculated.json`: `src/mocks/dishes.ts` takes each dish's unit and numbers from it, and the server seed is generated from that. Result shows **Verified** (reviewed), **Calculated** (draft recipe) or **Estimate** (no recipe).
+The app reads `catalogue/calculated.json`. `src/mocks/dishes.ts` builds every dish from it (names, aliases, flags, unit, numbers) and only adds bundled photos, and the server seed is generated from that. Result shows **Verified** (reviewed), **Calculated** (draft recipe) or **Estimate** (no recipe).
 
 ## Files
 
@@ -34,13 +34,13 @@ npm run catalogue:ingredients -- <path to FoodData_Central_sr_legacy_food_csv_20
 After a build that changes numbers:
 1. Run `UPDATE_SEED=1 npx jest scripts/__tests__/catalogueSeed.test.ts` to regenerate the server seed.
 2. Bump `CATALOGUE_VERSION` and `CATALOGUE_DATE` in `src/db/dishes.ts` so phones re-seed.
-3. A new dish also needs an entry in `src/mocks/dishes.ts` (names, aliases, flags, photo).
+3. A new dish needs nothing else in the app. Only a bundled photo goes in `dishPhotos` in `src/mocks/dishes.ts`.
 
 ## Ingredients
 
 - **USDA first.** Add `"fdcId"` with null values, then run `catalogue:ingredients` to fill them in, along with `usdaName`. The data is SR Legacy, CC0: [download](https://fdc.nal.usda.gov/download-datasets) the CSV. Find ids by searching `food.csv`, or at [fdc.nal.usda.gov](https://fdc.nal.usda.gov/).
 - **Hand-entered** values (a product label, a paper, a licensed table) need a `source`.
-- **No value yet?** Add `"placeholder": true` with a rough guess. Every dish that uses it is flagged and can't be marked reviewed. Today there are three: `laphet`, `ngapi`, `bananaStem`.
+- **No value yet?** Add `"placeholder": true` with a rough guess. Every dish that uses it is flagged and can't be marked reviewed. Today there are five: `laphet`, `ngapi`, `bananaStem`, `driedShrimp`, `sugarcaneJuice`.
 - When USDA has nothing close, a proxy is fine if its name says so: "Dried salted fish (cod, proxy)".
 - Don't copy values from the Thai, ASEAN or FAO tables until we have a commercial licence.
 
@@ -50,6 +50,8 @@ After a build that changes numbers:
 {
   "id": "samusa",                       // = file name = app dish id; "_" prefix = component
   "name": { "en": "Samosa", "my": "စမူဆာ" },
+  "aliases": { "roman": ["samusa", "samosa"], "my": ["စမူဆာ"] },   // what people type or say
+  "oilSensitive": true,                 // also hasSweetness, isVegetarian
   "unit": "piece",                      // plate | bowl | spoon | piece | cup
   "servingG": 45,                       // cooked grams in one unit
   "servingWeighed": false,              // true once someone weighed real portions
@@ -93,6 +95,8 @@ The **biggest error is portion size**. Weigh real servings: a serving spoon of c
 
 - **Sugar and sodium** reach the phone and server dish catalogue, but not logged meals (`log_items`), and no screen shows them.
 - **Curry `spoon` = 30 g** is a guess.
-- **Placeholder values** for laphet, ngapi and banana stem: get a label, a paper or a lab value.
-- **The 15 drafts have no sources.** Check them against published recipes.
+- **The 115 drafts have no sources.** Check them against published recipes, starting with the dishes users log most.
+- **Burmese names and spellings** for the 100 dishes added on 2026-11-01 need native review.
+- **Placeholder values:** laphet, ngapi, banana stem, dried shrimp and sugarcane juice.
+- **Proxies** worth replacing: shad for hilsa, surimi for knifefish paste, roselle calyx for leaves, goat for mutton (likely right), brown sugar for jaggery.
 - **Staging and production** need the new migration and the regenerated seed when they're set up. The seed never overwrites a row that already exists.

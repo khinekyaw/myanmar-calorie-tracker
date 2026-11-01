@@ -1,0 +1,25 @@
+{
+  "id": "samusaThoke",
+  "name": { "en": "Samosa salad", "my": "စမူဆာသုပ်" },
+  "aliases": {
+    "roman": ["samusa thoke", "samosa salad"],
+    "my": ["စမူဆာသုပ်"]
+  },
+  "isVegetarian": true,
+  "unit": "plate",
+  "servingG": 261,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "dish": "samusa", "g": 90 },
+    { "dish": "dalCurry", "g": 100 },
+    { "ing": "cabbage", "g": 40 },
+    { "ing": "onion", "g": 20 },
+    { "ing": "coriander", "g": 3 },
+    { "ing": "limeJuice", "g": 5 },
+    { "ing": "chiliRed", "g": 3 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. Two samosas cut up, with a ladle of pe hin."
+}

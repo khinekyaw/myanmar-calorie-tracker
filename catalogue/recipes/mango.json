@@ -1,0 +1,19 @@
+{
+  "id": "mango",
+  "name": { "en": "Mango", "my": "သရက်သီး" },
+  "aliases": {
+    "roman": ["tha yet thee", "mango"],
+    "my": ["သရက်သီး"]
+  },
+  "isVegetarian": true,
+  "unit": "piece",
+  "servingG": 200,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "mango", "g": 200 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. Edible part only."
+}

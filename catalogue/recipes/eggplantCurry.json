@@ -1,0 +1,29 @@
+{
+  "id": "eggplantCurry",
+  "name": { "en": "Eggplant curry", "my": "ခရမ်းသီးဟင်း" },
+  "aliases": {
+    "roman": ["kha yan thee hin", "eggplant curry", "brinjal"],
+    "my": ["ခရမ်းသီးဟင်း", "ခရမ်းသီးနှပ်"]
+  },
+  "oilSensitive": true,
+  "isVegetarian": true,
+  "unit": "spoon",
+  "servingG": 40,
+  "servingWeighed": false,
+  "yieldG": 850,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "eggplant", "g": 700 },
+    { "ing": "onion", "g": 150 },
+    { "ing": "garlic", "g": 30 },
+    { "ing": "tomato", "g": 150 },
+    { "ing": "turmeric", "g": 3 },
+    { "ing": "paprika", "g": 5 },
+    { "ing": "peanutOil", "g": 90 },
+    { "ing": "salt", "g": 8 }
+  ],
+  "method": "Eggplant soaks up the oil, so this one is oilier than it looks.",
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. One spoon = one serving spoon (about 40 g); weigh a few."
+}

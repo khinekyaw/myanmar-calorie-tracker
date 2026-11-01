@@ -1,0 +1,24 @@
+{
+  "id": "fishBallSoup",
+  "name": { "en": "Fish ball soup", "my": "ငါးလုံးဟင်းချို" },
+  "aliases": {
+    "roman": ["nga lone hin cho", "fish ball soup"],
+    "my": ["ငါးလုံးဟင်းချို", "ငါးဖယ်ဟင်းချို"]
+  },
+  "unit": "bowl",
+  "servingG": 200,
+  "servingWeighed": false,
+  "yieldG": 2400,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "water", "g": 2000 },
+    { "ing": "surimi", "g": 300 },
+    { "ing": "pakChoi", "g": 200 },
+    { "ing": "garlic", "g": 15 },
+    { "ing": "peanutOil", "g": 10 },
+    { "ing": "salt", "g": 12 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes."
+}

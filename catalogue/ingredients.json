@@ -1,4 +1,69 @@
 {
+  "agar": {
+    "name": "Agar, dried",
+    "fdcId": 170090,
+    "per100g": {
+      "kcal": 306,
+      "carbG": 80.88,
+      "proteinG": 6.21,
+      "fatG": 0.3,
+      "sugarG": 2.97,
+      "sodiumMg": 102
+    },
+    "usdaName": "Seaweed, agar, dried"
+  },
+  "apple": {
+    "name": "Apple",
+    "fdcId": 171688,
+    "per100g": {
+      "kcal": 52,
+      "carbG": 13.81,
+      "proteinG": 0.26,
+      "fatG": 0.17,
+      "sugarG": 10.39,
+      "sodiumMg": 1
+    },
+    "usdaName": "Apples, raw, with skin (Includes foods for USDA's Food Distribution Program)"
+  },
+  "avocado": {
+    "name": "Avocado",
+    "fdcId": 171705,
+    "per100g": {
+      "kcal": 160,
+      "carbG": 8.53,
+      "proteinG": 2,
+      "fatG": 14.66,
+      "sugarG": 0.66,
+      "sodiumMg": 7
+    },
+    "usdaName": "Avocados, raw, all commercial varieties"
+  },
+  "bambooShoots": {
+    "name": "Bamboo shoots",
+    "fdcId": 169210,
+    "per100g": {
+      "kcal": 27,
+      "carbG": 5.2,
+      "proteinG": 2.6,
+      "fatG": 0.3,
+      "sugarG": 3,
+      "sodiumMg": 4
+    },
+    "usdaName": "Bamboo shoots, raw"
+  },
+  "banana": {
+    "name": "Banana",
+    "fdcId": 173944,
+    "per100g": {
+      "kcal": 89,
+      "carbG": 22.84,
+      "proteinG": 1.09,
+      "fatG": 0.33,
+      "sugarG": 12.23,
+      "sodiumMg": 1
+    },
+    "usdaName": "Bananas, raw"
+  },
   "bananaStem": {
     "name": "Banana stem",
     "source": "PLACEHOLDER: rough guess, no source.",
@@ -11,6 +76,58 @@
       "sugarG": null,
       "sodiumMg": 10
     }
+  },
+  "beanSprouts": {
+    "name": "Bean sprouts",
+    "fdcId": 169957,
+    "per100g": {
+      "kcal": 30,
+      "carbG": 5.94,
+      "proteinG": 3.04,
+      "fatG": 0.18,
+      "sugarG": 4.13,
+      "sodiumMg": 6
+    },
+    "usdaName": "Mung beans, mature seeds, sprouted, raw"
+  },
+  "beefChuck": {
+    "name": "Beef, chuck, raw",
+    "fdcId": 169491,
+    "per100g": {
+      "kcal": 244,
+      "carbG": 0,
+      "proteinG": 19.23,
+      "fatG": 17.98,
+      "sugarG": 0,
+      "sodiumMg": 62
+    },
+    "usdaName": "Beef, chuck, arm pot roast, separable lean and fat, trimmed to 1/8\" fat, all grades, raw"
+  },
+  "beer": {
+    "name": "Beer",
+    "fdcId": 168746,
+    "per100g": {
+      "kcal": 43,
+      "carbG": 3.55,
+      "proteinG": 0.46,
+      "fatG": 0,
+      "sugarG": 0,
+      "sodiumMg": 4
+    },
+    "usdaName": "Alcoholic beverage, beer, regular, all"
+  },
+  "bitterGourd": {
+    "name": "Bitter gourd",
+    "fdcId": 168393,
+    "per100g": {
+      "kcal": 17,
+      "carbG": 3.7,
+      "proteinG": 1,
+      "fatG": 0.17,
+      "sugarG": null,
+      "sodiumMg": 5
+    },
+    "usdaName": "Balsam-pear (bitter gourd), pods, raw"
   },
   "blackPepper": {
     "name": "Black pepper",
@@ -38,6 +155,45 @@
     },
     "usdaName": "Gourd, white-flowered (calabash), raw"
   },
+  "brownRiceCooked": {
+    "name": "Brown rice, cooked",
+    "fdcId": 168875,
+    "per100g": {
+      "kcal": 112,
+      "carbG": 23.51,
+      "proteinG": 2.32,
+      "fatG": 0.83,
+      "sugarG": null,
+      "sodiumMg": 1
+    },
+    "usdaName": "Rice, brown, medium-grain, cooked (Includes foods for USDA's Food Distribution Program)"
+  },
+  "brownSugar": {
+    "name": "Brown sugar (proxy for jaggery)",
+    "fdcId": 168833,
+    "per100g": {
+      "kcal": 380,
+      "carbG": 98.09,
+      "proteinG": 0.12,
+      "fatG": 0,
+      "sugarG": 97.02,
+      "sodiumMg": 28
+    },
+    "usdaName": "Sugars, brown"
+  },
+  "butter": {
+    "name": "Butter",
+    "fdcId": 173410,
+    "per100g": {
+      "kcal": 717,
+      "carbG": 0.06,
+      "proteinG": 0.85,
+      "fatG": 81.11,
+      "sugarG": 0.06,
+      "sodiumMg": 643
+    },
+    "usdaName": "Butter, salted"
+  },
   "cabbage": {
     "name": "Cabbage",
     "fdcId": 169975,
@@ -51,6 +207,32 @@
     },
     "usdaName": "Cabbage, raw"
   },
+  "carrot": {
+    "name": "Carrot",
+    "fdcId": 170393,
+    "per100g": {
+      "kcal": 41,
+      "carbG": 9.58,
+      "proteinG": 0.93,
+      "fatG": 0.24,
+      "sugarG": 4.74,
+      "sodiumMg": 69
+    },
+    "usdaName": "Carrots, raw"
+  },
+  "cashews": {
+    "name": "Cashews, roasted",
+    "fdcId": 170571,
+    "per100g": {
+      "kcal": 574,
+      "carbG": 32.69,
+      "proteinG": 15.31,
+      "fatG": 46.35,
+      "sugarG": 5.01,
+      "sodiumMg": 16
+    },
+    "usdaName": "Nuts, cashew nuts, dry roasted, without salt added"
+  },
   "catfish": {
     "name": "Catfish, raw",
     "fdcId": 174186,
@@ -63,6 +245,45 @@
       "sodiumMg": 43
     },
     "usdaName": "Fish, catfish, channel, wild, raw"
+  },
+  "cauliflower": {
+    "name": "Cauliflower",
+    "fdcId": 169986,
+    "per100g": {
+      "kcal": 25,
+      "carbG": 4.97,
+      "proteinG": 1.92,
+      "fatG": 0.28,
+      "sugarG": 1.91,
+      "sodiumMg": 30
+    },
+    "usdaName": "Cauliflower, raw"
+  },
+  "chickenBreast": {
+    "name": "Chicken breast, raw",
+    "fdcId": 171077,
+    "per100g": {
+      "kcal": 120,
+      "carbG": 0,
+      "proteinG": 22.5,
+      "fatG": 2.62,
+      "sugarG": 0,
+      "sodiumMg": 45
+    },
+    "usdaName": "Chicken, broiler or fryers, breast, skinless, boneless, meat only, raw"
+  },
+  "chickenMeat": {
+    "name": "Chicken, meat only, raw",
+    "fdcId": 171052,
+    "per100g": {
+      "kcal": 119,
+      "carbG": 0,
+      "proteinG": 21.39,
+      "fatG": 3.08,
+      "sugarG": 0,
+      "sodiumMg": 77
+    },
+    "usdaName": "Chicken, broilers or fryers, meat only, raw"
   },
   "chickenWithSkin": {
     "name": "Chicken, meat and skin, raw",
@@ -116,6 +337,71 @@
     },
     "usdaName": "Cabbage, chinese (pe-tsai), raw"
   },
+  "coconutMeat": {
+    "name": "Coconut, grated",
+    "fdcId": 170169,
+    "per100g": {
+      "kcal": 354,
+      "carbG": 15.23,
+      "proteinG": 3.33,
+      "fatG": 33.49,
+      "sugarG": 6.23,
+      "sodiumMg": 20
+    },
+    "usdaName": "Nuts, coconut meat, raw"
+  },
+  "coconutMilk": {
+    "name": "Coconut milk",
+    "fdcId": 170172,
+    "per100g": {
+      "kcal": 230,
+      "carbG": 5.54,
+      "proteinG": 2.29,
+      "fatG": 23.84,
+      "sugarG": 3.34,
+      "sodiumMg": 15
+    },
+    "usdaName": "Nuts, coconut milk, raw (liquid expressed from grated meat and water)"
+  },
+  "coconutWater": {
+    "name": "Coconut water",
+    "fdcId": 170174,
+    "per100g": {
+      "kcal": 19,
+      "carbG": 3.71,
+      "proteinG": 0.72,
+      "fatG": 0.2,
+      "sugarG": 2.61,
+      "sodiumMg": 105
+    },
+    "usdaName": "Nuts, coconut water (liquid from coconuts)"
+  },
+  "coffeeBrewed": {
+    "name": "Coffee, brewed",
+    "fdcId": 171890,
+    "per100g": {
+      "kcal": 1,
+      "carbG": 0,
+      "proteinG": 0.12,
+      "fatG": 0.02,
+      "sugarG": 0,
+      "sodiumMg": 2
+    },
+    "usdaName": "Beverages, coffee, brewed, prepared with tap water"
+  },
+  "cola": {
+    "name": "Cola",
+    "fdcId": 174852,
+    "per100g": {
+      "kcal": 42,
+      "carbG": 10.36,
+      "proteinG": 0,
+      "fatG": 0.25,
+      "sugarG": 9.94,
+      "sodiumMg": 3
+    },
+    "usdaName": "Beverages, carbonated, cola, regular"
+  },
   "condensedMilk": {
     "name": "Sweetened condensed milk",
     "fdcId": 171275,
@@ -141,6 +427,32 @@
       "sodiumMg": 46
     },
     "usdaName": "Coriander (cilantro) leaves, raw"
+  },
+  "creamer": {
+    "name": "Non-dairy creamer powder",
+    "fdcId": 171263,
+    "per100g": {
+      "kcal": 529,
+      "carbG": 59.29,
+      "proteinG": 2.48,
+      "fatG": 32.92,
+      "sugarG": 7.77,
+      "sodiumMg": 124
+    },
+    "usdaName": "Cream substitute, powdered"
+  },
+  "cucumber": {
+    "name": "Cucumber",
+    "fdcId": 168409,
+    "per100g": {
+      "kcal": 15,
+      "carbG": 3.63,
+      "proteinG": 0.65,
+      "fatG": 0.11,
+      "sugarG": 1.67,
+      "sodiumMg": 2
+    },
+    "usdaName": "Cucumber, with peel, raw"
   },
   "curryPowder": {
     "name": "Curry powder",
@@ -168,6 +480,32 @@
     },
     "usdaName": "Fish, cod, Atlantic, dried and salted"
   },
+  "driedShrimp": {
+    "name": "Dried shrimp",
+    "source": "PLACEHOLDER: rough guess, no source. Needs a lab value or a product label.",
+    "placeholder": true,
+    "per100g": {
+      "kcal": 260,
+      "carbG": 2,
+      "proteinG": 55,
+      "fatG": 3,
+      "sugarG": 0,
+      "sodiumMg": 3000
+    }
+  },
+  "duck": {
+    "name": "Duck, meat and skin, raw",
+    "fdcId": 172408,
+    "per100g": {
+      "kcal": 404,
+      "carbG": 0,
+      "proteinG": 11.49,
+      "fatG": 39.34,
+      "sugarG": 0,
+      "sodiumMg": 63
+    },
+    "usdaName": "Duck, domesticated, meat and skin, raw"
+  },
   "eggBoiled": {
     "name": "Egg, boiled",
     "fdcId": 173424,
@@ -180,6 +518,32 @@
       "sodiumMg": 124
     },
     "usdaName": "Egg, whole, cooked, hard-boiled"
+  },
+  "eggNoodlesCooked": {
+    "name": "Wheat egg noodles, cooked",
+    "fdcId": 169732,
+    "per100g": {
+      "kcal": 138,
+      "carbG": 25.16,
+      "proteinG": 4.54,
+      "fatG": 2.07,
+      "sugarG": 0.4,
+      "sodiumMg": 5
+    },
+    "usdaName": "Noodles, egg, enriched, cooked"
+  },
+  "eggplant": {
+    "name": "Eggplant",
+    "fdcId": 169228,
+    "per100g": {
+      "kcal": 25,
+      "carbG": 5.88,
+      "proteinG": 0.98,
+      "fatG": 0.18,
+      "sugarG": 3.53,
+      "sodiumMg": 2
+    },
+    "usdaName": "Eggplant, raw"
   },
   "eggRaw": {
     "name": "Egg, raw",
@@ -233,6 +597,19 @@
     },
     "usdaName": "Garlic, raw"
   },
+  "ghee": {
+    "name": "Ghee",
+    "fdcId": 171314,
+    "per100g": {
+      "kcal": 900,
+      "carbG": 0,
+      "proteinG": 0,
+      "fatG": 100,
+      "sugarG": 0,
+      "sodiumMg": 0
+    },
+    "usdaName": "Butter, Clarified butter (ghee)"
+  },
   "ginger": {
     "name": "Ginger",
     "fdcId": 169231,
@@ -245,6 +622,110 @@
       "sodiumMg": 13
     },
     "usdaName": "Ginger root, raw"
+  },
+  "glassNoodlesDry": {
+    "name": "Glass noodles, dry",
+    "fdcId": 174258,
+    "per100g": {
+      "kcal": 351,
+      "carbG": 86.09,
+      "proteinG": 0.16,
+      "fatG": 0.06,
+      "sugarG": 0,
+      "sodiumMg": 10
+    },
+    "usdaName": "Noodles, chinese, cellophane or long rice (mung beans), dehydrated"
+  },
+  "glutinousRiceCooked": {
+    "name": "Sticky rice, cooked",
+    "fdcId": 169711,
+    "per100g": {
+      "kcal": 97,
+      "carbG": 21.09,
+      "proteinG": 2.02,
+      "fatG": 0.19,
+      "sugarG": 0.05,
+      "sodiumMg": 5
+    },
+    "usdaName": "Rice, white, glutinous, unenriched, cooked"
+  },
+  "goat": {
+    "name": "Goat meat, raw (for mutton)",
+    "fdcId": 175303,
+    "per100g": {
+      "kcal": 109,
+      "carbG": 0,
+      "proteinG": 20.6,
+      "fatG": 2.31,
+      "sugarG": null,
+      "sodiumMg": 82
+    },
+    "usdaName": "Game meat, goat, raw"
+  },
+  "greenTea": {
+    "name": "Green tea, brewed",
+    "fdcId": 171917,
+    "per100g": {
+      "kcal": 1,
+      "carbG": 0,
+      "proteinG": 0.22,
+      "fatG": 0,
+      "sugarG": 0,
+      "sodiumMg": 1
+    },
+    "usdaName": "Beverages, tea, green, brewed, regular"
+  },
+  "guava": {
+    "name": "Guava",
+    "fdcId": 173044,
+    "per100g": {
+      "kcal": 68,
+      "carbG": 14.32,
+      "proteinG": 2.55,
+      "fatG": 0.95,
+      "sugarG": 8.92,
+      "sodiumMg": 2
+    },
+    "usdaName": "Guavas, common, raw"
+  },
+  "iceCream": {
+    "name": "Vanilla ice cream",
+    "fdcId": 167575,
+    "per100g": {
+      "kcal": 207,
+      "carbG": 23.6,
+      "proteinG": 3.5,
+      "fatG": 11,
+      "sugarG": 21.22,
+      "sodiumMg": 80
+    },
+    "usdaName": "Ice creams, vanilla"
+  },
+  "instantCoffee": {
+    "name": "Instant coffee powder",
+    "fdcId": 171893,
+    "per100g": {
+      "kcal": 353,
+      "carbG": 75.4,
+      "proteinG": 12.2,
+      "fatG": 0.5,
+      "sugarG": 0,
+      "sodiumMg": 37
+    },
+    "usdaName": "Beverages, coffee, instant, regular, powder"
+  },
+  "jackfruit": {
+    "name": "Jackfruit",
+    "fdcId": 174687,
+    "per100g": {
+      "kcal": 95,
+      "carbG": 23.25,
+      "proteinG": 1.72,
+      "fatG": 0.64,
+      "sugarG": 19.08,
+      "sodiumMg": 2
+    },
+    "usdaName": "Jackfruit, raw"
   },
   "laphet": {
     "name": "Fermented tea leaves (laphet), plain",
@@ -272,6 +753,19 @@
     },
     "usdaName": "Lemon grass (citronella), raw"
   },
+  "lentilsRed": {
+    "name": "Red lentils, dry",
+    "fdcId": 174284,
+    "per100g": {
+      "kcal": 358,
+      "carbG": 63.1,
+      "proteinG": 23.91,
+      "fatG": 2.17,
+      "sugarG": null,
+      "sodiumMg": 7
+    },
+    "usdaName": "Lentils, pink or red, raw"
+  },
   "limeJuice": {
     "name": "Lime juice",
     "fdcId": 168156,
@@ -284,6 +778,84 @@
       "sodiumMg": 2
     },
     "usdaName": "Lime juice, raw"
+  },
+  "mandarin": {
+    "name": "Mandarin orange",
+    "fdcId": 169105,
+    "per100g": {
+      "kcal": 53,
+      "carbG": 13.34,
+      "proteinG": 0.81,
+      "fatG": 0.31,
+      "sugarG": 10.58,
+      "sodiumMg": 2
+    },
+    "usdaName": "Tangerines, (mandarin oranges), raw"
+  },
+  "mango": {
+    "name": "Mango",
+    "fdcId": 169910,
+    "per100g": {
+      "kcal": 60,
+      "carbG": 14.98,
+      "proteinG": 0.82,
+      "fatG": 0.38,
+      "sugarG": 13.66,
+      "sodiumMg": 1
+    },
+    "usdaName": "Mangos, raw"
+  },
+  "milk": {
+    "name": "Milk, whole",
+    "fdcId": 171265,
+    "per100g": {
+      "kcal": 61,
+      "carbG": 4.8,
+      "proteinG": 3.15,
+      "fatG": 3.25,
+      "sugarG": 5.05,
+      "sodiumMg": 43
+    },
+    "usdaName": "Milk, whole, 3.25% milkfat, with added vitamin D"
+  },
+  "mungoBeans": {
+    "name": "Black gram (urad), dry",
+    "fdcId": 174259,
+    "per100g": {
+      "kcal": 341,
+      "carbG": 58.99,
+      "proteinG": 25.21,
+      "fatG": 1.64,
+      "sugarG": null,
+      "sodiumMg": 38
+    },
+    "usdaName": "Mungo beans, mature seeds, raw"
+  },
+  "mushrooms": {
+    "name": "Mushrooms",
+    "fdcId": 169251,
+    "per100g": {
+      "kcal": 22,
+      "carbG": 3.26,
+      "proteinG": 3.09,
+      "fatG": 0.34,
+      "sugarG": 1.98,
+      "sodiumMg": 5
+    },
+    "usdaName": "Mushrooms, white, raw"
+  },
+  "mustardGreens": {
+    "name": "Mustard greens",
+    "fdcId": 169256,
+    "per100g": {
+      "kcal": 27,
+      "carbG": 4.67,
+      "proteinG": 2.86,
+      "fatG": 0.42,
+      "sugarG": 1.32,
+      "sodiumMg": 20
+    },
+    "usdaName": "Mustard greens, raw"
   },
   "ngapi": {
     "name": "Fermented fish paste (ngapi)",
@@ -298,6 +870,19 @@
       "sodiumMg": 7000
     }
   },
+  "okra": {
+    "name": "Okra",
+    "fdcId": 169260,
+    "per100g": {
+      "kcal": 33,
+      "carbG": 7.45,
+      "proteinG": 1.93,
+      "fatG": 0.19,
+      "sugarG": 1.48,
+      "sodiumMg": 7
+    },
+    "usdaName": "Okra, raw"
+  },
   "onion": {
     "name": "Onion",
     "fdcId": 170000,
@@ -310,6 +895,45 @@
       "sodiumMg": 4
     },
     "usdaName": "Onions, raw"
+  },
+  "oysterSauce": {
+    "name": "Oyster sauce",
+    "fdcId": 174529,
+    "per100g": {
+      "kcal": 51,
+      "carbG": 10.92,
+      "proteinG": 1.35,
+      "fatG": 0.25,
+      "sugarG": 0,
+      "sodiumMg": 2733
+    },
+    "usdaName": "Sauce, oyster, ready-to-serve"
+  },
+  "pakChoi": {
+    "name": "Pak choi",
+    "fdcId": 170390,
+    "per100g": {
+      "kcal": 13,
+      "carbG": 2.18,
+      "proteinG": 1.5,
+      "fatG": 0.2,
+      "sugarG": 1.18,
+      "sodiumMg": 65
+    },
+    "usdaName": "Cabbage, chinese (pak-choi), raw"
+  },
+  "papaya": {
+    "name": "Papaya",
+    "fdcId": 169926,
+    "per100g": {
+      "kcal": 43,
+      "carbG": 10.82,
+      "proteinG": 0.47,
+      "fatG": 0.26,
+      "sugarG": 7.82,
+      "sodiumMg": 8
+    },
+    "usdaName": "Papayas, raw"
   },
   "paprika": {
     "name": "Chilli powder, mild (paprika)",
@@ -363,6 +987,19 @@
     },
     "usdaName": "Peas, split, mature seeds, cooked, boiled, without salt"
   },
+  "pineapple": {
+    "name": "Pineapple",
+    "fdcId": 169124,
+    "per100g": {
+      "kcal": 50,
+      "carbG": 13.12,
+      "proteinG": 0.54,
+      "fatG": 0.12,
+      "sugarG": 9.85,
+      "sodiumMg": 1
+    },
+    "usdaName": "Pineapple, raw, all varieties"
+  },
   "porkBelly": {
     "name": "Pork belly, raw",
     "fdcId": 167812,
@@ -375,6 +1012,19 @@
       "sodiumMg": 32
     },
     "usdaName": "Pork, fresh, belly, raw"
+  },
+  "porkGround": {
+    "name": "Pork, minced, raw",
+    "fdcId": 167902,
+    "per100g": {
+      "kcal": 263,
+      "carbG": 0,
+      "proteinG": 16.88,
+      "fatG": 21.19,
+      "sugarG": null,
+      "sodiumMg": 56
+    },
+    "usdaName": "Pork, fresh, ground, raw"
   },
   "porkShoulder": {
     "name": "Pork shoulder, lean and fat, raw",
@@ -401,6 +1051,32 @@
       "sodiumMg": 6
     },
     "usdaName": "Potatoes, flesh and skin, raw"
+  },
+  "pumpkin": {
+    "name": "Pumpkin",
+    "fdcId": 168448,
+    "per100g": {
+      "kcal": 26,
+      "carbG": 6.5,
+      "proteinG": 1,
+      "fatG": 0.1,
+      "sugarG": 2.76,
+      "sodiumMg": 1
+    },
+    "usdaName": "Pumpkin, raw"
+  },
+  "ramenDry": {
+    "name": "Instant noodles with seasoning, dry",
+    "fdcId": 171177,
+    "per100g": {
+      "kcal": 440,
+      "carbG": 60.26,
+      "proteinG": 10.17,
+      "fatG": 17.59,
+      "sugarG": 1.98,
+      "sodiumMg": 1855
+    },
+    "usdaName": "Soup, ramen noodle, any flavor, dry"
   },
   "riceCooked": {
     "name": "Rice, white, cooked",
@@ -441,6 +1117,32 @@
     },
     "usdaName": "Rice noodles, cooked"
   },
+  "riceRaw": {
+    "name": "Rice, white, raw",
+    "fdcId": 169760,
+    "per100g": {
+      "kcal": 360,
+      "carbG": 79.34,
+      "proteinG": 6.61,
+      "fatG": 0.58,
+      "sugarG": null,
+      "sodiumMg": 1
+    },
+    "usdaName": "Rice, white, medium-grain, raw, unenriched"
+  },
+  "roselle": {
+    "name": "Roselle (calyx, proxy for leaves)",
+    "fdcId": 168170,
+    "per100g": {
+      "kcal": 49,
+      "carbG": 11.31,
+      "proteinG": 0.96,
+      "fatG": 0.64,
+      "sugarG": null,
+      "sodiumMg": 6
+    },
+    "usdaName": "Roselle, raw"
+  },
   "salt": {
     "name": "Salt",
     "fdcId": 173468,
@@ -453,6 +1155,19 @@
       "sodiumMg": 38758
     },
     "usdaName": "Salt, table"
+  },
+  "semolina": {
+    "name": "Semolina",
+    "fdcId": 169715,
+    "per100g": {
+      "kcal": 360,
+      "carbG": 72.83,
+      "proteinG": 12.68,
+      "fatG": 1.05,
+      "sugarG": null,
+      "sodiumMg": 1
+    },
+    "usdaName": "Semolina, enriched"
   },
   "sesameRoasted": {
     "name": "Sesame seeds, toasted",
@@ -467,6 +1182,71 @@
     },
     "usdaName": "Seeds, sesame seeds, whole, roasted and toasted"
   },
+  "shad": {
+    "name": "Shad, raw (proxy for hilsa)",
+    "fdcId": 173696,
+    "per100g": {
+      "kcal": 197,
+      "carbG": 0,
+      "proteinG": 16.93,
+      "fatG": 13.77,
+      "sugarG": 0,
+      "sodiumMg": 51
+    },
+    "usdaName": "Fish, shad, american, raw"
+  },
+  "shallot": {
+    "name": "Shallots",
+    "fdcId": 170499,
+    "per100g": {
+      "kcal": 72,
+      "carbG": 16.8,
+      "proteinG": 2.5,
+      "fatG": 0.1,
+      "sugarG": 7.87,
+      "sodiumMg": 12
+    },
+    "usdaName": "Shallots, raw"
+  },
+  "shrimp": {
+    "name": "Prawns / shrimp, raw",
+    "fdcId": 174210,
+    "per100g": {
+      "kcal": 71,
+      "carbG": 0.91,
+      "proteinG": 13.61,
+      "fatG": 1.01,
+      "sugarG": 0,
+      "sodiumMg": 566
+    },
+    "usdaName": "Crustaceans, shrimp, mixed species, raw (may contain additives to retain moisture)"
+  },
+  "soyMilk": {
+    "name": "Soy milk, unsweetened",
+    "fdcId": 172446,
+    "per100g": {
+      "kcal": 54,
+      "carbG": 6.28,
+      "proteinG": 3.27,
+      "fatG": 1.75,
+      "sugarG": 3.99,
+      "sodiumMg": 51
+    },
+    "usdaName": "Soymilk, original and vanilla, unfortified"
+  },
+  "soySauce": {
+    "name": "Soy sauce",
+    "fdcId": 174277,
+    "per100g": {
+      "kcal": 53,
+      "carbG": 4.93,
+      "proteinG": 8.14,
+      "fatG": 0.57,
+      "sugarG": 0.4,
+      "sodiumMg": 5493
+    },
+    "usdaName": "Soy sauce made from soy and wheat (shoyu)"
+  },
   "splitPeasRaw": {
     "name": "Split peas, dry",
     "fdcId": 172428,
@@ -480,6 +1260,19 @@
     },
     "usdaName": "Peas, green, split, mature seeds, raw"
   },
+  "squid": {
+    "name": "Squid, raw",
+    "fdcId": 174223,
+    "per100g": {
+      "kcal": 92,
+      "carbG": 3.08,
+      "proteinG": 15.58,
+      "fatG": 1.38,
+      "sugarG": 0,
+      "sodiumMg": 44
+    },
+    "usdaName": "Mollusks, squid, mixed species, raw"
+  },
   "sugar": {
     "name": "Sugar",
     "fdcId": 169655,
@@ -492,6 +1285,58 @@
       "sodiumMg": 1
     },
     "usdaName": "Sugars, granulated"
+  },
+  "sugarcaneJuice": {
+    "name": "Sugarcane juice",
+    "source": "PLACEHOLDER: rough guess (about 14 % sugar), no source.",
+    "placeholder": true,
+    "per100g": {
+      "kcal": 58,
+      "carbG": 15,
+      "proteinG": 0.2,
+      "fatG": 0,
+      "sugarG": 14,
+      "sodiumMg": 10
+    }
+  },
+  "surimi": {
+    "name": "Fish paste (surimi, proxy for nga phe)",
+    "fdcId": 173702,
+    "per100g": {
+      "kcal": 99,
+      "carbG": 6.85,
+      "proteinG": 15.18,
+      "fatG": 0.9,
+      "sugarG": 0,
+      "sodiumMg": 143
+    },
+    "usdaName": "Fish, surimi"
+  },
+  "tamarind": {
+    "name": "Tamarind pulp",
+    "fdcId": 167763,
+    "per100g": {
+      "kcal": 239,
+      "carbG": 62.5,
+      "proteinG": 2.8,
+      "fatG": 0.6,
+      "sugarG": 38.8,
+      "sodiumMg": 28
+    },
+    "usdaName": "Tamarinds, raw"
+  },
+  "tapioca": {
+    "name": "Sago / tapioca pearls, dry",
+    "fdcId": 169717,
+    "per100g": {
+      "kcal": 358,
+      "carbG": 88.69,
+      "proteinG": 0.19,
+      "fatG": 0.02,
+      "sugarG": 3.35,
+      "sodiumMg": 1
+    },
+    "usdaName": "Tapioca, pearl, dry"
   },
   "teaBrewed": {
     "name": "Black tea, brewed",
@@ -558,6 +1403,32 @@
     },
     "usdaName": "Beverages, water, tap, drinking"
   },
+  "watermelon": {
+    "name": "Watermelon",
+    "fdcId": 167765,
+    "per100g": {
+      "kcal": 30,
+      "carbG": 7.55,
+      "proteinG": 0.61,
+      "fatG": 0.15,
+      "sugarG": 6.2,
+      "sodiumMg": 1
+    },
+    "usdaName": "Watermelon, raw"
+  },
+  "waterSpinach": {
+    "name": "Water spinach",
+    "fdcId": 169301,
+    "per100g": {
+      "kcal": 19,
+      "carbG": 3.13,
+      "proteinG": 2.6,
+      "fatG": 0.2,
+      "sugarG": null,
+      "sodiumMg": 113
+    },
+    "usdaName": "Water convolvulus,raw"
+  },
   "wheatFlour": {
     "name": "Wheat flour, plain",
     "fdcId": 168894,
@@ -571,6 +1442,32 @@
     },
     "usdaName": "Wheat flour, white, all-purpose, enriched, bleached"
   },
+  "whiteBread": {
+    "name": "White bread",
+    "fdcId": 174924,
+    "per100g": {
+      "kcal": 266,
+      "carbG": 49.42,
+      "proteinG": 8.85,
+      "fatG": 3.33,
+      "sugarG": 5.67,
+      "sodiumMg": 490
+    },
+    "usdaName": "Bread, white, commercially prepared (includes soft bread crumbs)"
+  },
+  "yardlongBean": {
+    "name": "Long beans",
+    "fdcId": 169222,
+    "per100g": {
+      "kcal": 47,
+      "carbG": 8.35,
+      "proteinG": 2.8,
+      "fatG": 0.4,
+      "sugarG": null,
+      "sodiumMg": 4
+    },
+    "usdaName": "Yardlong bean, raw"
+  },
   "yeast": {
     "name": "Dry yeast",
     "fdcId": 175043,
@@ -583,5 +1480,18 @@
       "sodiumMg": 51
     },
     "usdaName": "Leavening agents, yeast, baker's, active dry"
+  },
+  "yogurt": {
+    "name": "Yogurt, plain",
+    "fdcId": 171284,
+    "per100g": {
+      "kcal": 61,
+      "carbG": 4.66,
+      "proteinG": 3.47,
+      "fatG": 3.25,
+      "sugarG": 4.66,
+      "sodiumMg": 46
+    },
+    "usdaName": "Yogurt, plain, whole milk"
   }
 }

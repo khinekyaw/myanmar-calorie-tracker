@@ -1,0 +1,30 @@
+{
+  "id": "springRoll",
+  "name": { "en": "Spring roll", "my": "ကော်ပြန့်ကြော်" },
+  "aliases": {
+    "roman": ["kaw pyant kyaw", "spring roll", "popiah"],
+    "my": ["ကော်ပြန့်ကြော်", "ကော်ပြန့်"]
+  },
+  "oilSensitive": true,
+  "isVegetarian": true,
+  "unit": "piece",
+  "servingG": 40,
+  "servingWeighed": false,
+  "yieldG": 820,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "wheatFlour", "g": 200 },
+    { "ing": "water", "g": 120 },
+    { "ing": "cabbage", "g": 300 },
+    { "ing": "carrot", "g": 100 },
+    { "ing": "beanSprouts", "g": 100 },
+    { "ing": "glassNoodlesDry", "g": 30 },
+    { "ing": "soySauce", "g": 15 },
+    { "ing": "salt", "g": 3 },
+    { "ing": "peanutOil", "g": 30 },
+    { "ing": "peanutOil", "g": 1500, "kept": 0.07 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes."
+}

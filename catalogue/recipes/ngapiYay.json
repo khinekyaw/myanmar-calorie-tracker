@@ -1,8 +1,9 @@
 {
   "id": "ngapiYay",
-  "name": {
-    "en": "Fish paste dip",
-    "my": "ငါးပိရည်"
+  "name": { "en": "Fish paste dip", "my": "ငါးပိရည်" },
+  "aliases": {
+    "roman": ["ngapi yay", "nga pi ye", "ngapi"],
+    "my": ["ငါးပိရည်"]
   },
   "unit": "spoon",
   "servingG": 15,

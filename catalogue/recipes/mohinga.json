@@ -1,8 +1,9 @@
 {
   "id": "mohinga",
-  "name": {
-    "en": "Mohinga",
-    "my": "မုန့်ဟင်းခါး"
+  "name": { "en": "Mohinga", "my": "မုန့်ဟင်းခါး" },
+  "aliases": {
+    "roman": ["mohinga", "mont hin gar", "mohinkha", "mote hin khar"],
+    "my": ["မုန့်ဟင်းခါး"]
   },
   "unit": "bowl",
   "servingG": 533,

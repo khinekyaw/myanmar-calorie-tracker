@@ -1,0 +1,22 @@
+{
+  "id": "coffee",
+  "name": { "en": "Tea-shop coffee", "my": "ကော်ဖီ" },
+  "aliases": {
+    "roman": ["kaw phi", "coffee"],
+    "my": ["ကော်ဖီ"]
+  },
+  "hasSweetness": true,
+  "isVegetarian": true,
+  "unit": "cup",
+  "servingG": 150,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "coffeeBrewed", "g": 100 },
+    { "ing": "evaporatedMilk", "g": 20 },
+    { "ing": "condensedMilk", "g": 30 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes."
+}

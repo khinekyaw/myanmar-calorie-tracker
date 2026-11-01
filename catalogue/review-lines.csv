@@ -1,9 +1,23 @@
 ﻿Dish id,Line,Source,Grams in batch,Kept,kcal per serving,Fat g per serving,Share of kcal %
+_boiledChicken,"Chicken breast, raw",USDA FDC 171077,1000,,,,100
+_boiledChicken,Water,USDA FDC 173647,1500,,,,0
+_boiledChicken,Salt,USDA FDC 173468,10,,,,0
+_chickenOilRice,"Rice, white, raw",USDA FDC 169760,1000,,,,86
+_chickenOilRice,Water,USDA FDC 173647,1300,,,,0
+_chickenOilRice,Peanut oil,USDA FDC 171410,60,,,,13
+_chickenOilRice,Garlic,USDA FDC 169230,30,,,,1
+_chickenOilRice,Ginger,USDA FDC 169231,20,,,,0
+_chickenOilRice,Salt,USDA FDC 173468,10,,,,0
 _friedGarlic,Garlic,USDA FDC 169230,100,,,,27
 _friedGarlic,Peanut oil,USDA FDC 171410,150,0.3,,,73
 _friedSplitPeas,"Split peas, dry",USDA FDC 172428,100,,,,63
 _friedSplitPeas,Water,USDA FDC 173647,100,,,,0
 _friedSplitPeas,Peanut oil,USDA FDC 171410,200,0.12,,,37
+_kyayOhBroth,Water,USDA FDC 173647,3000,,,,0
+_kyayOhBroth,"Pork shoulder, lean and fat, raw",USDA FDC 167843,300,,,,92
+_kyayOhBroth,Garlic,USDA FDC 169230,30,,,,6
+_kyayOhBroth,Salt,USDA FDC 173468,25,,,,0
+_kyayOhBroth,Soy sauce,USDA FDC 174277,30,,,,2
 _mohingaBroth,"Catfish, raw",USDA FDC 174186,500,,,,26
 _mohingaBroth,Water,USDA FDC 173647,2500,,,,0
 _mohingaBroth,Lemongrass,USDA FDC 168573,60,0.3,,,1
@@ -23,6 +37,113 @@ _naan,"Wheat flour, plain",USDA FDC 168894,1000,,,,99
 _naan,Water,USDA FDC 173647,600,,,,0
 _naan,Salt,USDA FDC 173468,15,,,,0
 _naan,Dry yeast,USDA FDC 175043,10,,,,1
+_ohnNoBroth,"Chicken, meat only, raw",USDA FDC 171052,600,,,,20
+_ohnNoBroth,Coconut milk,USDA FDC 170172,800,,,,53
+_ohnNoBroth,Water,USDA FDC 173647,1500,,,,0
+_ohnNoBroth,Chickpea flour (besan),USDA FDC 174288,60,,,,7
+_ohnNoBroth,Onion,USDA FDC 170000,200,,,,2
+_ohnNoBroth,Garlic,USDA FDC 169230,30,,,,1
+_ohnNoBroth,Ginger,USDA FDC 169231,20,,,,0
+_ohnNoBroth,"Turmeric, ground",USDA FDC 172231,3,,,,0
+_ohnNoBroth,"Chilli powder, mild (paprika)",USDA FDC 171329,5,,,,0
+_ohnNoBroth,Peanut oil,USDA FDC 171410,60,,,,15
+_ohnNoBroth,Fish sauce,USDA FDC 174531,40,,,,0
+_ohnNoBroth,Salt,USDA FDC 173468,5,,,,0
+_porkTomatoSauce,"Pork, minced, raw",USDA FDC 167902,500,,,,70
+_porkTomatoSauce,Tomato,USDA FDC 170457,400,,,,4
+_porkTomatoSauce,Garlic,USDA FDC 169230,30,,,,2
+_porkTomatoSauce,Peanut oil,USDA FDC 171410,50,,,,23
+_porkTomatoSauce,Soy sauce,USDA FDC 174277,20,,,,1
+_porkTomatoSauce,Salt,USDA FDC 173468,5,,,,0
+_rakhineBroth,"Catfish, raw",USDA FDC 174186,400,,,,89
+_rakhineBroth,Water,USDA FDC 173647,2500,,,,0
+_rakhineBroth,Lemongrass,USDA FDC 168573,30,0.3,,,2
+_rakhineBroth,Ginger,USDA FDC 169231,20,,,,4
+_rakhineBroth,Fish sauce,USDA FDC 174531,50,,,,4
+_rakhineBroth,Salt,USDA FDC 173468,5,,,,0
+_rakhineBroth,"Chilli, fresh red",USDA FDC 170106,10,,,,1
+_shanTofu,Chickpea flour (besan),USDA FDC 174288,200,,,,100
+_shanTofu,Water,USDA FDC 173647,900,,,,0
+_shanTofu,Salt,USDA FDC 173468,4,,,,0
+_shanTofu,"Turmeric, ground",USDA FDC 172231,1,,,,0
+aThokeSone,"Rice noodles, cooked",USDA FDC 168914,60,,65,0.1,16
+aThokeSone,"Wheat egg noodles, cooked",USDA FDC 169732,60,,83,1.2,21
+aThokeSone,"Glass noodles, dry",USDA FDC 174258,10,,35,0,9
+aThokeSone,Water,USDA FDC 173647,30,,0,0,0
+aThokeSone,_shanTofu,recipe,30,,22,0.4,6
+aThokeSone,Potato,USDA FDC 170026,20,,15,0,4
+aThokeSone,Cabbage,USDA FDC 169975,20,,5,0,1
+aThokeSone,Onion,USDA FDC 170000,10,,4,0,1
+aThokeSone,_friedGarlic,recipe,3,,23,2,6
+aThokeSone,Chickpea flour (besan),USDA FDC 174288,6,,23,0.4,6
+aThokeSone,Tamarind pulp,USDA FDC 167763,5,,12,0,3
+aThokeSone,Peanut oil,USDA FDC 171410,12,,106,12,27
+aThokeSone,Fish sauce,USDA FDC 174531,5,,2,0,0
+apple,Apple,USDA FDC 171688,180,,94,0.3,100
+avocadoShake,Avocado,USDA FDC 171705,120,,192,17.6,46
+avocadoShake,"Milk, whole",USDA FDC 171265,100,,61,3.3,15
+avocadoShake,Sweetened condensed milk,USDA FDC 171275,40,,128,3.5,31
+avocadoShake,Sugar,USDA FDC 169655,10,,39,0,9
+avocadoShake,Water,USDA FDC 173647,50,,0,0,0
+balachaung,Dried shrimp,PLACEHOLDER,200,,15,0.2,14
+balachaung,Shallots,USDA FDC 170499,300,,6,0,6
+balachaung,Garlic,USDA FDC 169230,150,,6,0,6
+balachaung,Peanut oil,USDA FDC 171410,300,,77,8.7,71
+balachaung,"Chilli powder, mild (paprika)",USDA FDC 171329,15,,1,0.1,1
+balachaung,Tamarind pulp,USDA FDC 167763,20,,1,0,1
+balachaung,Salt,USDA FDC 173468,5,,0,0,0
+balachaung,Sugar,USDA FDC 169655,10,,1,0,1
+bambooShootCurry,Bamboo shoots,USDA FDC 169210,700,,8,0.1,22
+bambooShootCurry,Onion,USDA FDC 170000,150,,3,0,7
+bambooShootCurry,Garlic,USDA FDC 169230,30,,2,0,5
+bambooShootCurry,"Turmeric, ground",USDA FDC 172231,3,,0,0,1
+bambooShootCurry,"Chilli powder, mild (paprika)",USDA FDC 171329,5,,1,0,2
+bambooShootCurry,Peanut oil,USDA FDC 171410,60,,22,2.5,62
+bambooShootCurry,Fish sauce,USDA FDC 174531,20,,0,0,1
+bambooShootCurry,Salt,USDA FDC 173468,3,,0,0,0
+bambooShootCurry,Water,USDA FDC 173647,200,,0,0,0
+banana,Banana,USDA FDC 173944,100,,89,0.3,100
+bayaKyaw,"Split peas, dry",USDA FDC 172428,500,,55,0.6,55
+bayaKyaw,Water,USDA FDC 173647,400,,0,0,0
+bayaKyaw,Onion,USDA FDC 170000,100,,1,0,1
+bayaKyaw,"Turmeric, ground",USDA FDC 172231,2,,0,0,0
+bayaKyaw,Salt,USDA FDC 173468,8,,0,0,0
+bayaKyaw,Peanut oil,USDA FDC 171410,2000,0.08,43,4.8,43
+beefCurry,"Beef, chuck, raw",USDA FDC 169491,1000,,52,3.9,65
+beefCurry,Onion,USDA FDC 170000,300,,3,0,3
+beefCurry,Garlic,USDA FDC 169230,40,,1,0,2
+beefCurry,Ginger,USDA FDC 169231,30,,1,0,1
+beefCurry,"Turmeric, ground",USDA FDC 172231,5,,0,0,0
+beefCurry,"Chilli powder, mild (paprika)",USDA FDC 171329,10,,1,0,1
+beefCurry,Salt,USDA FDC 173468,8,,0,0,0
+beefCurry,Fish sauce,USDA FDC 174531,30,,0,0,0
+beefCurry,Peanut oil,USDA FDC 171410,120,,23,2.6,28
+beefCurry,Water,USDA FDC 173647,800,,0,0,0
+beer,Beer,USDA FDC 168746,330,,142,0,100
+bitterGourdFried,Bitter gourd,USDA FDC 168393,500,,7,0.1,14
+bitterGourdFried,"Egg, raw",USDA FDC 171287,100,,11,0.7,23
+bitterGourdFried,Garlic,USDA FDC 169230,20,,2,0,5
+bitterGourdFried,Peanut oil,USDA FDC 171410,40,,27,3.1,58
+bitterGourdFried,Salt,USDA FDC 173468,3,,0,0,0
+boiledEgg,"Egg, boiled",USDA FDC 173424,50,,78,5.3,100
+boiledVegetables,Cabbage,USDA FDC 169975,50,,13,0.1,24
+boiledVegetables,Carrot,USDA FDC 170393,30,,12,0.1,24
+boiledVegetables,Long beans,USDA FDC 169222,40,,19,0.2,37
+boiledVegetables,Pumpkin,USDA FDC 168448,30,,8,0,15
+brownRice,"Brown rice, cooked",USDA FDC 168875,200,,224,1.7,100
+butterSugarToast,White bread,USDA FDC 174924,60,,160,2,61
+butterSugarToast,Butter,USDA FDC 173410,10,,72,8.1,27
+butterSugarToast,Sugar,USDA FDC 169655,8,,31,0,12
+cabbageFried,Cabbage,USDA FDC 169975,500,,11,0,23
+cabbageFried,Onion,USDA FDC 170000,50,,2,0,4
+cabbageFried,Garlic,USDA FDC 169230,20,,3,0,6
+cabbageFried,Peanut oil,USDA FDC 171410,40,,31,3.6,66
+cabbageFried,Soy sauce,USDA FDC 174277,10,,0,0,1
+cabbageFried,Salt,USDA FDC 173468,4,,0,0,0
+chapati,"Wheat flour, plain",USDA FDC 168894,500,,109,0.3,95
+chapati,Water,USDA FDC 173647,300,,0,0,0
+chapati,Salt,USDA FDC 173468,5,,0,0,0
+chapati,Peanut oil,USDA FDC 171410,10,,5,0.6,5
 chickenCurry,"Chicken, meat and skin, raw",USDA FDC 171447,1000,,46,3.2,57
 chickenCurry,Onion,USDA FDC 170000,300,,3,0,3
 chickenCurry,Garlic,USDA FDC 169230,40,,1,0,2
@@ -34,6 +155,36 @@ chickenCurry,Peanut oil,USDA FDC 171410,150,,28,3.2,35
 chickenCurry,Fish sauce,USDA FDC 174531,30,,0,0,0
 chickenCurry,Salt,USDA FDC 173468,8,,0,0,0
 chickenCurry,Water,USDA FDC 173647,300,,0,0,0
+chickenPotatoCurry,"Chicken, meat and skin, raw",USDA FDC 171447,800,,30,2.1,48
+chickenPotatoCurry,Potato,USDA FDC 170026,500,,7,0,11
+chickenPotatoCurry,Onion,USDA FDC 170000,300,,2,0,3
+chickenPotatoCurry,Garlic,USDA FDC 169230,40,,1,0,2
+chickenPotatoCurry,Ginger,USDA FDC 169231,30,,0,0,1
+chickenPotatoCurry,"Turmeric, ground",USDA FDC 172231,5,,0,0,0
+chickenPotatoCurry,"Chilli powder, mild (paprika)",USDA FDC 171329,10,,0,0,1
+chickenPotatoCurry,Salt,USDA FDC 173468,8,,0,0,0
+chickenPotatoCurry,Fish sauce,USDA FDC 174531,30,,0,0,0
+chickenPotatoCurry,Peanut oil,USDA FDC 171410,140,,22,2.5,34
+chickenPotatoCurry,Water,USDA FDC 173647,500,,0,0,0
+chickenRice,_chickenOilRice,recipe,300,,547,8.6,81
+chickenRice,_boiledChicken,recipe,80,,126,2.8,19
+chickenRice,Cucumber,USDA FDC 168409,20,,3,0,0
+chickenSalad,_boiledChicken,recipe,80,,126,2.8,44
+chickenSalad,Onion,USDA FDC 170000,30,,12,0,4
+chickenSalad,Cabbage,USDA FDC 169975,40,,10,0,4
+chickenSalad,_friedGarlic,recipe,3,,23,2,8
+chickenSalad,Chickpea flour (besan),USDA FDC 174288,5,,19,0.3,7
+chickenSalad,Peanut oil,USDA FDC 171410,10,,88,10,31
+chickenSalad,Lime juice,USDA FDC 168156,8,,2,0,1
+chickenSalad,Fish sauce,USDA FDC 174531,5,,2,0,1
+chickenSalad,Coriander leaves,USDA FDC 169997,3,,1,0,0
+chickenSalad,"Chilli, fresh red",USDA FDC 170106,3,,1,0,0
+chickenSoup,Water,USDA FDC 173647,2000,,0,0,0
+chickenSoup,"Chicken, meat and skin, raw",USDA FDC 171447,300,,54,3.8,89
+chickenSoup,Chinese cabbage,USDA FDC 169979,300,,4,0.1,7
+chickenSoup,Garlic,USDA FDC 169230,20,,2,0,4
+chickenSoup,Salt,USDA FDC 173468,12,,0,0,0
+chickenSoup,Black pepper,USDA FDC 170931,2,,0,0,1
 clearSoup,Water,USDA FDC 173647,2000,,0,0,0
 clearSoup,Bottle gourd,USDA FDC 169232,400,,5,0,28
 clearSoup,Onion,USDA FDC 170000,50,,2,0,10
@@ -41,11 +192,110 @@ clearSoup,Garlic,USDA FDC 169230,20,,3,0,15
 clearSoup,Peanut oil,USDA FDC 171410,10,,8,0.9,44
 clearSoup,Salt,USDA FDC 173468,15,,0,0,0
 clearSoup,Black pepper,USDA FDC 170931,2,,0,0,3
+coconutRice,"Rice, white, raw",USDA FDC 169760,500,,333,0.5,61
+coconutRice,Coconut milk,USDA FDC 170172,400,,170,17.7,31
+coconutRice,Water,USDA FDC 173647,500,,0,0,0
+coconutRice,Onion,USDA FDC 170000,50,,4,0,1
+coconutRice,Peanut oil,USDA FDC 171410,20,,33,3.7,6
+coconutRice,Sugar,USDA FDC 169655,10,,7,0,1
+coconutRice,Salt,USDA FDC 173468,6,,0,0,0
+coconutWater,Coconut water,USDA FDC 170174,250,,48,0.5,100
+coffee,"Coffee, brewed",USDA FDC 171890,100,,1,0,1
+coffee,Evaporated milk,USDA FDC 171276,20,,27,1.5,22
+coffee,Sweetened condensed milk,USDA FDC 171275,30,,96,2.6,78
+coffeeMix,Instant coffee powder,USDA FDC 171893,2,,7,0,8
+coffeeMix,Sugar,USDA FDC 169655,11,,43,0,49
+coffeeMix,Non-dairy creamer powder,USDA FDC 171263,7,,37,2.3,43
+coffeeMix,Water,USDA FDC 173647,150,,0,0,0
+dalCurry,"Red lentils, dry",USDA FDC 174284,300,,119,0.7,64
+dalCurry,Water,USDA FDC 173647,1500,,0,0,0
+dalCurry,Potato,USDA FDC 170026,200,,17,0,9
+dalCurry,Onion,USDA FDC 170000,100,,4,0,2
+dalCurry,Garlic,USDA FDC 169230,20,,3,0,2
+dalCurry,Tomato,USDA FDC 170457,100,,2,0,1
+dalCurry,"Turmeric, ground",USDA FDC 172231,3,,1,0,1
+dalCurry,Peanut oil,USDA FDC 171410,40,,39,4.4,21
+dalCurry,Salt,USDA FDC 173468,10,,0,0,0
+danBauk,"Rice, white, raw",USDA FDC 169760,1000,,438,0.7,48
+danBauk,"Chicken, meat and skin, raw",USDA FDC 171447,1000,,261,18.3,28
+danBauk,Ghee,USDA FDC 171314,100,,109,12.2,12
+danBauk,Peanut oil,USDA FDC 171410,50,,54,6.1,6
+danBauk,Onion,USDA FDC 170000,200,,10,0,1
+danBauk,Garlic,USDA FDC 169230,30,,5,0,1
+danBauk,Ginger,USDA FDC 169231,30,,3,0,0
+danBauk,"Yogurt, plain",USDA FDC 171284,150,,11,0.6,1
+danBauk,Curry powder,USDA FDC 170924,20,,8,0.3,1
+danBauk,"Cashews, roasted",USDA FDC 170571,30,,21,1.7,2
+danBauk,Salt,USDA FDC 173468,20,,0,0,0
+danBauk,Water,USDA FDC 173647,1500,,0,0,0
 driedFish,"Dried salted fish (cod, proxy)",USDA FDC 174190,200,,31,0.3,54
 driedFish,Peanut oil,USDA FDC 171410,200,0.25,24,2.7,41
 driedFish,Onion,USDA FDC 170000,50,,1,0,2
 driedFish,Garlic,USDA FDC 169230,20,,2,0,3
 driedFish,"Chilli, fresh red",USDA FDC 170106,5,,0,0,0
+duckCurry,"Duck, meat and skin, raw",USDA FDC 172408,1000,,90,8.7,81
+duckCurry,Onion,USDA FDC 170000,300,,3,0,2
+duckCurry,Garlic,USDA FDC 169230,40,,1,0,1
+duckCurry,Ginger,USDA FDC 169231,30,,1,0,0
+duckCurry,"Turmeric, ground",USDA FDC 172231,5,,0,0,0
+duckCurry,"Chilli powder, mild (paprika)",USDA FDC 171329,10,,1,0,1
+duckCurry,Salt,USDA FDC 173468,8,,0,0,0
+duckCurry,Fish sauce,USDA FDC 174531,30,,0,0,0
+duckCurry,Peanut oil,USDA FDC 171410,80,,16,1.8,14
+duckCurry,Water,USDA FDC 173647,500,,0,0,0
+eKyaKwe,"Wheat flour, plain",USDA FDC 168894,1000,,91,0.2,69
+eKyaKwe,Water,USDA FDC 173647,600,,0,0,0
+eKyaKwe,Salt,USDA FDC 173468,15,,0,0,0
+eKyaKwe,Dry yeast,USDA FDC 175043,10,,1,0,1
+eKyaKwe,Peanut oil,USDA FDC 171410,3000,0.06,40,4.5,30
+eggCurry,"Egg, boiled",USDA FDC 173424,600,,76,5.2,45
+eggCurry,Onion,USDA FDC 170000,250,,8,0,5
+eggCurry,Garlic,USDA FDC 169230,40,,5,0,3
+eggCurry,Ginger,USDA FDC 169231,30,,2,0,1
+eggCurry,"Turmeric, ground",USDA FDC 172231,5,,1,0,1
+eggCurry,"Chilli powder, mild (paprika)",USDA FDC 171329,10,,2,0.1,1
+eggCurry,Salt,USDA FDC 173468,8,,0,0,0
+eggCurry,Fish sauce,USDA FDC 174531,20,,1,0,0
+eggCurry,Tomato,USDA FDC 170457,150,,2,0,1
+eggCurry,Peanut oil,USDA FDC 171410,100,,72,8.2,43
+eggCurry,Water,USDA FDC 173647,200,,0,0,0
+palata,"Wheat flour, plain",USDA FDC 168894,1000,,193,0.5,64
+palata,Water,USDA FDC 173647,550,,0,0,0
+palata,Salt,USDA FDC 173468,15,,0,0,0
+palata,Sugar,USDA FDC 169655,20,,4,0,1
+palata,"Egg, raw",USDA FDC 171287,50,,4,0.3,1
+palata,Peanut oil,USDA FDC 171410,250,0.85,99,11.3,33
+eggPalata,palata,recipe,90,,300,12,72
+eggPalata,"Egg, raw",USDA FDC 171287,50,,72,4.8,17
+eggPalata,Peanut oil,USDA FDC 171410,5,,44,5,11
+eggplantCurry,Eggplant,USDA FDC 169228,700,,8,0.1,16
+eggplantCurry,Onion,USDA FDC 170000,150,,3,0,5
+eggplantCurry,Garlic,USDA FDC 169230,30,,2,0,4
+eggplantCurry,Tomato,USDA FDC 170457,150,,1,0,2
+eggplantCurry,"Turmeric, ground",USDA FDC 172231,3,,0,0,1
+eggplantCurry,"Chilli powder, mild (paprika)",USDA FDC 171329,5,,1,0,1
+eggplantCurry,Peanut oil,USDA FDC 171410,90,,37,4.2,71
+eggplantCurry,Salt,USDA FDC 173468,8,,0,0,0
+kyaukKyaw,"Agar, dried",USDA FDC 170090,15,,1,0,2
+kyaukKyaw,Water,USDA FDC 173647,1200,,0,0,0
+kyaukKyaw,Coconut milk,USDA FDC 170172,400,,27,2.8,48
+kyaukKyaw,Sugar,USDA FDC 169655,250,,28,0,50
+faluda,"Milk, whole",USDA FDC 171265,150,,92,4.9,26
+faluda,Vanilla ice cream,USDA FDC 167575,60,,124,6.6,35
+faluda,kyaukKyaw,recipe,40,,45,2.2,13
+faluda,"Sago / tapioca pearls, dry",USDA FDC 169717,10,,36,0,10
+faluda,Water,USDA FDC 173647,30,,0,0,0
+faluda,Sugar,USDA FDC 169655,15,,58,0,16
+fishBallSoup,Water,USDA FDC 173647,2000,,0,0,0
+fishBallSoup,"Fish paste (surimi, proxy for nga phe)",USDA FDC 173702,300,,25,0.2,68
+fishBallSoup,Pak choi,USDA FDC 170390,200,,2,0,6
+fishBallSoup,Garlic,USDA FDC 169230,15,,2,0,5
+fishBallSoup,Peanut oil,USDA FDC 171410,10,,7,0.8,20
+fishBallSoup,Salt,USDA FDC 173468,12,,0,0,0
+fishCakeFried,"Fish paste (surimi, proxy for nga phe)",USDA FDC 173702,500,,29,0.3,44
+fishCakeFried,Rice flour,USDA FDC 169714,30,,6,0,10
+fishCakeFried,Salt,USDA FDC 173468,5,,0,0,0
+fishCakeFried,Peanut oil,USDA FDC 171410,1000,0.06,31,3.5,47
 fishCurry,"Tilapia, raw",USDA FDC 175176,1000,,19,0.3,42
 fishCurry,Onion,USDA FDC 170000,250,,2,0,4
 fishCurry,Garlic,USDA FDC 169230,40,,1,0,3
@@ -57,6 +307,55 @@ fishCurry,Peanut oil,USDA FDC 171410,120,,21,2.4,46
 fishCurry,Fish sauce,USDA FDC 174531,30,,0,0,0
 fishCurry,Salt,USDA FDC 173468,6,,0,0,0
 fishCurry,Water,USDA FDC 173647,200,,0,0,0
+friedChicken,"Chicken, meat and skin, raw",USDA FDC 171447,1000,,202,14.2,75
+friedChicken,"Turmeric, ground",USDA FDC 172231,5,,1,0,1
+friedChicken,Salt,USDA FDC 173468,10,,0,0,0
+friedChicken,Rice flour,USDA FDC 169714,50,,17,0.1,6
+friedChicken,Peanut oil,USDA FDC 171410,2000,0.03,50,5.6,18
+friedEgg,"Egg, raw",USDA FDC 171287,50,,72,4.8,57
+friedEgg,Peanut oil,USDA FDC 171410,15,0.4,53,6,43
+friedEgg,Salt,USDA FDC 173468,0.3,,0,0,0
+friedFish,"Tilapia, raw",USDA FDC 175176,1000,,94,1.7,54
+friedFish,"Turmeric, ground",USDA FDC 172231,5,,2,0,1
+friedFish,Salt,USDA FDC 173468,10,,0,0,0
+friedFish,Peanut oil,USDA FDC 171410,1500,0.06,78,8.8,45
+friedNoodles,"Wheat egg noodles, cooked",USDA FDC 169732,220,,304,4.6,51
+friedNoodles,"Chicken, meat only, raw",USDA FDC 171052,40,,48,1.2,8
+friedNoodles,Cabbage,USDA FDC 169975,40,,10,0,2
+friedNoodles,Carrot,USDA FDC 170393,20,,8,0,1
+friedNoodles,"Egg, raw",USDA FDC 171287,25,,36,2.4,6
+friedNoodles,Garlic,USDA FDC 169230,5,,7,0,1
+friedNoodles,Peanut oil,USDA FDC 171410,20,,177,20,30
+friedNoodles,Soy sauce,USDA FDC 174277,10,,5,0.1,1
+friedNoodles,Oyster sauce,USDA FDC 174529,8,,4,0,1
+friedRice,"Rice, white, cooked",USDA FDC 168930,250,,325,0.5,63
+friedRice,"Egg, raw",USDA FDC 171287,30,,43,2.9,8
+friedRice,Onion,USDA FDC 170000,15,,6,0,1
+friedRice,Garlic,USDA FDC 169230,5,,7,0,1
+friedRice,Peanut oil,USDA FDC 171410,15,,133,15,26
+friedRice,Soy sauce,USDA FDC 174277,8,,4,0,1
+friedRice,Salt,USDA FDC 173468,1,,0,0,0
+gingerSalad,Ginger,USDA FDC 169231,50,,40,0.4,12
+gingerSalad,Cabbage,USDA FDC 169975,30,,8,0,2
+gingerSalad,Tomato,USDA FDC 170457,20,,4,0,1
+gingerSalad,_friedSplitPeas,recipe,15,,69,3.3,21
+gingerSalad,"Peanuts, roasted",USDA FDC 173806,8,,47,4,14
+gingerSalad,"Sesame seeds, toasted",USDA FDC 170151,3,,17,1.4,5
+gingerSalad,_friedGarlic,recipe,5,,39,3.3,12
+gingerSalad,Dried shrimp,PLACEHOLDER,5,,13,0.2,4
+gingerSalad,Peanut oil,USDA FDC 171410,10,,88,10,27
+gingerSalad,Lime juice,USDA FDC 168156,5,,1,0,0
+gingerSalad,Fish sauce,USDA FDC 174531,4,,1,0,0
+glassNoodleSalad,"Glass noodles, dry",USDA FDC 174258,40,,140,0,44
+glassNoodleSalad,Water,USDA FDC 173647,120,,0,0,0
+glassNoodleSalad,Dried shrimp,PLACEHOLDER,5,,13,0.2,4
+glassNoodleSalad,Cabbage,USDA FDC 169975,30,,8,0,2
+glassNoodleSalad,Onion,USDA FDC 170000,15,,6,0,2
+glassNoodleSalad,_friedGarlic,recipe,3,,23,2,7
+glassNoodleSalad,Chickpea flour (besan),USDA FDC 174288,5,,19,0.3,6
+glassNoodleSalad,Peanut oil,USDA FDC 171410,12,,106,12,33
+glassNoodleSalad,Lime juice,USDA FDC 168156,5,,1,0,0
+glassNoodleSalad,Fish sauce,USDA FDC 174531,5,,2,0,1
 gourdFritter,Bottle gourd,USDA FDC 169232,500,,2,0,4
 gourdFritter,Rice flour,USDA FDC 169714,100,,12,0,19
 gourdFritter,"Wheat flour, plain",USDA FDC 168894,50,,6,0,9
@@ -64,6 +363,62 @@ gourdFritter,Water,USDA FDC 173647,200,,0,0,0
 gourdFritter,Salt,USDA FDC 173468,5,,0,0,0
 gourdFritter,"Turmeric, ground",USDA FDC 172231,2,,0,0,0
 gourdFritter,Peanut oil,USDA FDC 171410,1500,0.1,44,5,68
+greenTea,"Green tea, brewed",USDA FDC 171917,150,,2,0,100
+guava,Guava,USDA FDC 173044,150,,102,1.4,100
+hilsaCurry,"Shad, raw (proxy for hilsa)",USDA FDC 173696,1000,,41,2.8,60
+hilsaCurry,Onion,USDA FDC 170000,250,,2,0,3
+hilsaCurry,Garlic,USDA FDC 169230,40,,1,0,2
+hilsaCurry,Ginger,USDA FDC 169231,30,,0,0,1
+hilsaCurry,"Turmeric, ground",USDA FDC 172231,5,,0,0,0
+hilsaCurry,"Chilli powder, mild (paprika)",USDA FDC 171329,10,,1,0,1
+hilsaCurry,Salt,USDA FDC 173468,8,,0,0,0
+hilsaCurry,Fish sauce,USDA FDC 174531,30,,0,0,0
+hilsaCurry,Tomato,USDA FDC 170457,150,,1,0,1
+hilsaCurry,Peanut oil,USDA FDC 171410,120,,22,2.5,32
+htaminThoke,"Rice, white, cooked",USDA FDC 168930,200,,260,0.4,56
+htaminThoke,Potato,USDA FDC 170026,40,,31,0,7
+htaminThoke,Tomato,USDA FDC 170457,20,,4,0,1
+htaminThoke,Onion,USDA FDC 170000,15,,6,0,1
+htaminThoke,_friedGarlic,recipe,3,,23,2,5
+htaminThoke,Chickpea flour (besan),USDA FDC 174288,5,,19,0.3,4
+htaminThoke,Tamarind pulp,USDA FDC 167763,5,,12,0,3
+htaminThoke,Peanut oil,USDA FDC 171410,12,,106,12,23
+htaminThoke,Fish sauce,USDA FDC 174531,5,,2,0,0
+htaminThoke,"Chilli, fresh red",USDA FDC 170106,2,,1,0,0
+instantNoodles,"Instant noodles with seasoning, dry",USDA FDC 171177,60,,264,10.6,100
+instantNoodles,Water,USDA FDC 173647,300,,0,0,0
+jackfruit,Jackfruit,USDA FDC 174687,150,,143,1,100
+khaoSweThoke,"Wheat egg noodles, cooked",USDA FDC 169732,150,,207,3.1,47
+khaoSweThoke,Cabbage,USDA FDC 169975,30,,8,0,2
+khaoSweThoke,Onion,USDA FDC 170000,15,,6,0,1
+khaoSweThoke,_friedGarlic,recipe,5,,39,3.3,9
+khaoSweThoke,Chickpea flour (besan),USDA FDC 174288,8,,31,0.5,7
+khaoSweThoke,Dried shrimp,PLACEHOLDER,5,,13,0.2,3
+khaoSweThoke,Peanut oil,USDA FDC 171410,15,,133,15,30
+khaoSweThoke,Fish sauce,USDA FDC 174531,5,,2,0,0
+khaoSweThoke,Lime juice,USDA FDC 168156,5,,1,0,0
+khaoSweThoke,"Chilli, fresh red",USDA FDC 170106,2,,1,0,0
+kyarzanHinga,"Glass noodles, dry",USDA FDC 174258,40,,140,0,42
+kyarzanHinga,Water,USDA FDC 173647,120,,0,0,0
+kyarzanHinga,chickenSoup,recipe,350,,106,6.7,32
+kyarzanHinga,Mushrooms,USDA FDC 169251,20,,4,0.1,1
+kyarzanHinga,"Egg, boiled",USDA FDC 173424,25,,39,2.7,12
+kyarzanHinga,fishCakeFried,recipe,20,,44,2.5,13
+kyarzanHinga,Fish sauce,USDA FDC 174531,5,,2,0,1
+kyarzanHinga,Coriander leaves,USDA FDC 169997,3,,1,0,0
+kyayOh,"Rice noodles, cooked",USDA FDC 168914,150,,162,0.3,35
+kyayOh,_kyayOhBroth,recipe,300,,80,5.6,17
+kyayOh,"Pork, minced, raw",USDA FDC 167902,60,,158,12.7,34
+kyayOh,"Egg, raw",USDA FDC 171287,25,,36,2.4,8
+kyayOh,Pak choi,USDA FDC 170390,30,,4,0.1,1
+kyayOh,_friedGarlic,recipe,3,,23,2,5
+kyayOhSiChet,"Rice noodles, cooked",USDA FDC 168914,180,,194,0.4,34
+kyayOhSiChet,"Pork, minced, raw",USDA FDC 167902,60,,158,12.7,28
+kyayOhSiChet,"Egg, raw",USDA FDC 171287,25,,36,2.4,6
+kyayOhSiChet,Pak choi,USDA FDC 170390,30,,4,0.1,1
+kyayOhSiChet,Peanut oil,USDA FDC 171410,15,,133,15,23
+kyayOhSiChet,_friedGarlic,recipe,5,,39,3.3,7
+kyayOhSiChet,Soy sauce,USDA FDC 174277,10,,5,0.1,1
 laphetThoke,"Fermented tea leaves (laphet), plain",PLACEHOLDER,25,,18,0.3,5
 laphetThoke,_friedSplitPeas,recipe,20,,92,4.5,26
 laphetThoke,"Peanuts, roasted",USDA FDC 173806,10,,59,5,17
@@ -75,11 +430,83 @@ laphetThoke,Peanut oil,USDA FDC 171410,12,,106,12,30
 laphetThoke,Lime juice,USDA FDC 168156,5,,1,0,0
 laphetThoke,"Chilli, fresh red",USDA FDC 170106,3,,1,0,0
 laphetThoke,Salt,USDA FDC 173468,1,,0,0,0
+limeJuiceDrink,Lime juice,USDA FDC 168156,30,,8,0,7
+limeJuiceDrink,Sugar,USDA FDC 169655,25,,97,0,93
+limeJuiceDrink,Water,USDA FDC 173647,200,,0,0,0
+limeJuiceDrink,Salt,USDA FDC 173468,0.5,,0,0,0
+longBeanFried,Long beans,USDA FDC 169222,500,,21,0.2,38
+longBeanFried,Garlic,USDA FDC 169230,20,,3,0,5
+longBeanFried,Peanut oil,USDA FDC 171410,40,,32,3.6,56
+longBeanFried,Oyster sauce,USDA FDC 174529,15,,1,0,1
+longBeanFried,Salt,USDA FDC 173468,3,,0,0,0
+mandarin,Mandarin orange,USDA FDC 169105,90,,48,0.3,100
+mango,Mango,USDA FDC 169910,200,,120,0.8,100
+meeShay,"Rice noodles, cooked",USDA FDC 168914,200,,216,0.4,46
+meeShay,_porkTomatoSauce,recipe,80,,177,14.8,38
+meeShay,Bean sprouts,USDA FDC 169957,20,,6,0,1
+meeShay,_friedGarlic,recipe,3,,23,2,5
+meeShay,Peanut oil,USDA FDC 171410,5,,44,5,9
+meeShay,Soy sauce,USDA FDC 174277,5,,3,0,1
+meeShay,Coriander leaves,USDA FDC 169997,3,,1,0,0
+mixedVegFried,Cauliflower,USDA FDC 169986,200,,3,0,8
+mixedVegFried,Carrot,USDA FDC 170393,150,,4,0,10
+mixedVegFried,Pak choi,USDA FDC 170390,150,,1,0,3
+mixedVegFried,Bean sprouts,USDA FDC 169957,100,,2,0,5
+mixedVegFried,Mushrooms,USDA FDC 169251,100,,1,0,4
+mixedVegFried,Garlic,USDA FDC 169230,20,,2,0,5
+mixedVegFried,Peanut oil,USDA FDC 171410,45,,23,2.6,64
+mixedVegFried,Oyster sauce,USDA FDC 174529,20,,1,0,2
+mixedVegFried,Salt,USDA FDC 173468,3,,0,0,0
+mixedVegFried,Water,USDA FDC 173647,50,,0,0,0
 mohinga,"Rice noodles, cooked",USDA FDC 168914,150,,162,0.3,42
 mohinga,_mohingaBroth,recipe,350,,188,10.3,48
 mohinga,"Egg, boiled",USDA FDC 173424,25,,39,2.7,10
 mohinga,Coriander leaves,USDA FDC 169997,3,,1,0,0
 mohinga,Lime juice,USDA FDC 168156,5,,1,0,0
+montDiThoke,"Rice noodles, cooked",USDA FDC 168914,180,,194,0.4,46
+montDiThoke,Cabbage,USDA FDC 169975,20,,5,0,1
+montDiThoke,Onion,USDA FDC 170000,15,,6,0,1
+montDiThoke,_friedGarlic,recipe,5,,39,3.3,9
+montDiThoke,Chickpea flour (besan),USDA FDC 174288,10,,39,0.7,9
+montDiThoke,Peanut oil,USDA FDC 171410,15,,133,15,32
+montDiThoke,Fish sauce,USDA FDC 174531,5,,2,0,0
+montDiThoke,Lime juice,USDA FDC 168156,5,,1,0,0
+montDiThoke,Coriander leaves,USDA FDC 169997,3,,1,0,0
+moteLoneYeBaw,Rice flour,USDA FDC 169714,300,,27,0.1,58
+moteLoneYeBaw,Water,USDA FDC 173647,300,,0,0,0
+moteLoneYeBaw,Brown sugar (proxy for jaggery),USDA FDC 168833,120,,11,0,24
+moteLoneYeBaw,"Coconut, grated",USDA FDC 170169,100,,9,0.8,19
+moteSeinBaung,Rice flour,USDA FDC 169714,500,,78,0.3,59
+moteSeinBaung,Water,USDA FDC 173647,600,,0,0,0
+moteSeinBaung,Brown sugar (proxy for jaggery),USDA FDC 168833,200,,33,0,24
+moteSeinBaung,"Coconut, grated",USDA FDC 170169,150,,23,2.2,17
+moteSeinBaung,Salt,USDA FDC 173468,2,,0,0,0
+mushroomFried,Mushrooms,USDA FDC 169251,500,,11,0.2,21
+mushroomFried,Onion,USDA FDC 170000,50,,2,0,4
+mushroomFried,Garlic,USDA FDC 169230,20,,3,0,6
+mushroomFried,Peanut oil,USDA FDC 171410,40,,35,4,68
+mushroomFried,Soy sauce,USDA FDC 174277,15,,1,0,2
+muttonCurry,"Goat meat, raw (for mutton)",USDA FDC 175303,1000,,23,0.5,43
+muttonCurry,Onion,USDA FDC 170000,300,,2,0,5
+muttonCurry,Garlic,USDA FDC 169230,40,,1,0,2
+muttonCurry,Ginger,USDA FDC 169231,30,,0,0,1
+muttonCurry,"Turmeric, ground",USDA FDC 172231,5,,0,0,1
+muttonCurry,"Chilli powder, mild (paprika)",USDA FDC 171329,10,,1,0,1
+muttonCurry,Salt,USDA FDC 173468,8,,0,0,0
+muttonCurry,Fish sauce,USDA FDC 174531,30,,0,0,0
+muttonCurry,Curry powder,USDA FDC 170924,15,,1,0,2
+muttonCurry,Tomato,USDA FDC 170457,100,,0,0,1
+muttonCurry,Peanut oil,USDA FDC 171410,130,,24,2.7,45
+muttonCurry,Water,USDA FDC 173647,800,,0,0,0
+nanGyiThoke,"Rice noodles, cooked",USDA FDC 168914,200,,216,0.4,41
+nanGyiThoke,chickenCurry,recipe,50,,134,10.8,25
+nanGyiThoke,Chickpea flour (besan),USDA FDC 174288,10,,39,0.7,7
+nanGyiThoke,"Egg, boiled",USDA FDC 173424,25,,39,2.7,7
+nanGyiThoke,Onion,USDA FDC 170000,15,,6,0,1
+nanGyiThoke,Peanut oil,USDA FDC 171410,10,,88,10,17
+nanGyiThoke,Fish sauce,USDA FDC 174531,5,,2,0,0
+nanGyiThoke,Lime juice,USDA FDC 168156,5,,1,0,0
+nanGyiThoke,Coriander leaves,USDA FDC 169997,3,,1,0,0
 nanbyaPePyote,_naan,recipe,100,,253,0.7,67
 nanbyaPePyote,"Peas, boiled (proxy for pe byote)",USDA FDC 172429,80,,94,0.3,25
 nanbyaPePyote,Peanut oil,USDA FDC 171410,3,,27,3,7
@@ -89,12 +516,57 @@ ngapiYay,Fermented fish paste (ngapi),PLACEHOLDER,50,,3,0.1,75
 ngapiYay,Water,USDA FDC 173647,400,,0,0,0
 ngapiYay,Garlic,USDA FDC 169230,15,,1,0,22
 ngapiYay,"Chilli, fresh red",USDA FDC 170106,5,,0,0,2
-palata,"Wheat flour, plain",USDA FDC 168894,1000,,193,0.5,64
-palata,Water,USDA FDC 173647,550,,0,0,0
-palata,Salt,USDA FDC 173468,15,,0,0,0
-palata,Sugar,USDA FDC 169655,20,,4,0,1
-palata,"Egg, raw",USDA FDC 171287,50,,4,0.3,1
-palata,Peanut oil,USDA FDC 171410,250,0.85,99,11.3,33
+ohnNoKhaoSwe,"Wheat egg noodles, cooked",USDA FDC 169732,180,,248,3.7,35
+ohnNoKhaoSwe,_ohnNoBroth,recipe,350,,408,32,58
+ohnNoKhaoSwe,"Egg, boiled",USDA FDC 173424,25,,39,2.7,6
+ohnNoKhaoSwe,Onion,USDA FDC 170000,10,,4,0,1
+ohnNoKhaoSwe,Lime juice,USDA FDC 168156,5,,1,0,0
+okraFried,Okra,USDA FDC 169260,500,,15,0.1,29
+okraFried,Onion,USDA FDC 170000,50,,2,0,4
+okraFried,Garlic,USDA FDC 169230,20,,3,0,5
+okraFried,Peanut oil,USDA FDC 171410,40,,31,3.6,62
+okraFried,Salt,USDA FDC 173468,3,,0,0,0
+omelette,"Egg, raw",USDA FDC 171287,100,,143,9.5,59
+omelette,Onion,USDA FDC 170000,20,,8,0,3
+omelette,Peanut oil,USDA FDC 171410,15,0.7,93,10.5,38
+omelette,Salt,USDA FDC 173468,1,,0,0,0
+onionFritter,Onion,USDA FDC 170000,500,,7,0,8
+onionFritter,Rice flour,USDA FDC 169714,100,,13,0.1,16
+onionFritter,"Wheat flour, plain",USDA FDC 168894,50,,7,0,8
+onionFritter,Chickpea flour (besan),USDA FDC 174288,50,,7,0.1,8
+onionFritter,Water,USDA FDC 173647,200,,0,0,0
+onionFritter,Salt,USDA FDC 173468,5,,0,0,0
+onionFritter,Peanut oil,USDA FDC 171410,2000,0.08,51,5.7,60
+papaya,Papaya,USDA FDC 169926,150,,65,0.4,100
+paukSi,"Wheat flour, plain",USDA FDC 168894,500,,128,0.3,57
+paukSi,Water,USDA FDC 173647,250,,0,0,0
+paukSi,Sugar,USDA FDC 169655,40,,11,0,5
+paukSi,Dry yeast,USDA FDC 175043,7,,2,0,1
+paukSi,Peanut oil,USDA FDC 171410,15,,9,1.1,4
+paukSi,"Pork, minced, raw",USDA FDC 167902,300,,55,4.5,25
+paukSi,Onion,USDA FDC 170000,80,,2,0,1
+paukSi,"Egg, boiled",USDA FDC 173424,100,,11,0.7,5
+paukSi,Soy sauce,USDA FDC 174277,15,,1,0,0
+paukSi,Sugar,USDA FDC 169655,15,,4,0,2
+peBoteHtaminKyaw,"Rice, white, cooked",USDA FDC 168930,250,,325,0.5,61
+peBoteHtaminKyaw,"Peas, boiled (proxy for pe byote)",USDA FDC 172429,60,,71,0.2,13
+peBoteHtaminKyaw,Onion,USDA FDC 170000,15,,6,0,1
+peBoteHtaminKyaw,Peanut oil,USDA FDC 171410,15,,133,15,25
+peBoteHtaminKyaw,Salt,USDA FDC 173468,2,,0,0,0
+pickledMustard,Mustard greens,USDA FDC 169256,1000,,9,0.1,100
+pickledMustard,Salt,USDA FDC 173468,30,,0,0,0
+pineapple,Pineapple,USDA FDC 169124,150,,75,0.2,100
+porkBambooCurry,"Pork shoulder, lean and fat, raw",USDA FDC 167843,800,,38,2.9,63
+porkBambooCurry,Bamboo shoots,USDA FDC 169210,500,,3,0,5
+porkBambooCurry,Onion,USDA FDC 170000,300,,2,0,4
+porkBambooCurry,Garlic,USDA FDC 169230,40,,1,0,2
+porkBambooCurry,Ginger,USDA FDC 169231,30,,0,0,1
+porkBambooCurry,"Turmeric, ground",USDA FDC 172231,5,,0,0,1
+porkBambooCurry,"Chilli powder, mild (paprika)",USDA FDC 171329,10,,1,0,1
+porkBambooCurry,Salt,USDA FDC 173468,8,,0,0,0
+porkBambooCurry,Fish sauce,USDA FDC 174531,30,,0,0,0
+porkBambooCurry,Peanut oil,USDA FDC 171410,80,,14,1.6,24
+porkBambooCurry,Water,USDA FDC 173647,400,,0,0,0
 porkCurry,"Pork belly, raw",USDA FDC 167812,500,,56,5.7,53
 porkCurry,"Pork shoulder, lean and fat, raw",USDA FDC 167843,500,,25,1.9,24
 porkCurry,Onion,USDA FDC 170000,300,,3,0,2
@@ -106,11 +578,63 @@ porkCurry,Peanut oil,USDA FDC 171410,100,,19,2.1,18
 porkCurry,Fish sauce,USDA FDC 174531,30,,0,0,0
 porkCurry,Salt,USDA FDC 173468,8,,0,0,0
 porkCurry,Water,USDA FDC 173647,500,,0,0,0
+potatoCurry,Potato,USDA FDC 170026,800,,20,0,41
+potatoCurry,Onion,USDA FDC 170000,200,,3,0,5
+potatoCurry,Garlic,USDA FDC 169230,30,,1,0,3
+potatoCurry,Tomato,USDA FDC 170457,150,,1,0,2
+potatoCurry,"Turmeric, ground",USDA FDC 172231,3,,0,0,1
+potatoCurry,"Chilli powder, mild (paprika)",USDA FDC 171329,5,,0,0,1
+potatoCurry,Curry powder,USDA FDC 170924,5,,1,0,1
+potatoCurry,Peanut oil,USDA FDC 171410,80,,23,2.6,47
+potatoCurry,Salt,USDA FDC 173468,8,,0,0,0
+potatoCurry,Water,USDA FDC 173647,300,,0,0,0
+prawnCurry,"Prawns / shrimp, raw",USDA FDC 174210,1000,,16,0.2,33
+prawnCurry,Onion,USDA FDC 170000,250,,2,0,5
+prawnCurry,Garlic,USDA FDC 169230,40,,1,0,3
+prawnCurry,Ginger,USDA FDC 169231,30,,1,0,1
+prawnCurry,"Turmeric, ground",USDA FDC 172231,5,,0,0,1
+prawnCurry,"Chilli powder, mild (paprika)",USDA FDC 171329,10,,1,0,1
+prawnCurry,Salt,USDA FDC 173468,8,,0,0,0
+prawnCurry,Fish sauce,USDA FDC 174531,30,,0,0,0
+prawnCurry,Tomato,USDA FDC 170457,200,,1,0,2
+prawnCurry,Peanut oil,USDA FDC 171410,130,,27,3,54
+pumpkinCurry,Pumpkin,USDA FDC 168448,800,,8,0,23
+pumpkinCurry,Onion,USDA FDC 170000,150,,2,0,7
+pumpkinCurry,Garlic,USDA FDC 169230,30,,2,0,5
+pumpkinCurry,"Turmeric, ground",USDA FDC 172231,3,,0,0,1
+pumpkinCurry,Dried shrimp,PLACEHOLDER,20,,2,0,6
+pumpkinCurry,Peanut oil,USDA FDC 171410,60,,21,2.4,59
+pumpkinCurry,Salt,USDA FDC 173468,6,,0,0,0
+pumpkinCurry,Water,USDA FDC 173647,150,,0,0,0
+puri,"Wheat flour, plain",USDA FDC 168894,500,,78,0.2,72
+puri,Water,USDA FDC 173647,250,,0,0,0
+puri,Salt,USDA FDC 173468,5,,0,0,0
+puri,Peanut oil,USDA FDC 171410,1000,0.08,30,3.4,28
+rakhineMonti,"Rice noodles, cooked",USDA FDC 168914,180,,194,0.4,75
+rakhineMonti,_rakhineBroth,recipe,350,,57,1.6,22
+rakhineMonti,Garlic,USDA FDC 169230,3,,4,0,2
+rakhineMonti,"Chilli, fresh red",USDA FDC 170106,3,,1,0,0
+rakhineMonti,Coriander leaves,USDA FDC 169997,3,,1,0,0
+rawVegetables,Cucumber,USDA FDC 168409,40,,6,0,22
+rawVegetables,Cabbage,USDA FDC 169975,30,,8,0,27
+rawVegetables,Long beans,USDA FDC 169222,30,,14,0.1,51
 rice,"Rice, white, cooked",USDA FDC 168930,200,,260,0.4,100
+riceCongee,"Rice, white, raw",USDA FDC 169760,200,,135,0.2,99
+riceCongee,Water,USDA FDC 173647,1800,,0,0,0
+riceCongee,Ginger,USDA FDC 169231,10,,2,0,1
+riceCongee,Salt,USDA FDC 173468,5,,0,0,0
 riceCurry,rice,recipe,300,,390,0.6,54
 riceCurry,chickenCurry,recipe,120,,322,26,44
 riceCurry,ngapiYay,recipe,15,,4,0.1,1
 riceCurry,Cabbage,USDA FDC 169975,40,,10,0,1
+roselleFried,"Roselle (calyx, proxy for leaves)",USDA FDC 168170,500,,18,0.2,25
+roselleFried,Bamboo shoots,USDA FDC 169210,100,,2,0,3
+roselleFried,Onion,USDA FDC 170000,100,,3,0,4
+roselleFried,Garlic,USDA FDC 169230,30,,3,0,5
+roselleFried,"Chilli, fresh red",USDA FDC 170106,10,,0,0,0
+roselleFried,Dried shrimp,PLACEHOLDER,30,,6,0.1,8
+roselleFried,Peanut oil,USDA FDC 171410,60,,39,4.4,55
+roselleFried,Salt,USDA FDC 173468,5,,0,0,0
 samusa,Potato,USDA FDC 170026,500,,14,0,11
 samusa,Onion,USDA FDC 170000,150,,2,0,2
 samusa,Peanut oil,USDA FDC 171410,30,,10,1.1,7
@@ -120,6 +644,111 @@ samusa,"Wheat flour, plain",USDA FDC 168894,400,,52,0.1,40
 samusa,Water,USDA FDC 173647,180,,0,0,0
 samusa,Peanut oil,USDA FDC 171410,40,,13,1.4,10
 samusa,Peanut oil,USDA FDC 171410,1500,0.08,38,4.3,29
+samusaThoke,samusa,recipe,90,,260,14.1,69
+samusaThoke,dalCurry,recipe,100,,93,2.6,25
+samusaThoke,Cabbage,USDA FDC 169975,40,,10,0,3
+samusaThoke,Onion,USDA FDC 170000,20,,8,0,2
+samusaThoke,Coriander leaves,USDA FDC 169997,3,,1,0,0
+samusaThoke,Lime juice,USDA FDC 168156,5,,1,0,0
+samusaThoke,"Chilli, fresh red",USDA FDC 170106,3,,1,0,0
+sanwinMakin,Semolina,USDA FDC 169715,500,,57,0.2,28
+sanwinMakin,Sugar,USDA FDC 169655,450,,55,0,27
+sanwinMakin,Coconut milk,USDA FDC 170172,600,,44,4.5,21
+sanwinMakin,"Milk, whole",USDA FDC 171265,400,,8,0.4,4
+sanwinMakin,Butter,USDA FDC 173410,150,,34,3.8,16
+sanwinMakin,"Egg, raw",USDA FDC 171287,200,,9,0.6,4
+sanwinMakin,Salt,USDA FDC 173468,2,,0,0,0
+shanNoodles,"Rice noodles, cooked",USDA FDC 168914,200,,216,0.4,43
+shanNoodles,_porkTomatoSauce,recipe,100,,222,18.5,44
+shanNoodles,"Peanuts, roasted",USDA FDC 173806,8,,47,4,9
+shanNoodles,"Sesame seeds, toasted",USDA FDC 170151,2,,11,1,2
+shanNoodles,Pak choi,USDA FDC 170390,30,,4,0.1,1
+shanNoodles,pickledMustard,recipe,15,,4,0.1,1
+shanRice,"Rice, white, cooked",USDA FDC 168930,200,,260,0.4,53
+shanRice,"Tilapia, raw",USDA FDC 175176,50,,48,0.9,10
+shanRice,Tomato,USDA FDC 170457,30,,5,0.1,1
+shanRice,"Turmeric, ground",USDA FDC 172231,1,,3,0,1
+shanRice,_friedGarlic,recipe,5,,39,3.3,8
+shanRice,Peanut oil,USDA FDC 171410,15,,133,15,27
+shanRice,Salt,USDA FDC 173468,1,,0,0,0
+shanTofuFried,_shanTofu,recipe,500,,19,0.3,34
+shanTofuFried,Peanut oil,USDA FDC 171410,1000,0.08,37,4.2,66
+shweJi,Semolina,USDA FDC 169715,500,,68,0.2,29
+shweJi,Sugar,USDA FDC 169655,400,,58,0,25
+shweJi,Coconut milk,USDA FDC 170172,800,,69,7.2,29
+shweJi,"Egg, raw",USDA FDC 171287,150,,8,0.5,3
+shweJi,Ghee,USDA FDC 171314,100,,34,3.8,14
+shweJi,Salt,USDA FDC 173468,2,,0,0,0
+softDrink,Cola,USDA FDC 174852,330,,139,0.8,100
+sourSoup,Water,USDA FDC 173647,2000,,0,0,0
+sourSoup,"Roselle (calyx, proxy for leaves)",USDA FDC 168170,200,,9,0.1,23
+sourSoup,Tamarind pulp,USDA FDC 167763,40,,8,0,22
+sourSoup,Tomato,USDA FDC 170457,200,,3,0,8
+sourSoup,Onion,USDA FDC 170000,50,,2,0,5
+sourSoup,Garlic,USDA FDC 169230,20,,3,0,7
+sourSoup,Dried shrimp,PLACEHOLDER,20,,5,0.1,12
+sourSoup,Fish sauce,USDA FDC 174531,30,,1,0,2
+sourSoup,Salt,USDA FDC 173468,5,,0,0,0
+sourSoup,Peanut oil,USDA FDC 171410,10,,8,0.9,21
+soyMilk,"Soy milk, unsweetened",USDA FDC 172446,250,,135,4.4,70
+soyMilk,Sugar,USDA FDC 169655,15,,58,0,30
+springRoll,"Wheat flour, plain",USDA FDC 168894,200,,36,0.1,33
+springRoll,Water,USDA FDC 173647,120,,0,0,0
+springRoll,Cabbage,USDA FDC 169975,300,,4,0,3
+springRoll,Carrot,USDA FDC 170393,100,,2,0,2
+springRoll,Bean sprouts,USDA FDC 169957,100,,1,0,1
+springRoll,"Glass noodles, dry",USDA FDC 174258,30,,5,0,5
+springRoll,Soy sauce,USDA FDC 174277,15,,0,0,0
+springRoll,Salt,USDA FDC 173468,3,,0,0,0
+springRoll,Peanut oil,USDA FDC 171410,30,,13,1.5,12
+springRoll,Peanut oil,USDA FDC 171410,1500,0.07,45,5.1,43
+squidCurry,"Squid, raw",USDA FDC 174223,1000,,21,0.3,41
+squidCurry,Onion,USDA FDC 170000,250,,2,0,4
+squidCurry,Garlic,USDA FDC 169230,40,,1,0,3
+squidCurry,Ginger,USDA FDC 169231,30,,1,0,1
+squidCurry,"Turmeric, ground",USDA FDC 172231,5,,0,0,1
+squidCurry,"Chilli powder, mild (paprika)",USDA FDC 171329,10,,1,0,1
+squidCurry,Salt,USDA FDC 173468,8,,0,0,0
+squidCurry,Fish sauce,USDA FDC 174531,30,,0,0,0
+squidCurry,Tomato,USDA FDC 170457,150,,1,0,1
+squidCurry,Peanut oil,USDA FDC 171410,120,,24,2.8,47
+stickyRice,"Sticky rice, cooked",USDA FDC 169711,160,,156,0.3,64
+stickyRice,"Peas, boiled (proxy for pe byote)",USDA FDC 172429,30,,35,0.1,15
+stickyRice,"Coconut, grated",USDA FDC 170169,10,,35,3.4,15
+stickyRice,"Sesame seeds, toasted",USDA FDC 170151,3,,17,1.4,7
+stickyRice,Salt,USDA FDC 173468,0.5,,0,0,0
+sugarcaneJuice,Sugarcane juice,PLACEHOLDER,250,,145,0,100
 tea,"Black tea, brewed",USDA FDC 173227,100,,1,0,1
 tea,Evaporated milk,USDA FDC 171276,25,,34,1.9,29
 tea,Sweetened condensed milk,USDA FDC 171275,25,,80,2.2,70
+thosai,"Rice, white, raw",USDA FDC 169760,600,,135,0.2,63
+thosai,"Black gram (urad), dry",USDA FDC 174259,200,,43,0.2,20
+thosai,Water,USDA FDC 173647,1000,,0,0,0
+thosai,Salt,USDA FDC 173468,10,,0,0,0
+thosai,Peanut oil,USDA FDC 171410,80,0.8,35,4,17
+tofuSalad,_shanTofu,recipe,150,,111,1.9,40
+tofuSalad,Cabbage,USDA FDC 169975,20,,5,0,2
+tofuSalad,Onion,USDA FDC 170000,15,,6,0,2
+tofuSalad,"Peanuts, roasted",USDA FDC 173806,8,,47,4,17
+tofuSalad,"Sesame seeds, toasted",USDA FDC 170151,3,,17,1.4,6
+tofuSalad,Peanut oil,USDA FDC 171410,10,,88,10,32
+tofuSalad,Soy sauce,USDA FDC 174277,5,,3,0,1
+tofuSalad,Lime juice,USDA FDC 168156,5,,1,0,0
+tofuSalad,"Chilli, fresh red",USDA FDC 170106,3,,1,0,0
+tofuSalad,Coriander leaves,USDA FDC 169997,3,,1,0,0
+tomatoSalad,Tomato,USDA FDC 170457,150,,27,0.3,12
+tomatoSalad,Onion,USDA FDC 170000,20,,8,0,4
+tomatoSalad,"Peanuts, roasted",USDA FDC 173806,10,,59,5,26
+tomatoSalad,_friedGarlic,recipe,3,,23,2,10
+tomatoSalad,Chickpea flour (besan),USDA FDC 174288,5,,19,0.3,8
+tomatoSalad,Peanut oil,USDA FDC 171410,10,,88,10,39
+tomatoSalad,Fish sauce,USDA FDC 174531,4,,1,0,1
+tomatoSalad,Lime juice,USDA FDC 168156,5,,1,0,1
+tomatoSalad,Coriander leaves,USDA FDC 169997,3,,1,0,0
+waterSpinachFried,Water spinach,USDA FDC 169301,500,,10,0.1,19
+waterSpinachFried,Garlic,USDA FDC 169230,30,,4,0,9
+waterSpinachFried,"Chilli, fresh red",USDA FDC 170106,5,,0,0,0
+waterSpinachFried,Peanut oil,USDA FDC 171410,40,,35,4,70
+waterSpinachFried,Soy sauce,USDA FDC 174277,15,,1,0,2
+waterSpinachFried,Salt,USDA FDC 173468,3,,0,0,0
+watermelon,Watermelon,USDA FDC 167765,250,,75,0.4,100

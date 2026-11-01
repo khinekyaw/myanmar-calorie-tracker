@@ -1,0 +1,22 @@
+{
+  "id": "boiledVegetables",
+  "name": { "en": "Boiled vegetables", "my": "ဟင်းသီးဟင်းရွက်ပြုတ်" },
+  "aliases": {
+    "roman": ["boiled vegetables", "a thee a ywet pyoke", "to zaya"],
+    "my": ["ဟင်းသီးဟင်းရွက်ပြုတ်", "အသီးအရွက်ပြုတ်"]
+  },
+  "isVegetarian": true,
+  "unit": "plate",
+  "servingG": 150,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "cabbage", "g": 50 },
+    { "ing": "carrot", "g": 30 },
+    { "ing": "yardlongBean", "g": 40 },
+    { "ing": "pumpkin", "g": 30 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. A side plate for dipping in ngapi yay (logged separately)."
+}

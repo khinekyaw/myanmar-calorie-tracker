@@ -1,0 +1,19 @@
+{
+  "id": "softDrink",
+  "name": { "en": "Soft drink", "my": "အချိုရည်" },
+  "aliases": {
+    "roman": ["soft drink", "cola", "soda"],
+    "my": ["အချိုရည်", "အအေး"]
+  },
+  "isVegetarian": true,
+  "unit": "cup",
+  "servingG": 330,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "cola", "g": 330 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. One can."
+}

@@ -1,0 +1,23 @@
+{
+  "id": "kyayOh",
+  "name": { "en": "Kyay oh", "my": "ကြေးအိုး" },
+  "aliases": {
+    "roman": ["kyay oh", "kyae oh"],
+    "my": ["ကြေးအိုး"]
+  },
+  "unit": "bowl",
+  "servingG": 568,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "riceNoodlesCooked", "g": 150 },
+    { "dish": "_kyayOhBroth", "g": 300 },
+    { "ing": "porkGround", "g": 60 },
+    { "ing": "eggRaw", "g": 25 },
+    { "ing": "pakChoi", "g": 30 },
+    { "dish": "_friedGarlic", "g": 3 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. Pork balls and offal vary a lot by shop; minced pork stands in."
+}

@@ -1,0 +1,24 @@
+{
+  "id": "meeShay",
+  "name": { "en": "Mee shay", "my": "မြီးရှည်" },
+  "aliases": {
+    "roman": ["mee shay", "mi shay", "mohnt mee shay"],
+    "my": ["မြီးရှည်"]
+  },
+  "unit": "bowl",
+  "servingG": 316,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "riceNoodlesCooked", "g": 200 },
+    { "dish": "_porkTomatoSauce", "g": 80 },
+    { "ing": "beanSprouts", "g": 20 },
+    { "dish": "_friedGarlic", "g": 3 },
+    { "ing": "peanutOil", "g": 5 },
+    { "ing": "soySauce", "g": 5 },
+    { "ing": "coriander", "g": 3 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes."
+}

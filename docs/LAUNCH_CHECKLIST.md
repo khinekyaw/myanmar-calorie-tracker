@@ -63,7 +63,7 @@ Target: 2–3 GB RAM, Android 9 or later, slow 3G/4G.
 
 ## 5. Content and data
 
-- [ ] **Must · Team** — **Verified dish database**: 200–300 Myanmar dishes with the nutritionist (kcal, carbs, protein, fat; plus sugar and sodium for the health features below). The pipeline for this is built and wired in ([CATALOGUE.md](CATALOGUE.md)): recipes → calculated numbers → review sheets → app and server. The current 15 are unreviewed drafts.
+- [ ] **Must · Team** — **Verified dish database**: 200–300 Myanmar dishes with the nutritionist (kcal, carbs, protein, fat; plus sugar and sodium for the health features below). The pipeline for this is built and wired in ([CATALOGUE.md](CATALOGUE.md)): recipes → calculated numbers → review sheets → app and server. There are 115 dishes now, all unreviewed drafts.
 - [ ] **Must · Team** — Nutritionist review of the **plan rules** (`domain/plan.ts`), the **rice-plate kcal constant** and the **oil and tea-sweetness multipliers**.
 - [ ] **Must · Team** — **Native Burmese review** of all copy (batches 1–7 in [DECISIONS.md → Copy review](DECISIONS.md#copy-review)).
 - [ ] **Must · Team** — **Replace the Wikimedia food photos** with Sar AI's own (licence and attribution), and the **Welcome image**, which has English text baked in.

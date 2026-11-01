@@ -1,0 +1,25 @@
+{
+  "id": "friedRice",
+  "name": { "en": "Fried rice", "my": "ထမင်းကြော်" },
+  "aliases": {
+    "roman": ["htamin kyaw", "fried rice"],
+    "my": ["ထမင်းကြော်"]
+  },
+  "oilSensitive": true,
+  "unit": "plate",
+  "servingG": 324,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "riceCooked", "g": 250 },
+    { "ing": "eggRaw", "g": 30 },
+    { "ing": "onion", "g": 15 },
+    { "ing": "garlic", "g": 5 },
+    { "ing": "peanutOil", "g": 15 },
+    { "ing": "soySauce", "g": 8 },
+    { "ing": "salt", "g": 1 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes."
+}

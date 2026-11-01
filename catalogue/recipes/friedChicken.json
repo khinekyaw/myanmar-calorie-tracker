@@ -1,0 +1,25 @@
+{
+  "id": "friedChicken",
+  "name": { "en": "Fried chicken", "my": "ကြက်သားကြော်" },
+  "aliases": {
+    "roman": ["kyet thar kyaw", "fried chicken"],
+    "my": ["ကြက်သားကြော်", "ကြက်ကြော်"]
+  },
+  "oilSensitive": true,
+  "unit": "piece",
+  "servingG": 80,
+  "servingWeighed": false,
+  "yieldG": 850,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "chickenWithSkin", "g": 1000 },
+    { "ing": "turmeric", "g": 5 },
+    { "ing": "salt", "g": 10 },
+    { "ing": "riceFlour", "g": 50 },
+    { "ing": "peanutOil", "g": 2000, "kept": 0.03 }
+  ],
+  "method": "Turmeric-salt chicken, dusted in rice flour, deep-fried.",
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. Piece size (80 g without bone) is a guess. Frying renders fat out of the skin, which the recipe can't show, so this may run high."
+}

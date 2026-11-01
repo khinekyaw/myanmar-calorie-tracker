@@ -1,0 +1,25 @@
+{
+  "id": "sanwinMakin",
+  "name": { "en": "Sanwin makin", "my": "ဆနွင်းမကင်း" },
+  "aliases": {
+    "roman": ["sanwin makin", "sa nwin ma kin"],
+    "my": ["ဆနွင်းမကင်း"]
+  },
+  "unit": "piece",
+  "servingG": 60,
+  "servingWeighed": false,
+  "yieldG": 1900,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "semolina", "g": 500 },
+    { "ing": "sugar", "g": 450 },
+    { "ing": "coconutMilk", "g": 600 },
+    { "ing": "milk", "g": 400 },
+    { "ing": "butter", "g": 150 },
+    { "ing": "eggRaw", "g": 200 },
+    { "ing": "salt", "g": 2 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes."
+}

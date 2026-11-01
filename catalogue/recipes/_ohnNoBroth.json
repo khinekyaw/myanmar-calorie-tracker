@@ -1,0 +1,24 @@
+{
+  "id": "_ohnNoBroth",
+  "name": { "en": "Coconut chicken broth", "my": "အုန်းနို့ဟင်းရည်" },
+  "yieldG": 3000,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "chickenMeat", "g": 600 },
+    { "ing": "coconutMilk", "g": 800 },
+    { "ing": "water", "g": 1500 },
+    { "ing": "chickpeaFlour", "g": 60 },
+    { "ing": "onion", "g": 200 },
+    { "ing": "garlic", "g": 30 },
+    { "ing": "ginger", "g": 20 },
+    { "ing": "turmeric", "g": 3 },
+    { "ing": "paprika", "g": 5 },
+    { "ing": "peanutOil", "g": 60 },
+    { "ing": "fishSauce", "g": 40 },
+    { "ing": "salt", "g": 5 }
+  ],
+  "method": "Chicken cooked in a light curry paste, then coconut milk and water thickened with chickpea flour.",
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes."
+}

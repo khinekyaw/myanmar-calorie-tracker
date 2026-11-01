@@ -1,9 +1,12 @@
 {
   "id": "tea",
-  "name": {
-    "en": "Milk tea",
-    "my": "လက်ဖက်ရည်"
+  "name": { "en": "Milk tea", "my": "လက်ဖက်ရည်" },
+  "aliases": {
+    "roman": ["laphet yay", "lahpet yay", "lephet ye", "laphet ye", "tea", "milk tea"],
+    "my": ["လက်ဖက်ရည်", "လဘက်ရည်"]
   },
+  "hasSweetness": true,
+  "isVegetarian": true,
   "unit": "cup",
   "servingG": 150,
   "servingWeighed": false,

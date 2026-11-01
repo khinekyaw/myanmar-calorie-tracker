@@ -1,9 +1,11 @@
 {
   "id": "driedFish",
-  "name": {
-    "en": "Fried dried fish",
-    "my": "ငါးခြောက်ကြော်"
+  "name": { "en": "Fried dried fish", "my": "ငါးခြောက်ကြော်" },
+  "aliases": {
+    "roman": ["nga chauk kyaw", "dried fish"],
+    "my": ["ငါးခြောက်ကြော်"]
   },
+  "oilSensitive": true,
   "unit": "spoon",
   "servingG": 15,
   "servingWeighed": false,

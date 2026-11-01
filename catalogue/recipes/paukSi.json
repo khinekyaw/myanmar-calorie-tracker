@@ -1,0 +1,29 @@
+{
+  "id": "paukSi",
+  "name": { "en": "Steamed bun", "my": "ပေါက်စီ" },
+  "aliases": {
+    "roman": ["pauk si", "bao", "steamed bun"],
+    "my": ["ပေါက်စီ"]
+  },
+  "unit": "piece",
+  "servingG": 90,
+  "servingWeighed": false,
+  "yieldG": 1280,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "wheatFlour", "g": 500 },
+    { "ing": "water", "g": 250 },
+    { "ing": "sugar", "g": 40 },
+    { "ing": "yeast", "g": 7 },
+    { "ing": "peanutOil", "g": 15 },
+    { "ing": "porkGround", "g": 300 },
+    { "ing": "onion", "g": 80 },
+    { "ing": "eggBoiled", "g": 100 },
+    { "ing": "soySauce", "g": 15 },
+    { "ing": "sugar", "g": 15 }
+  ],
+  "method": "Yeast dough around pork and egg filling, steamed.",
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes."
+}

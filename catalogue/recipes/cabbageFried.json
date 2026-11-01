@@ -1,0 +1,26 @@
+{
+  "id": "cabbageFried",
+  "name": { "en": "Fried cabbage", "my": "ဂေါ်ဖီထုပ်ကြော်" },
+  "aliases": {
+    "roman": ["gaw phi kyaw", "cabbage", "fried cabbage"],
+    "my": ["ဂေါ်ဖီထုပ်ကြော်", "ဂေါ်ဖီကြော်"]
+  },
+  "oilSensitive": true,
+  "isVegetarian": true,
+  "unit": "spoon",
+  "servingG": 40,
+  "servingWeighed": false,
+  "yieldG": 450,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "cabbage", "g": 500 },
+    { "ing": "onion", "g": 50 },
+    { "ing": "garlic", "g": 20 },
+    { "ing": "peanutOil", "g": 40 },
+    { "ing": "soySauce", "g": 10 },
+    { "ing": "salt", "g": 4 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. One spoon = one serving spoon (about 40 g); weigh a few."
+}

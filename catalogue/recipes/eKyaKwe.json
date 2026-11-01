@@ -1,0 +1,25 @@
+{
+  "id": "eKyaKwe",
+  "name": { "en": "Fried dough stick", "my": "အီကြာကွေး" },
+  "aliases": {
+    "roman": ["e kya kway", "ee kyar kway", "youtiao", "dough stick"],
+    "my": ["အီကြာကွေး"]
+  },
+  "oilSensitive": true,
+  "isVegetarian": true,
+  "unit": "piece",
+  "servingG": 40,
+  "servingWeighed": false,
+  "yieldG": 1600,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "wheatFlour", "g": 1000 },
+    { "ing": "water", "g": 600 },
+    { "ing": "salt", "g": 15 },
+    { "ing": "yeast", "g": 10 },
+    { "ing": "peanutOil", "g": 3000, "kept": 0.06 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. One piece = one joined pair."
+}

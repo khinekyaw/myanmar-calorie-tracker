@@ -1,0 +1,31 @@
+{
+  "id": "aThokeSone",
+  "name": { "en": "Mixed salad", "my": "အသုပ်စုံ" },
+  "aliases": {
+    "roman": ["a thoke sone", "mixed salad"],
+    "my": ["အသုပ်စုံ"]
+  },
+  "oilSensitive": true,
+  "unit": "plate",
+  "servingG": 271,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "riceNoodlesCooked", "g": 60 },
+    { "ing": "eggNoodlesCooked", "g": 60 },
+    { "ing": "glassNoodlesDry", "g": 10 },
+    { "ing": "water", "g": 30 },
+    { "dish": "_shanTofu", "g": 30 },
+    { "ing": "potato", "g": 20 },
+    { "ing": "cabbage", "g": 20 },
+    { "ing": "onion", "g": 10 },
+    { "dish": "_friedGarlic", "g": 3 },
+    { "ing": "chickpeaFlour", "g": 6 },
+    { "ing": "tamarind", "g": 5 },
+    { "ing": "peanutOil", "g": 12 },
+    { "ing": "fishSauce", "g": 5 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes."
+}

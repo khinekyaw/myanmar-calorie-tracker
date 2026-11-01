@@ -1,0 +1,21 @@
+{
+  "id": "butterSugarToast",
+  "name": { "en": "Butter-sugar toast", "my": "ထောပတ်သကြားပေါင်မုန့်" },
+  "aliases": {
+    "roman": ["paung mont", "toast", "butter sugar bread"],
+    "my": ["ထောပတ်သကြားပေါင်မုန့်", "ပေါင်မုန့်"]
+  },
+  "isVegetarian": true,
+  "unit": "piece",
+  "servingG": 78,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "whiteBread", "g": 60 },
+    { "ing": "butter", "g": 10 },
+    { "ing": "sugar", "g": 8 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. One piece = two slices."
+}

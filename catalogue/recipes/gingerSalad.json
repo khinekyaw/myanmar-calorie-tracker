@@ -1,0 +1,29 @@
+{
+  "id": "gingerSalad",
+  "name": { "en": "Ginger salad", "my": "ဂျင်းသုပ်" },
+  "aliases": {
+    "roman": ["gyin thoke", "ginger salad"],
+    "my": ["ဂျင်းသုပ်"]
+  },
+  "oilSensitive": true,
+  "unit": "plate",
+  "servingG": 155,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "ginger", "g": 50 },
+    { "ing": "cabbage", "g": 30 },
+    { "ing": "tomato", "g": 20 },
+    { "dish": "_friedSplitPeas", "g": 15 },
+    { "ing": "peanutsRoasted", "g": 8 },
+    { "ing": "sesameRoasted", "g": 3 },
+    { "dish": "_friedGarlic", "g": 5 },
+    { "ing": "driedShrimp", "g": 5 },
+    { "ing": "peanutOil", "g": 10 },
+    { "ing": "limeJuice", "g": 5 },
+    { "ing": "fishSauce", "g": 4 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. Fresh ginger stands in for pickled ginger."
+}

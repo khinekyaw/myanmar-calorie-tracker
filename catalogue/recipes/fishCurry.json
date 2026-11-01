@@ -1,9 +1,11 @@
 {
   "id": "fishCurry",
-  "name": {
-    "en": "Fish curry",
-    "my": "ငါးဆီပြန်"
+  "name": { "en": "Fish curry", "my": "ငါးဆီပြန်" },
+  "aliases": {
+    "roman": ["nga hin", "fish curry", "nga see pyan"],
+    "my": ["ငါးဟင်း", "ငါးဆီပြန်"]
   },
+  "oilSensitive": true,
   "unit": "spoon",
   "servingG": 30,
   "servingWeighed": false,

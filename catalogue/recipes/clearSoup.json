@@ -1,9 +1,11 @@
 {
   "id": "clearSoup",
-  "name": {
-    "en": "Clear soup",
-    "my": "ဟင်းချို"
+  "name": { "en": "Clear soup", "my": "ဟင်းချို" },
+  "aliases": {
+    "roman": ["hin cho", "clear soup", "soup"],
+    "my": ["ဟင်းချို"]
   },
+  "isVegetarian": true,
   "unit": "bowl",
   "servingG": 200,
   "servingWeighed": false,

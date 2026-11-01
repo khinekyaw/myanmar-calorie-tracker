@@ -1,0 +1,31 @@
+{
+  "id": "eggCurry",
+  "name": { "en": "Egg curry", "my": "ကြက်ဥဟင်း" },
+  "aliases": {
+    "roman": ["kyet u hin", "egg curry"],
+    "my": ["ကြက်ဥဟင်း", "ကြက်ဥဆီပြန်"]
+  },
+  "oilSensitive": true,
+  "unit": "piece",
+  "servingG": 90,
+  "servingWeighed": false,
+  "yieldG": 1100,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "eggBoiled", "g": 600 },
+    { "ing": "onion", "g": 250 },
+    { "ing": "garlic", "g": 40 },
+    { "ing": "ginger", "g": 30 },
+    { "ing": "turmeric", "g": 5 },
+    { "ing": "paprika", "g": 10 },
+    { "ing": "salt", "g": 8 },
+    { "ing": "fishSauce", "g": 20 },
+    { "ing": "tomato", "g": 150 },
+    { "ing": "peanutOil", "g": 100 },
+    { "ing": "water", "g": 200 }
+  ],
+  "method": "Boiled eggs fried until blistered, then simmered in curry sauce.",
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. One piece = one egg with its share of sauce (12 eggs a batch)."
+}

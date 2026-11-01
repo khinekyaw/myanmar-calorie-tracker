@@ -1,0 +1,25 @@
+{
+  "id": "bitterGourdFried",
+  "name": { "en": "Fried bitter gourd", "my": "ကြက်ဟင်းခါးသီးကြော်" },
+  "aliases": {
+    "roman": ["kyet hin khar thee kyaw", "bitter gourd", "bitter melon"],
+    "my": ["ကြက်ဟင်းခါးသီးကြော်"]
+  },
+  "oilSensitive": true,
+  "unit": "spoon",
+  "servingG": 40,
+  "servingWeighed": false,
+  "yieldG": 520,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "bitterGourd", "g": 500 },
+    { "ing": "eggRaw", "g": 100 },
+    { "ing": "garlic", "g": 20 },
+    { "ing": "peanutOil", "g": 40 },
+    { "ing": "salt", "g": 3 }
+  ],
+  "method": "Stir-fried with egg.",
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. One spoon = one serving spoon (about 40 g); weigh a few."
+}

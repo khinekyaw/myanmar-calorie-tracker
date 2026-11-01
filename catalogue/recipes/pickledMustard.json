@@ -1,0 +1,22 @@
+{
+  "id": "pickledMustard",
+  "name": { "en": "Pickled mustard greens", "my": "မုန်ညင်းချဉ်" },
+  "aliases": {
+    "roman": ["mon nyin chin", "pickled mustard"],
+    "my": ["မုန်ညင်းချဉ်"]
+  },
+  "isVegetarian": true,
+  "unit": "spoon",
+  "servingG": 30,
+  "servingWeighed": false,
+  "yieldG": 950,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "mustardGreens", "g": 1000 },
+    { "ing": "salt", "g": 30 }
+  ],
+  "method": "Mustard greens salted and fermented, drained.",
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. Salt kept after draining is a guess; sodium matters most here."
+}

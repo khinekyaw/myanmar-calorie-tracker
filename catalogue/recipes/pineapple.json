@@ -1,0 +1,19 @@
+{
+  "id": "pineapple",
+  "name": { "en": "Pineapple", "my": "နာနတ်သီး" },
+  "aliases": {
+    "roman": ["na nat thee", "pineapple"],
+    "my": ["နာနတ်သီး"]
+  },
+  "isVegetarian": true,
+  "unit": "plate",
+  "servingG": 150,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "pineapple", "g": 150 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. Edible part only."
+}

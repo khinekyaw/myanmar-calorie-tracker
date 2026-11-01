@@ -1,0 +1,24 @@
+{
+  "id": "peBoteHtaminKyaw",
+  "name": { "en": "Fried rice with boiled peas", "my": "ပဲပြုတ်ထမင်းကြော်" },
+  "aliases": {
+    "roman": ["pe byote htamin kyaw", "pea fried rice"],
+    "my": ["ပဲပြုတ်ထမင်းကြော်"]
+  },
+  "oilSensitive": true,
+  "isVegetarian": true,
+  "unit": "plate",
+  "servingG": 342,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "riceCooked", "g": 250 },
+    { "ing": "peasCooked", "g": 60 },
+    { "ing": "onion", "g": 15 },
+    { "ing": "peanutOil", "g": 15 },
+    { "ing": "salt", "g": 2 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. A breakfast staple."
+}

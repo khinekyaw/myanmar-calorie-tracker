@@ -1,0 +1,19 @@
+{
+  "id": "watermelon",
+  "name": { "en": "Watermelon", "my": "ဖရဲသီး" },
+  "aliases": {
+    "roman": ["pha yeh thee", "watermelon"],
+    "my": ["ဖရဲသီး"]
+  },
+  "isVegetarian": true,
+  "unit": "plate",
+  "servingG": 250,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "watermelon", "g": 250 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. Edible part only."
+}

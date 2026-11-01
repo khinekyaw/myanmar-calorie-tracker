@@ -1,0 +1,22 @@
+{
+  "id": "coffeeMix",
+  "name": { "en": "3-in-1 coffee", "my": "ကော်ဖီမစ်" },
+  "aliases": {
+    "roman": ["coffee mix", "3 in 1", "premier"],
+    "my": ["ကော်ဖီမစ်", "သရီးအင်ဝမ်း"]
+  },
+  "isVegetarian": true,
+  "unit": "cup",
+  "servingG": 170,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "instantCoffee", "g": 2 },
+    { "ing": "sugar", "g": 11 },
+    { "ing": "creamer", "g": 7 },
+    { "ing": "water", "g": 150 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. One 20 g sachet; check against local brand labels."
+}

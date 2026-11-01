@@ -1,0 +1,27 @@
+{
+  "id": "pumpkinCurry",
+  "name": { "en": "Pumpkin curry", "my": "ရွှေဖရုံသီးဟင်း" },
+  "aliases": {
+    "roman": ["shwe phayon thee hin", "pumpkin curry"],
+    "my": ["ရွှေဖရုံသီးဟင်း", "ဖရုံသီးဟင်း"]
+  },
+  "oilSensitive": true,
+  "unit": "spoon",
+  "servingG": 40,
+  "servingWeighed": false,
+  "yieldG": 1000,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "pumpkin", "g": 800 },
+    { "ing": "onion", "g": 150 },
+    { "ing": "garlic", "g": 30 },
+    { "ing": "turmeric", "g": 3 },
+    { "ing": "driedShrimp", "g": 20 },
+    { "ing": "peanutOil", "g": 60 },
+    { "ing": "salt", "g": 6 },
+    { "ing": "water", "g": 150 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. One spoon = one serving spoon (about 40 g); weigh a few."
+}

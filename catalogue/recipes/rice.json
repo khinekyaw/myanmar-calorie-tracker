@@ -1,9 +1,11 @@
 {
   "id": "rice",
-  "name": {
-    "en": "Rice",
-    "my": "ထမင်း"
+  "name": { "en": "Rice", "my": "ထမင်း" },
+  "aliases": {
+    "roman": ["htamin", "hta min", "rice"],
+    "my": ["ထမင်း"]
   },
+  "isVegetarian": true,
   "unit": "plate",
   "servingG": 200,
   "servingWeighed": false,

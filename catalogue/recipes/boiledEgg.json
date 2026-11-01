@@ -1,0 +1,18 @@
+{
+  "id": "boiledEgg",
+  "name": { "en": "Boiled egg", "my": "ကြက်ဥပြုတ်" },
+  "aliases": {
+    "roman": ["kyet u pyoke", "boiled egg"],
+    "my": ["ကြက်ဥပြုတ်"]
+  },
+  "unit": "piece",
+  "servingG": 50,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "eggBoiled", "g": 50 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes."
+}

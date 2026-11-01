@@ -1,0 +1,27 @@
+{
+  "id": "montDiThoke",
+  "name": { "en": "Rice noodle salad", "my": "မုန့်တီသုပ်" },
+  "aliases": {
+    "roman": ["mont di thoke", "mohnt di", "rice noodle salad"],
+    "my": ["မုန့်တီသုပ်"]
+  },
+  "oilSensitive": true,
+  "unit": "plate",
+  "servingG": 258,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "riceNoodlesCooked", "g": 180 },
+    { "ing": "cabbage", "g": 20 },
+    { "ing": "onion", "g": 15 },
+    { "dish": "_friedGarlic", "g": 5 },
+    { "ing": "chickpeaFlour", "g": 10 },
+    { "ing": "peanutOil", "g": 15 },
+    { "ing": "fishSauce", "g": 5 },
+    { "ing": "limeJuice", "g": 5 },
+    { "ing": "coriander", "g": 3 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes."
+}

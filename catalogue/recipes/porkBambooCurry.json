@@ -1,0 +1,31 @@
+{
+  "id": "porkBambooCurry",
+  "name": { "en": "Pork & bamboo shoot curry", "my": "ဝက်သားမျှစ်ချဉ်ဟင်း" },
+  "aliases": {
+    "roman": ["wet thar myit chin", "pork bamboo shoot"],
+    "my": ["ဝက်သားမျှစ်ချဉ်", "ဝက်သားမျှစ်ချဉ်ဟင်း"]
+  },
+  "oilSensitive": true,
+  "unit": "spoon",
+  "servingG": 30,
+  "servingWeighed": false,
+  "yieldG": 1500,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "porkShoulder", "g": 800 },
+    { "ing": "bambooShoots", "g": 500 },
+    { "ing": "onion", "g": 300 },
+    { "ing": "garlic", "g": 40 },
+    { "ing": "ginger", "g": 30 },
+    { "ing": "turmeric", "g": 5 },
+    { "ing": "paprika", "g": 10 },
+    { "ing": "salt", "g": 8 },
+    { "ing": "fishSauce", "g": 30 },
+    { "ing": "peanutOil", "g": 80 },
+    { "ing": "water", "g": 400 }
+  ],
+  "method": "Fry the onion, garlic, ginger and chilli paste in oil, add the main ingredient and water, cook until the water is gone and the oil separates.",
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. Fresh bamboo shoot stands in for pickled. One spoon = one serving spoon with its oil; weigh a few to set servingG."
+}

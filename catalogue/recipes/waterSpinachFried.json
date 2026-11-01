@@ -1,0 +1,27 @@
+{
+  "id": "waterSpinachFried",
+  "name": { "en": "Fried water spinach", "my": "ကန်စွန်းရွက်ကြော်" },
+  "aliases": {
+    "roman": ["kazun ywet kyaw", "water spinach", "morning glory"],
+    "my": ["ကန်စွန်းရွက်ကြော်", "ကန်စွန်းကြော်"]
+  },
+  "oilSensitive": true,
+  "isVegetarian": true,
+  "unit": "spoon",
+  "servingG": 40,
+  "servingWeighed": false,
+  "yieldG": 400,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "waterSpinach", "g": 500 },
+    { "ing": "garlic", "g": 30 },
+    { "ing": "chiliRed", "g": 5 },
+    { "ing": "peanutOil", "g": 40 },
+    { "ing": "soySauce", "g": 15 },
+    { "ing": "salt", "g": 3 }
+  ],
+  "method": "Stir-fried hot with garlic and chilli.",
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. One spoon = one serving spoon (about 40 g); weigh a few."
+}

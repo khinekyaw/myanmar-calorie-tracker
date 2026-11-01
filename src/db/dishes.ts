@@ -9,8 +9,8 @@ import { db, getMeta, setMeta } from './database';
  * Rows from the server are newer than CATALOGUE_DATE, so a re-seed never
  * overwrites them.
  */
-const CATALOGUE_VERSION = 2;
-const CATALOGUE_DATE = '2026-11-01T12:00:00.000Z';
+const CATALOGUE_VERSION = 3;
+const CATALOGUE_DATE = '2026-11-01T14:00:00.000Z';
 
 export function seedCatalogue() {
   if (Number(getMeta('catalogue_version') ?? 0) >= CATALOGUE_VERSION) return;

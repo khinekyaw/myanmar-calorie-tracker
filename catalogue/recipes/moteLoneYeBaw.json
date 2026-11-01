@@ -1,0 +1,23 @@
+{
+  "id": "moteLoneYeBaw",
+  "name": { "en": "Rice balls with jaggery", "my": "မုန့်လုံးရေပေါ်" },
+  "aliases": {
+    "roman": ["mont lone yay baw", "mote lone ye paw"],
+    "my": ["မုန့်လုံးရေပေါ်"]
+  },
+  "isVegetarian": true,
+  "unit": "piece",
+  "servingG": 20,
+  "servingWeighed": false,
+  "yieldG": 800,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "riceFlour", "g": 300 },
+    { "ing": "water", "g": 300 },
+    { "ing": "brownSugar", "g": 120 },
+    { "ing": "coconutMeat", "g": 100 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. Rice flour stands in for glutinous rice flour; brown sugar for jaggery."
+}

@@ -1,0 +1,19 @@
+{
+  "id": "brownRice",
+  "name": { "en": "Brown rice", "my": "ဆန်လုံးညိုထမင်း" },
+  "aliases": {
+    "roman": ["brown rice", "san lone nyo"],
+    "my": ["ဆန်လုံးညိုထမင်း", "ဆန်လုံးညို"]
+  },
+  "isVegetarian": true,
+  "unit": "plate",
+  "servingG": 200,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "brownRiceCooked", "g": 200 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. Same 200 g plate as white rice."
+}

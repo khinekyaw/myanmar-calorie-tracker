@@ -1,0 +1,18 @@
+{
+  "id": "_chickenOilRice",
+  "name": { "en": "Chicken-fat rice", "my": "ကြက်ဆီထမင်း ထမင်း" },
+  "yieldG": 2300,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "riceRaw", "g": 1000 },
+    { "ing": "water", "g": 1300 },
+    { "ing": "peanutOil", "g": 60 },
+    { "ing": "garlic", "g": 30 },
+    { "ing": "ginger", "g": 20 },
+    { "ing": "salt", "g": 10 }
+  ],
+  "method": "Rice fried in garlic oil, then cooked in stock.",
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. Peanut oil stands in for chicken fat."
+}

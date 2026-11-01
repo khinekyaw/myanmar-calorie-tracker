@@ -23,6 +23,7 @@ const ingredients: Record<string, Ingredient> = {
 
 const recipe = (r: Partial<Recipe> & Pick<Recipe, 'id' | 'lines'>): Recipe => ({
   name: { en: r.id, my: r.id },
+  aliases: { roman: [], my: [] },
   unit: r.id.startsWith('_') ? undefined : 'piece',
   servingG: r.id.startsWith('_') ? undefined : 100,
   servingWeighed: false,

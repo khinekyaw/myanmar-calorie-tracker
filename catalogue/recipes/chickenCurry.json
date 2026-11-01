@@ -1,9 +1,11 @@
 {
   "id": "chickenCurry",
-  "name": {
-    "en": "Chicken curry",
-    "my": "ကြက်သားဆီပြန်"
+  "name": { "en": "Chicken curry", "my": "ကြက်သားဆီပြန်" },
+  "aliases": {
+    "roman": ["kyet thar hin", "chicken curry", "kyat thar see pyan"],
+    "my": ["ကြက်သားဟင်း", "ကြက်သားဆီပြန်"]
   },
+  "oilSensitive": true,
   "unit": "spoon",
   "servingG": 30,
   "servingWeighed": false,

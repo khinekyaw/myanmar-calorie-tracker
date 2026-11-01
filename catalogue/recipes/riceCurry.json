@@ -1,9 +1,11 @@
 {
   "id": "riceCurry",
-  "name": {
-    "en": "Rice & curry",
-    "my": "ထမင်းဟင်း"
+  "name": { "en": "Rice & curry", "my": "ထမင်းဟင်း" },
+  "aliases": {
+    "roman": ["htamin hin", "rice and curry", "rice curry"],
+    "my": ["ထမင်းဟင်း"]
   },
+  "oilSensitive": true,
   "unit": "plate",
   "servingG": 475,
   "servingWeighed": false,

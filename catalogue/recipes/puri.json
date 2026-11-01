@@ -1,0 +1,24 @@
+{
+  "id": "puri",
+  "name": { "en": "Puri", "my": "ပူရီ" },
+  "aliases": {
+    "roman": ["puri", "poori"],
+    "my": ["ပူရီ"]
+  },
+  "oilSensitive": true,
+  "isVegetarian": true,
+  "unit": "piece",
+  "servingG": 30,
+  "servingWeighed": false,
+  "yieldG": 700,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "wheatFlour", "g": 500 },
+    { "ing": "water", "g": 250 },
+    { "ing": "salt", "g": 5 },
+    { "ing": "peanutOil", "g": 1000, "kept": 0.08 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. Potato curry on the side is logged separately."
+}

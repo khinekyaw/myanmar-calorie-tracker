@@ -1,0 +1,15 @@
+{
+  "id": "_boiledChicken",
+  "name": { "en": "Boiled chicken", "my": "ကြက်သားပြုတ်" },
+  "yieldG": 760,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "chickenBreast", "g": 1000 },
+    { "ing": "water", "g": 1500 },
+    { "ing": "salt", "g": 10 }
+  ],
+  "method": "Simmer, drain, shred. Batch weight is the cooked meat only.",
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. Cooking water is poured off, so salt kept is a guess."
+}

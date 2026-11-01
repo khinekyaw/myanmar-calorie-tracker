@@ -38,166 +38,49 @@ export type Dish = {
   photo?: PhotoSource;
 };
 
-const d = (dish: Dish) => dish;
+export type DishId = keyof typeof calculated;
 
-type CalculatedId = keyof typeof calculated;
-
-/**
- * Unit and nutrition from the recipe calculation (catalogue/calculated.json,
- * docs/CATALOGUE.md). Verified only once the nutritionist has reviewed the recipe.
- */
-function fromRecipe(id: CalculatedId) {
-  const c = calculated[id];
-  return {
-    unit: c.unit as Unit,
-    kcal: c.kcal,
-    carbG: c.carbG,
-    proteinG: c.proteinG,
-    fatG: c.fatG,
-    sugarG: c.sugarG,
-    sodiumMg: c.sodiumMg,
-    verified: c.status === 'reviewed',
-    calculated: true,
-  };
-}
+/** Bundled photos, by dish id. Dishes without one show the meal photo or none. */
+const dishPhotos: Partial<Record<DishId, PhotoSource>> = {
+  mohinga: photos.mohinga,
+  tea: photos.tea,
+  laphetThoke: photos.laphetThoke,
+  palata: photos.palata,
+  chickenCurry: photos.curry,
+  riceCurry: photos.sharedTable,
+};
 
 /**
- * The bundled catalogue: names, aliases and photos here; numbers from the
- * recipe calculation. The recipes are drafts until the nutritionist reviews them.
+ * The bundled catalogue, built from the recipe calculation
+ * (catalogue/calculated.json, docs/CATALOGUE.md): names, aliases, flags, unit
+ * and nutrition per unit. Verified only once the nutritionist has reviewed
+ * the recipe; until then the numbers are drafts.
  */
-export const dishes = {
-  mohinga: d({
-    id: 'mohinga',
-    name: { my: 'မုန့်ဟင်းခါး', en: 'Mohinga' },
-    aliasesRoman: ['mohinga', 'mont hin gar', 'mohinkha', 'mote hin khar'],
-    aliasesMy: ['မုန့်ဟင်းခါး'],
-    ...fromRecipe('mohinga'),
-    photo: photos.mohinga,
+export const dishes = Object.fromEntries(
+  (Object.keys(calculated) as DishId[]).map((id) => {
+    const c = calculated[id];
+    const dish: Dish = {
+      id,
+      name: c.name,
+      aliasesRoman: c.aliasesRoman,
+      aliasesMy: c.aliasesMy,
+      unit: c.unit as Unit,
+      kcal: c.kcal,
+      carbG: c.carbG,
+      proteinG: c.proteinG,
+      fatG: c.fatG,
+      sugarG: c.sugarG,
+      sodiumMg: c.sodiumMg,
+      ...(c.oilSensitive && { oilSensitive: true }),
+      ...(c.hasSweetness && { hasSweetness: true }),
+      ...(c.isVegetarian && { isVegetarian: true }),
+      verified: c.status === 'reviewed',
+      calculated: true,
+      ...(dishPhotos[id] !== undefined && { photo: dishPhotos[id] }),
+    };
+    return [id, dish];
   }),
-  tea: d({
-    id: 'tea',
-    name: { my: 'လက်ဖက်ရည်', en: 'Milk tea' },
-    aliasesRoman: ['laphet yay', 'lahpet yay', 'lephet ye', 'laphet ye', 'tea', 'milk tea'],
-    aliasesMy: ['လက်ဖက်ရည်', 'လဘက်ရည်'],
-    ...fromRecipe('tea'),
-    hasSweetness: true,
-    isVegetarian: true,
-    photo: photos.tea,
-  }),
-  laphetThoke: d({
-    id: 'laphetThoke',
-    name: { my: 'လက်ဖက်သုပ်', en: 'Tea leaf salad' },
-    aliasesRoman: ['laphet thoke', 'lahpet thoke', 'laphet thote', 'tea leaf salad'],
-    aliasesMy: ['လက်ဖက်သုပ်', 'လဘက်သုပ်'],
-    ...fromRecipe('laphetThoke'),
-    oilSensitive: true,
-    isVegetarian: true,
-    photo: photos.laphetThoke,
-  }),
-  palata: d({
-    id: 'palata',
-    name: { my: 'ပလာတာ', en: 'Palata' },
-    aliasesRoman: ['palata', 'paratha', 'palatha'],
-    aliasesMy: ['ပလာတာ'],
-    ...fromRecipe('palata'),
-    oilSensitive: true,
-    isVegetarian: true,
-    photo: photos.palata,
-  }),
-  samusa: d({
-    id: 'samusa',
-    name: { my: 'စမူဆာ', en: 'Samosa' },
-    aliasesRoman: ['samusa', 'samosa', 'sa mu sa'],
-    aliasesMy: ['စမူဆာ'],
-    ...fromRecipe('samusa'),
-    oilSensitive: true,
-    isVegetarian: true,
-  }),
-  nanbyaPePyote: d({
-    id: 'nanbyaPePyote',
-    name: { my: 'နံပြား + ပဲပြုတ်', en: 'Naan & boiled peas' },
-    aliasesRoman: ['nan bya', 'naan bya', 'nanbya', 'pe byoke', 'pe pyote', 'naan'],
-    aliasesMy: ['နံပြား', 'ပဲပြုတ်'],
-    ...fromRecipe('nanbyaPePyote'),
-    isVegetarian: true,
-  }),
-  rice: d({
-    id: 'rice',
-    name: { my: 'ထမင်း', en: 'Rice' },
-    aliasesRoman: ['htamin', 'hta min', 'rice'],
-    aliasesMy: ['ထမင်း'],
-    ...fromRecipe('rice'),
-    isVegetarian: true,
-  }),
-  chickenCurry: d({
-    id: 'chickenCurry',
-    name: { my: 'ကြက်သားဆီပြန်', en: 'Chicken curry' },
-    aliasesRoman: ['kyet thar hin', 'chicken curry', 'kyat thar see pyan'],
-    aliasesMy: ['ကြက်သားဟင်း', 'ကြက်သားဆီပြန်'],
-    ...fromRecipe('chickenCurry'),
-    oilSensitive: true,
-    photo: photos.curry,
-  }),
-  porkCurry: d({
-    id: 'porkCurry',
-    name: { my: 'ဝက်သားဆီပြန်', en: 'Pork curry' },
-    aliasesRoman: ['wet thar hin', 'pork curry', 'wet thar see pyan'],
-    aliasesMy: ['ဝက်သားဟင်း', 'ဝက်သားဆီပြန်'],
-    ...fromRecipe('porkCurry'),
-    oilSensitive: true,
-  }),
-  fishCurry: d({
-    id: 'fishCurry',
-    name: { my: 'ငါးဆီပြန်', en: 'Fish curry' },
-    aliasesRoman: ['nga hin', 'fish curry', 'nga see pyan'],
-    aliasesMy: ['ငါးဟင်း', 'ငါးဆီပြန်'],
-    ...fromRecipe('fishCurry'),
-    oilSensitive: true,
-  }),
-  gourdFritter: d({
-    id: 'gourdFritter',
-    name: { my: 'ဘူးသီးကြော်', en: 'Gourd fritter' },
-    aliasesRoman: ['bu thee kyaw', 'gourd fritter', 'buthi kyaw'],
-    aliasesMy: ['ဘူးသီးကြော်'],
-    ...fromRecipe('gourdFritter'),
-    oilSensitive: true,
-    isVegetarian: true,
-  }),
-  driedFish: d({
-    id: 'driedFish',
-    name: { my: 'ငါးခြောက်ကြော်', en: 'Fried dried fish' },
-    aliasesRoman: ['nga chauk kyaw', 'dried fish'],
-    aliasesMy: ['ငါးခြောက်ကြော်'],
-    ...fromRecipe('driedFish'),
-    oilSensitive: true,
-  }),
-  clearSoup: d({
-    id: 'clearSoup',
-    name: { my: 'ဟင်းချို', en: 'Clear soup' },
-    aliasesRoman: ['hin cho', 'clear soup', 'soup'],
-    aliasesMy: ['ဟင်းချို'],
-    ...fromRecipe('clearSoup'),
-    isVegetarian: true,
-  }),
-  ngapiYay: d({
-    id: 'ngapiYay',
-    name: { my: 'ငါးပိရည်', en: 'Fish paste dip' },
-    aliasesRoman: ['ngapi yay', 'nga pi ye', 'ngapi'],
-    aliasesMy: ['ငါးပိရည်'],
-    ...fromRecipe('ngapiYay'),
-  }),
-  riceCurry: d({
-    id: 'riceCurry',
-    name: { my: 'ထမင်းဟင်း', en: 'Rice & curry' },
-    aliasesRoman: ['htamin hin', 'rice and curry', 'rice curry'],
-    aliasesMy: ['ထမင်းဟင်း'],
-    ...fromRecipe('riceCurry'),
-    oilSensitive: true,
-    photo: photos.sharedTable,
-  }),
-} satisfies Record<string, Dish>;
-
-export type DishId = keyof typeof dishes;
+) as Record<DishId, Dish>;
 
 /**
  * Dishes known on this phone: the bundled list until the database copy is
