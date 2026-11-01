@@ -7,7 +7,7 @@ The app works without a connection. The **on-phone SQLite database is the source
 | Feature | Offline | How |
 |---|---|---|
 | Log by voice / text, search, quick re-log | ✅ | Dish list and parser are on the phone |
-| Photo scan | ⏳ queued | Photo shrunk to 800 px, kept in app storage, sent when back online (Wi-Fi only if set) |
+| Photo scan | ⏳ queued | Photo shrunk to 800 px (512 px copy uploaded), kept in app storage, sent when back online (Wi-Fi only if set) |
 | See / edit / delete meals, any day | ✅ | `food_logs` + `log_items` tables |
 | Weight & waist, goal, plan, BMI, streak | ✅ | `weights` table + key-value settings |
 | Food photos, fonts, logo, Welcome image | ✅ | Bundled in the app |

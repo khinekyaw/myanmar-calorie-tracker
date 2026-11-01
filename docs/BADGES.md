@@ -23,7 +23,7 @@ Home or Progress → tap the streak pill → **Milestones**: current streak, bad
 | | `meals500` | Log Master / မှတ်တမ်း ဆရာ | 500 meals | a tiffin carrier with a small laurel sprig |
 | | `threeMeals` | Three Square / သုံးနပ် ပြည့် | Breakfast, lunch and dinner on one day | three small bowls in a row |
 | Ways to log | `firstScan` | Snap & Know / ရိုက်လိုက်၊ သိလိုက် | A meal logged by photo | a bowl of mohinga inside camera viewfinder corners |
-| | `firstVoice` | Just Say It / ပြောရုံပဲ | A meal logged by speaking | a speech bubble with sound waves |
+| | `firstVoice` | Just Say It / ပြောရုံပဲ | A meal logged by saying or typing it | a speech bubble with sound waves |
 | | `sharedTable` | Shared Table / ဝိုင်းစား | 5 shared meals | top view of a round low table: rice in the middle, four curry bowls around |
 | Myanmar favourites | `mohingaMorning` | Mohinga Morning / မနက်ခင်း မုန့်ဟင်းခါး | Mohinga before noon, 5 times | a bowl of mohinga (egg slices, fritter) with a small rising sun |
 | | `teaShop` | Tea Shop Regular / လက်ဖက်ရည်ဆိုင် ဖောက်သည် | Tea 10 times | a glass of milk tea on a saucer with steam |

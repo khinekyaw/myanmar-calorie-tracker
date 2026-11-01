@@ -25,11 +25,17 @@ import {
 type SupabaseAdmin = SupabaseContext['supabaseAdmin'];
 type Effort = 'low' | 'medium' | 'high' | 'xhigh' | 'max';
 
-const MODEL = Deno.env.get('SCAN_MODEL') ?? 'claude-opus-5-5';
+// Haiku: the cheapest model for picking dishes from a fixed list (reports/Scan model
+// choice.md). Raise to Sonnet only if the labelled photo set shows Haiku missing too many.
+const MODEL = Deno.env.get('SCAN_MODEL') ?? 'claude-haiku-5-5';
+// Haiku has no server-side refusal fallback; the parameter only helps the larger models.
+const SERVER_FALLBACK = !MODEL.startsWith('claude-haiku');
 // Identifying a dish is a short perception task, and people wait on the
 // Result screen, so effort defaults low. Tune with the labelled photo set.
 const EFFORT = (Deno.env.get('SCAN_EFFORT') ?? 'low') as Effort;
-const FREE_SCANS_PER_DAY = Number(Deno.env.get('FREE_SCANS_PER_DAY') ?? 3);
+// Free scans a day: more in an account's first week, then fewer (reports/Unit economics.md).
+const FREE_SCANS_FIRST_WEEK = Number(Deno.env.get('FREE_SCANS_FIRST_WEEK') ?? 3);
+const FREE_SCANS_PER_DAY = Number(Deno.env.get('FREE_SCANS_PER_DAY') ?? 1);
 const DAILY_BUDGET_USD = Deno.env.get('SCAN_DAILY_BUDGET_USD')
   ? Number(Deno.env.get('SCAN_DAILY_BUDGET_USD'))
   : null;
@@ -44,7 +50,7 @@ const PRICES: Record<string, [number, number, number, number]> = {
   'claude-opus-5-5': [4, 20, 0.2, 5],
   'claude-opus-5': [5, 25, 0.5, 6.25],
   'claude-opus-4-8': [5, 25, 0.5, 6.25],
-  'claude-sonnet-5-5': [2, 10, 0.2, 2.5],
+  'claude-sonnet-5-5': [2, 10, 0.1, 2.5],
   'claude-haiku-5-5': [0.1, 0.5, 0.01, 0.125],
 };
 
@@ -121,13 +127,24 @@ export default {
     if (!logId) return json(400, { error: 'bad_request' });
     if (!anthropic) return json(503, { error: 'not_configured' });
 
+    const allowance = await admin.rpc('free_scans_per_day', {
+      p_user: userId,
+      p_first_week: FREE_SCANS_FIRST_WEEK,
+      p_after: FREE_SCANS_PER_DAY,
+    });
+    if (allowance.error) {
+      console.error(JSON.stringify({ event: 'scan', step: 'allowance', error: allowance.error.message }));
+      return json(500, { error: 'server_error' });
+    }
+    const freePerDay = allowance.data as number;
+
     const photoPath = `${userId}/${logId}.jpg`;
     const begin = await admin.rpc('begin_scan', {
       p_user: userId,
       p_log_id: logId,
       p_photo_path: photoPath,
       p_taken_at: takenAt,
-      p_free_per_day: FREE_SCANS_PER_DAY,
+      p_free_per_day: freePerDay,
       p_daily_budget_usd: DAILY_BUDGET_USD,
     });
     if (begin.error) {
@@ -163,7 +180,7 @@ export default {
         p_cache_write_tokens: usage?.cache_creation_input_tokens ?? null,
         p_cost_usd: usage && servedBy ? costUsd(servedBy, usage) : null,
         p_latency_ms: Date.now() - started,
-        p_free_per_day: FREE_SCANS_PER_DAY,
+        p_free_per_day: freePerDay,
       });
 
     try {
@@ -176,8 +193,7 @@ export default {
       const message = await anthropic.beta.messages.create({
         model: MODEL,
         max_tokens: 16000,
-        betas: ['server-side-fallback-2026-07-01'],
-        fallbacks: 'default',
+        ...(SERVER_FALLBACK && { betas: ['server-side-fallback-2026-07-01'], fallbacks: 'default' as const }),
         output_config: { effort: EFFORT, format: { type: 'json_schema', schema: SCAN_OUTPUT_SCHEMA } },
         system: [
           // Rules + catalogue are identical for every scan: cache them.

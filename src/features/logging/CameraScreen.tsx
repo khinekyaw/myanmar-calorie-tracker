@@ -14,7 +14,7 @@ import { newId } from '@/db/database';
 import { keepPhoto } from '@/db/photos';
 import { compressPhoto } from '@/services/scan';
 import { useLog } from '@/store/log';
-import { FREE_SCANS_PER_DAY, useScanQuota, useScansLeft } from '@/store/scanQuota';
+import { useFreeScansToday, useScanQuota, useScansLeft } from '@/store/scanQuota';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Button, IconButton, ScanFrame, Text } from '@/ui';
 
@@ -32,6 +32,7 @@ export function CameraScreen() {
   const [torch, setTorch] = useState(false);
   const [busy, setBusy] = useState(false);
   const scansLeft = useScansLeft();
+  const freeToday = useFreeScansToday();
   const consume = useScanQuota((st) => st.consume);
 
   const { canUpload } = useConnectivity();
@@ -99,7 +100,7 @@ export function CameraScreen() {
             onPress={() => router.push('/paywall')}
             style={s.counter}>
             <Text variant="numberSm" tone="inverse">
-              {formatNumber(scansLeft, language)}/{formatNumber(FREE_SCANS_PER_DAY, language)}
+              {formatNumber(scansLeft, language)}/{formatNumber(freeToday, language)}
             </Text>
           </Pressable>
         )}

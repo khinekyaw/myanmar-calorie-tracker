@@ -18,12 +18,12 @@ Home → **+** opens the add sheet:
 | Way | Steps | Works offline |
 |---|---|---|
 | **Photo** | Camera → shutter → Result (or SharedMeal / PickDish, see 3) → *Done* | Queued, sent when back online |
-| **Speak** | Mic → say "လက်ဖက်ရည် ပေါ့စိမ့် တစ်ခွက်နဲ့ ပလာတာ တစ်ချပ်" → check the parsed dishes → *Save* | Yes |
+| **Say or type** | The keyboard opens → type, or tap the keyboard's mic and say "လက်ဖက်ရည် ပေါ့စိမ့် တစ်ခွက်နဲ့ ပလာတာ တစ်ချပ်" → check the parsed dishes → *Save* | Yes |
 | **Search** | Type "laphet yay" / "mohinga" → tap a dish → quantity, tea sweetness → *Add* | Yes |
 | **Quick re-log** | Tap a chip (milk tea, palata…) | Yes |
 | Barcode | Shown as *Soon* (later scope) | — |
 
-After logging, Home updates the calories left (or *Calories over*), plates of rice, protein, fat and the meal list. Free scans: 3 a day; the counter on the camera opens the paywall, and the 4th shutter press opens it too.
+After logging, Home updates the calories left (or *Calories over*), plates of rice, protein, fat and the meal list. Free scans: 3 a day in the first week, then 1 a day; the counter on the camera opens the paywall, and the 4th shutter press opens it too.
 
 **Week strip** (top of Home): a ring around each day with meals fills with that day's share of the calorie target. A finished day on target (85–105 %, the same rule as the *On Target* badge) gets a small check; a day over the target turns amber; today shows its live ring but no check until it's over. The selected day is solid ink; future days are muted.
 
@@ -96,7 +96,7 @@ Paywall (from the camera counter, the 4th scan, Settings, or the weekly report):
 ## Still open (prototype limits)
 
 - ~~Meals reset on app restart~~ Fixed: meals, the photo queue and weights are in on-phone SQLite ([OFFLINE.md](OFFLINE.md)), and sync to Supabase when a backend is configured.
-- Speech-to-text and payments are mocks; Google sign-in is built but needs the Google OAuth client to work; scan and OTP are real only with a backend (see [Mocked vs real](ARCHITECTURE.md#mocked-vs-real)).
+- Voice works only where the phone's keyboard does Burmese voice typing. Payments are a mock; Google sign-in is built but needs the Google OAuth client to work; scan and OTP are real only with a backend (see [Mocked vs real](ARCHITECTURE.md#mocked-vs-real)).
 - When a scan fails (no connection mid-scan, server error), Result keeps showing *Analyzing…*; the photo is retried in the background and Home shows it as *Waiting*.
 - When the server says the free scans are used up for today (e.g. used on another phone), queued photos wait until tomorrow or Premium without telling the user why.
 - Meals restored on another phone show the dish photo, not the meal photo.

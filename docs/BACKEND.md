@@ -37,7 +37,7 @@ All user tables are keyed by `(user_id, id)` with phone-made ids, carry the phon
 | `weights` | weight (kg) and waist (cm) per day | the user (via sync) |
 | `dishes` | the catalogue; readable by everyone, retired dishes keep their row | team (Studio / SQL) |
 | `passes` | Premium passes | server only (`grant_pass`) |
-| `scan_quota` | free scans used per Myanmar day | server only (`begin_scan`) |
+| `scan_quota` | free scans used per Myanmar day; the allowance is 3 in the account's first week, then 1 (`free_scans_per_day`, `FREE_SCANS_FIRST_WEEK` / `FREE_SCANS_PER_DAY`) | server only (`begin_scan`) |
 | `scans` | one row per scanned photo: status, answer, tokens, cost | server only |
 
 Users can read and write only their own rows; nobody can grant themselves Premium or scans (tests prove both).
@@ -51,13 +51,13 @@ One round trip each, for slow mobile data. Details and the reasons in [OFFLINE.m
 `POST /functions/v1/scan { log_id, taken_at }` with the user's token, after the app uploads `meal-photos/<user id>/<log id>.jpg`:
 
 1. `begin_scan` (atomic): returns the stored answer if this photo was already scanned; refuses a second request for the same photo while one runs; uses a free scan on the day the photo was **taken** (Myanmar time; queued photos from yesterday use yesterday's scans; older than 2 days counts as today), skipped with an active pass; stops everyone if the day's AI budget is spent.
-2. Photo + catalogue (cached prompt) → Claude with structured JSON output and the server-side refusal fallback.
+2. Photo + catalogue (cached prompt) → Claude with structured JSON output (plus the server-side refusal fallback on Sonnet and Opus; Haiku has none).
 3. `parseScanOutput` checks the answer: unknown dishes become `dish_id: null` with a name, units come from the catalogue, numbers are clamped, runner-ups must be real dishes.
 4. `finish_scan` stores the answer and cost; a failure **gives the free scan back**.
 
 Answers: `200 { scan, scans_left }` · `402` no free scans · `404` photo not uploaded · `409` already scanning · `502` failed (retry) · `503` not configured or over budget.
 
-Settings (function secrets, see `functions/.env.example`): `ANTHROPIC_API_KEY` (required), `SCAN_MODEL` (default `claude-opus-5-5`), `SCAN_EFFORT` (default `low`: a short perception task while the user waits), `FREE_SCANS_PER_DAY` (3), `SCAN_DAILY_BUDGET_USD` (no cap when empty). Model and effort are to be chosen with the ~100 labelled photos (phase 2).
+Settings (function secrets, see `functions/.env.example`): `ANTHROPIC_API_KEY` (required), `SCAN_MODEL` (default `claude-haiku-5-5`), `SCAN_EFFORT` (default `low`: a short perception task while the user waits), `FREE_SCANS_PER_DAY` (3), `SCAN_DAILY_BUDGET_USD` (no cap when empty). Model and effort are to be chosen with the ~100 labelled photos (phase 2).
 
 ### Accounts
 
@@ -137,4 +137,4 @@ Schema changes = a **new** migration file (never edit one that has been deployed
 
 ## Risks
 
-SMS delivery to Myanmar numbers · Google Play rules on outside payments · scan accuracy on local dishes · anonymous-account abuse for free scans (each new install gets 3/day; CAPTCHA + budget cap mitigate) · slow/expensive data (photos ~100 KB, queued and retried).
+SMS delivery to Myanmar numbers · Google Play rules on outside payments · scan accuracy on local dishes · anonymous-account abuse for free scans (each new install gets 3/day for a week; CAPTCHA + budget cap mitigate) · slow/expensive data (photos ~100 KB, queued and retried).

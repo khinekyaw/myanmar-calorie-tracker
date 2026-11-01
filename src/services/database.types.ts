@@ -156,6 +156,9 @@ isOneToOne: false
 "finish_scan":
 { Args: { "p_cache_read_tokens": number,"p_cache_write_tokens": number,"p_cost_usd": number,"p_error": string,"p_free_per_day": number,"p_input_tokens": number,"p_latency_ms": number,"p_log_id": string,"p_model": string,"p_ok": boolean,"p_output_tokens": number,"p_response": Json,"p_user": string }; Returns: Json
                            },
+"free_scans_per_day":
+{ Args: { "p_after": number,"p_first_week": number,"p_user": string }; Returns: number
+                           },
 "grant_pass":
 { Args: { "p_amount_ks"?: number,"p_plan": string,"p_provider": string,"p_ref": string,"p_user": string }; Returns: {
               "amount_ks": number | null,

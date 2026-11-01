@@ -23,7 +23,7 @@ Already done: offline-first app with on-phone SQLite; Supabase schema with row-l
 
 ## 2. Security and privacy
 
-- [ ] **Must · Claude** — **CAPTCHA on anonymous sign-ins** (Cloudflare Turnstile or hCaptcha). Every new install gets 3 free scans a day, so scripted installs could burn the AI budget. Needs your CAPTCHA keys.
+- [ ] **Must · Claude** — **CAPTCHA on anonymous sign-ins** (Cloudflare Turnstile or hCaptcha). Every new install gets 3 free scans a day for a week, so scripted installs could burn the AI budget. Needs your CAPTCHA keys.
 - [ ] **Must · You + Claude** — Set `SCAN_DAILY_BUDGET_USD` on the scan function and an alert on `scans.cost_usd`, so a spike stops scanning instead of draining money.
 - [ ] **Must · Claude** — **Auth rate limits** in production: SMS per hour, OTP verify attempts, anonymous sign-ins. Myanmar mobile users share IP addresses, so limits per IP must not lock out a whole network.
 - [ ] **Must · Claude** — **Turn off email sign-up** in production. The app doesn't use email, but `[auth.email] enable_signup` is on by default.
@@ -67,8 +67,8 @@ Target: 2–3 GB RAM, Android 9 or later, slow 3G/4G.
 - [ ] **Must · Team** — Nutritionist review of the **plan rules** (`domain/plan.ts`), the **rice-plate kcal constant** and the **oil and tea-sweetness multipliers**.
 - [ ] **Must · Team** — **Native Burmese review** of all copy (batches 1–7 in [DECISIONS.md → Copy review](DECISIONS.md#copy-review)).
 - [ ] **Must · Team** — **Replace the Wikimedia food photos** with Sar AI's own (licence and attribution), and the **Welcome image**, which has English text baked in.
-- [ ] **Must · You** — **Choose a vision model** using about 100 labelled Myanmar meal photos to measure scan accuracy (the default is set, but it hasn't run against the real model yet).
-- [ ] **Must · You** — **Voice logging**: pick a Burmese speech-to-text provider, or hide the Speak option at launch. It's a mock today.
+- [ ] **Must · You** — **Confirm the vision model** using about 100 labelled Myanmar meal photos to measure scan accuracy. The default is Claude Haiku 5.5 at low effort (about $0.30 per 1,000 scans; [reports/Scan model choice.md](../reports/Scan%20model%20choice.md)), but it hasn't run against the real model yet. Move to Sonnet 5.5 only if Haiku misses too many.
+- [ ] **Should · You** — **Voice logging** uses the phone keyboard's own voice typing (2026-11-01; no cost). Check on 2–3 popular phones that Gboard (or the phone's keyboard) does Burmese voice typing, and that the parser understands what it writes.
 
 ## 6. Feature gaps to finish
 
@@ -95,7 +95,7 @@ The paywall lists three Premium features. Status today:
 
 | Feature | Today | To build |
 |---|---|---|
-| **Unlimited photo scans** | Works: the server allows 3 free scans a day and lifts the limit with an active pass | Real payments (the pass is mock) |
+| **Unlimited photo scans** | Works: the server allows 3 free scans a day in an account's first week, then 1 a day, and lifts the limit with an active pass | Real payments (the pass is mock) |
 | **Blood sugar / pressure** | Only a question: onboarding and Settings → Health ask about it and sync it; nothing uses the answer | Everything below |
 | **Weekly report** | **Built** (2026-11-01): `/week`, Monday notification, free headline + Premium full report | Health lines (needs the blood sugar / pressure data); share as image |
 

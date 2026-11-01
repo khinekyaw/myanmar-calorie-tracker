@@ -11,7 +11,7 @@ import { supabase } from './supabase';
 /**
  * Photo scan. Mirrors the AI scan contract in docs/PRODUCT_BRIEF.md §5.
  *
- * The compressed photo is uploaded to Storage (meal-photos/<user id>/<log id>.jpg),
+ * A 512px copy of the photo is uploaded to Storage (meal-photos/<user id>/<log id>.jpg),
  * then the "scan" Edge Function identifies the dishes
  * (supabase/functions/scan). Builds without a backend use the MOCK below.
  */
@@ -46,14 +46,27 @@ export type ScanResult = { response: ScanResponse; scansLeft: number | null };
 export const CONFIDENCE_THRESHOLD = 0.6;
 
 const MAX_EDGE = 800;
+/**
+ * The copy sent to the server for scanning: 512px uses ~60% fewer image
+ * tokens than 800px (reports/Unit economics.md). The phone keeps the 800px
+ * photo for display; meals restored on another phone show the 512px copy.
+ */
+export const SCAN_EDGE = 512;
 
-/** Resize to 800px on the long edge and re-encode as JPEG for slow data. */
-export async function compressPhoto(uri: string, width: number, height: number): Promise<string> {
+/** Resize to `maxEdge` on the long edge and re-encode as JPEG for slow data. */
+export async function compressPhoto(uri: string, width: number, height: number, maxEdge = MAX_EDGE): Promise<string> {
   const ctx = ImageManipulator.manipulate(uri);
-  if (Math.max(width, height) > MAX_EDGE) ctx.resize(height > width ? { height: MAX_EDGE } : { width: MAX_EDGE });
+  if (Math.max(width, height) > maxEdge) ctx.resize(height > width ? { height: maxEdge } : { width: maxEdge });
   const image = await ctx.renderAsync();
   const saved = await image.saveAsync({ compress: 0.7, format: SaveFormat.JPEG });
   return saved.uri;
+}
+
+/** A SCAN_EDGE copy of a saved photo (the photo itself when it is already that small). */
+async function scanCopy(uri: string): Promise<string> {
+  const image = await ImageManipulator.manipulate(uri).renderAsync();
+  if (Math.max(image.width, image.height) <= SCAN_EDGE) return uri;
+  return compressPhoto(uri, image.width, image.height, SCAN_EDGE);
 }
 
 // Demo scenarios, used in turn so every branch of the flow can be tried.
@@ -97,9 +110,19 @@ export async function uploadPhoto(logId: string, photoUri: string): Promise<stri
   if (!supabase) return '';
   const userId = await ensureSession();
   const path = `${userId}/${logId}.jpg`;
-  const body = await new File(photoUri).arrayBuffer().catch(() => {
+  const small = await scanCopy(photoUri).catch(() => {
     throw new ScanError('retry', 'photo file missing on the phone');
   });
+  const body = await new File(small).arrayBuffer().catch(() => {
+    throw new ScanError('retry', 'photo file missing on the phone');
+  });
+  if (small !== photoUri) {
+    try {
+      new File(small).delete();
+    } catch {
+      // A leftover temp file is harmless.
+    }
+  }
   // upsert: a retried upload replaces a half-finished one.
   const { error } = await supabase.storage.from('meal-photos').upload(path, body, { contentType: 'image/jpeg', upsert: true });
   if (error) throw new ScanError('retry', `upload: ${error.message}`);

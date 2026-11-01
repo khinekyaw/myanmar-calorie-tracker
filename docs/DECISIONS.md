@@ -16,7 +16,7 @@ Supabase project in `supabase/` (migrations, functions, pgTAP tests); app side i
 - **No foreign key from `log_items.dish_id` to `dishes`**, so a phone with a newer bundled catalogue can't get stuck. Retired dishes keep their row (`deleted_at`) because old meals use them.
 - **Half-finished profiles are never pushed**, and a phone without a finished profile takes the server's. Otherwise "I have an account" on a new phone (empty answers) would overwrite the real profile.
 - **Free scans count on the day the photo was taken** (Myanmar time), so photos queued offline overnight use that day's scans; a full day falls back to today; older than 2 days counts as today (limits backdating). A failed scan gives the scan back; a repeated request for the same photo returns the stored answer and isn't charged.
-- **Scan model** defaults to `claude-opus-5-5` at **low effort** (short perception task, user is waiting), with the server-side refusal fallback; both settable without a deploy. Every scan records tokens and estimated cost; `SCAN_DAILY_BUDGET_USD` stops scans for everyone if a day's cost runs away.
+- **Scan model** defaults to `claude-haiku-5-5` at **low effort** (short perception task, user is waiting), since 2026-11-01; it was `claude-opus-5-5`, which costs about 40× more per scan, more than a heavy user's pass brings in ([reports/Scan model choice.md](../reports/Scan%20model%20choice.md)). The server-side refusal fallback is sent only for Sonnet and Opus (Haiku has none); both settable without a deploy. Every scan records tokens and estimated cost; `SCAN_DAILY_BUDGET_USD` stops scans for everyone if a day's cost runs away.
 - **The server's catalogue is unverified**: the seed copies the bundled numbers with `verified_by` empty. Since 2026-11-01 those are recipe-calculated (`source = 'recipe'`), so dishes show *Calculated* until the nutritionist verifies them. (The bundled `verified: true` flags only demo the badge.)
 - **Anonymous account for everyone**, linked to the phone number on sign-in. **Phone confirmations must stay on**: testing showed that with them off, linking a number skipped the code check.
 - **A token can outlive its deleted account** (up to an hour). `sync_*` check the account exists, and the app then starts a new anonymous account at once instead of syncing into nothing (found in testing).
@@ -102,7 +102,7 @@ What changed or was added beyond the canvas:
 - **FoodSearch** matches romanized spellings ("laphet yay", "lahpet ye", "mont hin gar"); tapping a result opens quantity, sweetness (tea) and Add in place. The other-language name shows under each result.
 - **Analyzing (19) is a state of Home**, not a separate screen: offline badge in the header, queued photos as "Waiting" cards that become "Analyzing…" and then a logged meal when the connection returns.
 - **Home shows "Calories over"** instead of 0 when the day's target is exceeded.
-- **Photos are compressed** to 800 px on the long edge before queueing.
+- **Photos are compressed** to 800 px on the long edge before queueing. The upload for scanning is a 512 px copy (2026-11-01): ~60 % fewer image tokens; the phone keeps 800 px for display, and meals restored on another phone show the 512 px copy.
 
 Dev-only helpers in Settings → Developer: Simulate offline, Reset free scans, Restart onboarding.
 
@@ -222,6 +222,19 @@ No Myanmar dish table can be used commercially ([reports/Dish data plan.md](../r
 - **Gourd fritter is now logged per piece** (it was per spoon).
 - **Review sheets are CSV with a BOM** so the nutritionist can work in Google Sheets or Excel, with Burmese intact.
 
+## Free scans: 3 a day in the first week, then 1 (2026-11-01)
+
+Free users' scans were the biggest running cost after SMS ([reports/Unit economics.md](../reports/Unit%20economics.md)). Text, voice, search and re-logging stay unlimited because they cost nothing.
+- **The server decides:** `free_scans_per_day(user, first_week, after)` counts the week from account creation. The scan function passes the result to `begin_scan` / `finish_scan`. It's set by `FREE_SCANS_FIRST_WEEK` (3) and `FREE_SCANS_PER_DAY` (1).
+- **The phone mirrors it** (`store/scanQuota.ts`, `freeScansFor`) and counts the week from first use on that phone. After a restore on a new phone, the counter is corrected by the server's answer to the first scan.
+- **Not checked yet:** whether the scan stays accurate at 512 px, on the labelled photos.
+
+## Voice through the keyboard (2026-11-01)
+
+No speech-to-text service: there's no budget for one, and we don't expect heavy voice use. *Say or type* opens the text box with the keyboard up, plus a one-line hint to tap the keyboard's mic. Wherever the phone's keyboard does Burmese voice typing (e.g. Gboard), people can speak. Everyone else types. Both go through the same offline parser (`domain/parseMeal.ts`), so neither costs anything. The fake recording (a sample sentence) is gone.
+- Meals saved there keep `source: 'voice'` (the *Say or type* way of logging), so the *Just Say It* badge now reads "Log a meal by saying or typing it".
+- A later option, only if people ask: Android's built-in speech recognition, detected per phone. It needs a native library and a new build.
+
 ## Tests for domain logic only (for now)
 
 Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, meal parsing, search). UI is checked on the emulator. Component tests can come once screens stop changing. Note: TypeScript 6 no longer loads global types automatically, so `tsconfig.json` lists `"types": ["jest"]`.
@@ -229,6 +242,7 @@ Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, mea
 ## Copy review
 
 All Burmese strings in `src/i18n/locales/my.ts` need native-speaker review. New strings not on the canvas (please check first):
+Batch 11 (voice through the keyboard): `textLog.keyboardMic` (ပြောချင်ရင် ကီးဘုတ်က မိုက်ကို နှိပ်ပါ), `add.voice` (ပြောမယ် / ရိုက်မယ်), and the `firstVoice` rule (ပြော ဒါမှမဟုတ် ရိုက်ပြီး မှတ်မယ်).
 Batch 10 (dish names): the Burmese names and spellings of the 100 dishes added on 2026-11-01, in `catalogue/recipes/*.json` (`name.my`, `aliases.my`).
 Batch 9 (dish numbers): `result.calculated` (တွက်ထားတယ်), the badge for recipe-calculated numbers.
 Batch 8 (weekly report): every `report.*` string — title အပတ်စဉ် အစီရင်ခံစာ, the six tips (e.g. ညစာမှာ ထမင်း နည်းနည်း လျှော့မယ်, ထမင်းနပ် မလွတ်စေနဲ့), and the notification (အပတ်စဉ် အစီရင်ခံစာ ရပြီ / ပြီးခဲ့တဲ့ အပတ် ဘယ်လိုလဲ ကြည့်မယ်).
@@ -245,9 +259,8 @@ Batch 1: `welcome.signIn` was on canvas; new ones: `camera.permissionTitle`, `ca
 - Food data source and the ~260 kcal per rice-plate constant (`domain/nutrition.ts`, marked PLACEHOLDER).
 - Pass prices: MOCK 4,900 Ks (1 month) and 12,900 Ks (3 months) in `config/pricing.ts`, shown with "≈ 4,300 Ks a month" on the 3-month pass; not decided.
 - Payments: KBZPay/WavePay vs Google Play Billing — check Play policy before building.
-- Vision model and effort for the scan Edge Function (default `claude-opus-5-5`, low effort; decide with ~100 labelled photos).
+- Vision model for the scan Edge Function: default `claude-haiku-5-5` at low effort; confirm with ~100 labelled photos, and move to `claude-sonnet-5-5` only if Haiku misses too many.
 - SMS provider (or Send SMS hook to a Myanmar gateway) for +95 OTP.
-- CAPTCHA on anonymous sign-in before launch (each new install gets 3 free scans a day).
-- Burmese speech-to-text provider for voice logging (on-device vs cloud).
+- CAPTCHA on anonymous sign-in before launch (each new install gets 3 free scans a day for a week).
 - Plan rules in `domain/plan.ts` (protein g/kg, fat share, deficit caps, rice-cut steps) — nutritionist review.
 - Oil and sweetness multipliers in `domain/meal.ts` — per-dish values from the nutritionist.
