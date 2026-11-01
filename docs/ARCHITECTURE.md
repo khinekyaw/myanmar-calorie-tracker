@@ -22,7 +22,7 @@ Status: **all 22 canvas screens built, offline-first** (meals, photo queue and w
 | Files | **expo-file-system** | Meal photos kept in app documents (not cache). |
 | Network | **expo-network** | Online / Wi-Fi state for the offline photo queue. |
 | Photo compression | **expo-image-manipulator** | 800 px long edge, JPEG 0.7, before queueing. |
-| Notifications | **expo-notifications** | Reminder permission (scheduling comes later). |
+| Notifications | **expo-notifications** | Reminder permission; the Monday weekly-report notification (`features/report/weeklyReminder.ts`). |
 | Tests | **Jest** (`jest-expo` preset) | Pure domain logic: plan maths, meal parsing, search. |
 
 ## Folder layout
@@ -46,8 +46,9 @@ src/
     edit-goal.tsx      Change goal, target, pace
     health.tsx         Health conditions + body details
     paywall.tsx        Prepaid passes (modal)
+    week.tsx           Weekly report (?week=YYYY-MM-DD, a Monday; default last week)
   features/<area>/     Screens + their private components, grouped by product area
-    onboarding/ home/ logging/ progress/ settings/ premium/ navigation/
+    onboarding/ home/ logging/ progress/ settings/ premium/ milestones/ report/ navigation/
   ui/                  Reusable design-system components (Text, Button, OptionCard, …)
   theme/               palette.ts → themes.ts → typography.ts → ThemeProvider.tsx
   i18n/                languages.ts, locales/en.ts (source of truth), locales/my.ts
@@ -56,7 +57,7 @@ src/
   domain/              Pure logic, unit-tested in domain/__tests__ (no React):
                          nutrition.ts (BMR, BMI), plan.ts (daily targets, rice cut),
                          meal.ts (macros incl. oil & sweetness), search.ts, parseMeal.ts,
-                         progress.ts (goal %, axis ticks), streak.ts
+                         progress.ts (goal %, axis ticks), streak.ts, badges.ts, weekReport.ts
   services/            Outside-world calls: supabase.ts (client), auth.ts (anonymous / phone sign-in,
                        delete account), scan.ts (upload + scan function; MOCK without a backend),
                        database.types.ts (generated: npm run db:types)
@@ -190,6 +191,7 @@ Tune per language in `scripts.my` / `scripts.en`: `lineHeight`, `sizeScale`, `mi
 | + | (new) Edit goal | `/edit-goal` | `features/progress/EditGoalScreen.tsx` |
 | + | (new) Health | `/health` | `features/settings/HealthScreen.tsx` |
 | + | (new) Milestones | `/milestones` | `features/milestones/MilestonesScreen.tsx` (from the streak pill; badges in [BADGES.md](BADGES.md)) |
+| + | (new) Weekly report | `/week` | `features/report/WeekReportScreen.tsx` (Progress → Weekly report, or the Monday notification) |
 
 How people move through these screens: [USER_FLOWS.md](USER_FLOWS.md).
 
@@ -229,7 +231,7 @@ MealItem { dishId, qty, oil?: less|normal|more, sweetness?: choSeint|pawSeint|ky
 | Free-scan quota | **Real**: server `scan_quota`, mirrored on the phone for the counter | — |
 | Pass prices | MOCK: 4,900 Ks / 12,900 Ks (`config/pricing.ts`) | Decided prices (and per-provider fees) |
 | Payments | Pay buttons activate a **local mock** pass (`store/premium.ts`); the server ignores it | KBZPay / WavePay or Play Billing → webhook → `grant_pass` (server `passes` already read by the app) |
-| Reminders | Permission request only | Scheduled local notifications |
+| Reminders | Permission request; the Monday weekly-report notification is real (local, needs permission + Reminders on). Daily meal reminders not scheduled yet | Daily meal reminders |
 | Log storage | SQLite on the phone, synced to Supabase; sample history in development builds only | — |
 | Weight history | SQLite `weights`, synced (kg on the server); sample data in development builds only | — |
 | Sync | **Real**: push/pull engine ([OFFLINE.md](OFFLINE.md#how-sync-works)) | — |

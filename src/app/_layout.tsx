@@ -19,16 +19,18 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 
 import { useScanQueue } from '@/features/logging/scanQueue';
+import { useWeeklyReminder } from '@/features/report/weeklyReminder';
 import { useSync } from '@/sync/useSync';
 import { ThemeProvider } from '@/theme/ThemeProvider';
 import { lightTheme } from '@/theme/themes';
 
 SplashScreen.preventAutoHideAsync();
 
-/** Sends queued food photos and syncs with the server. Renders nothing. */
+/** Sends queued food photos, syncs with the server, schedules the weekly report. Renders nothing. */
 function Background() {
   useScanQueue();
   useSync();
+  useWeeklyReminder();
   return null;
 }
 

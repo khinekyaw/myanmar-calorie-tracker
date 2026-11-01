@@ -57,6 +57,13 @@ Progress tab:
 
 Home or Progress → tap the streak pill (fire + days) → Milestones: current streak, badges earned, longest streak, then 25 badges by group; earned ones in colour, the rest greyed. Tap a badge → sheet with what it takes and the day it was earned, or a progress bar ("3 / 7"). List in [BADGES.md](BADGES.md).
 
+## 6c. Weekly report
+
+Progress → **Weekly report** (under *This week*), or tap the Monday 8:00 notification ("Your weekly report is ready"; only with Reminders on and notifications allowed). Opens on last week; the arrows step back to the first week with data and forward to this week ("so far").
+
+- Everyone: days logged (x/7) and average calories with the target.
+- Premium: days on target / over, average rice plates, protein and fat (rings against the plan), weight change, streak at the week's end, badges earned that week, top 3 dishes, one tip. Free users get a gold card that opens the paywall.
+
 ## 7. Settings
 
 Premium (paywall) · **Phone number** (*Sign in* when not signed in; the number once signed in) · **Goals** (= Edit goal) · **Health** (blood sugar / pressure, sex, birth year, height) · Uposatha vegetarian · Feast day · Reminders · Wi-Fi only · Language · **Delete account** (confirm sheet; removes everything on the server and the phone, back to Welcome). Phone number and Delete account appear only with a backend. Dev builds also show Simulate offline, Premium (mock), Reset free scans, Changes waiting to sync, Sync now, Restart onboarding.
@@ -67,7 +74,7 @@ Sign in with the same number on another phone: everything comes down. Changes on
 
 ## 8. Premium
 
-Paywall (from the camera counter, the 4th scan, or Settings): 1- or 3-month prepaid pass, KBZPay / WavePay, "No auto-renew". Payments are not connected yet.
+Paywall (from the camera counter, the 4th scan, Settings, or the weekly report): 1- or 3-month prepaid pass, KBZPay / WavePay, "No auto-renew". Payments are not connected yet. Premium today: unlimited scans and the full weekly report; blood sugar / pressure guidance isn't built yet.
 
 ---
 

@@ -74,7 +74,7 @@ Target: 2–3 GB RAM, Android 9 or later, slow 3G/4G.
 
 - [ ] **Must · Claude** — When a scan fails, Result stays on *Analyzing…*. Show a clear state with Retry.
 - [ ] **Must · Claude** — When the server says today's free scans are used up (for example, on another phone), tell the user instead of silently waiting.
-- [ ] **Must · Claude** — **Premium features**: blood sugar / pressure and the weekly report (next section). Until they exist, the paywall promises things the app doesn't do.
+- [ ] **Must · Claude** — **Premium features**: blood sugar / pressure (next section). Until it exists, the paywall promises something the app doesn't do. The weekly report is built (2026-11-01).
 - [ ] **Should · Claude** — "You earned a badge" moment after logging.
 - [ ] **Should · Claude** — Uposatha vegetarian toggle has no effect yet (suggest vegetarian dishes first on Uposatha days).
 - [ ] **Should · Claude** — Meals restored on another phone show the dish photo, not the meal photo (needs signed photo URLs).
@@ -97,7 +97,7 @@ The paywall lists three Premium features. Status today:
 |---|---|---|
 | **Unlimited photo scans** | Works: the server allows 3 free scans a day and lifts the limit with an active pass | Real payments (the pass is mock) |
 | **Blood sugar / pressure** | Only a question: onboarding and Settings → Health ask about it and sync it; nothing uses the answer | Everything below |
-| **Weekly report** | Not built | Everything below |
+| **Weekly report** | **Built** (2026-11-01): `/week`, Monday notification, free headline + Premium full report | Health lines (needs the blood sugar / pressure data); share as image |
 
 Everyone keeps answering the health question for free (it shapes the plan). **Premium unlocks the guidance built on it.**
 
@@ -118,6 +118,8 @@ Everyone keeps answering the health question for free (it shapes the plan). **Pr
 
 ### Weekly report
 
+Built 2026-11-01 as described below, except the health line (it waits for sugar and sodium data) and sharing. Code: `domain/weekReport.ts` (tested), `features/report/`. Not yet seen firing on a phone: the emulator has notifications denied.
+
 - **When:** every Monday morning (Myanmar time), a notification opens a **Week** screen. Older weeks stay browsable.
 - **What:**
   - days logged
@@ -135,7 +137,7 @@ Everyone keeps answering the health question for free (it shapes the plan). **Pr
 
 ### Order to build
 
-1. Weekly report (no new data needed).
+1. ~~Weekly report~~ (built 2026-11-01).
 2. Blood sugar (needs sugar values in the dish data).
 3. Blood pressure (needs sodium values and a schema change).
 4. Payments last, so the pass unlocks real features.

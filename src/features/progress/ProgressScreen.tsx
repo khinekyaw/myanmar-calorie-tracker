@@ -1,6 +1,6 @@
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { Pressable, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 
@@ -9,7 +9,7 @@ import { formatDayLabel, formatNumber, formatShortDate } from '@/lib/format';
 import { useOnboarding } from '@/store/onboarding';
 import { fromDayKey, series, useWeights } from '@/store/weights';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
-import { Button, Card, Segmented, Text } from '@/ui';
+import { Button, Card, Icon, Segmented, Text } from '@/ui';
 
 import { StreakPill } from '../milestones/StreakPill';
 import { BmiCard } from './components/BmiCard';
@@ -26,7 +26,7 @@ const PERIOD_DAYS: Record<Period, number> = { '1m': 31, '3m': 92, all: Infinity 
 export function ProgressScreen() {
   const { t } = useTranslation();
   const s = useStyles();
-  const { language } = useStyleContext();
+  const { theme, language } = useStyleContext();
   const [period, setPeriod] = useState<Period>('3m');
   const entries = useWeights((st) => st.entries);
   const goal = useOnboarding((st) => st.goal);
@@ -150,6 +150,18 @@ export function ProgressScreen() {
         </Card>
 
         <WeekCalories />
+        <Pressable
+          accessibilityRole="button"
+          onPress={() => router.push('/week')}
+          style={({ pressed }) => pressed && s.pressed}>
+          <Card size="md" style={s.row}>
+            <Icon name="chart" size={22} />
+            <Text variant="bodyStrong" style={s.flex}>
+              {t('report.title')}
+            </Text>
+            <Icon name="chevronRight" size={18} color={theme.colors.iconMuted} />
+          </Card>
+        </Pressable>
         <BmiCard />
       </ScrollView>
     </SafeAreaView>
@@ -173,4 +185,5 @@ const useStyles = makeStyles(({ theme }) => ({
   summary: { flexDirection: 'row', alignItems: 'baseline', gap: theme.space.sm },
   empty: { height: 160, justifyContent: 'center' },
   chartFooter: { flexDirection: 'row', justifyContent: 'flex-end' },
+  pressed: { opacity: theme.opacity.pressed },
 }));

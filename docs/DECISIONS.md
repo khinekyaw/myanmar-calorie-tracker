@@ -197,6 +197,15 @@ The Waist tab on Log weight and the weight ↔ waist switch on the Progress char
 
 The black Premium row in Settings and the black selected pass on the paywall read like warnings, not a perk. Premium surfaces now use light gold `accentSoft` (`#F7ECD4`) with ink text: the Settings row (gold logo in a white tile, subtitle = Premium end date, or "Unlimited photo scans" before buying), the paywall's logo tile, and the selected pass (gold check). The KBZPay / WavePay buttons stay ink as the main action.
 
+## Weekly report rules (2026-11-01)
+
+- **Week = Monday to Sunday**, phone time (Myanmar for our users). The notification fires **Monday 8:00** and opens last week. It is a local notification, scheduled only while Settings → Reminders is on and notifications are allowed, and rescheduled when the language changes.
+- **Averages are over logged days**, not 7, so an unlogged day doesn't look like a fast. On target / over use the same 85–105 % rule as the week strip and the On Target badge, and only finished days count.
+- **Weight change** = last weigh-in of the week minus the last one before it (or the week's first, if there's none before). No weigh-in that week → "No weigh-in".
+- **Streak** = the streak as the week ended. **Top dishes** count meals a dish was in, not portions.
+- **One tip**, the first that applies: few days logged → log more; rice over the plan → less rice at dinner; protein under 85 % → add egg/fish/chicken; 3+ days over → fried snacks and sweet tea; average under 85 % → don't skip meals; else praise. Thresholds are ours, not the nutritionist's; review with the rest of the plan rules.
+- **Free vs Premium:** free sees days logged and average calories; the rest is Premium (gold card → paywall), per LAUNCH_CHECKLIST.
+
 ## Tests for domain logic only (for now)
 
 Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, meal parsing, search). UI is checked on the emulator. Component tests can come once screens stop changing. Note: TypeScript 6 no longer loads global types automatically, so `tsconfig.json` lists `"types": ["jest"]`.
@@ -204,6 +213,7 @@ Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, mea
 ## Copy review
 
 All Burmese strings in `src/i18n/locales/my.ts` need native-speaker review. New strings not on the canvas (please check first):
+Batch 8 (weekly report): every `report.*` string — title အပတ်စဉ် အစီရင်ခံစာ, the six tips (e.g. ညစာမှာ ထမင်း နည်းနည်း လျှော့မယ်, ထမင်းနပ် မလွတ်စေနဲ့), and the notification (အပတ်စဉ် အစီရင်ခံစာ ရပြီ / ပြီးခဲ့တဲ့ အပတ် ဘယ်လိုလဲ ကြည့်မယ်).
 Batch 7 (paywall): `paywall.perMonth` (တစ်လ ≈ {{price}} ကျပ်).
 Batch 6 (week strip): `home.dayOnTarget` (ကယ်လိုရီ ကိုက်, screen readers only).
 Batch 5 (Google sign-in): `signIn.google` (Google နဲ့ ဝင်မယ်), `signIn.or` (ဒါမှမဟုတ်), `signIn.errorGoogle` (Google နဲ့ ဝင်လို့ မရဘူး), `settings.account` (အကောင့်).
