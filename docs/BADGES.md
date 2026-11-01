@@ -119,6 +119,8 @@ All 25 badges have art (2026-10-31). Batch 1 came as SVGs; batches 2 and 3 were 
 
 Watch white-on-white subjects (rice, eggs, glass): the background removal can bite into them; lower the threshold argument if it does.
 
+**Redrawn vectors (2026-11-01).** The 16 traced badges of batches 2 and 3 were replaced by clean hand-vectorised SVGs (666 px canvas, dark `#1F1F1F` background, drawing off-centre). Each was prepared by deleting the background rectangle and the 666 clip, giving it a square viewBox centred on the drawing's bounds with 6% breathing room, and repainting the few in-drawing `#1F1F1F` knockouts (medal ribbons, tiffin handle, calendar rings) in the circle grey `#F4F4F5` so the gaps still read. A `collection` drawing (three medals) came too; it has no badge yet and isn't in `assets/badges`. Batch 1 (streaks, `meals1`–`meals200`) is unchanged.
+
 Cell order → file name:
 - Batch 1: `streak3`, `streak7`, `streak30`, `streak100`, `streak365`, `meals1`, `meals10`, `meals50`, `meals200`
 - Batch 2: `meals500`, `threeMeals`, `firstScan`, `firstVoice`, `sharedTable`, `mohingaMorning`, `teaShop`, `laphetLover`, `riceInCheck`
