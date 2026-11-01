@@ -155,7 +155,9 @@ const en = {
   },
   search: {
     placeholder: 'Search food',
-    add: 'Add',
+    addDishes_one: 'Add {{count}} dish',
+    addDishes_other: 'Add {{count}} dishes',
+    remove: 'Remove',
     empty: 'No matches',
     choSeint: 'Sweet',
     pawSeint: 'Less sweet',

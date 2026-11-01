@@ -41,7 +41,9 @@ function score(dish: Dish, query: string): number {
   const names = [dish.name.en, ...dish.aliasesRoman].map(normalizeRoman);
   if (names.some((n) => n === q)) return 3;
   if (names.some((n) => n.startsWith(q))) return 2;
-  return names.some((n) => n.includes(q) || (q.length >= 4 && q.includes(n))) ? 1 : 0;
+  // A name inside a longer query ("mohinga bowl") counts only when the name is
+  // long enough: "3 in 1" normalizes to "in", which is inside "mohin".
+  return names.some((n) => n.includes(q) || (q.length >= 4 && n.length >= 4 && q.includes(n))) ? 1 : 0;
 }
 
 export function searchDishes(query: string, limit = 20): Dish[] {

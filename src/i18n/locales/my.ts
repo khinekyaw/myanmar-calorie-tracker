@@ -158,7 +158,9 @@ const my: Translations = {
   },
   search: {
     placeholder: 'ရှာရန်',
-    add: 'ထည့်မယ်',
+    addDishes_one: '{{count}} မျိုး ထည့်မယ်',
+    addDishes_other: '{{count}} မျိုး ထည့်မယ်',
+    remove: 'ဖယ်မယ်',
     empty: 'မတွေ့ဘူး',
     choSeint: 'ချိုစိမ့်',
     pawSeint: 'ပေါ့စိမ့်',

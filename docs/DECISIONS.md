@@ -259,6 +259,16 @@ A photo that isn't a meal yet used to show *Waiting* or *Analyzing…* forever. 
 - **Gemini keys must come from a project with billing on** before real users: on the free tier Google may use and have people review the photos.
 - **Checked against the live Gemini API** with a text request (3.1 and 3.5 Flash-Lite answer schema-valid JSON). Not yet run on a real photo.
 
+## Shared-meal edits wait for Save (2026-11-01)
+
+The editor used to write every stepper tap straight into the meal (and Search "+" did too), so leaving without *Save* still changed it. Now its changes live in an in-memory draft (`features/logging/mealDraft.ts`), and Search "+" adds to that draft. Only *Save* writes the meal. Leaving the editor drops the draft. The Result screen's own quantity and oil controls still apply at once: that screen has no Save, only *Done*.
+
+## Search: a box in the + sheet, several dishes at once (2026-11-01)
+
+- **The + sheet starts with a search box** (it opens Search with the keyboard up), above the Photo and Say-or-type tiles. Search was a plain row.
+- **Search picks several dishes.** Tapping a result toggles it; picked rows show their amount (and tea sweetness). Picks stay as chips under the field across searches. *Add N dishes* (with the kcal total) logs them as one meal, or puts them all into the shared-meal draft from its "+".
+- **Search fix:** a dish name counts as "inside a longer query" only when it's at least 4 letters (normalized). "3 in 1" became "in" and matched "mohin".
+
 ## Tests for domain logic only (for now)
 
 Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, meal parsing, search). UI is checked on the emulator. Component tests can come once screens stop changing. Note: TypeScript 6 no longer loads global types automatically, so `tsconfig.json` lists `"types": ["jest"]`.
@@ -266,6 +276,7 @@ Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, mea
 ## Copy review
 
 All Burmese strings in `src/i18n/locales/my.ts` need native-speaker review. New strings not on the canvas (please check first):
+Batch 13 (search): `search.addDishes` ({{count}} မျိုး ထည့်မယ်), `search.remove` (ဖယ်မယ်).
 Batch 12 (waiting photos): `result.waitQuota` (ဒီနေ့ အခမဲ့ စစ်ခွင့် ကုန်ပြီ), `result.waitQuotaNote` (မနက်ဖြန် စစ်ပေးမယ်), `result.waitOffline` (အင်တာနက် စောင့်နေတယ်), `result.waitFailed` (ဒီဓာတ်ပုံ စစ်လို့ မရဘူး), `result.waitEmpty` (ဒီဓာတ်ပုံမှာ အစားအစာ မတွေ့ဘူး), `queue.quota` / `failed` / `empty`.
 Batch 11 (voice through the keyboard): `textLog.keyboardMic` (ပြောချင်ရင် ကီးဘုတ်က မိုက်ကို နှိပ်ပါ), `add.voice` (ပြောမယ် / ရိုက်မယ်), and the `firstVoice` rule (ပြော ဒါမှမဟုတ် ရိုက်ပြီး မှတ်မယ်).
 Batch 10 (dish names): the Burmese names and spellings of the 100 dishes added on 2026-11-01, in `catalogue/recipes/*.json` (`name.my`, `aliases.my`).

@@ -1,20 +1,26 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
-import { FlatList, KeyboardAvoidingView, Pressable, TextInput, View } from 'react-native';
+import { FlatList, KeyboardAvoidingView, Pressable, ScrollView, TextInput, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
-import { itemMacros, SWEETNESS, type MealItem, type Sweetness } from '@/domain/meal';
+import { itemMacros, sumMacros, SWEETNESS, type MealItem, type Sweetness } from '@/domain/meal';
 import { popularDishes, searchDishes } from '@/domain/search';
+import { tap } from '@/lib/haptics';
 import { formatNumber, formatPlates } from '@/lib/format';
 import { getDish, type Dish, type DishId } from '@/mocks/dishes';
 import { useLog } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
-import { Button, Chip, Icon, IconButton, Screen, Stepper, Text } from '@/ui';
+import { Chip, Icon, IconButton, Screen, Stepper, Text } from '@/ui';
+
+import { SaveBar } from './components/SaveBar';
+import { useMealDraft } from './mealDraft';
 
 /**
  * Search by Burmese, English or romanized name ("laphet yay", "mont hin gar").
- * Tapping a result opens it in place: quantity, tea sweetness, Add.
- * With `?addTo=<entryId>` the dish is added to that meal (SharedMeal "+").
+ * Tap dishes to pick several (each with its amount and tea sweetness); picked
+ * dishes stay as chips under the field while you search for the next one,
+ * and one button adds them all as one meal.
+ * With `?addTo=<entryId>` they go into that meal's unsaved draft (SharedMeal "+").
  */
 export function FoodSearchScreen() {
   const { addTo } = useLocalSearchParams<{ addTo?: string }>();
@@ -22,45 +28,56 @@ export function FoodSearchScreen() {
   const s = useStyles();
   const { theme, language, type } = useStyleContext();
   const addEntry = useLog((st) => st.addEntry);
-  const updateEntry = useLog((st) => st.updateEntry);
-  const target = useLog((st) => st.entries.find((e) => e.id === addTo));
+  const draftId = useMealDraft((st) => st.id);
+  const putInDraft = useMealDraft((st) => st.put);
+  const target = addTo && draftId === addTo;
 
   const [query, setQuery] = useState('');
-  const [open, setOpen] = useState<MealItem | null>(null);
+  const [picked, setPicked] = useState<MealItem[]>([]);
 
   const results: Dish[] = query.trim() ? searchDishes(query) : popularDishes.map(getDish);
+  const total = sumMacros(picked).kcal;
 
-  const select = (dish: Dish) =>
-    setOpen((cur) =>
-      cur?.dishId === dish.id
-        ? null
-        : { dishId: dish.id as DishId, qty: 1, ...(dish.hasSweetness && { sweetness: 'pawSeint' as Sweetness }) },
+  const toggle = (dish: Dish) => {
+    tap();
+    setPicked((cur) =>
+      cur.some((i) => i.dishId === dish.id)
+        ? cur.filter((i) => i.dishId !== dish.id)
+        : [...cur, { dishId: dish.id as DishId, qty: 1, ...(dish.hasSweetness && { sweetness: 'pawSeint' as Sweetness }) }],
     );
+  };
+  const change = (item: MealItem) => setPicked((cur) => cur.map((i) => (i.dishId === item.dishId ? item : i)));
 
   const add = () => {
-    if (!open) return;
+    if (!picked.length) return;
     if (target) {
-      updateEntry(target.id, { items: [...target.items.filter((i) => i.dishId !== open.dishId), open] });
+      picked.forEach(putInDraft);
       router.back();
     } else {
-      addEntry({ source: 'search', status: 'done', items: [open] });
+      addEntry({ source: 'search', status: 'done', items: picked });
       router.dismissTo('/home');
     }
   };
 
   return (
     <KeyboardAvoidingView style={s.fill} behavior="padding">
-      <Screen>
+      <Screen
+        footer={
+          picked.length > 0 ? (
+            <SaveBar
+              label={t('search.addDishes', { count: picked.length })}
+              kcal={formatNumber(Math.round(total), language)}
+              onPress={add}
+            />
+          ) : undefined
+        }>
         <View style={s.header}>
           <IconButton icon="chevronLeft" accessibilityLabel={t('common.back')} onPress={() => router.back()} />
           <View style={s.field}>
             <Icon name="search" size={20} color={theme.colors.textMuted} />
             <TextInput
               value={query}
-              onChangeText={(q) => {
-                setQuery(q);
-                setOpen(null);
-              }}
+              onChangeText={setQuery}
               autoFocus
               autoCorrect={false}
               autoCapitalize="none"
@@ -81,6 +98,29 @@ export function FoodSearchScreen() {
           </View>
         </View>
 
+        {picked.length > 0 && (
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+            style={s.pickedBar}
+            contentContainerStyle={s.picked}>
+            {picked.map((item) => {
+              const dish = getDish(item.dishId);
+              return (
+                <Chip
+                  key={item.dishId}
+                  icon="close"
+                  selected
+                  label={item.qty === 1 ? dish.name[language] : `${dish.name[language]} ×${formatPlates(item.qty, language)}`}
+                  accessibilityLabel={`${t('search.remove')} ${dish.name[language]}`}
+                  onPress={() => toggle(dish)}
+                />
+              );
+            })}
+          </ScrollView>
+        )}
+
         <FlatList
           data={results}
           keyExtractor={(d) => d.id}
@@ -92,15 +132,15 @@ export function FoodSearchScreen() {
             </Text>
           }
           renderItem={({ item: dish }) => {
-            const isOpen = open?.dishId === dish.id;
+            const item = picked.find((i) => i.dishId === dish.id);
             const other = language === 'my' ? dish.name.en : dish.name.my;
             return (
-              // New key when opening: Android must mount the row with its fill to round it (shape rules).
-              <View key={isOpen ? 'open' : 'closed'} style={[s.result, isOpen && s.resultOpen]}>
+              // New key when picked: Android must mount the row with its fill to round it (shape rules).
+              <View key={item ? 'picked' : 'idle'} style={[s.result, item && s.resultPicked]}>
                 <Pressable
-                  accessibilityRole="button"
-                  accessibilityState={{ expanded: isOpen }}
-                  onPress={() => select(dish)}
+                  accessibilityRole="checkbox"
+                  accessibilityState={{ checked: Boolean(item) }}
+                  onPress={() => toggle(dish)}
                   style={s.resultRow}>
                   <View style={s.flex}>
                     <Text variant="bodyStrong">{dish.name[language]}</Text>
@@ -108,11 +148,11 @@ export function FoodSearchScreen() {
                       {other}
                     </Text>
                   </View>
-                  <Text variant="numberSm">{formatNumber(Math.round(isOpen && open ? itemMacros(open).kcal : dish.kcal), language)}</Text>
-                  <Icon name={isOpen ? 'minus' : 'plus'} size={18} strokeWidth={2.2} color={theme.colors.textMuted} />
+                  <Text variant="numberSm">{formatNumber(Math.round(item ? itemMacros(item).kcal : dish.kcal), language)}</Text>
+                  <Icon name={item ? 'check' : 'plus'} size={18} strokeWidth={2.2} color={item ? theme.colors.text : theme.colors.textMuted} />
                 </Pressable>
 
-                {isOpen && open && (
+                {item && (
                   <View style={s.details}>
                     {dish.hasSweetness && (
                       <View style={s.chips} accessibilityRole="radiogroup">
@@ -120,29 +160,28 @@ export function FoodSearchScreen() {
                           <Chip
                             key={k}
                             label={t(`search.${k}`)}
-                            selected={open.sweetness === k}
+                            selected={item.sweetness === k}
                             look="onSurface"
-                            onPress={() => setOpen({ ...open, sweetness: k })}
+                            onPress={() => change({ ...item, sweetness: k })}
                           />
                         ))}
                       </View>
                     )}
-                    <View style={s.addRow}>
+                    <View style={s.amountRow}>
                       <Stepper
                         variant="pill"
-                        value={open.qty}
+                        value={item.qty}
                         step={dish.unit === 'plate' || dish.unit === 'bowl' ? 0.5 : 1}
                         min={0.5}
                         max={20}
-                        display={formatPlates(open.qty, language)}
-                        onChange={(qty) => setOpen({ ...open, qty })}
+                        display={formatPlates(item.qty, language)}
+                        onChange={(qty) => change({ ...item, qty })}
                         decreaseLabel={t('result.less')}
                         increaseLabel={t('result.more')}
                       />
                       <Text variant="caption" tone="muted" style={s.flex}>
-                        {t(`units.${dish.unit}`, { count: open.qty })}
+                        {t(`units.${dish.unit}`, { count: item.qty })}
                       </Text>
-                      <Button label={t('search.add')} onPress={add} style={s.addButton} />
                     </View>
                   </View>
                 )}
@@ -173,7 +212,9 @@ const useStyles = makeStyles(({ theme }) => ({
   list: { paddingTop: theme.space.lg, paddingBottom: theme.space.xxxl, gap: theme.space.xs },
   empty: { marginTop: theme.space.xxxl },
   result: { borderRadius: theme.radius.lg },
-  resultOpen: { backgroundColor: theme.colors.surface },
+  resultPicked: { backgroundColor: theme.colors.surface },
+  pickedBar: { flexGrow: 0, marginTop: theme.space.md },
+  picked: { gap: theme.space.sm },
   resultRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -183,6 +224,5 @@ const useStyles = makeStyles(({ theme }) => ({
   },
   details: { paddingHorizontal: theme.space.md, paddingBottom: theme.space.md, gap: theme.space.md },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: theme.space.sm },
-  addRow: { flexDirection: 'row', alignItems: 'center', gap: theme.space.md },
-  addButton: { height: 44, paddingHorizontal: theme.space.xl },
+  amountRow: { flexDirection: 'row', alignItems: 'center', gap: theme.space.md },
 }));

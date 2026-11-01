@@ -11,12 +11,18 @@ import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Chip, Icon, IconButton, Screen, Stepper, Text } from '@/ui';
 
 import { SaveBar } from './components/SaveBar';
+import { useMealDraft } from './mealDraft';
 
 /**
  * ဝိုင်းစား — a family table with shared curries. Rice in plates (½ steps),
- * each curry in spoonfuls, free sides as toggles. Edits the entry in place
- * (so dishes added through Search show up); Save drops zero rows.
+ * each curry in spoonfuls, free sides as toggles. Changes stay in a draft
+ * (useMealDraft, which Search "+" adds to) until Save; going back discards
+ * them. Save drops zero rows.
  */
+/** A shared table always has a rice row (1 plate to start). */
+const withRice = (items: MealItem[]): MealItem[] =>
+  items.some((i) => i.dishId === 'rice') ? items : [{ dishId: 'rice', qty: 1 }, ...items];
+
 export function SharedMealScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { t } = useTranslation();
@@ -24,25 +30,25 @@ export function SharedMealScreen() {
   const { language } = useStyleContext();
   const entry = useEntry(id);
   const updateEntry = useLog((st) => st.updateEntry);
+  const draft = useMealDraft();
 
-  // A shared table always has a rice row (1 plate to start) and a toggle per free side.
+  // Start a draft from the meal when the editor opens; drop it when it closes.
+  const entryId = entry?.id;
   useEffect(() => {
-    if (entry && !entry.items.some((i) => i.dishId === 'rice')) {
-      updateEntry(entry.id, { items: [{ dishId: 'rice', qty: 1 }, ...entry.items] });
-    }
-  }, [entry, updateEntry]);
-  const stored = entry?.items ?? [];
+    const saved = useLog.getState().entries.find((e) => e.id === entryId);
+    if (!saved) return;
+    useMealDraft.getState().start(saved.id, withRice(saved.items));
+    return () => useMealDraft.getState().clear();
+  }, [entryId]);
+  const stored = draft.id === entryId ? draft.items : withRice(entry?.items ?? []);
   const items: MealItem[] = [
     ...stored,
     ...freeSides.filter((d) => !stored.some((i) => i.dishId === d)).map((dishId) => ({ dishId, qty: 0 })),
   ];
 
   const set = (dishId: DishId, qty: number) => {
-    if (!entry) return;
     const exists = stored.some((i) => i.dishId === dishId);
-    updateEntry(entry.id, {
-      items: exists ? stored.map((i) => (i.dishId === dishId ? { ...i, qty } : i)) : [...stored, { dishId, qty }],
-    });
+    draft.setItems(exists ? stored.map((i) => (i.dishId === dishId ? { ...i, qty } : i)) : [...stored, { dishId, qty }]);
   };
 
   const rice = items.find((i) => i.dishId === 'rice');

@@ -11,11 +11,12 @@ import { useLog } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Icon, Text, type IconName } from '@/ui';
 
-type Tile = { key: 'photo' | 'voice' | 'search'; icon: IconName; primary: boolean; onPress: () => void };
+type Tile = { key: 'photo' | 'voice'; icon: IconName; onPress: () => void };
 
 /**
- * Bottom sheet: three ways to log + one-tap re-log chips. Only finished
- * features appear here (barcode is later scope: docs/PRODUCT_BRIEF.md §6).
+ * Bottom sheet: a search box, photo and say-or-type tiles, and one-tap
+ * re-log chips. Only finished features appear here (barcode is later scope:
+ * docs/PRODUCT_BRIEF.md §6).
  */
 export function AddSheet() {
   const { t } = useTranslation();
@@ -25,9 +26,8 @@ export function AddSheet() {
   const quickAdd = useLog((st) => st.quickAdd);
 
   const tiles: Tile[] = [
-    { key: 'photo', icon: 'camera', primary: true, onPress: () => router.replace('/camera') },
-    { key: 'voice', icon: 'mic', primary: true, onPress: () => router.replace('/text-log') },
-    { key: 'search', icon: 'search', primary: false, onPress: () => router.replace('/search') },
+    { key: 'photo', icon: 'camera', onPress: () => router.replace('/camera') },
+    { key: 'voice', icon: 'mic', onPress: () => router.replace('/text-log') },
   ];
 
   const relog = (id: DishId) => {
@@ -54,30 +54,36 @@ export function AddSheet() {
         style={[s.sheet, { paddingBottom: insets.bottom + theme.space.xxl }]}>
         <View style={s.handle} />
 
-        <View style={s.grid}>
-          {[tiles.slice(0, 2), tiles.slice(2)].map((row, r) => (
-            <View key={r} style={s.gridRow}>
-              {row.map((tile) => (
-                <Pressable
-                  key={tile.key}
-                  accessibilityRole="button"
-                  onPress={() => {
-                    tap();
-                    tile.onPress();
-                  }}
-                  style={({ pressed }) => [
-                    s.tile,
-                    tile.primary ? s.tilePrimary : s.tileSecondary,
-                    row.length === 1 && s.tileWide,
-                    pressed && s.pressed,
-                  ]}>
-                  <Icon name={tile.icon} size={26} color={tile.primary ? theme.colors.onPrimary : theme.colors.icon} />
-                  <Text variant="bodyStrong" tone={tile.primary ? 'inverse' : 'default'}>
-                    {t(`add.${tile.key}`)}
-                  </Text>
-                </Pressable>
-              ))}
-            </View>
+        {/* Looks like the search field; opens Search with the keyboard up. */}
+        <Pressable
+          accessibilityRole="search"
+          accessibilityLabel={t('search.placeholder')}
+          onPress={() => {
+            tap();
+            router.replace('/search');
+          }}
+          style={({ pressed }) => [s.search, pressed && s.pressed]}>
+          <Icon name="search" size={20} color={theme.colors.textMuted} />
+          <Text variant="body" tone="muted">
+            {t('search.placeholder')}
+          </Text>
+        </Pressable>
+
+        <View style={s.tiles}>
+          {tiles.map((tile) => (
+            <Pressable
+              key={tile.key}
+              accessibilityRole="button"
+              onPress={() => {
+                tap();
+                tile.onPress();
+              }}
+              style={({ pressed }) => [s.tile, pressed && s.pressed]}>
+              <Icon name={tile.icon} size={26} color={theme.colors.onPrimary} />
+              <Text variant="bodyStrong" tone="inverse">
+                {t(`add.${tile.key}`)}
+              </Text>
+            </Pressable>
           ))}
         </View>
 
@@ -117,19 +123,26 @@ const useStyles = makeStyles(({ theme }) => ({
     borderRadius: 2,
     backgroundColor: theme.colors.sheetHandle,
   },
-  grid: { gap: theme.space.sm + 2, paddingHorizontal: theme.gutter },
-  gridRow: { flexDirection: 'row', gap: theme.space.sm + 2 },
+  // Same shape as the field on the Search screen.
+  search: {
+    height: 48,
+    marginHorizontal: theme.gutter,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: theme.space.sm,
+    paddingHorizontal: theme.space.lg,
+    borderRadius: theme.radius.pill,
+    backgroundColor: theme.colors.surface,
+  },
+  tiles: { flexDirection: 'row', gap: theme.space.sm + 2, paddingHorizontal: theme.gutter },
   tile: {
     flex: 1,
     height: 112,
     padding: theme.space.lg + 2,
     borderRadius: theme.radius.lg,
     justifyContent: 'space-between',
+    backgroundColor: theme.colors.primary,
   },
-  tilePrimary: { backgroundColor: theme.colors.primary },
-  /** A tile alone on its row: short, icon and label side by side. */
-  tileWide: { height: 64, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: theme.space.md },
-  tileSecondary: { backgroundColor: theme.colors.surface },
   pressed: { opacity: theme.opacity.pressed },
   chips: { gap: theme.space.sm, paddingHorizontal: theme.gutter },
   chip: {
