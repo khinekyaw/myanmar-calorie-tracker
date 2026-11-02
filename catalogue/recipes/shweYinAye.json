@@ -1,0 +1,25 @@
+{
+  "id": "shweYinAye",
+  "name": { "en": "Shwe yin aye", "my": "ရွှေရင်အေး" },
+  "aliases": {
+    "roman": ["shwe yin aye", "shwe yin ei", "shwe yin ae"],
+    "my": ["ရွှေရင်အေး"]
+  },
+  "isVegetarian": true,
+  "unit": "bowl",
+  "servingG": 285,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "coconutMilk", "g": 100 },
+    { "ing": "sugar", "g": 20, "note": "syrup" },
+    { "ing": "water", "g": 60 },
+    { "ing": "glutinousRiceCooked", "g": 40 },
+    { "ing": "whiteBread", "g": 20 },
+    { "dish": "kyaukKyaw", "g": 40 },
+    { "ing": "tapioca", "g": 5, "note": "sago" }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-03), from a dish list Gemini suggested; not yet checked against published recipes."
+}

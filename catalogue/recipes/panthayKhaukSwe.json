@@ -1,0 +1,24 @@
+{
+  "id": "panthayKhaukSwe",
+  "name": { "en": "Panthay noodles", "my": "ပန်းသေးခေါက်ဆွဲ" },
+  "aliases": {
+    "roman": ["panthay khauk swe", "panthay noodles", "pan thay khao swe"],
+    "my": ["ပန်းသေးခေါက်ဆွဲ"]
+  },
+  "oilSensitive": true,
+  "unit": "bowl",
+  "servingG": 300,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "eggNoodlesCooked", "g": 180 },
+    { "dish": "chickenCurry", "g": 90 },
+    { "dish": "_friedGarlic", "g": 3 },
+    { "ing": "cabbage", "g": 20 },
+    { "ing": "coriander", "g": 3 },
+    { "ing": "limeJuice", "g": 4 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-03), from a dish list Gemini suggested; not yet checked against published recipes."
+}

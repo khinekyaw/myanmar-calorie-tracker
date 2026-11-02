@@ -1,0 +1,27 @@
+{
+  "id": "pennywortSalad",
+  "name": { "en": "Pennywort salad", "my": "မြင်းခွာရွက်သုပ်" },
+  "aliases": {
+    "roman": ["myin khwar ywet thoke", "pennywort salad"],
+    "my": ["မြင်းခွာရွက်သုပ်"]
+  },
+  "oilSensitive": true,
+  "unit": "plate",
+  "servingG": 140,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "pennywort", "g": 60 },
+    { "ing": "tomato", "g": 30 },
+    { "ing": "onion", "g": 15 },
+    { "ing": "chickpeaFlour", "g": 8 },
+    { "ing": "peanutsRoasted", "g": 8 },
+    { "ing": "peanutOil", "g": 8 },
+    { "ing": "limeJuice", "g": 5 },
+    { "ing": "fishSauce", "g": 4 },
+    { "ing": "chiliRed", "g": 2 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-03), from a dish list Gemini suggested; not yet checked against published recipes."
+}

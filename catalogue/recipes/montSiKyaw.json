@@ -1,0 +1,25 @@
+{
+  "id": "montSiKyaw",
+  "name": { "en": "Mont si kyaw", "my": "မုန့်ဆီကြော်" },
+  "aliases": {
+    "roman": ["mont si kyaw", "mote si kyaw", "mont si gyaw"],
+    "my": ["မုန့်ဆီကြော်"]
+  },
+  "oilSensitive": true,
+  "isVegetarian": true,
+  "unit": "piece",
+  "servingG": 50,
+  "servingWeighed": false,
+  "yieldG": 950,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "glutinousRiceRaw", "g": 500, "note": "sticky rice flour" },
+    { "ing": "brownSugar", "g": 200, "note": "jaggery" },
+    { "ing": "water", "g": 300 },
+    { "ing": "salt", "g": 2 },
+    { "ing": "peanutOil", "absorbed": 0.18, "note": "deep-fried dough or batter (doughnuts absorb 15–20 %, CATALOGUE.md)" }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-03), from a dish list Gemini suggested; not yet checked against published recipes."
+}

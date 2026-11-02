@@ -1,0 +1,22 @@
+{
+  "id": "plumJuice",
+  "name": { "en": "Plum juice", "my": "ဆီးဖျော်ရည်" },
+  "aliases": {
+    "roman": ["zee phyaw yay", "plum juice", "zee juice"],
+    "my": ["ဆီးဖျော်ရည်"]
+  },
+  "isVegetarian": true,
+  "unit": "cup",
+  "servingG": 250,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "jujubeDried", "g": 30, "note": "preserved ဆီးသီး" },
+    { "ing": "sugar", "g": 20 },
+    { "ing": "salt", "g": 1 },
+    { "ing": "water", "g": 200 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-03), from a dish list Gemini suggested; not yet checked against published recipes."
+}

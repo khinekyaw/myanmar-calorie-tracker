@@ -1,0 +1,24 @@
+{
+  "id": "siChetKhaukSwe",
+  "name": { "en": "Garlic oil noodles", "my": "ဆီချက်ခေါက်ဆွဲ" },
+  "aliases": {
+    "roman": ["si chet khauk swe", "see chet", "garlic oil noodles", "oil noodles"],
+    "my": ["ဆီချက်ခေါက်ဆွဲ", "ဆီချက်"]
+  },
+  "oilSensitive": true,
+  "unit": "bowl",
+  "servingG": 275,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "eggNoodlesCooked", "g": 180, "note": "wheat noodles" },
+    { "ing": "peanutOil", "g": 15, "note": "garlic oil" },
+    { "dish": "_friedGarlic", "g": 5 },
+    { "dish": "_boiledChicken", "g": 40 },
+    { "ing": "soySauce", "g": 10 },
+    { "ing": "pakChoi", "g": 25 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-03), from a dish list Gemini suggested; not yet checked against published recipes."
+}

@@ -1,0 +1,24 @@
+{
+  "id": "montPhetHtoke",
+  "name": { "en": "Mont phet htoke", "my": "မုန့်ဖက်ထုပ်" },
+  "aliases": {
+    "roman": ["mont phet htoke", "mote phet htoke", "leaf-wrapped rice cake"],
+    "my": ["မုန့်ဖက်ထုပ်"]
+  },
+  "isVegetarian": true,
+  "unit": "piece",
+  "servingG": 80,
+  "servingWeighed": false,
+  "yieldG": 1000,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "glutinousRiceRaw", "g": 400, "note": "sticky rice flour" },
+    { "ing": "water", "g": 300 },
+    { "ing": "brownSugar", "g": 150, "note": "jaggery" },
+    { "ing": "coconutMeat", "g": 150 },
+    { "ing": "salt", "g": 3 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-03), from a dish list Gemini suggested; not yet checked against published recipes."
+}

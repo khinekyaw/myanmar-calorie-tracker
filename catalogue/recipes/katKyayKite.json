@@ -1,0 +1,27 @@
+{
+  "id": "katKyayKite",
+  "name": { "en": "Scissor-cut noodles", "my": "ကတ်ကြေးကိုက်" },
+  "aliases": {
+    "roman": ["kat kyay kite", "kat kyay kaik", "scissor cut noodles"],
+    "my": ["ကတ်ကြေးကိုက်"]
+  },
+  "oilSensitive": true,
+  "unit": "plate",
+  "servingG": 380,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "riceNoodlesCooked", "g": 180, "note": "flat rice noodles" },
+    { "ing": "beanSprouts", "g": 40 },
+    { "ing": "shrimp", "g": 30 },
+    { "ing": "squid", "g": 20 },
+    { "ing": "eggRaw", "g": 50 },
+    { "ing": "chineseCabbage", "g": 25 },
+    { "ing": "peanutOil", "g": 20 },
+    { "ing": "soySauce", "g": 10 },
+    { "ing": "oysterSauce", "g": 8 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-03), from a dish list Gemini suggested; not yet checked against published recipes."
+}

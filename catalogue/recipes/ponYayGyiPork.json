@@ -1,0 +1,27 @@
+{
+  "id": "ponYayGyiPork",
+  "name": { "en": "Pon yay gyi pork", "my": "ပုံးရည်ကြီးဝက်သား" },
+  "aliases": {
+    "roman": ["pone yay gyi wet thar", "pon yay gyi", "bean paste pork"],
+    "my": ["ပုံးရည်ကြီးဝက်သား", "ပုံးရည်ကြီး"]
+  },
+  "oilSensitive": true,
+  "unit": "spoon",
+  "servingG": 30,
+  "servingWeighed": false,
+  "yieldG": 1250,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "porkBelly", "g": 600 },
+    { "ing": "miso", "g": 150, "note": "pon yay gyi paste" },
+    { "ing": "onion", "g": 200 },
+    { "ing": "garlic", "g": 40 },
+    { "ing": "ginger", "g": 20 },
+    { "ing": "peanutOil", "g": 80 },
+    { "ing": "sugar", "g": 15 },
+    { "ing": "water", "g": 600 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-03), from a dish list Gemini suggested; not yet checked against published recipes."
+}

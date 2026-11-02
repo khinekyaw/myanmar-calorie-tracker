@@ -1,0 +1,22 @@
+{
+  "id": "tamarindJuice",
+  "name": { "en": "Tamarind juice", "my": "မန်ကျည်းဖျော်ရည်" },
+  "aliases": {
+    "roman": ["man kyi phyaw yay", "tamarind juice"],
+    "my": ["မန်ကျည်းဖျော်ရည်", "မန်ကျည်းရည်"]
+  },
+  "isVegetarian": true,
+  "unit": "cup",
+  "servingG": 250,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "tamarind", "g": 25 },
+    { "ing": "sugar", "g": 25 },
+    { "ing": "salt", "g": 1 },
+    { "ing": "water", "g": 200 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-03), from a dish list Gemini suggested; not yet checked against published recipes."
+}

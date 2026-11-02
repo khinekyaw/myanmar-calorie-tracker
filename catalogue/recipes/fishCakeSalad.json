@@ -1,0 +1,27 @@
+{
+  "id": "fishCakeSalad",
+  "name": { "en": "Fish cake salad", "my": "ငါးဖယ်သုပ်" },
+  "aliases": {
+    "roman": ["nga phel thoke", "nga pe thoke", "fish cake salad"],
+    "my": ["ငါးဖယ်သုပ်"]
+  },
+  "oilSensitive": true,
+  "unit": "plate",
+  "servingG": 160,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "dish": "fishCakeFried", "g": 80 },
+    { "ing": "cabbage", "g": 30 },
+    { "ing": "onion", "g": 20 },
+    { "ing": "chickpeaFlour", "g": 5 },
+    { "ing": "peanutOil", "g": 8 },
+    { "ing": "limeJuice", "g": 5 },
+    { "ing": "fishSauce", "g": 4 },
+    { "ing": "coriander", "g": 3 },
+    { "ing": "chiliRed", "g": 2 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-03), from a dish list Gemini suggested; not yet checked against published recipes."
+}

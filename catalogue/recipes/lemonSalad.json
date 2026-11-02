@@ -1,0 +1,27 @@
+{
+  "id": "lemonSalad",
+  "name": { "en": "Lemon salad", "my": "သံပုရာသီးသုပ်" },
+  "aliases": {
+    "roman": ["than pa ya thee thoke", "lemon salad"],
+    "my": ["သံပုရာသီးသုပ်"]
+  },
+  "oilSensitive": true,
+  "unit": "plate",
+  "servingG": 150,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "lemon", "g": 50 },
+    { "ing": "cabbage", "g": 40 },
+    { "ing": "onion", "g": 20 },
+    { "ing": "driedShrimp", "g": 8 },
+    { "ing": "peanutsRoasted", "g": 12 },
+    { "ing": "chickpeaFlour", "g": 5 },
+    { "ing": "peanutOil", "g": 8 },
+    { "ing": "fishSauce", "g": 5 },
+    { "ing": "chiliRed", "g": 2 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-03), from a dish list Gemini suggested; not yet checked against published recipes."
+}

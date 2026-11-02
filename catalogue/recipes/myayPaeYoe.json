@@ -1,0 +1,22 @@
+{
+  "id": "myayPaeYoe",
+  "name": { "en": "Peanut brittle", "my": "မြေပဲယို" },
+  "aliases": {
+    "roman": ["myay pae yoe", "peanut brittle", "peanut candy"],
+    "my": ["မြေပဲယို"]
+  },
+  "isVegetarian": true,
+  "unit": "piece",
+  "servingG": 30,
+  "servingWeighed": false,
+  "yieldG": 1000,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "peanutsRoasted", "g": 600 },
+    { "ing": "brownSugar", "g": 400, "note": "jaggery" },
+    { "ing": "water", "g": 80 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-03), from a dish list Gemini suggested; not yet checked against published recipes."
+}

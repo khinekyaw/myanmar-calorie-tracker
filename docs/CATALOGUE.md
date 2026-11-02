@@ -107,7 +107,7 @@ The **biggest error is portion size**. Weigh real servings: a serving spoon of c
 
 - **Sugar and sodium** reach the phone and server dish catalogue, but not logged meals (`log_items`), and no screen shows them.
 - **Curry `spoon` = 30 g** is a guess.
-- **The 115 drafts have no sources.** Check them against published recipes, starting with the dishes users log most.
+- **The 151 drafts have no sources.** Check them against published recipes, starting with the dishes users log most.
 - **Burmese names and spellings** for the 100 dishes added on 2026-11-01 need native review.
 - **Placeholder values:** laphet, ngapi, banana stem, dried shrimp and sugarcane juice.
 - **Proxies** worth replacing: shad for hilsa, surimi for knifefish paste, roselle calyx for leaves, goat for mutton (likely right), brown sugar for jaggery.

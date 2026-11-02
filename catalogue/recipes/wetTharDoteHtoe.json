@@ -1,0 +1,24 @@
+{
+  "id": "wetTharDoteHtoe",
+  "name": { "en": "Pork skewer", "my": "ဝက်သားတုတ်ထိုး" },
+  "aliases": {
+    "roman": ["wet thar dote htoe", "dote htoe", "pork skewers", "pork offal skewers"],
+    "my": ["ဝက်သားတုတ်ထိုး", "တုတ်ထိုး"]
+  },
+  "unit": "piece",
+  "servingG": 20,
+  "servingWeighed": false,
+  "yieldG": 800,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "porkEars", "g": 300 },
+    { "ing": "porkChitterlings", "g": 300 },
+    { "ing": "porkLiver", "g": 200 },
+    { "ing": "porkShoulder", "g": 200 },
+    { "ing": "soySauce", "g": 80, "kept": 0.3, "note": "the broth is left in the pot" },
+    { "ing": "sugar", "g": 20, "kept": 0.3 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-03), from a dish list Gemini suggested; not yet checked against published recipes. One piece = one skewer. The dipping sauce is not counted."
+}

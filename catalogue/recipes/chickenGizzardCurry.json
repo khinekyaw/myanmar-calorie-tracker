@@ -1,0 +1,29 @@
+{
+  "id": "chickenGizzardCurry",
+  "name": { "en": "Chicken gizzard curry", "my": "ကြက်အမြစ်ဟင်း" },
+  "aliases": {
+    "roman": ["kyet a myit hin", "chicken gizzard curry", "gizzard curry"],
+    "my": ["ကြက်အမြစ်ဟင်း", "ကြက်အမြစ်"]
+  },
+  "oilSensitive": true,
+  "unit": "spoon",
+  "servingG": 30,
+  "servingWeighed": false,
+  "yieldG": 1150,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "chickenGizzard", "g": 800 },
+    { "ing": "onion", "g": 250 },
+    { "ing": "garlic", "g": 40 },
+    { "ing": "ginger", "g": 30 },
+    { "ing": "turmeric", "g": 4 },
+    { "ing": "paprika", "g": 8 },
+    { "ing": "peanutOil", "g": 80 },
+    { "ing": "fishSauce", "g": 25 },
+    { "ing": "salt", "g": 6 },
+    { "ing": "water", "g": 400 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-03), from a dish list Gemini suggested; not yet checked against published recipes."
+}

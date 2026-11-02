@@ -1,0 +1,25 @@
+{
+  "id": "mandalayMontDi",
+  "name": { "en": "Mandalay mont di", "my": "မန္တလေးမုန့်တီ" },
+  "aliases": {
+    "roman": ["mandalay mont di", "mandalay mondi", "mandalay mote ti"],
+    "my": ["မန္တလေးမုန့်တီ"]
+  },
+  "oilSensitive": true,
+  "unit": "bowl",
+  "servingG": 300,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "riceNoodlesCooked", "g": 200 },
+    { "dish": "chickenCurry", "g": 60 },
+    { "ing": "chickpeaFlour", "g": 8, "note": "roasted bean powder" },
+    { "ing": "peanutOil", "g": 8, "note": "cooked oil on top" },
+    { "ing": "onion", "g": 15 },
+    { "ing": "limeJuice", "g": 4 },
+    { "ing": "fishSauce", "g": 5 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-03), from a dish list Gemini suggested; not yet checked against published recipes."
+}

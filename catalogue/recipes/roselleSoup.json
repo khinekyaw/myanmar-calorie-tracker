@@ -1,0 +1,27 @@
+{
+  "id": "roselleSoup",
+  "name": { "en": "Roselle soup", "my": "ချဉ်ပေါင်ဟင်းချို" },
+  "aliases": {
+    "roman": ["chin baung hin cho", "roselle soup"],
+    "my": ["ချဉ်ပေါင်ဟင်းချို", "ချဉ်ပေါင်ဟင်း"]
+  },
+  "unit": "bowl",
+  "servingG": 200,
+  "servingWeighed": false,
+  "yieldG": 1450,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "roselle", "g": 150 },
+    { "ing": "bambooShoots", "g": 100 },
+    { "ing": "shrimp", "g": 40 },
+    { "ing": "onion", "g": 40 },
+    { "ing": "garlic", "g": 10 },
+    { "ing": "peanutOil", "g": 10 },
+    { "ing": "fishSauce", "g": 15 },
+    { "ing": "salt", "g": 5 },
+    { "ing": "water", "g": 1200 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-03), from a dish list Gemini suggested; not yet checked against published recipes."
+}

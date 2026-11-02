@@ -1,0 +1,21 @@
+{
+  "id": "pennywortJuice",
+  "name": { "en": "Pennywort juice", "my": "မြင်းခွာရွက်ဖျော်ရည်" },
+  "aliases": {
+    "roman": ["myin khwar ywet phyaw yay", "pennywort juice"],
+    "my": ["မြင်းခွာရွက်ဖျော်ရည်"]
+  },
+  "isVegetarian": true,
+  "unit": "cup",
+  "servingG": 240,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "pennywort", "g": 40, "kept": 0.5, "note": "strained" },
+    { "ing": "sugar", "g": 20 },
+    { "ing": "water", "g": 200 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-03), from a dish list Gemini suggested; not yet checked against published recipes."
+}

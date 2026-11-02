@@ -1,0 +1,26 @@
+{
+  "id": "beinMont",
+  "name": { "en": "Bein mont", "my": "ဘိန်းမုန့်" },
+  "aliases": {
+    "roman": ["bein mont", "bein mote", "poppy seed cake"],
+    "my": ["ဘိန်းမုန့်"]
+  },
+  "isVegetarian": true,
+  "unit": "piece",
+  "servingG": 100,
+  "servingWeighed": false,
+  "yieldG": 1350,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "riceFlour", "g": 500 },
+    { "ing": "water", "g": 600 },
+    { "ing": "brownSugar", "g": 200, "note": "jaggery" },
+    { "ing": "coconutMeat", "g": 120 },
+    { "ing": "poppySeed", "g": 15 },
+    { "ing": "salt", "g": 3 },
+    { "ing": "peanutOil", "g": 40, "kept": 0.8 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-03), from a dish list Gemini suggested; not yet checked against published recipes."
+}

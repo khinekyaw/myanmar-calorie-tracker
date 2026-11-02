@@ -2,8 +2,8 @@
   "id": "rice",
   "name": { "en": "Rice", "my": "ထမင်း" },
   "aliases": {
-    "roman": ["htamin", "hta min", "rice"],
-    "my": ["ထမင်း"]
+    "roman": ["htamin", "hta min", "rice", "paw san hmwe", "pawsan"],
+    "my": ["ထမင်း", "ပေါ်ဆန်းမွှေး", "ပေါ်ဆန်း"]
   },
   "isVegetarian": true,
   "unit": "plate",

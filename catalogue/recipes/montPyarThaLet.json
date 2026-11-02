@@ -1,0 +1,27 @@
+{
+  "id": "montPyarThaLet",
+  "name": { "en": "Rice pancake", "my": "မုန့်ပြားသလက်" },
+  "aliases": {
+    "roman": ["mont pyar tha let", "mote pyar thalet", "rice pancake"],
+    "my": ["မုန့်ပြားသလက်"]
+  },
+  "oilSensitive": true,
+  "isVegetarian": true,
+  "unit": "piece",
+  "servingG": 70,
+  "servingWeighed": false,
+  "yieldG": 1400,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "riceFlour", "g": 500 },
+    { "ing": "water", "g": 700 },
+    { "ing": "peasCooked", "g": 150 },
+    { "ing": "tomato", "g": 100 },
+    { "ing": "onion", "g": 80 },
+    { "ing": "salt", "g": 8 },
+    { "ing": "peanutOil", "g": 80, "kept": 0.8 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-03), from a dish list Gemini suggested; not yet checked against published recipes."
+}

@@ -1,0 +1,26 @@
+{
+  "id": "htatTaYar",
+  "name": { "en": "Layered palata", "my": "ထပ်တစ်ရာ" },
+  "aliases": {
+    "roman": ["htat ta yar", "hta ta ya", "thousand layer palata"],
+    "my": ["ထပ်တစ်ရာ"]
+  },
+  "oilSensitive": true,
+  "isVegetarian": true,
+  "unit": "piece",
+  "servingG": 100,
+  "servingWeighed": false,
+  "yieldG": 1800,
+  "yieldWeighed": false,
+  "lines": [
+    { "ing": "wheatFlour", "g": 1000 },
+    { "ing": "water", "g": 550 },
+    { "ing": "salt", "g": 10 },
+    { "ing": "sugar", "g": 30 },
+    { "ing": "ghee", "g": 100, "note": "between the layers" },
+    { "ing": "peanutOil", "g": 200, "kept": 0.85, "note": "layers and pan" }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Drafted by Claude from general knowledge (2026-11-03), from a dish list Gemini suggested; not yet checked against published recipes."
+}
