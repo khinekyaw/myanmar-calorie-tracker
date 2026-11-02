@@ -11,6 +11,7 @@
     "aliasesMy": [
       "အသုပ်စုံ"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -38,6 +39,7 @@
     "aliasesMy": [
       "ပန်းသီး"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -66,6 +68,7 @@
     "aliasesMy": [
       "ထောပတ်သီးဖျော်ရည်"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -95,6 +98,7 @@
       "ဘာလချောင်",
       "ပုစွန်ခြောက်ကြော်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -125,6 +129,7 @@
       "မျှစ်ဟင်း",
       "မျှစ်ကြော်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -152,6 +157,7 @@
     "aliasesMy": [
       "ငှက်ပျောသီး"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -179,6 +185,7 @@
     "aliasesMy": [
       "ဘယာကြော်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -208,6 +215,7 @@
       "အမဲသားဟင်း",
       "အမဲသားနှပ်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -235,6 +243,7 @@
     "aliasesMy": [
       "ဘီယာ"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -263,6 +272,7 @@
     "aliasesMy": [
       "ဘိန်းမုန့်"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -291,6 +301,7 @@
     "aliasesMy": [
       "ကြက်ဟင်းခါးသီးကြော်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -318,6 +329,7 @@
     "aliasesMy": [
       "ကြက်ဥပြုတ်"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -347,6 +359,7 @@
       "ဟင်းသီးဟင်းရွက်ပြုတ်",
       "အသီးအရွက်ပြုတ်"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -375,6 +388,7 @@
       "ဆန်လုံးညိုထမင်း",
       "ဆန်လုံးညို"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -404,6 +418,7 @@
       "ထောပတ်သကြားပေါင်မုန့်",
       "ပေါင်မုန့်"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -433,6 +448,7 @@
       "ဂေါ်ဖီထုပ်ကြော်",
       "ဂေါ်ဖီကြော်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -460,6 +476,7 @@
     "aliasesMy": [
       "ချပါတီ"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -488,6 +505,7 @@
     "aliasesMy": [
       "ဂေါ်ရခါးသီးကြော်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -517,6 +535,7 @@
       "ကြက်သားဟင်း",
       "ကြက်သားဆီပြန်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -546,6 +565,7 @@
       "ကြက်အမြစ်ဟင်း",
       "ကြက်အမြစ်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -573,6 +593,7 @@
     "aliasesMy": [
       "ကြက်သားအာလူးဟင်း"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -600,6 +621,7 @@
     "aliasesMy": [
       "ကြက်ဆီထမင်း"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -627,6 +649,7 @@
     "aliasesMy": [
       "ကြက်သားသုပ်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -654,6 +677,7 @@
     "aliasesMy": [
       "ကြက်သားဟင်းချို"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -682,6 +706,7 @@
     "aliasesMy": [
       "ဟင်းချို"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -709,6 +734,7 @@
     "aliasesMy": [
       "အုန်းထမင်း"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -736,6 +762,7 @@
     "aliasesMy": [
       "အုန်းရည်"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -763,6 +790,7 @@
     "aliasesMy": [
       "ကော်ဖီ"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": true,
     "isVegetarian": true,
@@ -792,6 +820,7 @@
       "ကော်ဖီမစ်",
       "သရီးအင်ဝမ်း"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -822,6 +851,7 @@
       "ပဲဟင်း",
       "ပဲဟင်းချို"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -851,6 +881,7 @@
       "ဒံပေါက်",
       "ကြက်သားဒံပေါက်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -878,6 +909,7 @@
     "aliasesMy": [
       "ငါးခြောက်ကြော်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -905,6 +937,7 @@
     "aliasesMy": [
       "ဘဲသားဟင်း"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -934,6 +967,7 @@
     "aliasesMy": [
       "အီကြာကွေး"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -962,6 +996,7 @@
       "ကြက်ဥဟင်း",
       "ကြက်ဥဆီပြန်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -990,6 +1025,7 @@
     "aliasesMy": [
       "ပလာတာ"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -1018,6 +1054,7 @@
     "aliasesMy": [
       "ကြက်ဥပလာတာ"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -1047,6 +1084,7 @@
       "ခရမ်းသီးဟင်း",
       "ခရမ်းသီးနှပ်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -1075,6 +1113,7 @@
     "aliasesMy": [
       "ကျောက်ကျော"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -1102,6 +1141,7 @@
     "aliasesMy": [
       "ဖာလူဒါ"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -1130,6 +1170,7 @@
       "ငါးလုံးဟင်းချို",
       "ငါးဖယ်ဟင်းချို"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -1158,6 +1199,7 @@
       "ငါးဖယ်ကြော်",
       "ငါးဖယ်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -1186,6 +1228,7 @@
     "aliasesMy": [
       "ငါးဖယ်သုပ်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -1215,6 +1258,7 @@
       "ငါးဟင်း",
       "ငါးဆီပြန်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -1243,6 +1287,7 @@
       "ကြက်သားကြော်",
       "ကြက်ကြော်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -1271,6 +1316,7 @@
       "ကြက်ဥကြော်",
       "ကြက်ဥမျက်လုံး"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -1298,6 +1344,7 @@
     "aliasesMy": [
       "ငါးကြော်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -1325,6 +1372,7 @@
     "aliasesMy": [
       "ခေါက်ဆွဲကြော်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -1352,6 +1400,7 @@
     "aliasesMy": [
       "ထမင်းကြော်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -1379,6 +1428,7 @@
     "aliasesMy": [
       "ဂျင်းသုပ်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -1408,6 +1458,7 @@
     "aliasesMy": [
       "ကြာဆံသုပ်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -1438,6 +1489,7 @@
     "aliasesMy": [
       "ဘူးသီးကြော်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -1466,6 +1518,7 @@
     "aliasesMy": [
       "ရေနွေးကြမ်း"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -1493,6 +1546,7 @@
     "aliasesMy": [
       "မာလကာသီး"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -1522,6 +1576,7 @@
       "ငါးသလောက်ဟင်း",
       "ငါးသလောက်ပေါင်း"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -1549,6 +1604,7 @@
     "aliasesMy": [
       "ထမင်းသုပ်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -1577,6 +1633,7 @@
     "aliasesMy": [
       "ထပ်တစ်ရာ"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -1605,6 +1662,7 @@
     "aliasesMy": [
       "ကော်ဖီအေး"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": true,
     "isVegetarian": true,
@@ -1636,6 +1694,7 @@
       "မာမား",
       "ခေါက်ဆွဲခြောက်"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -1663,6 +1722,7 @@
     "aliasesMy": [
       "ပိန္နဲသီး"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -1691,6 +1751,7 @@
     "aliasesMy": [
       "ကတ်ကြေးကိုက်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -1718,6 +1779,7 @@
     "aliasesMy": [
       "ကောက်ညှင်းကျည်တောက်"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -1745,6 +1807,7 @@
     "aliasesMy": [
       "ခေါက်ဆွဲသုပ်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -1776,6 +1839,7 @@
       "ကြာဆံဟင်း",
       "ကြာဆံချက်"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -1803,6 +1867,7 @@
     "aliasesMy": [
       "ကြေးအိုး"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -1831,6 +1896,7 @@
       "ဆီချက်ကြေးအိုး",
       "ဆီချက်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -1861,6 +1927,7 @@
       "လက်ဖက်သုပ်",
       "လဘက်သုပ်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -1890,6 +1957,7 @@
     "aliasesMy": [
       "သံပုရာသီးသုပ်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -1920,6 +1988,7 @@
     "aliasesMy": [
       "သံပုရာရည်"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -1948,6 +2017,7 @@
     "aliasesMy": [
       "ပဲတောင့်ရှည်ကြော်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -1976,6 +2046,7 @@
     "aliasesMy": [
       "မန္တလေးမုန့်တီ"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -2004,6 +2075,7 @@
     "aliasesMy": [
       "လိမ္မော်သီး"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -2031,6 +2103,7 @@
     "aliasesMy": [
       "သရက်သီး"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -2060,6 +2133,7 @@
       "သရက်သီးသုပ်",
       "သရက်သီးစိမ်းသုပ်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -2090,6 +2164,7 @@
     "aliasesMy": [
       "မြီးရှည်"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -2119,6 +2194,7 @@
       "ဟင်းသီးဟင်းရွက်ကြော်",
       "အသီးအရွက်ကြော်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -2148,6 +2224,7 @@
     "aliasesMy": [
       "မုန့်ဟင်းခါး"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -2178,6 +2255,7 @@
     "aliasesMy": [
       "မုန့်တီသုပ်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -2206,6 +2284,7 @@
     "aliasesMy": [
       "မုန့်လက်ဆောင်း"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -2234,6 +2313,7 @@
     "aliasesMy": [
       "မုန့်လင်မယား"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -2262,6 +2342,7 @@
     "aliasesMy": [
       "မုန့်ဖက်ထုပ်"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -2290,6 +2371,7 @@
     "aliasesMy": [
       "မုန့်ပြားသလက်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -2318,6 +2400,7 @@
     "aliasesMy": [
       "မုန့်ဆီကြော်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -2345,6 +2428,7 @@
     "aliasesMy": [
       "မုန့်လုံးရေပေါ်"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -2372,6 +2456,7 @@
     "aliasesMy": [
       "မုန့်စိမ်းပေါင်း"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -2400,6 +2485,7 @@
     "aliasesMy": [
       "မှိုကြော်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -2427,6 +2513,7 @@
     "aliasesMy": [
       "မုန်ညင်းချဉ်"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -2455,6 +2542,7 @@
     "aliasesMy": [
       "မုန်ညင်းချဉ်ဟင်းချို"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -2483,6 +2571,7 @@
     "aliasesMy": [
       "ဆိတ်သားဟင်း"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -2512,6 +2601,7 @@
       "ဆိတ်သားလုံးဟင်း",
       "ဆိတ်သားလုံး"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -2540,6 +2630,7 @@
     "aliasesMy": [
       "မြေပဲယို"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -2567,6 +2658,7 @@
     "aliasesMy": [
       "နန်းကြီးသုပ်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -2599,6 +2691,7 @@
       "နံပြား",
       "ပဲပြုတ်"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -2627,6 +2720,7 @@
     "aliasesMy": [
       "ငါးပိရည်"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -2656,6 +2750,7 @@
     "aliasesMy": [
       "အုန်းနို့ခေါက်ဆွဲ"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -2685,6 +2780,7 @@
       "ရုံးပတီသီးကြော်",
       "ရုံးပတီကြော်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -2715,6 +2811,7 @@
       "ကြက်ဥမွှေကြော်",
       "ကြက်ဥခေါက်ကြော်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -2742,6 +2839,7 @@
     "aliasesMy": [
       "ကြက်သွန်ကြော်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -2757,193 +2855,124 @@
     "reviewedBy": null,
     "placeholders": []
   },
-  "panthayKhaukSwe": {
+  "tea": {
     "name": {
-      "en": "Panthay noodles",
-      "my": "ပန်းသေးခေါက်ဆွဲ"
+      "en": "Milk tea",
+      "my": "လက်ဖက်ရည်"
     },
     "aliasesRoman": [
-      "panthay khauk swe",
-      "panthay noodles",
-      "pan thay khao swe"
+      "laphet yay",
+      "lahpet yay",
+      "lephet ye",
+      "laphet ye",
+      "tea",
+      "milk tea"
     ],
     "aliasesMy": [
-      "ပန်းသေးခေါက်ဆွဲ"
+      "လက်ဖက်ရည်",
+      "လဘက်ရည်"
     ],
-    "oilSensitive": true,
-    "hasSweetness": false,
-    "isVegetarian": false,
-    "unit": "bowl",
-    "servingG": 300,
-    "kcal": 520,
-    "carbG": 52.2,
-    "proteinG": 21.4,
-    "fatG": 25.2,
-    "sugarG": 2.7,
-    "sodiumMg": 414,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "papaya": {
-    "name": {
-      "en": "Papaya",
-      "my": "သင်္ဘောသီး"
-    },
-    "aliasesRoman": [
-      "thin baw thee",
-      "papaya"
-    ],
-    "aliasesMy": [
-      "သင်္ဘောသီး"
-    ],
+    "generic": false,
     "oilSensitive": false,
-    "hasSweetness": false,
+    "hasSweetness": true,
     "isVegetarian": true,
-    "unit": "plate",
+    "unit": "cup",
     "servingG": 150,
-    "kcal": 65,
-    "carbG": 16.2,
-    "proteinG": 0.7,
-    "fatG": 0.4,
-    "sugarG": 11.7,
-    "sodiumMg": 12,
+    "kcal": 115,
+    "carbG": 16.4,
+    "proteinG": 3.7,
+    "fatG": 4.1,
+    "sugarG": 16.1,
+    "sodiumMg": 61,
     "status": "draft",
     "reviewedBy": null,
     "placeholders": []
   },
-  "paukSi": {
+  "sugarcaneJuice": {
     "name": {
-      "en": "Steamed bun",
-      "my": "ပေါက်စီ"
+      "en": "Sugarcane juice",
+      "my": "ကြံရည်"
     },
     "aliasesRoman": [
-      "pauk si",
-      "bao",
-      "steamed bun"
+      "kyan yay",
+      "sugarcane juice"
     ],
     "aliasesMy": [
-      "ပေါက်စီ"
+      "ကြံရည်"
     ],
-    "oilSensitive": false,
-    "hasSweetness": false,
-    "isVegetarian": false,
-    "unit": "piece",
-    "servingG": 90,
-    "kcal": 223,
-    "carbG": 31.6,
-    "proteinG": 8.4,
-    "fatG": 6.7,
-    "sugarG": 4.3,
-    "sodiumMg": 80,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "peBoteHtaminKyaw": {
-    "name": {
-      "en": "Fried rice with boiled peas",
-      "my": "ပဲပြုတ်ထမင်းကြော်"
-    },
-    "aliasesRoman": [
-      "pe byote htamin kyaw",
-      "pea fried rice"
-    ],
-    "aliasesMy": [
-      "ပဲပြုတ်ထမင်းကြော်"
-    ],
-    "oilSensitive": true,
-    "hasSweetness": false,
-    "isVegetarian": true,
-    "unit": "plate",
-    "servingG": 342,
-    "kcal": 534,
-    "carbG": 85.5,
-    "proteinG": 11.1,
-    "fatG": 15.8,
-    "sugarG": 2.4,
-    "sodiumMg": 777,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "pennywortJuice": {
-    "name": {
-      "en": "Pennywort juice",
-      "my": "မြင်းခွာရွက်ဖျော်ရည်"
-    },
-    "aliasesRoman": [
-      "myin khwar ywet phyaw yay",
-      "pennywort juice"
-    ],
-    "aliasesMy": [
-      "မြင်းခွာရွက်ဖျော်ရည်"
-    ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
     "unit": "cup",
-    "servingG": 240,
-    "kcal": 80,
-    "carbG": 20.3,
+    "servingG": 250,
+    "kcal": 145,
+    "carbG": 37.5,
     "proteinG": 0.5,
     "fatG": 0,
-    "sugarG": 20,
-    "sodiumMg": 16,
+    "sugarG": 35,
+    "sodiumMg": 25,
     "status": "draft",
     "reviewedBy": null,
-    "placeholders": []
+    "placeholders": [
+      "sugarcaneJuice"
+    ]
   },
-  "pennywortSalad": {
+  "softDrink": {
     "name": {
-      "en": "Pennywort salad",
-      "my": "မြင်းခွာရွက်သုပ်"
+      "en": "Soft drink",
+      "my": "အချိုရည်"
     },
     "aliasesRoman": [
-      "myin khwar ywet thoke",
-      "pennywort salad"
+      "soft drink",
+      "cola",
+      "soda"
     ],
     "aliasesMy": [
-      "မြင်းခွာရွက်သုပ်"
+      "အချိုရည်",
+      "အအေး"
     ],
-    "oilSensitive": true,
-    "hasSweetness": false,
-    "isVegetarian": false,
-    "unit": "plate",
-    "servingG": 140,
-    "kcal": 170,
-    "carbG": 10.4,
-    "proteinG": 5.8,
-    "fatG": 12.7,
-    "sugarG": 3.1,
-    "sodiumMg": 347,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "pineapple": {
-    "name": {
-      "en": "Pineapple",
-      "my": "နာနတ်သီး"
-    },
-    "aliasesRoman": [
-      "na nat thee",
-      "pineapple"
-    ],
-    "aliasesMy": [
-      "နာနတ်သီး"
-    ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
-    "unit": "plate",
-    "servingG": 150,
-    "kcal": 75,
-    "carbG": 19.7,
-    "proteinG": 0.8,
-    "fatG": 0.2,
-    "sugarG": 14.8,
-    "sodiumMg": 2,
+    "unit": "cup",
+    "servingG": 330,
+    "kcal": 139,
+    "carbG": 34.2,
+    "proteinG": 0,
+    "fatG": 0.8,
+    "sugarG": 32.8,
+    "sodiumMg": 10,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "tamarindJuice": {
+    "name": {
+      "en": "Tamarind juice",
+      "my": "မန်ကျည်းဖျော်ရည်"
+    },
+    "aliasesRoman": [
+      "man kyi phyaw yay",
+      "tamarind juice"
+    ],
+    "aliasesMy": [
+      "မန်ကျည်းဖျော်ရည်",
+      "မန်ကျည်းရည်"
+    ],
+    "generic": false,
+    "oilSensitive": false,
+    "hasSweetness": false,
+    "isVegetarian": true,
+    "unit": "cup",
+    "servingG": 250,
+    "kcal": 156,
+    "carbG": 40.5,
+    "proteinG": 0.7,
+    "fatG": 0.1,
+    "sugarG": 34.5,
+    "sodiumMg": 401,
     "status": "draft",
     "reviewedBy": null,
     "placeholders": []
@@ -2961,6 +2990,7 @@
     "aliasesMy": [
       "ဆီးဖျော်ရည်"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -2976,88 +3006,297 @@
     "reviewedBy": null,
     "placeholders": []
   },
-  "pomeloSalad": {
+  "soyMilk": {
     "name": {
-      "en": "Pomelo salad",
-      "my": "ကျွဲကောသီးသုပ်"
+      "en": "Soy milk",
+      "my": "ပဲနို့"
     },
     "aliasesRoman": [
-      "kywe kaw thee thoke",
-      "pomelo salad"
+      "pe no",
+      "soy milk"
     ],
     "aliasesMy": [
-      "ကျွဲကောသီးသုပ်"
+      "ပဲနို့"
     ],
-    "oilSensitive": true,
+    "generic": false,
+    "oilSensitive": false,
     "hasSweetness": false,
-    "isVegetarian": false,
-    "unit": "plate",
-    "servingG": 175,
-    "kcal": 229,
-    "carbG": 18.9,
-    "proteinG": 9.9,
-    "fatG": 13.9,
-    "sugarG": 2.1,
-    "sodiumMg": 697,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": [
-      "driedShrimp"
-    ]
-  },
-  "ponYayGyiPork": {
-    "name": {
-      "en": "Pon yay gyi pork",
-      "my": "ပုံးရည်ကြီးဝက်သား"
-    },
-    "aliasesRoman": [
-      "pone yay gyi wet thar",
-      "pon yay gyi",
-      "bean paste pork"
-    ],
-    "aliasesMy": [
-      "ပုံးရည်ကြီးဝက်သား",
-      "ပုံးရည်ကြီး"
-    ],
-    "oilSensitive": true,
-    "hasSweetness": false,
-    "isVegetarian": false,
-    "unit": "spoon",
-    "servingG": 30,
-    "kcal": 104,
-    "carbG": 2.1,
-    "proteinG": 1.9,
-    "fatG": 9.8,
-    "sugarG": 0.8,
-    "sodiumMg": 140,
+    "isVegetarian": true,
+    "unit": "cup",
+    "servingG": 265,
+    "kcal": 193,
+    "carbG": 30.7,
+    "proteinG": 8.2,
+    "fatG": 4.4,
+    "sugarG": 24.9,
+    "sodiumMg": 128,
     "status": "draft",
     "reviewedBy": null,
     "placeholders": []
   },
-  "porkBambooCurry": {
+  "otherDrink": {
     "name": {
-      "en": "Pork & bamboo shoot curry",
-      "my": "ဝက်သားမျှစ်ချဉ်ဟင်း"
+      "en": "Other sweet drink",
+      "my": "တခြား အချိုရည်"
     },
     "aliasesRoman": [
-      "wet thar myit chin",
-      "pork bamboo shoot"
+      "other drink",
+      "juice",
+      "sweet drink"
     ],
     "aliasesMy": [
-      "ဝက်သားမျှစ်ချဉ်",
-      "ဝက်သားမျှစ်ချဉ်ဟင်း"
+      "ဖျော်ရည်",
+      "အအေး"
     ],
+    "generic": true,
+    "oilSensitive": false,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "cup",
+    "servingG": 240,
+    "kcal": 147,
+    "carbG": 29.7,
+    "proteinG": 2.9,
+    "fatG": 2.4,
+    "sugarG": 25.5,
+    "sodiumMg": 151,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": [
+      "sugarcaneJuice"
+    ]
+  },
+  "prawnCurry": {
+    "name": {
+      "en": "Prawn curry",
+      "my": "ပုစွန်ဆီပြန်"
+    },
+    "aliasesRoman": [
+      "pazun see pyan",
+      "prawn curry",
+      "shrimp curry"
+    ],
+    "aliasesMy": [
+      "ပုစွန်ဟင်း",
+      "ပုစွန်ဆီပြန်"
+    ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
     "unit": "spoon",
     "servingG": 30,
-    "kcal": 60,
+    "kcal": 49,
     "carbG": 1.6,
-    "proteinG": 3.2,
-    "fatG": 4.6,
-    "sugarG": 0.6,
-    "sodiumMg": 121,
+    "proteinG": 3.4,
+    "fatG": 3.3,
+    "sugarG": 0.4,
+    "sodiumMg": 257,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "squidCurry": {
+    "name": {
+      "en": "Squid curry",
+      "my": "ပြည်ကြီးငါးဟင်း"
+    },
+    "aliasesRoman": [
+      "pyi gyi nga hin",
+      "squid curry"
+    ],
+    "aliasesMy": [
+      "ပြည်ကြီးငါးဟင်း",
+      "ပြည်ကြီးငါးဆီပြန်"
+    ],
+    "generic": false,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "spoon",
+    "servingG": 30,
+    "kcal": 52,
+    "carbG": 2,
+    "proteinG": 3.8,
+    "fatG": 3.1,
+    "sugarG": 0.4,
+    "sodiumMg": 137,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "sourSpicyFish": {
+    "name": {
+      "en": "Sour & spicy fish",
+      "my": "ငါးချဉ်စပ်"
+    },
+    "aliasesRoman": [
+      "nga chin sat",
+      "sour spicy fish"
+    ],
+    "aliasesMy": [
+      "ငါးချဉ်စပ်"
+    ],
+    "generic": false,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "spoon",
+    "servingG": 30,
+    "kcal": 37,
+    "carbG": 1.5,
+    "proteinG": 3.6,
+    "fatG": 2,
+    "sugarG": 0.7,
+    "sodiumMg": 104,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "otherFishCurry": {
+    "name": {
+      "en": "Other fish or seafood curry",
+      "my": "တခြား ငါး၊ ပုစွန် ဟင်း"
+    },
+    "aliasesRoman": [
+      "other fish curry",
+      "seafood curry",
+      "nga hin"
+    ],
+    "aliasesMy": [
+      "ငါးဟင်း",
+      "ပုစွန်ဟင်း"
+    ],
+    "generic": true,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "spoon",
+    "servingG": 30,
+    "kcal": 50,
+    "carbG": 1.5,
+    "proteinG": 3.8,
+    "fatG": 3.3,
+    "sugarG": 0.5,
+    "sodiumMg": 145,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "samusa": {
+    "name": {
+      "en": "Samosa",
+      "my": "စမူဆာ"
+    },
+    "aliasesRoman": [
+      "samusa",
+      "samosa",
+      "sa mu sa"
+    ],
+    "aliasesMy": [
+      "စမူဆာ"
+    ],
+    "generic": false,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": true,
+    "unit": "piece",
+    "servingG": 45,
+    "kcal": 132,
+    "carbG": 14.8,
+    "proteinG": 2,
+    "fatG": 7.2,
+    "sugarG": 0.4,
+    "sodiumMg": 114,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "springRoll": {
+    "name": {
+      "en": "Spring roll",
+      "my": "ကော်ပြန့်ကြော်"
+    },
+    "aliasesRoman": [
+      "kaw pyant kyaw",
+      "spring roll",
+      "popiah"
+    ],
+    "aliasesMy": [
+      "ကော်ပြန့်ကြော်",
+      "ကော်ပြန့်"
+    ],
+    "generic": false,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": true,
+    "unit": "piece",
+    "servingG": 40,
+    "kcal": 96,
+    "carbG": 10.3,
+    "proteinG": 1.5,
+    "fatG": 5.6,
+    "sugarG": 0.9,
+    "sodiumMg": 104,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "shanTofuFried": {
+    "name": {
+      "en": "Fried Shan tofu",
+      "my": "ရှမ်းတိုဟူးကြော်"
+    },
+    "aliasesRoman": [
+      "to hu kyaw",
+      "tofu fritter",
+      "shan tofu"
+    ],
+    "aliasesMy": [
+      "တိုဟူးကြော်",
+      "ရှမ်းတိုဟူးကြော်"
+    ],
+    "generic": false,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": true,
+    "unit": "piece",
+    "servingG": 25,
+    "kcal": 46,
+    "carbG": 2.9,
+    "proteinG": 1.1,
+    "fatG": 3.3,
+    "sugarG": 0.5,
+    "sodiumMg": 43,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "otherFriedSnack": {
+    "name": {
+      "en": "Other fried snack",
+      "my": "တခြား အကြော်"
+    },
+    "aliasesRoman": [
+      "other fried snack",
+      "fritter",
+      "a kyaw"
+    ],
+    "aliasesMy": [
+      "အကြော်"
+    ],
+    "generic": true,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "piece",
+    "servingG": 35,
+    "kcal": 103,
+    "carbG": 10.8,
+    "proteinG": 2.2,
+    "fatG": 5.7,
+    "sugarG": 1.3,
+    "sodiumMg": 100,
     "status": "draft",
     "reviewedBy": null,
     "placeholders": []
@@ -3076,6 +3315,7 @@
       "ဝက်သားဟင်း",
       "ဝက်သားဆီပြန်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -3091,91 +3331,906 @@
     "reviewedBy": null,
     "placeholders": []
   },
-  "potatoCurry": {
+  "porkBambooCurry": {
     "name": {
-      "en": "Potato curry",
-      "my": "အာလူးဟင်း"
+      "en": "Pork & bamboo shoot curry",
+      "my": "ဝက်သားမျှစ်ချဉ်ဟင်း"
     },
     "aliasesRoman": [
-      "ar lu hin",
-      "potato curry",
-      "alu"
+      "wet thar myit chin",
+      "pork bamboo shoot"
     ],
     "aliasesMy": [
-      "အာလူးဟင်း",
-      "အာလူးဆီပြန်"
+      "ဝက်သားမျှစ်ချဉ်",
+      "ဝက်သားမျှစ်ချဉ်ဟင်း"
     ],
-    "oilSensitive": true,
-    "hasSweetness": false,
-    "isVegetarian": true,
-    "unit": "spoon",
-    "servingG": 40,
-    "kcal": 48,
-    "carbG": 5.8,
-    "proteinG": 0.8,
-    "fatG": 2.7,
-    "sugarG": 0.6,
-    "sodiumMg": 102,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "prawnBitterGourd": {
-    "name": {
-      "en": "Prawn & bitter gourd",
-      "my": "ပုစွန်ကြက်ဟင်းခါး"
-    },
-    "aliasesRoman": [
-      "pazun kyet hin khar",
-      "prawn bitter gourd"
-    ],
-    "aliasesMy": [
-      "ပုစွန်ကြက်ဟင်းခါး",
-      "ပုစွန်ကြက်ဟင်းခါးသီးကြော်"
-    ],
-    "oilSensitive": true,
-    "hasSweetness": false,
-    "isVegetarian": false,
-    "unit": "spoon",
-    "servingG": 40,
-    "kcal": 40,
-    "carbG": 1.8,
-    "proteinG": 2.4,
-    "fatG": 2.6,
-    "sugarG": 0.2,
-    "sodiumMg": 199,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "prawnCurry": {
-    "name": {
-      "en": "Prawn curry",
-      "my": "ပုစွန်ဆီပြန်"
-    },
-    "aliasesRoman": [
-      "pazun see pyan",
-      "prawn curry",
-      "shrimp curry"
-    ],
-    "aliasesMy": [
-      "ပုစွန်ဟင်း",
-      "ပုစွန်ဆီပြန်"
-    ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
     "unit": "spoon",
     "servingG": 30,
-    "kcal": 49,
+    "kcal": 60,
     "carbG": 1.6,
-    "proteinG": 3.4,
-    "fatG": 3.3,
-    "sugarG": 0.4,
-    "sodiumMg": 257,
+    "proteinG": 3.2,
+    "fatG": 4.6,
+    "sugarG": 0.6,
+    "sodiumMg": 121,
     "status": "draft",
     "reviewedBy": null,
     "placeholders": []
+  },
+  "venisonCurry": {
+    "name": {
+      "en": "Venison curry",
+      "my": "ဆတ်သားဟင်း"
+    },
+    "aliasesRoman": [
+      "sat thar hin",
+      "venison curry",
+      "deer curry"
+    ],
+    "aliasesMy": [
+      "ဆတ်သားဟင်း"
+    ],
+    "generic": false,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "spoon",
+    "servingG": 30,
+    "kcal": 51,
+    "carbG": 1.3,
+    "proteinG": 5.1,
+    "fatG": 2.7,
+    "sugarG": 0.3,
+    "sodiumMg": 129,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "ponYayGyiPork": {
+    "name": {
+      "en": "Pon yay gyi pork",
+      "my": "ပုံးရည်ကြီးဝက်သား"
+    },
+    "aliasesRoman": [
+      "pone yay gyi wet thar",
+      "pon yay gyi",
+      "bean paste pork"
+    ],
+    "aliasesMy": [
+      "ပုံးရည်ကြီးဝက်သား",
+      "ပုံးရည်ကြီး"
+    ],
+    "generic": false,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "spoon",
+    "servingG": 30,
+    "kcal": 104,
+    "carbG": 2.1,
+    "proteinG": 1.9,
+    "fatG": 9.8,
+    "sugarG": 0.8,
+    "sodiumMg": 140,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "otherMeatCurry": {
+    "name": {
+      "en": "Other meat curry",
+      "my": "တခြား အသားဟင်း"
+    },
+    "aliasesRoman": [
+      "other curry",
+      "meat curry",
+      "a tha hin"
+    ],
+    "aliasesMy": [
+      "အသားဟင်း",
+      "ဟင်း"
+    ],
+    "generic": true,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "spoon",
+    "servingG": 30,
+    "kcal": 73,
+    "carbG": 1.6,
+    "proteinG": 3.6,
+    "fatG": 5.8,
+    "sugarG": 0.4,
+    "sodiumMg": 126,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "rakhineMonti": {
+    "name": {
+      "en": "Rakhine mont di",
+      "my": "ရခိုင်မုန့်တီ"
+    },
+    "aliasesRoman": [
+      "rakhine mont di",
+      "rakhine noodles",
+      "arakan mont di"
+    ],
+    "aliasesMy": [
+      "ရခိုင်မုန့်တီ"
+    ],
+    "generic": false,
+    "oilSensitive": false,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "bowl",
+    "servingG": 539,
+    "kcal": 258,
+    "carbG": 45.7,
+    "proteinG": 12.8,
+    "fatG": 2,
+    "sugarG": 0.6,
+    "sodiumMg": 863,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "tohuNway": {
+    "name": {
+      "en": "Warm tofu noodles",
+      "my": "တိုဟူးနွေး"
+    },
+    "aliasesRoman": [
+      "to hu nway",
+      "tohu nway",
+      "warm tofu",
+      "shan tofu porridge"
+    ],
+    "aliasesMy": [
+      "တိုဟူးနွေး",
+      "တိုဟူးနွေးခေါက်ဆွဲ"
+    ],
+    "generic": false,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "bowl",
+    "servingG": 400,
+    "kcal": 463,
+    "carbG": 57.2,
+    "proteinG": 19.5,
+    "fatG": 16.7,
+    "sugarG": 3.6,
+    "sodiumMg": 913,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "panthayKhaukSwe": {
+    "name": {
+      "en": "Panthay noodles",
+      "my": "ပန်းသေးခေါက်ဆွဲ"
+    },
+    "aliasesRoman": [
+      "panthay khauk swe",
+      "panthay noodles",
+      "pan thay khao swe"
+    ],
+    "aliasesMy": [
+      "ပန်းသေးခေါက်ဆွဲ"
+    ],
+    "generic": false,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "bowl",
+    "servingG": 300,
+    "kcal": 520,
+    "carbG": 52.2,
+    "proteinG": 21.4,
+    "fatG": 25.2,
+    "sugarG": 2.7,
+    "sodiumMg": 414,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "otherNoodleSoup": {
+    "name": {
+      "en": "Other noodle soup",
+      "my": "တခြား ခေါက်ဆွဲ ဟင်းရည်"
+    },
+    "aliasesRoman": [
+      "other noodle soup",
+      "noodle soup",
+      "khauk swe"
+    ],
+    "aliasesMy": [
+      "ခေါက်ဆွဲ",
+      "မုန့်"
+    ],
+    "generic": true,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "bowl",
+    "servingG": 475,
+    "kcal": 487,
+    "carbG": 54,
+    "proteinG": 20.2,
+    "fatG": 20.9,
+    "sugarG": 2.7,
+    "sodiumMg": 873,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": [
+      "bananaStem"
+    ]
+  },
+  "otherNoodlesDry": {
+    "name": {
+      "en": "Other noodle dish",
+      "my": "တခြား ခေါက်ဆွဲ"
+    },
+    "aliasesRoman": [
+      "other noodles",
+      "fried noodles",
+      "noodle salad"
+    ],
+    "aliasesMy": [
+      "ခေါက်ဆွဲကြော်",
+      "ခေါက်ဆွဲသုပ်"
+    ],
+    "generic": true,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "plate",
+    "servingG": 320,
+    "kcal": 509,
+    "carbG": 56.7,
+    "proteinG": 15.4,
+    "fatG": 24.6,
+    "sugarG": 3.1,
+    "sodiumMg": 716,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": [
+      "driedShrimp"
+    ]
+  },
+  "peBoteHtaminKyaw": {
+    "name": {
+      "en": "Fried rice with boiled peas",
+      "my": "ပဲပြုတ်ထမင်းကြော်"
+    },
+    "aliasesRoman": [
+      "pe byote htamin kyaw",
+      "pea fried rice"
+    ],
+    "aliasesMy": [
+      "ပဲပြုတ်ထမင်းကြော်"
+    ],
+    "generic": false,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": true,
+    "unit": "plate",
+    "servingG": 342,
+    "kcal": 534,
+    "carbG": 85.5,
+    "proteinG": 11.1,
+    "fatG": 15.8,
+    "sugarG": 2.4,
+    "sodiumMg": 777,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "shanRice": {
+    "name": {
+      "en": "Shan fish rice",
+      "my": "ငါးထမင်းချဉ်"
+    },
+    "aliasesRoman": [
+      "nga htamin chin",
+      "shan rice",
+      "htamin chin"
+    ],
+    "aliasesMy": [
+      "ငါးထမင်းချဉ်",
+      "ထမင်းချဉ်"
+    ],
+    "generic": false,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "plate",
+    "servingG": 302,
+    "kcal": 488,
+    "carbG": 61.4,
+    "proteinG": 15.6,
+    "fatG": 19.6,
+    "sugarG": 0.9,
+    "sodiumMg": 417,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "rice": {
+    "name": {
+      "en": "Rice",
+      "my": "ထမင်း"
+    },
+    "aliasesRoman": [
+      "htamin",
+      "hta min",
+      "rice",
+      "paw san hmwe",
+      "pawsan"
+    ],
+    "aliasesMy": [
+      "ထမင်း",
+      "ပေါ်ဆန်းမွှေး",
+      "ပေါ်ဆန်း"
+    ],
+    "generic": false,
+    "oilSensitive": false,
+    "hasSweetness": false,
+    "isVegetarian": true,
+    "unit": "plate",
+    "servingG": 200,
+    "kcal": 260,
+    "carbG": 57.2,
+    "proteinG": 4.8,
+    "fatG": 0.4,
+    "sugarG": 0,
+    "sodiumMg": 0,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "riceCurry": {
+    "name": {
+      "en": "Rice & chicken curry",
+      "my": "ထမင်း + ကြက်သားဟင်း"
+    },
+    "aliasesRoman": [
+      "htamin hin",
+      "rice and curry",
+      "rice curry",
+      "rice and chicken curry"
+    ],
+    "aliasesMy": [
+      "ထမင်းဟင်း"
+    ],
+    "generic": false,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "plate",
+    "servingG": 475,
+    "kcal": 726,
+    "carbG": 93.6,
+    "proteinG": 25.1,
+    "fatG": 26.7,
+    "sugarG": 2.9,
+    "sodiumMg": 690,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": [
+      "ngapi"
+    ]
+  },
+  "otherRicePlate": {
+    "name": {
+      "en": "Other rice dish",
+      "my": "တခြား ထမင်းဟင်းလျာ"
+    },
+    "aliasesRoman": [
+      "other rice dish",
+      "rice dish",
+      "htamin"
+    ],
+    "aliasesMy": [
+      "ထမင်းကြော်",
+      "ထမင်း"
+    ],
+    "generic": true,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "plate",
+    "servingG": 355,
+    "kcal": 610,
+    "carbG": 86.1,
+    "proteinG": 17,
+    "fatG": 21.2,
+    "sugarG": 2.5,
+    "sodiumMg": 695,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": [
+      "ngapi"
+    ]
+  },
+  "tomatoSalad": {
+    "name": {
+      "en": "Tomato salad",
+      "my": "ခရမ်းချဉ်သီးသုပ်"
+    },
+    "aliasesRoman": [
+      "khayan chin thee thoke",
+      "tomato salad"
+    ],
+    "aliasesMy": [
+      "ခရမ်းချဉ်သီးသုပ်"
+    ],
+    "generic": false,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "plate",
+    "servingG": 210,
+    "kcal": 228,
+    "carbG": 14.8,
+    "proteinG": 5.7,
+    "fatG": 17.6,
+    "sugarG": 6.1,
+    "sodiumMg": 328,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "tofuSalad": {
+    "name": {
+      "en": "Shan tofu salad",
+      "my": "တိုဟူးသုပ်"
+    },
+    "aliasesRoman": [
+      "to hu thoke",
+      "tofu salad"
+    ],
+    "aliasesMy": [
+      "တိုဟူးသုပ်",
+      "ရှမ်းတိုဟူးသုပ်"
+    ],
+    "generic": false,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": true,
+    "unit": "plate",
+    "servingG": 222,
+    "kcal": 280,
+    "carbG": 22.7,
+    "proteinG": 9.8,
+    "fatG": 17.4,
+    "sugarG": 5.1,
+    "sodiumMg": 526,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "samusaThoke": {
+    "name": {
+      "en": "Samosa salad",
+      "my": "စမူဆာသုပ်"
+    },
+    "aliasesRoman": [
+      "samusa thoke",
+      "samosa salad"
+    ],
+    "aliasesMy": [
+      "စမူဆာသုပ်"
+    ],
+    "generic": false,
+    "oilSensitive": false,
+    "hasSweetness": false,
+    "isVegetarian": true,
+    "unit": "plate",
+    "servingG": 261,
+    "kcal": 378,
+    "carbG": 48.3,
+    "proteinG": 9.2,
+    "fatG": 17.2,
+    "sugarG": 3.7,
+    "sodiumMg": 458,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "pennywortSalad": {
+    "name": {
+      "en": "Pennywort salad",
+      "my": "မြင်းခွာရွက်သုပ်"
+    },
+    "aliasesRoman": [
+      "myin khwar ywet thoke",
+      "pennywort salad"
+    ],
+    "aliasesMy": [
+      "မြင်းခွာရွက်သုပ်"
+    ],
+    "generic": false,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "plate",
+    "servingG": 140,
+    "kcal": 170,
+    "carbG": 10.4,
+    "proteinG": 5.8,
+    "fatG": 12.7,
+    "sugarG": 3.1,
+    "sodiumMg": 347,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "pomeloSalad": {
+    "name": {
+      "en": "Pomelo salad",
+      "my": "ကျွဲကောသီးသုပ်"
+    },
+    "aliasesRoman": [
+      "kywe kaw thee thoke",
+      "pomelo salad"
+    ],
+    "aliasesMy": [
+      "ကျွဲကောသီးသုပ်"
+    ],
+    "generic": false,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "plate",
+    "servingG": 175,
+    "kcal": 229,
+    "carbG": 18.9,
+    "proteinG": 9.9,
+    "fatG": 13.9,
+    "sugarG": 2.1,
+    "sodiumMg": 697,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": [
+      "driedShrimp"
+    ]
+  },
+  "otherSalad": {
+    "name": {
+      "en": "Other salad",
+      "my": "တခြား အသုပ်"
+    },
+    "aliasesRoman": [
+      "other salad",
+      "thoke",
+      "salad"
+    ],
+    "aliasesMy": [
+      "အသုပ်"
+    ],
+    "generic": true,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "plate",
+    "servingG": 190,
+    "kcal": 286,
+    "carbG": 22.8,
+    "proteinG": 11.2,
+    "fatG": 17.8,
+    "sugarG": 5.4,
+    "sodiumMg": 598,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": [
+      "driedShrimp",
+      "laphet"
+    ]
+  },
+  "sourSoup": {
+    "name": {
+      "en": "Sour soup",
+      "my": "ချဉ်ရည်ဟင်း"
+    },
+    "aliasesRoman": [
+      "chin yay hin",
+      "sour soup"
+    ],
+    "aliasesMy": [
+      "ချဉ်ရည်ဟင်း",
+      "ချဉ်ရည်"
+    ],
+    "generic": false,
+    "oilSensitive": false,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "bowl",
+    "servingG": 200,
+    "kcal": 37,
+    "carbG": 5.9,
+    "proteinG": 1.7,
+    "fatG": 1.1,
+    "sugarG": 2.1,
+    "sodiumMg": 436,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": [
+      "driedShrimp"
+    ]
+  },
+  "roselleSoup": {
+    "name": {
+      "en": "Roselle soup",
+      "my": "ချဉ်ပေါင်ဟင်းချို"
+    },
+    "aliasesRoman": [
+      "chin baung hin cho",
+      "roselle soup"
+    ],
+    "aliasesMy": [
+      "ချဉ်ပေါင်ဟင်းချို",
+      "ချဉ်ပေါင်ဟင်း"
+    ],
+    "generic": false,
+    "oilSensitive": false,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "bowl",
+    "servingG": 200,
+    "kcal": 35,
+    "carbG": 4.2,
+    "proteinG": 1.6,
+    "fatG": 1.6,
+    "sugarG": 0.7,
+    "sodiumMg": 470,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "waxGourdSoup": {
+    "name": {
+      "en": "Wax gourd soup",
+      "my": "ကျောက်ဖရုံသီးဟင်းချို"
+    },
+    "aliasesRoman": [
+      "kyauk pha yon thee hin cho",
+      "wax gourd soup",
+      "white gourd soup"
+    ],
+    "aliasesMy": [
+      "ကျောက်ဖရုံသီးဟင်းချို"
+    ],
+    "generic": false,
+    "oilSensitive": false,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "bowl",
+    "servingG": 200,
+    "kcal": 15,
+    "carbG": 2.3,
+    "proteinG": 1.4,
+    "fatG": 0.2,
+    "sugarG": 0.1,
+    "sodiumMg": 555,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "otherSoup": {
+    "name": {
+      "en": "Other soup",
+      "my": "တခြား ဟင်းချို"
+    },
+    "aliasesRoman": [
+      "other soup",
+      "soup",
+      "hin cho"
+    ],
+    "aliasesMy": [
+      "ဟင်းချို",
+      "ဟင်းရည်"
+    ],
+    "generic": true,
+    "oilSensitive": false,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "bowl",
+    "servingG": 200,
+    "kcal": 59,
+    "carbG": 6,
+    "proteinG": 3.5,
+    "fatG": 2.5,
+    "sugarG": 0.6,
+    "sodiumMg": 486,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": [
+      "driedShrimp"
+    ]
+  },
+  "sanwinMakin": {
+    "name": {
+      "en": "Sanwin makin",
+      "my": "ဆနွင်းမကင်း"
+    },
+    "aliasesRoman": [
+      "sanwin makin",
+      "sa nwin ma kin"
+    ],
+    "aliasesMy": [
+      "ဆနွင်းမကင်း"
+    ],
+    "generic": false,
+    "oilSensitive": false,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "piece",
+    "servingG": 60,
+    "kcal": 206,
+    "carbG": 27.4,
+    "proteinG": 3.7,
+    "fatG": 9.5,
+    "sugarG": 15.5,
+    "sodiumMg": 72,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "shweJi": {
+    "name": {
+      "en": "Semolina cake",
+      "my": "ရွှေကြည်"
+    },
+    "aliasesRoman": [
+      "shwe gyi",
+      "semolina cake"
+    ],
+    "aliasesMy": [
+      "ရွှေကြည်",
+      "ဆနွင်းရွှေကြည်"
+    ],
+    "generic": false,
+    "oilSensitive": false,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "piece",
+    "servingG": 60,
+    "kcal": 236,
+    "carbG": 30.4,
+    "proteinG": 3.8,
+    "fatG": 11.6,
+    "sugarG": 16,
+    "sodiumMg": 42,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "paukSi": {
+    "name": {
+      "en": "Steamed bun",
+      "my": "ပေါက်စီ"
+    },
+    "aliasesRoman": [
+      "pauk si",
+      "bao",
+      "steamed bun"
+    ],
+    "aliasesMy": [
+      "ပေါက်စီ"
+    ],
+    "generic": false,
+    "oilSensitive": false,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "piece",
+    "servingG": 90,
+    "kcal": 223,
+    "carbG": 31.6,
+    "proteinG": 8.4,
+    "fatG": 6.7,
+    "sugarG": 4.3,
+    "sodiumMg": 80,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "otherSweet": {
+    "name": {
+      "en": "Other snack or sweet",
+      "my": "တခြား မုန့်"
+    },
+    "aliasesRoman": [
+      "other sweet",
+      "other snack",
+      "mont",
+      "dessert"
+    ],
+    "aliasesMy": [
+      "မုန့်",
+      "မုန့်ချို"
+    ],
+    "generic": true,
+    "oilSensitive": false,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "piece",
+    "servingG": 70,
+    "kcal": 201,
+    "carbG": 30.7,
+    "proteinG": 3.9,
+    "fatG": 7.3,
+    "sugarG": 11.4,
+    "sodiumMg": 70,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "waterSpinachFried": {
+    "name": {
+      "en": "Fried water spinach",
+      "my": "ကန်စွန်းရွက်ကြော်"
+    },
+    "aliasesRoman": [
+      "kazun ywet kyaw",
+      "water spinach",
+      "morning glory"
+    ],
+    "aliasesMy": [
+      "ကန်စွန်းရွက်ကြော်",
+      "ကန်စွန်းကြော်"
+    ],
+    "generic": false,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": true,
+    "unit": "spoon",
+    "servingG": 40,
+    "kcal": 50,
+    "carbG": 2.7,
+    "proteinG": 1.6,
+    "fatG": 4.1,
+    "sugarG": 0.1,
+    "sodiumMg": 256,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "roselleFried": {
+    "name": {
+      "en": "Fried roselle leaves",
+      "my": "ချဉ်ပေါင်ကြော်"
+    },
+    "aliasesRoman": [
+      "chin baung kyaw",
+      "roselle",
+      "sour leaf"
+    ],
+    "aliasesMy": [
+      "ချဉ်ပေါင်ကြော်",
+      "ချဉ်ပေါင်ရွက်ကြော်"
+    ],
+    "generic": false,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "spoon",
+    "servingG": 40,
+    "kcal": 70,
+    "carbG": 6,
+    "proteinG": 2,
+    "fatG": 4.7,
+    "sugarG": 0.6,
+    "sodiumMg": 210,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": [
+      "driedShrimp"
+    ]
   },
   "pumpkinCurry": {
     "name": {
@@ -3190,6 +4245,7 @@
       "ရွှေဖရုံသီးဟင်း",
       "ဖရုံသီးဟင်း"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -3207,6 +4263,181 @@
       "driedShrimp"
     ]
   },
+  "potatoCurry": {
+    "name": {
+      "en": "Potato curry",
+      "my": "အာလူးဟင်း"
+    },
+    "aliasesRoman": [
+      "ar lu hin",
+      "potato curry",
+      "alu"
+    ],
+    "aliasesMy": [
+      "အာလူးဟင်း",
+      "အာလူးဆီပြန်"
+    ],
+    "generic": false,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": true,
+    "unit": "spoon",
+    "servingG": 40,
+    "kcal": 48,
+    "carbG": 5.8,
+    "proteinG": 0.8,
+    "fatG": 2.7,
+    "sugarG": 0.6,
+    "sodiumMg": 102,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "otherVegDish": {
+    "name": {
+      "en": "Other vegetable dish",
+      "my": "တခြား ဟင်းသီးဟင်းရွက်"
+    },
+    "aliasesRoman": [
+      "other vegetables",
+      "vegetable dish",
+      "hin thee hin ywet"
+    ],
+    "aliasesMy": [
+      "ဟင်းသီးဟင်းရွက်",
+      "ဟင်းရွက်ကြော်"
+    ],
+    "generic": true,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "spoon",
+    "servingG": 40,
+    "kcal": 48,
+    "carbG": 3.6,
+    "proteinG": 1.2,
+    "fatG": 3.5,
+    "sugarG": 0.8,
+    "sodiumMg": 142,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": [
+      "driedShrimp"
+    ]
+  },
+  "papaya": {
+    "name": {
+      "en": "Papaya",
+      "my": "သင်္ဘောသီး"
+    },
+    "aliasesRoman": [
+      "thin baw thee",
+      "papaya"
+    ],
+    "aliasesMy": [
+      "သင်္ဘောသီး"
+    ],
+    "generic": false,
+    "oilSensitive": false,
+    "hasSweetness": false,
+    "isVegetarian": true,
+    "unit": "plate",
+    "servingG": 150,
+    "kcal": 65,
+    "carbG": 16.2,
+    "proteinG": 0.7,
+    "fatG": 0.4,
+    "sugarG": 11.7,
+    "sodiumMg": 12,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "pennywortJuice": {
+    "name": {
+      "en": "Pennywort juice",
+      "my": "မြင်းခွာရွက်ဖျော်ရည်"
+    },
+    "aliasesRoman": [
+      "myin khwar ywet phyaw yay",
+      "pennywort juice"
+    ],
+    "aliasesMy": [
+      "မြင်းခွာရွက်ဖျော်ရည်"
+    ],
+    "generic": false,
+    "oilSensitive": false,
+    "hasSweetness": false,
+    "isVegetarian": true,
+    "unit": "cup",
+    "servingG": 240,
+    "kcal": 80,
+    "carbG": 20.3,
+    "proteinG": 0.5,
+    "fatG": 0,
+    "sugarG": 20,
+    "sodiumMg": 16,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "pineapple": {
+    "name": {
+      "en": "Pineapple",
+      "my": "နာနတ်သီး"
+    },
+    "aliasesRoman": [
+      "na nat thee",
+      "pineapple"
+    ],
+    "aliasesMy": [
+      "နာနတ်သီး"
+    ],
+    "generic": false,
+    "oilSensitive": false,
+    "hasSweetness": false,
+    "isVegetarian": true,
+    "unit": "plate",
+    "servingG": 150,
+    "kcal": 75,
+    "carbG": 19.7,
+    "proteinG": 0.8,
+    "fatG": 0.2,
+    "sugarG": 14.8,
+    "sodiumMg": 2,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
+  "prawnBitterGourd": {
+    "name": {
+      "en": "Prawn & bitter gourd",
+      "my": "ပုစွန်ကြက်ဟင်းခါး"
+    },
+    "aliasesRoman": [
+      "pazun kyet hin khar",
+      "prawn bitter gourd"
+    ],
+    "aliasesMy": [
+      "ပုစွန်ကြက်ဟင်းခါး",
+      "ပုစွန်ကြက်ဟင်းခါးသီးကြော်"
+    ],
+    "generic": false,
+    "oilSensitive": true,
+    "hasSweetness": false,
+    "isVegetarian": false,
+    "unit": "spoon",
+    "servingG": 40,
+    "kcal": 40,
+    "carbG": 1.8,
+    "proteinG": 2.4,
+    "fatG": 2.6,
+    "sugarG": 0.2,
+    "sodiumMg": 199,
+    "status": "draft",
+    "reviewedBy": null,
+    "placeholders": []
+  },
   "puri": {
     "name": {
       "en": "Puri",
@@ -3219,6 +4450,7 @@
     "aliasesMy": [
       "ပူရီ"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -3247,6 +4479,7 @@
       "ငုံးဥဟင်း",
       "ငုံးဥဆီပြန်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -3258,34 +4491,6 @@
     "fatG": 3.6,
     "sugarG": 0.5,
     "sodiumMg": 110,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "rakhineMonti": {
-    "name": {
-      "en": "Rakhine mont di",
-      "my": "ရခိုင်မုန့်တီ"
-    },
-    "aliasesRoman": [
-      "rakhine mont di",
-      "rakhine noodles",
-      "arakan mont di"
-    ],
-    "aliasesMy": [
-      "ရခိုင်မုန့်တီ"
-    ],
-    "oilSensitive": false,
-    "hasSweetness": false,
-    "isVegetarian": false,
-    "unit": "bowl",
-    "servingG": 539,
-    "kcal": 258,
-    "carbG": 45.7,
-    "proteinG": 12.8,
-    "fatG": 2,
-    "sugarG": 0.6,
-    "sodiumMg": 863,
     "status": "draft",
     "reviewedBy": null,
     "placeholders": []
@@ -3304,6 +4509,7 @@
       "တို့စရာ",
       "အစိမ်းတို့စရာ"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -3315,38 +4521,6 @@
     "fatG": 0.2,
     "sugarG": 1.6,
     "sodiumMg": 7,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "rice": {
-    "name": {
-      "en": "Rice",
-      "my": "ထမင်း"
-    },
-    "aliasesRoman": [
-      "htamin",
-      "hta min",
-      "rice",
-      "paw san hmwe",
-      "pawsan"
-    ],
-    "aliasesMy": [
-      "ထမင်း",
-      "ပေါ်ဆန်းမွှေး",
-      "ပေါ်ဆန်း"
-    ],
-    "oilSensitive": false,
-    "hasSweetness": false,
-    "isVegetarian": true,
-    "unit": "plate",
-    "servingG": 200,
-    "kcal": 260,
-    "carbG": 57.2,
-    "proteinG": 4.8,
-    "fatG": 0.4,
-    "sugarG": 0,
-    "sodiumMg": 0,
     "status": "draft",
     "reviewedBy": null,
     "placeholders": []
@@ -3364,6 +4538,7 @@
     "aliasesMy": [
       "ဆန်ပြုတ်"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -3375,178 +4550,6 @@
     "fatG": 0.2,
     "sugarG": 0,
     "sodiumMg": 377,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "riceCurry": {
-    "name": {
-      "en": "Rice & chicken curry",
-      "my": "ထမင်း + ကြက်သားဟင်း"
-    },
-    "aliasesRoman": [
-      "htamin hin",
-      "rice and curry",
-      "rice curry",
-      "rice and chicken curry"
-    ],
-    "aliasesMy": [
-      "ထမင်းဟင်း"
-    ],
-    "oilSensitive": true,
-    "hasSweetness": false,
-    "isVegetarian": false,
-    "unit": "plate",
-    "servingG": 475,
-    "kcal": 726,
-    "carbG": 93.6,
-    "proteinG": 25.1,
-    "fatG": 26.7,
-    "sugarG": 2.9,
-    "sodiumMg": 690,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": [
-      "ngapi"
-    ]
-  },
-  "roselleFried": {
-    "name": {
-      "en": "Fried roselle leaves",
-      "my": "ချဉ်ပေါင်ကြော်"
-    },
-    "aliasesRoman": [
-      "chin baung kyaw",
-      "roselle",
-      "sour leaf"
-    ],
-    "aliasesMy": [
-      "ချဉ်ပေါင်ကြော်",
-      "ချဉ်ပေါင်ရွက်ကြော်"
-    ],
-    "oilSensitive": true,
-    "hasSweetness": false,
-    "isVegetarian": false,
-    "unit": "spoon",
-    "servingG": 40,
-    "kcal": 70,
-    "carbG": 6,
-    "proteinG": 2,
-    "fatG": 4.7,
-    "sugarG": 0.6,
-    "sodiumMg": 210,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": [
-      "driedShrimp"
-    ]
-  },
-  "roselleSoup": {
-    "name": {
-      "en": "Roselle soup",
-      "my": "ချဉ်ပေါင်ဟင်းချို"
-    },
-    "aliasesRoman": [
-      "chin baung hin cho",
-      "roselle soup"
-    ],
-    "aliasesMy": [
-      "ချဉ်ပေါင်ဟင်းချို",
-      "ချဉ်ပေါင်ဟင်း"
-    ],
-    "oilSensitive": false,
-    "hasSweetness": false,
-    "isVegetarian": false,
-    "unit": "bowl",
-    "servingG": 200,
-    "kcal": 35,
-    "carbG": 4.2,
-    "proteinG": 1.6,
-    "fatG": 1.6,
-    "sugarG": 0.7,
-    "sodiumMg": 470,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "samusa": {
-    "name": {
-      "en": "Samosa",
-      "my": "စမူဆာ"
-    },
-    "aliasesRoman": [
-      "samusa",
-      "samosa",
-      "sa mu sa"
-    ],
-    "aliasesMy": [
-      "စမူဆာ"
-    ],
-    "oilSensitive": true,
-    "hasSweetness": false,
-    "isVegetarian": true,
-    "unit": "piece",
-    "servingG": 45,
-    "kcal": 132,
-    "carbG": 14.8,
-    "proteinG": 2,
-    "fatG": 7.2,
-    "sugarG": 0.4,
-    "sodiumMg": 114,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "samusaThoke": {
-    "name": {
-      "en": "Samosa salad",
-      "my": "စမူဆာသုပ်"
-    },
-    "aliasesRoman": [
-      "samusa thoke",
-      "samosa salad"
-    ],
-    "aliasesMy": [
-      "စမူဆာသုပ်"
-    ],
-    "oilSensitive": false,
-    "hasSweetness": false,
-    "isVegetarian": true,
-    "unit": "plate",
-    "servingG": 261,
-    "kcal": 378,
-    "carbG": 48.3,
-    "proteinG": 9.2,
-    "fatG": 17.2,
-    "sugarG": 3.7,
-    "sodiumMg": 458,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "sanwinMakin": {
-    "name": {
-      "en": "Sanwin makin",
-      "my": "ဆနွင်းမကင်း"
-    },
-    "aliasesRoman": [
-      "sanwin makin",
-      "sa nwin ma kin"
-    ],
-    "aliasesMy": [
-      "ဆနွင်းမကင်း"
-    ],
-    "oilSensitive": false,
-    "hasSweetness": false,
-    "isVegetarian": false,
-    "unit": "piece",
-    "servingG": 60,
-    "kcal": 206,
-    "carbG": 27.4,
-    "proteinG": 3.7,
-    "fatG": 9.5,
-    "sugarG": 15.5,
-    "sodiumMg": 72,
     "status": "draft",
     "reviewedBy": null,
     "placeholders": []
@@ -3563,6 +4566,7 @@
     "aliasesMy": [
       "ရှမ်းခေါက်ဆွဲ"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -3574,92 +4578,6 @@
     "fatG": 23.9,
     "sugarG": 2.3,
     "sodiumMg": 638,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "shanRice": {
-    "name": {
-      "en": "Shan fish rice",
-      "my": "ငါးထမင်းချဉ်"
-    },
-    "aliasesRoman": [
-      "nga htamin chin",
-      "shan rice",
-      "htamin chin"
-    ],
-    "aliasesMy": [
-      "ငါးထမင်းချဉ်",
-      "ထမင်းချဉ်"
-    ],
-    "oilSensitive": true,
-    "hasSweetness": false,
-    "isVegetarian": false,
-    "unit": "plate",
-    "servingG": 302,
-    "kcal": 488,
-    "carbG": 61.4,
-    "proteinG": 15.6,
-    "fatG": 19.6,
-    "sugarG": 0.9,
-    "sodiumMg": 417,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "shanTofuFried": {
-    "name": {
-      "en": "Fried Shan tofu",
-      "my": "ရှမ်းတိုဟူးကြော်"
-    },
-    "aliasesRoman": [
-      "to hu kyaw",
-      "tofu fritter",
-      "shan tofu"
-    ],
-    "aliasesMy": [
-      "တိုဟူးကြော်",
-      "ရှမ်းတိုဟူးကြော်"
-    ],
-    "oilSensitive": true,
-    "hasSweetness": false,
-    "isVegetarian": true,
-    "unit": "piece",
-    "servingG": 25,
-    "kcal": 46,
-    "carbG": 2.9,
-    "proteinG": 1.1,
-    "fatG": 3.3,
-    "sugarG": 0.5,
-    "sodiumMg": 43,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "shweJi": {
-    "name": {
-      "en": "Semolina cake",
-      "my": "ရွှေကြည်"
-    },
-    "aliasesRoman": [
-      "shwe gyi",
-      "semolina cake"
-    ],
-    "aliasesMy": [
-      "ရွှေကြည်",
-      "ဆနွင်းရွှေကြည်"
-    ],
-    "oilSensitive": false,
-    "hasSweetness": false,
-    "isVegetarian": false,
-    "unit": "piece",
-    "servingG": 60,
-    "kcal": 236,
-    "carbG": 30.4,
-    "proteinG": 3.8,
-    "fatG": 11.6,
-    "sugarG": 16,
-    "sodiumMg": 42,
     "status": "draft",
     "reviewedBy": null,
     "placeholders": []
@@ -3677,6 +4595,7 @@
     "aliasesMy": [
       "ရွှေရင်အေး"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -3707,6 +4626,7 @@
       "ဆီချက်ခေါက်ဆွဲ",
       "ဆီချက်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": false,
@@ -3718,176 +4638,6 @@
     "fatG": 23.5,
     "sugarG": 1.1,
     "sodiumMg": 807,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "softDrink": {
-    "name": {
-      "en": "Soft drink",
-      "my": "အချိုရည်"
-    },
-    "aliasesRoman": [
-      "soft drink",
-      "cola",
-      "soda"
-    ],
-    "aliasesMy": [
-      "အချိုရည်",
-      "အအေး"
-    ],
-    "oilSensitive": false,
-    "hasSweetness": false,
-    "isVegetarian": true,
-    "unit": "cup",
-    "servingG": 330,
-    "kcal": 139,
-    "carbG": 34.2,
-    "proteinG": 0,
-    "fatG": 0.8,
-    "sugarG": 32.8,
-    "sodiumMg": 10,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "sourSoup": {
-    "name": {
-      "en": "Sour soup",
-      "my": "ချဉ်ရည်ဟင်း"
-    },
-    "aliasesRoman": [
-      "chin yay hin",
-      "sour soup"
-    ],
-    "aliasesMy": [
-      "ချဉ်ရည်ဟင်း",
-      "ချဉ်ရည်"
-    ],
-    "oilSensitive": false,
-    "hasSweetness": false,
-    "isVegetarian": false,
-    "unit": "bowl",
-    "servingG": 200,
-    "kcal": 37,
-    "carbG": 5.9,
-    "proteinG": 1.7,
-    "fatG": 1.1,
-    "sugarG": 2.1,
-    "sodiumMg": 436,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": [
-      "driedShrimp"
-    ]
-  },
-  "sourSpicyFish": {
-    "name": {
-      "en": "Sour & spicy fish",
-      "my": "ငါးချဉ်စပ်"
-    },
-    "aliasesRoman": [
-      "nga chin sat",
-      "sour spicy fish"
-    ],
-    "aliasesMy": [
-      "ငါးချဉ်စပ်"
-    ],
-    "oilSensitive": true,
-    "hasSweetness": false,
-    "isVegetarian": false,
-    "unit": "spoon",
-    "servingG": 30,
-    "kcal": 37,
-    "carbG": 1.5,
-    "proteinG": 3.6,
-    "fatG": 2,
-    "sugarG": 0.7,
-    "sodiumMg": 104,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "soyMilk": {
-    "name": {
-      "en": "Soy milk",
-      "my": "ပဲနို့"
-    },
-    "aliasesRoman": [
-      "pe no",
-      "soy milk"
-    ],
-    "aliasesMy": [
-      "ပဲနို့"
-    ],
-    "oilSensitive": false,
-    "hasSweetness": false,
-    "isVegetarian": true,
-    "unit": "cup",
-    "servingG": 265,
-    "kcal": 193,
-    "carbG": 30.7,
-    "proteinG": 8.2,
-    "fatG": 4.4,
-    "sugarG": 24.9,
-    "sodiumMg": 128,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "springRoll": {
-    "name": {
-      "en": "Spring roll",
-      "my": "ကော်ပြန့်ကြော်"
-    },
-    "aliasesRoman": [
-      "kaw pyant kyaw",
-      "spring roll",
-      "popiah"
-    ],
-    "aliasesMy": [
-      "ကော်ပြန့်ကြော်",
-      "ကော်ပြန့်"
-    ],
-    "oilSensitive": true,
-    "hasSweetness": false,
-    "isVegetarian": true,
-    "unit": "piece",
-    "servingG": 40,
-    "kcal": 96,
-    "carbG": 10.3,
-    "proteinG": 1.5,
-    "fatG": 5.6,
-    "sugarG": 0.9,
-    "sodiumMg": 104,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "squidCurry": {
-    "name": {
-      "en": "Squid curry",
-      "my": "ပြည်ကြီးငါးဟင်း"
-    },
-    "aliasesRoman": [
-      "pyi gyi nga hin",
-      "squid curry"
-    ],
-    "aliasesMy": [
-      "ပြည်ကြီးငါးဟင်း",
-      "ပြည်ကြီးငါးဆီပြန်"
-    ],
-    "oilSensitive": true,
-    "hasSweetness": false,
-    "isVegetarian": false,
-    "unit": "spoon",
-    "servingG": 30,
-    "kcal": 52,
-    "carbG": 2,
-    "proteinG": 3.8,
-    "fatG": 3.1,
-    "sugarG": 0.4,
-    "sodiumMg": 137,
     "status": "draft",
     "reviewedBy": null,
     "placeholders": []
@@ -3905,6 +4655,7 @@
       "ကောက်ညှင်းပေါင်း",
       "ကောက်ညှင်း"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -3916,95 +4667,6 @@
     "fatG": 5.2,
     "sugarG": 1.6,
     "sodiumMg": 205,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "sugarcaneJuice": {
-    "name": {
-      "en": "Sugarcane juice",
-      "my": "ကြံရည်"
-    },
-    "aliasesRoman": [
-      "kyan yay",
-      "sugarcane juice"
-    ],
-    "aliasesMy": [
-      "ကြံရည်"
-    ],
-    "oilSensitive": false,
-    "hasSweetness": false,
-    "isVegetarian": true,
-    "unit": "cup",
-    "servingG": 250,
-    "kcal": 145,
-    "carbG": 37.5,
-    "proteinG": 0.5,
-    "fatG": 0,
-    "sugarG": 35,
-    "sodiumMg": 25,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": [
-      "sugarcaneJuice"
-    ]
-  },
-  "tamarindJuice": {
-    "name": {
-      "en": "Tamarind juice",
-      "my": "မန်ကျည်းဖျော်ရည်"
-    },
-    "aliasesRoman": [
-      "man kyi phyaw yay",
-      "tamarind juice"
-    ],
-    "aliasesMy": [
-      "မန်ကျည်းဖျော်ရည်",
-      "မန်ကျည်းရည်"
-    ],
-    "oilSensitive": false,
-    "hasSweetness": false,
-    "isVegetarian": true,
-    "unit": "cup",
-    "servingG": 250,
-    "kcal": 156,
-    "carbG": 40.5,
-    "proteinG": 0.7,
-    "fatG": 0.1,
-    "sugarG": 34.5,
-    "sodiumMg": 401,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "tea": {
-    "name": {
-      "en": "Milk tea",
-      "my": "လက်ဖက်ရည်"
-    },
-    "aliasesRoman": [
-      "laphet yay",
-      "lahpet yay",
-      "lephet ye",
-      "laphet ye",
-      "tea",
-      "milk tea"
-    ],
-    "aliasesMy": [
-      "လက်ဖက်ရည်",
-      "လဘက်ရည်"
-    ],
-    "oilSensitive": false,
-    "hasSweetness": true,
-    "isVegetarian": true,
-    "unit": "cup",
-    "servingG": 150,
-    "kcal": 115,
-    "carbG": 16.4,
-    "proteinG": 3.7,
-    "fatG": 4.1,
-    "sugarG": 16.1,
-    "sodiumMg": 61,
     "status": "draft",
     "reviewedBy": null,
     "placeholders": []
@@ -4022,6 +4684,7 @@
     "aliasesMy": [
       "တိုရှည်"
     ],
+    "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -4033,148 +4696,6 @@
     "fatG": 4.4,
     "sugarG": 0,
     "sodiumMg": 250,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "tofuSalad": {
-    "name": {
-      "en": "Shan tofu salad",
-      "my": "တိုဟူးသုပ်"
-    },
-    "aliasesRoman": [
-      "to hu thoke",
-      "tofu salad"
-    ],
-    "aliasesMy": [
-      "တိုဟူးသုပ်",
-      "ရှမ်းတိုဟူးသုပ်"
-    ],
-    "oilSensitive": true,
-    "hasSweetness": false,
-    "isVegetarian": true,
-    "unit": "plate",
-    "servingG": 222,
-    "kcal": 280,
-    "carbG": 22.7,
-    "proteinG": 9.8,
-    "fatG": 17.4,
-    "sugarG": 5.1,
-    "sodiumMg": 526,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "tohuNway": {
-    "name": {
-      "en": "Warm tofu noodles",
-      "my": "တိုဟူးနွေး"
-    },
-    "aliasesRoman": [
-      "to hu nway",
-      "tohu nway",
-      "warm tofu",
-      "shan tofu porridge"
-    ],
-    "aliasesMy": [
-      "တိုဟူးနွေး",
-      "တိုဟူးနွေးခေါက်ဆွဲ"
-    ],
-    "oilSensitive": true,
-    "hasSweetness": false,
-    "isVegetarian": false,
-    "unit": "bowl",
-    "servingG": 400,
-    "kcal": 463,
-    "carbG": 57.2,
-    "proteinG": 19.5,
-    "fatG": 16.7,
-    "sugarG": 3.6,
-    "sodiumMg": 913,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "tomatoSalad": {
-    "name": {
-      "en": "Tomato salad",
-      "my": "ခရမ်းချဉ်သီးသုပ်"
-    },
-    "aliasesRoman": [
-      "khayan chin thee thoke",
-      "tomato salad"
-    ],
-    "aliasesMy": [
-      "ခရမ်းချဉ်သီးသုပ်"
-    ],
-    "oilSensitive": true,
-    "hasSweetness": false,
-    "isVegetarian": false,
-    "unit": "plate",
-    "servingG": 210,
-    "kcal": 228,
-    "carbG": 14.8,
-    "proteinG": 5.7,
-    "fatG": 17.6,
-    "sugarG": 6.1,
-    "sodiumMg": 328,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "venisonCurry": {
-    "name": {
-      "en": "Venison curry",
-      "my": "ဆတ်သားဟင်း"
-    },
-    "aliasesRoman": [
-      "sat thar hin",
-      "venison curry",
-      "deer curry"
-    ],
-    "aliasesMy": [
-      "ဆတ်သားဟင်း"
-    ],
-    "oilSensitive": true,
-    "hasSweetness": false,
-    "isVegetarian": false,
-    "unit": "spoon",
-    "servingG": 30,
-    "kcal": 51,
-    "carbG": 1.3,
-    "proteinG": 5.1,
-    "fatG": 2.7,
-    "sugarG": 0.3,
-    "sodiumMg": 129,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "waterSpinachFried": {
-    "name": {
-      "en": "Fried water spinach",
-      "my": "ကန်စွန်းရွက်ကြော်"
-    },
-    "aliasesRoman": [
-      "kazun ywet kyaw",
-      "water spinach",
-      "morning glory"
-    ],
-    "aliasesMy": [
-      "ကန်စွန်းရွက်ကြော်",
-      "ကန်စွန်းကြော်"
-    ],
-    "oilSensitive": true,
-    "hasSweetness": false,
-    "isVegetarian": true,
-    "unit": "spoon",
-    "servingG": 40,
-    "kcal": 50,
-    "carbG": 2.7,
-    "proteinG": 1.6,
-    "fatG": 4.1,
-    "sugarG": 0.1,
-    "sodiumMg": 256,
     "status": "draft",
     "reviewedBy": null,
     "placeholders": []
@@ -4191,6 +4712,7 @@
     "aliasesMy": [
       "ဖရဲသီး"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": true,
@@ -4202,34 +4724,6 @@
     "fatG": 0.4,
     "sugarG": 15.5,
     "sodiumMg": 3,
-    "status": "draft",
-    "reviewedBy": null,
-    "placeholders": []
-  },
-  "waxGourdSoup": {
-    "name": {
-      "en": "Wax gourd soup",
-      "my": "ကျောက်ဖရုံသီးဟင်းချို"
-    },
-    "aliasesRoman": [
-      "kyauk pha yon thee hin cho",
-      "wax gourd soup",
-      "white gourd soup"
-    ],
-    "aliasesMy": [
-      "ကျောက်ဖရုံသီးဟင်းချို"
-    ],
-    "oilSensitive": false,
-    "hasSweetness": false,
-    "isVegetarian": false,
-    "unit": "bowl",
-    "servingG": 200,
-    "kcal": 15,
-    "carbG": 2.3,
-    "proteinG": 1.4,
-    "fatG": 0.2,
-    "sugarG": 0.1,
-    "sodiumMg": 555,
     "status": "draft",
     "reviewedBy": null,
     "placeholders": []
@@ -4249,6 +4743,7 @@
       "ဝက်သားတုတ်ထိုး",
       "တုတ်ထိုး"
     ],
+    "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
     "isVegetarian": false,

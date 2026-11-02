@@ -49,6 +49,7 @@ function score(dish: Dish, query: string): number {
 export function searchDishes(query: string, limit = 20): Dish[] {
   if (!query.trim()) return [];
   return listDishes()
+    .filter((dish) => !dish.generic)
     .map((dish) => ({ dish, s: score(dish, query.trim()) }))
     .filter((r) => r.s > 0)
     .sort((a, b) => b.s - a.s)

@@ -1,0 +1,26 @@
+{
+  "id": "otherSoup",
+  "name": { "en": "Other soup", "my": "တခြား ဟင်းချို" },
+  "aliases": {
+    "roman": ["other soup", "soup", "hin cho"],
+    "my": ["ဟင်းချို", "ဟင်းရည်"]
+  },
+  "generic": true,
+  "unit": "bowl",
+  "servingG": 200,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "dish": "clearSoup", "g": 100 },
+    { "dish": "chickenSoup", "g": 100 },
+    { "dish": "sourSoup", "g": 100 },
+    { "dish": "fishBallSoup", "g": 100 },
+    { "dish": "roselleSoup", "g": 100 },
+    { "dish": "waxGourdSoup", "g": 100 },
+    { "dish": "mustardSoup", "g": 100 },
+    { "dish": "dalCurry", "g": 100 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Fallback for food not in the catalogue (2026-11-03): equal parts of the dishes listed, served at their average serving weight. Update the list when dishes are added."
+}

@@ -3,9 +3,9 @@ import { useEffect } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
-import { itemMacros, sumMacros, type MealItem } from '@/domain/meal';
+import { itemMacros, itemName, sumMacros, type MealItem } from '@/domain/meal';
 import { formatNumber, formatPlates } from '@/lib/format';
-import { freeSides, getDish, type DishId } from '@/data/dishes';
+import { freeSides, getDish } from '@/data/dishes';
 import { useEntry, useLog } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Chip, Icon, IconButton, Screen, Stepper, Text } from '@/ui';
@@ -47,9 +47,9 @@ export function SharedMealScreen() {
     ...freeSides.filter((d) => !stored.some((i) => i.dishId === d)).map((dishId) => ({ dishId, qty: 0 })),
   ];
 
-  const set = (dishId: DishId, qty: number) => {
-    const exists = stored.some((i) => i.dishId === dishId);
-    draft.setItems(exists ? stored.map((i) => (i.dishId === dishId ? { ...i, qty } : i)) : [...stored, { dishId, qty }]);
+  // By item, not dish: two scanned foods can share an "Other …" type.
+  const set = (item: MealItem, qty: number) => {
+    draft.setItems(stored.includes(item) ? stored.map((i) => (i === item ? { ...i, qty } : i)) : [...stored, { ...item, qty }]);
   };
 
   const rice = items.find((i) => i.dishId === 'rice');
@@ -85,7 +85,7 @@ export function SharedMealScreen() {
               step={0.5}
               max={8}
               display={formatPlates(rice.qty, language) || '0'}
-              onChange={(q) => set('rice', q)}
+              onChange={(q) => set(rice, q)}
               decreaseLabel={`${getDish('rice').name[language]} ${t('result.less')}`}
               increaseLabel={`${getDish('rice').name[language]} ${t('result.more')}`}
             />
@@ -95,12 +95,13 @@ export function SharedMealScreen() {
         <View>
           {dishes.map((item, i) => {
             const dish = getDish(item.dishId);
+            const name = itemName(item, language);
             const off = item.qty === 0;
             return (
-              <View key={item.dishId} style={[s.row, i < dishes.length - 1 && s.divider]}>
+              <View key={item.custom ? `${item.dishId}-${i}` : item.dishId} style={[s.row, i < dishes.length - 1 && s.divider]}>
                 <View style={s.flex}>
                   <Text variant="body" tone={off ? 'subtle' : 'default'}>
-                    {dish.name[language]}
+                    {name}
                   </Text>
                   <Text variant="caption" tone="subtle">
                     {amountLabel(t, dish, item.qty, language)} · {formatNumber(Math.round(itemMacros(item).kcal), language)}
@@ -111,9 +112,9 @@ export function SharedMealScreen() {
                   step={dish.unit === 'spoon' ? 1 : 0.5}
                   max={30}
                   display={formatPlates(item.qty, language) || '0'}
-                  onChange={(q) => set(item.dishId, q)}
-                  decreaseLabel={`${dish.name[language]} ${t('result.less')}`}
-                  increaseLabel={`${dish.name[language]} ${t('result.more')}`}
+                  onChange={(q) => set(item, q)}
+                  decreaseLabel={`${name} ${t('result.less')}`}
+                  increaseLabel={`${name} ${t('result.more')}`}
                 />
               </View>
             );
@@ -126,7 +127,7 @@ export function SharedMealScreen() {
               key={item.dishId}
               label={getDish(item.dishId).name[language]}
               selected={item.qty > 0}
-              onPress={() => set(item.dishId, item.qty > 0 ? 0 : 1)}
+              onPress={() => set(item, item.qty > 0 ? 0 : 1)}
             />
           ))}
           <Chip

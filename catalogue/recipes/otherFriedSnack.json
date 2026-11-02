@@ -1,0 +1,28 @@
+{
+  "id": "otherFriedSnack",
+  "name": { "en": "Other fried snack", "my": "တခြား အကြော်" },
+  "aliases": {
+    "roman": ["other fried snack", "fritter", "a kyaw"],
+    "my": ["အကြော်"]
+  },
+  "generic": true,
+  "oilSensitive": true,
+  "unit": "piece",
+  "servingG": 35,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "dish": "samusa", "g": 100 },
+    { "dish": "springRoll", "g": 100 },
+    { "dish": "bayaKyaw", "g": 100 },
+    { "dish": "gourdFritter", "g": 100 },
+    { "dish": "onionFritter", "g": 100 },
+    { "dish": "eKyaKwe", "g": 100 },
+    { "dish": "shanTofuFried", "g": 100 },
+    { "dish": "fishCakeFried", "g": 100 },
+    { "dish": "montSiKyaw", "g": 100 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Fallback for food not in the catalogue (2026-11-03): equal parts of the dishes listed, served at their average serving weight. Update the list when dishes are added."
+}

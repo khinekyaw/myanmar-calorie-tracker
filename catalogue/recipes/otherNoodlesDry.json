@@ -1,0 +1,24 @@
+{
+  "id": "otherNoodlesDry",
+  "name": { "en": "Other noodle dish", "my": "တခြား ခေါက်ဆွဲ" },
+  "aliases": {
+    "roman": ["other noodles", "fried noodles", "noodle salad"],
+    "my": ["ခေါက်ဆွဲကြော်", "ခေါက်ဆွဲသုပ်"]
+  },
+  "generic": true,
+  "oilSensitive": true,
+  "unit": "plate",
+  "servingG": 320,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "dish": "friedNoodles", "g": 100 },
+    { "dish": "khaoSweThoke", "g": 100 },
+    { "dish": "nanGyiThoke", "g": 100 },
+    { "dish": "montDiThoke", "g": 100 },
+    { "dish": "katKyayKite", "g": 100 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Fallback for food not in the catalogue (2026-11-03): equal parts of the dishes listed, served at their average serving weight. Update the list when dishes are added."
+}

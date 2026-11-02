@@ -280,6 +280,16 @@ The editor used to write every stepper tap straight into the meal (and Search "+
 - **Bottom sheets share one motion** (`ui/BottomSheet.tsx`). Before, each sheet faded and slid in on its own and vanished at once on close. Now they spring in with a small bounce (damping ratio about 0.78), slide out in 170 ms with the scrim fading, and travel their own height, so they appear at once. They reach 48 px below the screen edge so the bounce shows no gap. `BottomSheet` stays mounted until its exit has played. The `AddSheet` route uses `useSheetMotion` and navigates after the exit, Android back included.
 - **`Text hugged`**: Android measures Burmese text narrower than it draws. In content-sized boxes (pills, chips, badges) the last mark was cut at large system font sizes ("ဒီနေ့" lost its dot). End padding and `textBreakStrategy="simple"` didn't help; a trailing no-break space did, so `hugged` adds one after Burmese strings.
 
+## Food not on the list (2026-11-03)
+
+Before, a dish we don't have couldn't be logged: Search ended at "No matches", typing ignored it, and a scan dropped it without a word (or said "No food found"), so the meal counted low.
+- **"Other …" types** (11, `generic` recipes averaging the dishes of a type) are the fallback everywhere: under search results, and as the home of unknown scanned foods. They show *Estimate*. Averages of our own recipes, not new guesses, and they follow the catalogue as it grows.
+- **Scans keep unknown foods** under their own name with the model's estimate per unit of the closest type (`log_items.custom`, synced). Same call, so no extra cost. Estimates are clamped (1,500 kcal per unit at most); without one, the type's numbers are used.
+- **Misses are recorded**: searches still empty after 1.5 s go to `search_misses` with sync; unknown scanned foods are already in `scans.response`. The `catalogue_misses` view counts both, to choose the next dishes from what people eat.
+- Not done: a "type your own calories" field. Most people don't know the number, which is why they use the app.
+- The shared-meal editor now changes items, not dish ids, since two scanned foods can share a type.
+- Fixed: `CATALOGUE_DATE` had been set ahead of the real time (UTC was still 2 November), which would have made phones ignore server dish updates until then.
+
 ## Dish fixes from a second opinion (2026-11-03)
 
 Gemini reviewed the dish list. We took four points, with our own numbers:
@@ -296,6 +306,7 @@ Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, mea
 ## Copy review
 
 All Burmese strings in `src/i18n/locales/my.ts` need native-speaker review. New strings not on the canvas (please check first):
+Batch 17 (food not on the list): `search.notFound` (စာရင်းထဲ မရှိသေးဘူး။ အနီးစပ်ဆုံး ရွေးမယ်), `search.notHere` (မတွေ့ဘူးလား။ အနီးစပ်ဆုံး ရွေးမယ်), and the 11 type names (တခြား အသားဟင်း, တခြား ငါး၊ ပုစွန် ဟင်း, တခြား ဟင်းသီးဟင်းရွက်, တခြား အသုပ်, တခြား ထမင်းဟင်းလျာ, တခြား ခေါက်ဆွဲ ဟင်းရည်, တခြား ခေါက်ဆွဲ, တခြား ဟင်းချို, တခြား အကြော်, တခြား မုန့်, တခြား အချိုရည်).
 Batch 16 (dish names): the Burmese names and spellings of the 36 dishes added on 2026-11-03 (`catalogue/recipes/*.json`), e.g. ကြက်အမြစ်ဟင်း (gizzard), ကောက်ညှင်းကျည်တောက်, မြေပဲယို, ဆီးဖျော်ရည်.
 Batch 15 (units): `units.spoon` (ဟင်းခပ်ဇွန်း), and the names ထမင်း + ကြက်သားဟင်း (rice & chicken curry) and ပူတင်း (egg pudding, a faluda part).
 Batch 14 (weight date): `logWeight.yesterday` (မနေ့က), `logWeight.pickDay` (ရက်ပြောင်းမယ်), `logWeight.earlierMonth` (အရင်လ), `logWeight.laterMonth` (နောက်လ).

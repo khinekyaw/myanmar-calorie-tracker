@@ -1,0 +1,32 @@
+{
+  "id": "otherVegDish",
+  "name": { "en": "Other vegetable dish", "my": "တခြား ဟင်းသီးဟင်းရွက်" },
+  "aliases": {
+    "roman": ["other vegetables", "vegetable dish", "hin thee hin ywet"],
+    "my": ["ဟင်းသီးဟင်းရွက်", "ဟင်းရွက်ကြော်"]
+  },
+  "generic": true,
+  "oilSensitive": true,
+  "unit": "spoon",
+  "servingG": 40,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "dish": "waterSpinachFried", "g": 100 },
+    { "dish": "roselleFried", "g": 100 },
+    { "dish": "cabbageFried", "g": 100 },
+    { "dish": "longBeanFried", "g": 100 },
+    { "dish": "okraFried", "g": 100 },
+    { "dish": "mushroomFried", "g": 100 },
+    { "dish": "bitterGourdFried", "g": 100 },
+    { "dish": "mixedVegFried", "g": 100 },
+    { "dish": "chayoteFried", "g": 100 },
+    { "dish": "eggplantCurry", "g": 100 },
+    { "dish": "pumpkinCurry", "g": 100 },
+    { "dish": "potatoCurry", "g": 100 },
+    { "dish": "bambooShootCurry", "g": 100 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Fallback for food not in the catalogue (2026-11-03): equal parts of the dishes listed, served at their average serving weight. Update the list when dishes are added."
+}

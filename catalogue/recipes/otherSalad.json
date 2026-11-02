@@ -1,0 +1,31 @@
+{
+  "id": "otherSalad",
+  "name": { "en": "Other salad", "my": "တခြား အသုပ်" },
+  "aliases": {
+    "roman": ["other salad", "thoke", "salad"],
+    "my": ["အသုပ်"]
+  },
+  "generic": true,
+  "oilSensitive": true,
+  "unit": "plate",
+  "servingG": 190,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "dish": "aThokeSone", "g": 100 },
+    { "dish": "laphetThoke", "g": 100 },
+    { "dish": "gingerSalad", "g": 100 },
+    { "dish": "tomatoSalad", "g": 100 },
+    { "dish": "tofuSalad", "g": 100 },
+    { "dish": "chickenSalad", "g": 100 },
+    { "dish": "samusaThoke", "g": 100 },
+    { "dish": "lemonSalad", "g": 100 },
+    { "dish": "pennywortSalad", "g": 100 },
+    { "dish": "pomeloSalad", "g": 100 },
+    { "dish": "fishCakeSalad", "g": 100 },
+    { "dish": "mangoSalad", "g": 100 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Fallback for food not in the catalogue (2026-11-03): equal parts of the dishes listed, served at their average serving weight. Update the list when dishes are added."
+}

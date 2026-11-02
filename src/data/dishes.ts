@@ -35,6 +35,8 @@ export type Dish = {
   verified: boolean;
   /** Numbers come from a standard recipe (catalogue/), not a guess. */
   calculated?: boolean;
+  /** "Other meat curry" and the like: the average of a type, for food not in the list. */
+  generic?: boolean;
   /** Removed from the catalogue: old meals still show it, search doesn't. */
   retired?: boolean;
   photo?: PhotoSource;
@@ -78,7 +80,8 @@ export const dishes = Object.fromEntries(
       ...(c.hasSweetness && { hasSweetness: true }),
       ...(c.isVegetarian && { isVegetarian: true }),
       verified: c.status === 'reviewed',
-      calculated: true,
+      // A type's average is an estimate for whatever was eaten, not a recipe.
+      ...(c.generic ? { generic: true } : { calculated: true }),
       ...(dishPhotos[id] !== undefined && { photo: dishPhotos[id] }),
     };
     return [id, dish];
@@ -99,6 +102,28 @@ export function setCatalogue(list: Dish[]) {
 export const getDish = (id: DishId): Dish => catalogue.get(id) ?? dishes[id];
 
 export const listDishes = (): Dish[] => [...catalogue.values()].filter((d) => !d.retired);
+
+/** Most-eaten types first: curries and rice, then noodles, snacks and drinks. */
+const FALLBACK_ORDER = [
+  'otherMeatCurry',
+  'otherFishCurry',
+  'otherVegDish',
+  'otherRicePlate',
+  'otherNoodleSoup',
+  'otherNoodlesDry',
+  'otherSalad',
+  'otherSoup',
+  'otherFriedSnack',
+  'otherSweet',
+  'otherDrink',
+];
+const fallbackRank = (id: string) => (FALLBACK_ORDER.includes(id) ? FALLBACK_ORDER.indexOf(id) : FALLBACK_ORDER.length);
+
+/** The "Other …" dishes, offered when a food isn't in the list. */
+export const fallbackDishes = (): Dish[] =>
+  listDishes()
+    .filter((d) => d.generic)
+    .sort((a, b) => fallbackRank(a.id) - fallbackRank(b.id));
 
 /** Quick re-log chips in the add sheet. */
 export const quickRelog: DishId[] = ['tea', 'palata', 'riceCurry', 'mohinga'];

@@ -18,7 +18,8 @@ describe('toGeminiSchema', () => {
 
   it('uses Gemini types and keeps the property order', () => {
     expect(schema.type).toBe('OBJECT');
-    expect(item.propertyOrdering).toEqual(['dish_id', 'name', 'qty', 'unit', 'confidence']);
+    expect(item.propertyOrdering).toEqual(['dish_id', 'name', 'name_my', 'closest', 'estimate', 'qty', 'unit', 'confidence']);
+    expect(item.properties.estimate).toMatchObject({ type: 'OBJECT', nullable: true });
     expect(item.properties.unit).toEqual({ type: 'STRING', enum: ['plate', 'bowl', 'spoon', 'piece', 'cup'] });
   });
 

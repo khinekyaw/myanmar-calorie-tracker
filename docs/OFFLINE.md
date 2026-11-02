@@ -24,9 +24,11 @@ expo-sqlite  sarai.db
 ├─ food_logs   id (UUID) · eaten_at · source · status (queued|analyzing|done) · photo_path
 │              · is_shared_meal · confidence · candidates (JSON) · remote_photo · updated_at · deleted_at
 ├─ log_items   id · log_id → food_logs · position · dish_id · qty · oil · sweetness
+│              · custom (JSON: name + estimate of a scanned food not on the list)
 ├─ weights     day (YYYY-MM-DD) · weight_lb · waist_in · updated_at · deleted_at
 ├─ dishes      id · data (JSON) · updated_at          ← catalogue, seeded from the bundled list
-├─ outbox      seq · entity (food_log|weight|profile) · entity_id · op (upsert|delete) · created_at
+├─ search_misses  id · query · created_at        ← searches that found nothing; deleted once sent
+├─ outbox      seq · entity (food_log|weight|profile|search_miss) · entity_id · op (upsert|delete) · created_at
 └─ meta        key/value: catalogue_version, samples_v1, sync_user, sync_cursor, profile_updated_at
 
 expo-sqlite/kv-store   settings · onboarding (profile) · plan · premium · scan-quota

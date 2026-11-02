@@ -1,0 +1,24 @@
+{
+  "id": "otherFishCurry",
+  "name": { "en": "Other fish or seafood curry", "my": "တခြား ငါး၊ ပုစွန် ဟင်း" },
+  "aliases": {
+    "roman": ["other fish curry", "seafood curry", "nga hin"],
+    "my": ["ငါးဟင်း", "ပုစွန်ဟင်း"]
+  },
+  "generic": true,
+  "oilSensitive": true,
+  "unit": "spoon",
+  "servingG": 30,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "dish": "fishCurry", "g": 100 },
+    { "dish": "hilsaCurry", "g": 100 },
+    { "dish": "prawnCurry", "g": 100 },
+    { "dish": "squidCurry", "g": 100 },
+    { "dish": "sourSpicyFish", "g": 100 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Fallback for food not in the catalogue (2026-11-03): equal parts of the dishes listed, served at their average serving weight. Update the list when dishes are added."
+}

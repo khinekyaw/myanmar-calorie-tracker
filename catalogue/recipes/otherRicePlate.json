@@ -1,0 +1,27 @@
+{
+  "id": "otherRicePlate",
+  "name": { "en": "Other rice dish", "my": "တခြား ထမင်းဟင်းလျာ" },
+  "aliases": {
+    "roman": ["other rice dish", "rice dish", "htamin"],
+    "my": ["ထမင်းကြော်", "ထမင်း"]
+  },
+  "generic": true,
+  "oilSensitive": true,
+  "unit": "plate",
+  "servingG": 355,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "dish": "friedRice", "g": 100 },
+    { "dish": "peBoteHtaminKyaw", "g": 100 },
+    { "dish": "coconutRice", "g": 100 },
+    { "dish": "chickenRice", "g": 100 },
+    { "dish": "danBauk", "g": 100 },
+    { "dish": "shanRice", "g": 100 },
+    { "dish": "htaminThoke", "g": 100 },
+    { "dish": "riceCurry", "g": 100 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Fallback for food not in the catalogue (2026-11-03): equal parts of the dishes listed, served at their average serving weight. Update the list when dishes are added."
+}

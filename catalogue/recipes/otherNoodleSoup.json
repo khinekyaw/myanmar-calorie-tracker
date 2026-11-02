@@ -1,0 +1,27 @@
+{
+  "id": "otherNoodleSoup",
+  "name": { "en": "Other noodle soup", "my": "တခြား ခေါက်ဆွဲ ဟင်းရည်" },
+  "aliases": {
+    "roman": ["other noodle soup", "noodle soup", "khauk swe"],
+    "my": ["ခေါက်ဆွဲ", "မုန့်"]
+  },
+  "generic": true,
+  "oilSensitive": true,
+  "unit": "bowl",
+  "servingG": 475,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "dish": "mohinga", "g": 100 },
+    { "dish": "ohnNoKhaoSwe", "g": 100 },
+    { "dish": "kyayOh", "g": 100 },
+    { "dish": "meeShay", "g": 100 },
+    { "dish": "rakhineMonti", "g": 100 },
+    { "dish": "kyarzanHinga", "g": 100 },
+    { "dish": "tohuNway", "g": 100 },
+    { "dish": "panthayKhaukSwe", "g": 100 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Fallback for food not in the catalogue (2026-11-03): equal parts of the dishes listed, served at their average serving weight. Update the list when dishes are added."
+}

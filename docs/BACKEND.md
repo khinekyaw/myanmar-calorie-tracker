@@ -18,12 +18,16 @@ migrations/
   20261030120100_sync.sql          sync_push / sync_pull
   20261030120200_scans_passes.sql  free-scan quota, scan log, Premium passes
   20261030120300_storage.sql       meal-photos (private) and dish-photos (public) buckets
+  20261101120000_dish_sugar_sodium.sql  sugar and sodium per dish
+  20261101130000_first_week_scans.sql   more free scans in the first week
+  20261103120000_dish_serving_grams.sql dishes.serving_g
+  20261103130000_food_not_on_the_list.sql  log_items.custom, search_misses, catalogue_misses; sync_push carries both
 seeds/catalogue.sql         dish list, generated from src/data/dishes.ts (recipe-calculated numbers, drafts)
 seeds/dev.sql               local only: logs SMS codes instead of sending them
 functions/scan/             photo → dishes (Claude vision)
 functions/delete-account/   deletes the account, its photos and every row
 functions/_shared/scanContract.ts   answer validation, shared with Jest tests
-tests/database/*.sql        pgTAP: RLS, sync conflicts, paging, quota, passes (54 tests)
+tests/database/*.sql        pgTAP: RLS, sync conflicts, paging, quota, passes, foods not on the list (67 tests)
 ```
 
 ### Tables
@@ -33,12 +37,14 @@ All user tables are keyed by `(user_id, id)` with phone-made ids, carry the phon
 | Table | What | Who writes |
 |---|---|---|
 | `profiles` | onboarding answers, language, Uposatha, last plan targets | the user (via sync) |
-| `food_logs` + `log_items` | meals and their dishes; nutrition is computed from `dishes`, never stored | the user (via sync) |
+| `food_logs` + `log_items` | meals and their dishes; nutrition is computed from `dishes`, never stored, except `log_items.custom`: a scanned food not on the list, with its name and the AI's estimate per unit (`dish_id` is then its "Other …" type) | the user (via sync) |
+| `search_misses` | searches that found nothing; the app can add but not read them | the user (via sync) |
 | `weights` | weight (kg) and waist (cm) per day | the user (via sync) |
 | `dishes` | the catalogue; readable by everyone, retired dishes keep their row | team (Studio / SQL) |
 | `passes` | Premium passes | server only (`grant_pass`) |
 | `scan_quota` | free scans used per Myanmar day; the allowance is 3 in the account's first week, then 1 (`free_scans_per_day`, `FREE_SCANS_FIRST_WEEK` / `FREE_SCANS_PER_DAY`) | server only (`begin_scan`) |
 | `scans` | one row per scanned photo: status, answer, tokens, cost | server only |
+| `catalogue_misses` (view) | what people eat that the list lacks: searches with no result and unknown foods in scan answers, with counts (`select * from catalogue_misses order by people desc`) | read by the team (service role / Studio) |
 
 Users can read and write only their own rows; nobody can grant themselves Premium or scans (tests prove both).
 
@@ -52,7 +58,7 @@ One round trip each, for slow mobile data. Details and the reasons in [OFFLINE.m
 
 1. `begin_scan` (atomic): returns the stored answer if this photo was already scanned; refuses a second request for the same photo while one runs; uses a free scan on the day the photo was **taken** (Myanmar time; queued photos from yesterday use yesterday's scans; older than 2 days counts as today), skipped with an active pass; stops everyone if the day's AI budget is spent.
 2. Photo + catalogue (cached prompt) → the vision model with structured JSON output: Claude (plus the server-side refusal fallback on Sonnet and Opus; Haiku has none) or Gemini, depending on `SCAN_MODEL` (`_shared/vision.ts`).
-3. `parseScanOutput` checks the answer: unknown dishes become `dish_id: null` with a name, units come from the catalogue, numbers are clamped, runner-ups must be real dishes.
+3. `parseScanOutput` checks the answer: unknown dishes become `dish_id: null` with a name (English and Burmese), the closest "Other …" type and the model's estimate for one unit of that type (clamped); units come from the catalogue, numbers are clamped, runner-ups must be real dishes.
 4. `finish_scan` stores the answer and cost; a failure **gives the free scan back**.
 
 Answers: `200 { scan, scans_left }` · `402` no free scans · `404` photo not uploaded · `409` already scanning · `502` failed (retry) · `503` not configured or over budget.

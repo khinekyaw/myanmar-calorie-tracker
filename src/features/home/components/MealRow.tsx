@@ -3,7 +3,7 @@ import { router } from 'expo-router';
 import { ActivityIndicator, Pressable, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
-import { carbsToRicePlates, sumMacros } from '@/domain/meal';
+import { carbsToRicePlates, itemName, sumMacros } from '@/domain/meal';
 import { formatNumber, formatPlates, formatTime } from '@/lib/format';
 import { getDish } from '@/data/dishes';
 import type { LogEntry } from '@/store/log';
@@ -61,7 +61,7 @@ export function MealRow({ entry }: { entry: LogEntry }) {
   }
 
   const m = sumMacros(entry.items);
-  const names = entry.items.filter((i) => i.qty > 0).map((i) => getDish(i.dishId).name[language]);
+  const names = entry.items.filter((i) => i.qty > 0).map((i) => itemName(i, language));
   const title = names.length > 2 ? `${names.slice(0, 2).join(', ')} +${names.length - 2}` : names.join(', ');
 
   return (

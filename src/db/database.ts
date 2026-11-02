@@ -63,6 +63,15 @@ const MIGRATIONS: string[] = [
   `
   ALTER TABLE food_logs ADD COLUMN remote_photo TEXT;
   `,
+  // 3 — foods not on the list (JSON: name + estimated numbers) and searches that found nothing
+  `
+  ALTER TABLE log_items ADD COLUMN custom TEXT;
+  CREATE TABLE search_misses (
+    id TEXT PRIMARY KEY NOT NULL,
+    query TEXT NOT NULL,
+    created_at TEXT NOT NULL
+  );
+  `,
 ];
 
 function migrate() {
@@ -91,8 +100,11 @@ export function newId(): string {
   });
 }
 
-/** `profile` has one row ("me"): onboarding answers, preferences and plan. */
-export type Entity = 'food_log' | 'weight' | 'profile';
+/**
+ * `profile` has one row ("me"): onboarding answers, preferences and plan.
+ * `search_miss` rows are sent once and then deleted (db/searchMisses.ts).
+ */
+export type Entity = 'food_log' | 'weight' | 'profile' | 'search_miss';
 
 const outboxListeners = new Set<() => void>();
 

@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FlatList, KeyboardAvoidingView, Pressable, TextInput, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
@@ -7,7 +7,8 @@ import { itemMacros, sumMacros, SWEETNESS, type MealItem, type Sweetness } from 
 import { popularDishes, searchDishes } from '@/domain/search';
 import { tap } from '@/lib/haptics';
 import { formatNumber, formatPlates } from '@/lib/format';
-import { getDish, type Dish, type DishId } from '@/data/dishes';
+import { fallbackDishes, getDish, type Dish, type DishId } from '@/data/dishes';
+import { recordSearchMiss } from '@/db/searchMisses';
 import { useLog } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Chip, EdgeScrollView, FadeEdge, Icon, IconButton, Screen, Stepper, Text } from '@/ui';
@@ -22,6 +23,8 @@ import { useMealDraft } from './mealDraft';
  * dishes stay as chips under the field while you search for the next one,
  * and one button logs each as its own entry.
  * With `?addTo=<entryId>` they go into that meal's unsaved draft (SharedMeal "+").
+ * Under the results of a typed search come the "Other …" types, for food not
+ * on the list; searches that find nothing are recorded (db/searchMisses.ts).
  */
 export function FoodSearchScreen() {
   const { addTo } = useLocalSearchParams<{ addTo?: string }>();
@@ -36,8 +39,18 @@ export function FoodSearchScreen() {
   const [query, setQuery] = useState('');
   const [picked, setPicked] = useState<MealItem[]>([]);
 
-  const results: Dish[] = query.trim() ? searchDishes(query) : popularDishes.map(getDish);
+  const typed = query.trim();
+  const matches: Dish[] = typed ? searchDishes(typed) : popularDishes.map(getDish);
+  const results = typed ? [...matches, ...fallbackDishes()] : matches;
   const total = sumMacros(picked).kcal;
+
+  // A search that still finds nothing after a pause is a dish to add next.
+  const missed = typed && !matches.length ? typed : '';
+  useEffect(() => {
+    if (!missed) return;
+    const timer = setTimeout(() => recordSearchMiss(missed), MISS_PAUSE_MS);
+    return () => clearTimeout(timer);
+  }, [missed]);
 
   const toggle = (dish: Dish) => {
     tap();
@@ -127,15 +140,10 @@ export function FoodSearchScreen() {
             keyExtractor={(d) => d.id}
             keyboardShouldPersistTaps="handled"
             contentContainerStyle={s.list}
-            ListEmptyComponent={
-              <Text variant="body" tone="muted" align="center" style={s.empty}>
-                {t('search.empty')}
-              </Text>
-            }
-            renderItem={({ item: dish }) => {
+            renderItem={({ item: dish, index }) => {
               const item = picked.find((i) => i.dishId === dish.id);
               const other = language === 'my' ? dish.name.en : dish.name.my;
-              return (
+              const row = (
                 // New key when picked: Android must mount the row with its fill to round it (shape rules).
                 <View key={item ? 'picked' : 'idle'} style={[s.result, item && s.resultPicked]}>
                   <Pressable
@@ -188,6 +196,16 @@ export function FoodSearchScreen() {
                   )}
                 </View>
               );
+              if (index !== matches.length || !typed) return row;
+              // The first "Other …" type gets a heading.
+              return (
+                <View>
+                  <Text variant="label" tone="muted" style={[s.otherHeading, index === 0 && s.otherHeadingFirst]}>
+                    {t(matches.length ? 'search.notHere' : 'search.notFound')}
+                  </Text>
+                  {row}
+                </View>
+              );
             }}
           />
           {/* Results fade out under the search field, chips and Add button instead of being cut. */}
@@ -198,6 +216,9 @@ export function FoodSearchScreen() {
     </KeyboardAvoidingView>
   );
 }
+
+/** How long a search must sit with no results before it counts as a miss. */
+const MISS_PAUSE_MS = 1500;
 
 const useStyles = makeStyles(({ theme, type }) => ({
   fill: { flex: 1, backgroundColor: theme.colors.background },
@@ -226,7 +247,8 @@ const useStyles = makeStyles(({ theme, type }) => ({
   },
   // Padding ≥ FadeEdge height, so the fades cover nothing until the list scrolls.
   list: { paddingTop: theme.space.xxl, paddingBottom: theme.space.xxxl, gap: theme.space.xs },
-  empty: { marginTop: theme.space.xxxl },
+  otherHeading: { paddingHorizontal: theme.space.md, marginTop: theme.space.xl, marginBottom: theme.space.sm },
+  otherHeadingFirst: { marginTop: 0 },
   result: { borderRadius: theme.radius.lg },
   resultPicked: { backgroundColor: theme.colors.surface },
   pickedBar: { marginTop: theme.space.md },

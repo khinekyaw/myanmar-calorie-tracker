@@ -103,6 +103,12 @@ The first 15 recipes were drafted by Claude from general knowledge, with no sour
 
 The **biggest error is portion size**. Weigh real servings: a serving spoon of curry, a shop's palata, a curry-shop plate. Then set `servingWeighed` / `yieldWeighed`.
 
+## What's missing (food not on the list)
+
+- **Fallback types:** 11 "Other …" dishes (`"generic": true`, ids `other…`): meat curry, fish or seafood curry, vegetable dish, salad, rice dish, noodle soup, noodle dish, soup, fried snack, snack or sweet, sweet drink. Each is equal parts of the dishes of that type, at their average serving weight, so it moves with them. They show *Estimate* (server `dishes.source = 'generic'`), stay out of plain search results, and are listed under the results as *Not here? Pick the closest type*. Add a new dish to its type's recipe.
+- **Scans:** a food not on the list is kept under its closest type with the AI's own estimate (`log_items.custom`).
+- **What to add next:** `catalogue_misses` on the server counts searches that found nothing (sent with sync) and unknown foods in scan answers. Check it before choosing the next dishes.
+
 ## Not done yet
 
 - **Sugar and sodium** reach the phone and server dish catalogue, but not logged meals (`log_items`), and no screen shows them.

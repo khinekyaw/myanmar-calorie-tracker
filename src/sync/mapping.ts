@@ -1,3 +1,4 @@
+import type { CustomFood } from '@/domain/meal';
 import type { Sex, Workday } from '@/domain/nutrition';
 import { PACES, type Goal, type Pace } from '@/domain/plan';
 import { ftInToCm, kgToLb, lbToKg } from '@/domain/units';
@@ -75,7 +76,44 @@ export type LocalLogRow = {
   deleted_at: string | null;
 };
 
-export type LocalItemRow = { dish_id: string; qty: number; oil: string | null; sweetness: string | null };
+export type LocalItemRow = {
+  dish_id: string;
+  qty: number;
+  oil: string | null;
+  sweetness: string | null;
+  /** JSON text: CustomFood (domain/meal.ts) */
+  custom: string | null;
+};
+
+/** A food not on the list, per unit (server `log_items.custom`). */
+export type ServerCustom = {
+  name_en: string;
+  name_my: string;
+  kcal: number;
+  carb_g: number;
+  protein_g: number;
+  fat_g: number;
+};
+
+export type ServerItem = Omit<LocalItemRow, 'custom'> & { custom?: ServerCustom | null };
+
+const customToServer = (json: string | null): ServerCustom | null => {
+  if (!json) return null;
+  const c = JSON.parse(json) as CustomFood;
+  return { name_en: c.name.en, name_my: c.name.my, kcal: c.kcal, carb_g: c.carbG, protein_g: c.proteinG, fat_g: c.fatG };
+};
+
+const customFromServer = (c: ServerCustom | null | undefined): string | null => {
+  if (!c) return null;
+  const food: CustomFood = {
+    name: { en: c.name_en, my: c.name_my },
+    kcal: Number(c.kcal),
+    carbG: Number(c.carb_g),
+    proteinG: Number(c.protein_g),
+    fatG: Number(c.fat_g),
+  };
+  return JSON.stringify(food);
+};
 
 export type ServerLog = {
   id: string;
@@ -88,7 +126,7 @@ export type ServerLog = {
   candidates: unknown[] | null;
   updated_at: string;
   deleted_at: string | null;
-  items: LocalItemRow[];
+  items: ServerItem[];
 };
 
 /**
@@ -109,7 +147,13 @@ export function logToServer(row: LocalLogRow, items: LocalItemRow[]): ServerLog 
     candidates: row.candidates ? (JSON.parse(row.candidates) as unknown[]) : null,
     updated_at: row.updated_at,
     deleted_at: row.deleted_at,
-    items: items.map((i) => ({ dish_id: i.dish_id, qty: i.qty, oil: i.oil, sweetness: i.sweetness })),
+    items: items.map((i) => ({
+      dish_id: i.dish_id,
+      qty: i.qty,
+      oil: i.oil,
+      sweetness: i.sweetness,
+      custom: customToServer(i.custom),
+    })),
   };
 }
 
@@ -127,7 +171,13 @@ export function logFromServer(s: ServerLog): { row: LocalLogRow; items: LocalIte
       updated_at: s.updated_at,
       deleted_at: s.deleted_at,
     },
-    items: s.items.map((i) => ({ dish_id: i.dish_id, qty: Number(i.qty), oil: i.oil, sweetness: i.sweetness })),
+    items: s.items.map((i) => ({
+      dish_id: i.dish_id,
+      qty: Number(i.qty),
+      oil: i.oil,
+      sweetness: i.sweetness,
+      custom: customFromServer(i.custom),
+    })),
   };
 }
 
@@ -262,6 +312,8 @@ export type ServerDish = {
 
 /** `dishes.source` for numbers from the recipe calculation (docs/CATALOGUE.md). */
 export const RECIPE_SOURCE = 'recipe';
+/** `dishes.source` for the "Other …" fallbacks: a type's average, shown as an estimate. */
+export const GENERIC_SOURCE = 'generic';
 
 /** A catalogue dish as the app uses it (photos stay bundled, matched by id). */
 export function dishFromServer(d: ServerDish): Dish {
@@ -284,6 +336,7 @@ export function dishFromServer(d: ServerDish): Dish {
     ...(d.is_vegetarian && { isVegetarian: true }),
     verified: d.verified_at !== null,
     ...(d.source === RECIPE_SOURCE && { calculated: true }),
+    ...(d.source === GENERIC_SOURCE && { generic: true }),
     ...(d.deleted_at !== null && { retired: true }),
   };
 }

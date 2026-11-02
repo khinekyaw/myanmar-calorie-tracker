@@ -43,6 +43,11 @@ export type Recipe = {
   name: { en: string; my: string };
   /** Other spellings people type or say: romanized, and other Burmese spellings. */
   aliases?: { roman: string[]; my: string[] };
+  /**
+   * "Other meat curry" and the like: the average of a type of dish, for food
+   * not in the catalogue. Shown as an estimate, never in plain search results.
+   */
+  generic?: boolean;
   /** Curries and fried food: the user can set oil less / normal / more. */
   oilSensitive?: boolean;
   /** Tea-shop drinks: the user picks the sweetness. */
@@ -256,6 +261,7 @@ export function catalogueJson(results: Map<string, DishResult>) {
       name: r.recipe.name,
       aliasesRoman: r.recipe.aliases?.roman ?? [],
       aliasesMy: r.recipe.aliases?.my ?? [],
+      generic: Boolean(r.recipe.generic),
       oilSensitive: Boolean(r.recipe.oilSensitive),
       hasSweetness: Boolean(r.recipe.hasSweetness),
       isVegetarian: Boolean(r.recipe.isVegetarian),

@@ -11,13 +11,22 @@
 export const UNITS = ['plate', 'bowl', 'spoon', 'piece', 'cup'] as const;
 export type Unit = (typeof UNITS)[number];
 
-export type CatalogueDish = { id: string; name_my: string; name_en: string; unit: Unit };
+/** `generic`: an "Other …" type (dishes.source = 'generic'), only for foods not in the catalogue. */
+export type CatalogueDish = { id: string; name_my: string; name_en: string; unit: Unit; generic?: boolean };
+
+/** Estimated numbers for ONE unit of a food that isn't in the catalogue. */
+export type Estimate = { kcal: number; carb_g: number; protein_g: number; fat_g: number };
 
 export type ScanItem = {
   /** Catalogue id, or null when the food isn't in the catalogue. */
   dish_id: string | null;
-  /** What the model saw, for foods outside the catalogue. */
+  /** What the model saw, for foods outside the catalogue (English). */
   name?: string;
+  /** The same in Burmese, when the model knows it. */
+  name_my?: string;
+  /** Foods outside the catalogue: the closest "Other …" type, whose unit `qty` counts. */
+  closest?: string;
+  estimate?: Estimate;
   qty: number;
   unit: Unit;
   confidence: number;
@@ -46,10 +55,28 @@ export const SCAN_OUTPUT_SCHEMA = {
       items: {
         type: 'object',
         additionalProperties: false,
-        required: ['dish_id', 'name', 'qty', 'unit', 'confidence'],
+        required: ['dish_id', 'name', 'name_my', 'closest', 'estimate', 'qty', 'unit', 'confidence'],
         properties: {
           dish_id: { anyOf: [{ type: 'string' }, { type: 'null' }] },
           name: { type: 'string' },
+          name_my: { type: 'string' },
+          closest: { anyOf: [{ type: 'string' }, { type: 'null' }] },
+          estimate: {
+            anyOf: [
+              {
+                type: 'object',
+                additionalProperties: false,
+                required: ['kcal', 'carb_g', 'protein_g', 'fat_g'],
+                properties: {
+                  kcal: { type: 'number' },
+                  carb_g: { type: 'number' },
+                  protein_g: { type: 'number' },
+                  fat_g: { type: 'number' },
+                },
+              },
+              { type: 'null' },
+            ],
+          },
           qty: { type: 'number' },
           unit: { type: 'string', enum: [...UNITS] },
           confidence: { type: 'number' },
@@ -85,11 +112,31 @@ const finite = (v: unknown): v is number => typeof v === 'number' && Number.isFi
 /** Rice comes in half plates; everything else in halves too, at least ½. */
 const roundQty = (qty: number) => Math.round(clamp(qty, 0, MAX_QTY) * 2) / 2;
 
+/** Upper bounds for one unit, so a wild guess can't wreck someone's day. */
+const ESTIMATE_MAX: Estimate = { kcal: 1500, carb_g: 250, protein_g: 120, fat_g: 120 };
+const round1 = (n: number) => Math.round(n * 10) / 10;
+
+function parseEstimate(v: unknown): Estimate | undefined {
+  if (!isRecord(v)) return undefined;
+  const keys = Object.keys(ESTIMATE_MAX) as (keyof Estimate)[];
+  if (!keys.every((k) => finite(v[k]))) return undefined;
+  const e = Object.fromEntries(keys.map((k) => [k, round1(clamp(v[k] as number, 0, ESTIMATE_MAX[k]))])) as Estimate;
+  return e.kcal > 0 ? e : undefined;
+}
+
+/** The "Other …" type for an unknown food: the model's pick, or the first of the same unit. */
+function closestType(v: unknown, unit: unknown, catalogue: Map<string, CatalogueDish>): CatalogueDish | undefined {
+  const picked = typeof v === 'string' ? catalogue.get(v) : undefined;
+  if (picked?.generic) return picked;
+  const types = [...catalogue.values()].filter((d) => d.generic);
+  return types.find((d) => d.unit === unit) ?? types[0];
+}
+
 /**
  * Validate the model's answer. Unknown dish ids become `dish_id: null` (the
- * name is kept), units are taken from the catalogue (the numbers are per
- * catalogue unit), and numbers are clamped. Throws ScanContractError when the
- * answer isn't usable at all.
+ * name is kept, with the closest "Other …" type and the estimate), units are
+ * taken from the catalogue (the numbers are per catalogue unit), and numbers
+ * are clamped. Throws ScanContractError when the answer isn't usable at all.
  */
 export function parseScanOutput(raw: unknown, catalogue: Map<string, CatalogueDish>): ScanResponse {
   if (!isRecord(raw) || typeof raw.shared_table !== 'boolean' || !Array.isArray(raw.items)) {
@@ -99,15 +146,26 @@ export function parseScanOutput(raw: unknown, catalogue: Map<string, CatalogueDi
   const items: ScanItem[] = [];
   for (const it of raw.items.slice(0, MAX_ITEMS)) {
     if (!isRecord(it) || !finite(it.qty) || !finite(it.confidence)) continue;
-    const dish = typeof it.dish_id === 'string' ? catalogue.get(it.dish_id) : undefined;
+    const found = typeof it.dish_id === 'string' ? catalogue.get(it.dish_id) : undefined;
+    // An "Other …" type given as the dish means the food isn't in the catalogue.
+    const dish = found?.generic ? undefined : found;
     const name = typeof it.name === 'string' ? it.name.trim().slice(0, 80) : '';
     if (!dish && !name) continue;
-    const unit = dish?.unit ?? (UNITS.includes(it.unit as Unit) ? (it.unit as Unit) : 'piece');
+    if (dish) {
+      items.push({ dish_id: dish.id, qty: roundQty(it.qty), unit: dish.unit, confidence: clamp(it.confidence, 0, 1) });
+      continue;
+    }
+    const type = closestType(found?.id ?? it.closest, it.unit, catalogue);
+    const nameMy = typeof it.name_my === 'string' ? it.name_my.trim().slice(0, 80) : '';
+    const estimate = parseEstimate(it.estimate);
     items.push({
-      dish_id: dish?.id ?? null,
-      ...(!dish && { name }),
+      dish_id: null,
+      name,
+      ...(nameMy && { name_my: nameMy }),
+      ...(type && { closest: type.id }),
+      ...(estimate && { estimate }),
       qty: roundQty(it.qty),
-      unit,
+      unit: type?.unit ?? (UNITS.includes(it.unit as Unit) ? (it.unit as Unit) : 'piece'),
       confidence: clamp(it.confidence, 0, 1),
     });
   }
@@ -136,10 +194,17 @@ export function parseScanOutput(raw: unknown, catalogue: Map<string, CatalogueDi
   };
 }
 
-/** One line per dish for the prompt: "id | Burmese | English | unit". */
+/**
+ * The catalogue for the prompt, one line per dish ("id | Burmese | English |
+ * unit"), then the "Other …" types for foods not in it.
+ */
 export function catalogueLines(dishes: CatalogueDish[]): string {
-  return [...dishes]
-    .sort((a, b) => a.id.localeCompare(b.id))
-    .map((d) => `${d.id} | ${d.name_my} | ${d.name_en} | ${d.unit}`)
-    .join('\n');
+  const line = (d: CatalogueDish) => `${d.id} | ${d.name_my} | ${d.name_en} | ${d.unit}`;
+  const sorted = [...dishes].sort((a, b) => a.id.localeCompare(b.id));
+  return [
+    ...sorted.filter((d) => !d.generic).map(line),
+    '',
+    'Types for food not in the catalogue (use only in "closest"):',
+    ...sorted.filter((d) => d.generic).map(line),
+  ].join('\n');
 }

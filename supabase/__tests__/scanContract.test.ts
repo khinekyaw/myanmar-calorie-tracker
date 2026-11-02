@@ -6,6 +6,8 @@ const catalogue = new Map<string, CatalogueDish>(
     { id: 'chickenCurry', name_my: 'ကြက်သားဆီပြန်', name_en: 'Chicken curry', unit: 'spoon' },
     { id: 'porkCurry', name_my: 'ဝက်သားဆီပြန်', name_en: 'Pork curry', unit: 'spoon' },
     { id: 'mohinga', name_my: 'မုန့်ဟင်းခါး', name_en: 'Mohinga', unit: 'bowl' },
+    { id: 'otherMeatCurry', name_my: 'တခြား အသားဟင်း', name_en: 'Other meat curry', unit: 'spoon', generic: true },
+    { id: 'otherSweet', name_my: 'တခြား မုန့်', name_en: 'Other snack or sweet', unit: 'piece', generic: true },
   ].map((d) => [d.id, d as CatalogueDish]),
 );
 
@@ -21,7 +23,50 @@ describe('parseScanOutput', () => {
 
   it('turns unknown dishes into named estimates', () => {
     const res = parseScanOutput({ shared_table: false, items: [item({ dish_id: 'pizza', name: 'Pizza', unit: 'piece' })] }, catalogue);
-    expect(res.items).toEqual([{ dish_id: null, name: 'Pizza', qty: 1, unit: 'piece', confidence: 0.9 }]);
+    expect(res.items).toEqual([{ dish_id: null, name: 'Pizza', closest: 'otherSweet', qty: 1, unit: 'piece', confidence: 0.9 }]);
+  });
+
+  it('keeps the closest type and the estimate, in that type’s unit', () => {
+    const estimate = { kcal: 95, carb_g: 2, protein_g: 7.04, fat_g: 6.5 };
+    const res = parseScanOutput(
+      {
+        shared_table: false,
+        items: [item({ dish_id: null, name: 'Pork leg stew', name_my: 'ဝက်ခြေထောက်ဟင်း', closest: 'otherMeatCurry', estimate, qty: 2, unit: 'bowl' })],
+      },
+      catalogue,
+    );
+    expect(res.items[0]).toEqual({
+      dish_id: null,
+      name: 'Pork leg stew',
+      name_my: 'ဝက်ခြေထောက်ဟင်း',
+      closest: 'otherMeatCurry',
+      estimate: { kcal: 95, carb_g: 2, protein_g: 7, fat_g: 6.5 },
+      qty: 2,
+      unit: 'spoon',
+      confidence: 0.9,
+    });
+  });
+
+  it('treats an "Other …" type given as the dish as an unknown food', () => {
+    const res = parseScanOutput({ shared_table: false, items: [item({ dish_id: 'otherMeatCurry', name: 'Frog curry', unit: 'spoon' })] }, catalogue);
+    expect(res.items[0]).toMatchObject({ dish_id: null, name: 'Frog curry', closest: 'otherMeatCurry' });
+  });
+
+  it('clamps wild estimates and drops empty ones', () => {
+    const wild = { kcal: 99999, carb_g: -5, protein_g: 10, fat_g: 10 };
+    const zero = { kcal: 0, carb_g: 0, protein_g: 0, fat_g: 0 };
+    const res = parseScanOutput(
+      {
+        shared_table: true,
+        items: [
+          item({ dish_id: null, name: 'Cake', closest: 'nope', estimate: wild, unit: 'piece' }),
+          item({ dish_id: null, name: 'Water', closest: 'otherSweet', estimate: zero, unit: 'piece' }),
+        ],
+      },
+      catalogue,
+    );
+    expect(res.items[0]).toMatchObject({ closest: 'otherSweet', estimate: { kcal: 1500, carb_g: 0 } });
+    expect(res.items[1].estimate).toBeUndefined();
   });
 
   it('uses the catalogue unit, not the model’s', () => {
@@ -88,5 +133,8 @@ describe('catalogueLines', () => {
     const lines = catalogueLines([...catalogue.values()].reverse());
     expect(lines.split('\n')[0]).toBe('chickenCurry | ကြက်သားဆီပြန် | Chicken curry | spoon');
     expect(lines).toBe(catalogueLines([...catalogue.values()]));
+    const [dishes, types] = lines.split('Types for food not in the catalogue');
+    expect(dishes).not.toContain('otherMeatCurry');
+    expect(types).toContain('otherMeatCurry | တခြား အသားဟင်း | Other meat curry | spoon');
   });
 });

@@ -1,0 +1,27 @@
+{
+  "id": "otherDrink",
+  "name": { "en": "Other sweet drink", "my": "တခြား အချိုရည်" },
+  "aliases": {
+    "roman": ["other drink", "juice", "sweet drink"],
+    "my": ["ဖျော်ရည်", "အအေး"]
+  },
+  "generic": true,
+  "unit": "cup",
+  "servingG": 240,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "dish": "tea", "g": 100 },
+    { "dish": "coffee", "g": 100 },
+    { "dish": "limeJuiceDrink", "g": 100 },
+    { "dish": "sugarcaneJuice", "g": 100 },
+    { "dish": "softDrink", "g": 100 },
+    { "dish": "tamarindJuice", "g": 100 },
+    { "dish": "plumJuice", "g": 100 },
+    { "dish": "icedCoffee", "g": 100 },
+    { "dish": "soyMilk", "g": 100 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Fallback for food not in the catalogue (2026-11-03): equal parts of the dishes listed, served at their average serving weight. Update the list when dishes are added."
+}

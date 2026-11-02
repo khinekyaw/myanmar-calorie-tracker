@@ -1,3 +1,5 @@
+import { fallbackDishes } from '@/data/dishes';
+
 import { searchDishes } from '../search';
 
 const ids = (q: string) => searchDishes(q).map((d) => d.id);
@@ -16,5 +18,11 @@ describe('searchDishes', () => {
 
   it('still finds a full dish name inside a longer query', () => {
     expect(ids('mohinga bowl')).toContain('mohinga');
+  });
+
+  it('leaves the "Other …" types out of results; search lists them separately', () => {
+    expect(ids('other curry')).not.toContain('otherMeatCurry');
+    expect(ids('ဟင်း').some((id) => id.startsWith('other'))).toBe(false);
+    expect(fallbackDishes().map((d) => d.id)).toContain('otherMeatCurry');
   });
 });

@@ -1,4 +1,4 @@
-import type { MealItem } from '@/domain/meal';
+import type { CustomFood, MealItem } from '@/domain/meal';
 import type { DishId } from '@/data/dishes';
 import type { LogEntry, ScanCandidate } from '@/store/log';
 
@@ -18,7 +18,15 @@ type LogRow = {
   remote_photo: string | null;
 };
 
-type ItemRow = { log_id: string; dish_id: string; qty: number; oil: string | null; sweetness: string | null };
+type ItemRow = {
+  log_id: string;
+  dish_id: string;
+  qty: number;
+  oil: string | null;
+  sweetness: string | null;
+  /** JSON: CustomFood */
+  custom: string | null;
+};
 
 export function loadLogs(): LogEntry[] {
   const logs = db.getAllSync<LogRow>('SELECT * FROM food_logs WHERE deleted_at IS NULL ORDER BY eaten_at DESC');
@@ -34,6 +42,7 @@ export function loadLogs(): LogEntry[] {
       qty: it.qty,
       ...(it.oil && { oil: it.oil as MealItem['oil'] }),
       ...(it.sweetness && { sweetness: it.sweetness as MealItem['sweetness'] }),
+      ...(it.custom && { custom: JSON.parse(it.custom) as CustomFood }),
     });
     byLog.set(it.log_id, list);
   }
@@ -74,7 +83,7 @@ export function saveLog(e: LogEntry) {
     db.runSync('DELETE FROM log_items WHERE log_id = ?', e.id);
     e.items.forEach((it, position) =>
       db.runSync(
-        'INSERT INTO log_items (id, log_id, position, dish_id, qty, oil, sweetness) VALUES (?, ?, ?, ?, ?, ?, ?)',
+        'INSERT INTO log_items (id, log_id, position, dish_id, qty, oil, sweetness, custom) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
         newId(),
         e.id,
         position,
@@ -82,6 +91,7 @@ export function saveLog(e: LogEntry) {
         it.qty,
         it.oil ?? null,
         it.sweetness ?? null,
+        it.custom ? JSON.stringify(it.custom) : null,
       ),
     );
     enqueue('food_log', e.id, 'upsert');

@@ -1,0 +1,28 @@
+{
+  "id": "otherSweet",
+  "name": { "en": "Other snack or sweet", "my": "တခြား မုန့်" },
+  "aliases": {
+    "roman": ["other sweet", "other snack", "mont", "dessert"],
+    "my": ["မုန့်", "မုန့်ချို"]
+  },
+  "generic": true,
+  "unit": "piece",
+  "servingG": 70,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "dish": "sanwinMakin", "g": 100 },
+    { "dish": "shweJi", "g": 100 },
+    { "dish": "moteLoneYeBaw", "g": 100 },
+    { "dish": "moteSeinBaung", "g": 100 },
+    { "dish": "paukSi", "g": 100 },
+    { "dish": "beinMont", "g": 100 },
+    { "dish": "montPhetHtoke", "g": 100 },
+    { "dish": "kaukNyinKyiDauk", "g": 100 },
+    { "dish": "myayPaeYoe", "g": 100 },
+    { "dish": "montLinMaYar", "g": 100 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Fallback for food not in the catalogue (2026-11-03): equal parts of the dishes listed, served at their average serving weight. Update the list when dishes are added."
+}

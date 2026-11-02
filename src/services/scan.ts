@@ -2,8 +2,8 @@ import { FunctionsHttpError } from '@supabase/supabase-js';
 import { File } from 'expo-file-system';
 import { ImageManipulator, SaveFormat } from 'expo-image-manipulator';
 
-import type { DishId } from '@/data/dishes';
-import type { MealItem } from '@/domain/meal';
+import { getDish, type DishId } from '@/data/dishes';
+import type { CustomFood, MealItem } from '@/domain/meal';
 
 import { ensureSession } from './auth';
 import { supabase } from './supabase';
@@ -18,8 +18,20 @@ import { supabase } from './supabase';
 
 export type ScanResponse = {
   shared_table: boolean;
-  /** `dish_id` null = a food not in the catalogue (its `name` is given). */
-  items: { dish_id: DishId | null; name?: string; qty: number; unit: string; confidence: number }[];
+  /**
+   * `dish_id` null = a food not in the catalogue: its `name` (and `name_my`),
+   * the closest "Other …" type and estimated numbers for one unit of it.
+   */
+  items: {
+    dish_id: DishId | null;
+    name?: string;
+    name_my?: string;
+    closest?: DishId;
+    estimate?: { kcal: number; carb_g: number; protein_g: number; fat_g: number };
+    qty: number;
+    unit: string;
+    confidence: number;
+  }[];
   /** Runner-up dishes for the low-confidence picker (our extension). */
   candidates?: { dish_id: DishId; confidence: number }[];
 };
@@ -95,6 +107,22 @@ const SCENARIOS: ScanResponse[] = [
       { dish_id: 'fishCurry', confidence: 0.12 },
     ],
   },
+  {
+    shared_table: true,
+    items: [
+      { dish_id: 'rice', qty: 1, unit: 'plate', confidence: 0.9 },
+      {
+        dish_id: null,
+        name: 'Pork leg stew',
+        name_my: 'ဝက်ခြေထောက်ဟင်း',
+        closest: 'otherMeatCurry',
+        estimate: { kcal: 95, carb_g: 2, protein_g: 7, fat_g: 6.5 },
+        qty: 3,
+        unit: 'spoon',
+        confidence: 0.7,
+      },
+    ],
+  },
 ];
 let next = 0;
 
@@ -147,9 +175,24 @@ export async function scanPhoto(logId: string, takenAt: Date): Promise<ScanResul
   return { response: data.scan, scansLeft: data.scans_left };
 }
 
-/** Map a scan response onto log items (unknown dishes are dropped for now). */
+/**
+ * Map a scan response onto log items. A food not in the catalogue becomes its
+ * closest "Other …" type carrying its own name and the estimate (or the
+ * type's numbers when there is none); without a type it is dropped.
+ */
 export function toMealItems(res: ScanResponse): MealItem[] {
-  return res.items
-    .filter((i): i is typeof i & { dish_id: DishId } => i.dish_id !== null)
-    .map((i) => ({ dishId: i.dish_id, qty: i.qty, oil: 'normal' as const }));
+  return res.items.flatMap((i): MealItem[] => {
+    if (i.dish_id !== null) return [{ dishId: i.dish_id, qty: i.qty, oil: 'normal' }];
+    if (!i.closest || !i.name) return [];
+    const type = getDish(i.closest);
+    if (!type) return [];
+    const custom: CustomFood = {
+      name: { en: i.name, my: i.name_my ?? '' },
+      kcal: i.estimate?.kcal ?? type.kcal,
+      carbG: i.estimate?.carb_g ?? type.carbG,
+      proteinG: i.estimate?.protein_g ?? type.proteinG,
+      fatG: i.estimate?.fat_g ?? type.fatG,
+    };
+    return [{ dishId: i.closest, qty: i.qty, oil: 'normal', custom }];
+  });
 }

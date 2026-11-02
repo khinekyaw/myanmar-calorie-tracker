@@ -41,7 +41,7 @@ export function logsForPush(ids: string[]): { row: LocalLogRow; items: LocalItem
     ...ids,
   );
   const items = db.getAllSync<LocalItemRow & { log_id: string }>(
-    `SELECT log_id, dish_id, qty, oil, sweetness FROM log_items
+    `SELECT log_id, dish_id, qty, oil, sweetness, custom FROM log_items
      WHERE log_id IN (${placeholders(ids.length)}) ORDER BY log_id, position`,
     ...ids,
   );
@@ -94,7 +94,7 @@ export function saveRemoteLogs(list: ServerLog[]): number {
       db.runSync('DELETE FROM log_items WHERE log_id = ?', row.id);
       items.forEach((it, position) =>
         db.runSync(
-          'INSERT INTO log_items (id, log_id, position, dish_id, qty, oil, sweetness) VALUES (?, ?, ?, ?, ?, ?, ?)',
+          'INSERT INTO log_items (id, log_id, position, dish_id, qty, oil, sweetness, custom) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
           newId(),
           row.id,
           position,
@@ -102,6 +102,7 @@ export function saveRemoteLogs(list: ServerLog[]): number {
           it.qty,
           it.oil,
           it.sweetness,
+          it.custom,
         ),
       );
       changed += 1;
@@ -164,6 +165,7 @@ export function wipeUserData() {
   db.withTransactionSync(() => {
     db.runSync('DELETE FROM log_items');
     db.runSync('DELETE FROM food_logs');
+    db.runSync('DELETE FROM search_misses');
     db.runSync('DELETE FROM weights');
     db.runSync('DELETE FROM outbox');
     db.runSync(`DELETE FROM meta WHERE key IN ('sync_user', 'sync_cursor', 'profile_updated_at')`);

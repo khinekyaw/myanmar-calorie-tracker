@@ -53,14 +53,14 @@ export type Database = {
                   ]
                 },"log_items": {
                   Row: {
-                    "dish_id": string,"log_id": string,"oil": string | null,"position": number,"qty": number,"sweetness": string | null,"user_id": string
+                    "custom": Json | null,"dish_id": string,"log_id": string,"oil": string | null,"position": number,"qty": number,"sweetness": string | null,"user_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "dish_id": string,"log_id": string,"oil"?: string | null,"position": number,"qty": number,"sweetness"?: string | null,"user_id": string
+                    "custom"?: Json | null,"dish_id": string,"log_id": string,"oil"?: string | null,"position": number,"qty": number,"sweetness"?: string | null,"user_id": string
                   }
                   Update: {
-                    "dish_id"?: string,"log_id"?: string,"oil"?: string | null,"position"?: number,"qty"?: number,"sweetness"?: string | null,"user_id"?: string
+                    "custom"?: Json | null,"dish_id"?: string,"log_id"?: string,"oil"?: string | null,"position"?: number,"qty"?: number,"sweetness"?: string | null,"user_id"?: string
                   }
                   Relationships: [
                     {
@@ -127,6 +127,20 @@ isOneToOne: false
                   Relationships: [
                     
                   ]
+                },"search_misses": {
+                  Row: {
+                    "created_at": string,"id": string,"query": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"id": string,"query": string,"user_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"id"?: string,"query"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
                 },"weights": {
                   Row: {
                     "created_at": string,"day": string,"deleted_at": string | null,"synced_at": string,"updated_at": string,"user_id": string,"waist_cm": number | null,"weight_kg": number | null
@@ -144,7 +158,15 @@ isOneToOne: false
                 }
           }
           Views: {
-            [_ in never]: never
+            "catalogue_misses": {
+                  Row: {
+                    "food": string | null,"kind": string | null,"last_seen": string | null,"people": number | null,"times": number | null
+                  }
+                  ComputedFields: never
+                  Relationships: [
+                    
+                  ]
+                }
           }
           Functions: {
             "begin_scan":

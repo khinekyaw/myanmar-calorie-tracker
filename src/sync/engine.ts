@@ -1,5 +1,6 @@
 import { getMeta, setMeta } from '@/db/database';
 import { loadCatalogue, saveRemoteDishes } from '@/db/dishes';
+import { forgetMisses, missesForPush } from '@/db/searchMisses';
 import { logsForPush, markSent, pendingChanges, saveRemoteLogs, saveRemoteWeights, startOverForUser, weightsForPush } from '@/db/sync';
 import { loadWeights } from '@/db/weights';
 import { ensureSession } from '@/services/auth';
@@ -70,10 +71,16 @@ async function push(changed: Changed) {
       .filter((l) => l !== null);
     const weights = weightsForPush(ids('weight')).map(weightToServer);
     const profile = ids('profile').length ? profileForPush() : null;
+    const searchMisses = missesForPush(ids('search_miss'));
 
-    if (foodLogs.length || weights.length || profile) {
+    if (foodLogs.length || weights.length || profile || searchMisses.length) {
       const { data, error } = await client().rpc('sync_push', {
-        changes: { food_logs: foodLogs, weights, ...(profile && { profile }) } as unknown as Json,
+        changes: {
+          food_logs: foodLogs,
+          weights,
+          ...(profile && { profile }),
+          ...(searchMisses.length && { search_misses: searchMisses }),
+        } as unknown as Json,
       });
       check(error);
       const res = data as unknown as PushResponse;
@@ -85,6 +92,7 @@ async function push(changed: Changed) {
       if (res.rejected.length) console.warn('[sync] server refused', res.rejected);
     }
     markSent(batch);
+    forgetMisses(searchMisses.map((m) => m.id));
   }
 }
 

@@ -11,6 +11,7 @@ import {
   profileToServer,
   weightFromServer,
   weightToServer,
+  type LocalItemRow,
   type LocalLogRow,
   type ProfileSource,
 } from '../mapping';
@@ -73,9 +74,17 @@ describe('meals', () => {
     updated_at: '2026-10-30T01:00:00.000Z',
     deleted_at: null,
   };
-  const items = [
-    { dish_id: 'rice', qty: 1.5, oil: null, sweetness: null },
-    { dish_id: 'chickenCurry', qty: 4, oil: 'more', sweetness: null },
+  const unknownFood = {
+    name: { en: 'Pork leg stew', my: 'ဝက်ခြေထောက်ဟင်း' },
+    kcal: 95,
+    carbG: 2,
+    proteinG: 7,
+    fatG: 6.5,
+  };
+  const items: LocalItemRow[] = [
+    { dish_id: 'rice', qty: 1.5, oil: null, sweetness: null, custom: null },
+    { dish_id: 'chickenCurry', qty: 4, oil: 'more', sweetness: null, custom: null },
+    { dish_id: 'otherMeatCurry', qty: 2, oil: null, sweetness: null, custom: JSON.stringify(unknownFood) },
   ];
 
   it('sends finished meals with their items and server photo path', () => {
@@ -83,7 +92,15 @@ describe('meals', () => {
     expect(server.photo_path).toBe(row.remote_photo);
     expect(server.is_shared_meal).toBe(true);
     expect(server.candidates).toEqual([{ dishId: 'porkCurry', confidence: 0.3 }]);
-    expect(server.items).toEqual(items);
+    expect(server.items[0]).toEqual({ dish_id: 'rice', qty: 1.5, oil: null, sweetness: null, custom: null });
+    expect(server.items[2].custom).toEqual({
+      name_en: 'Pork leg stew',
+      name_my: 'ဝက်ခြေထောက်ဟင်း',
+      kcal: 95,
+      carb_g: 2,
+      protein_g: 7,
+      fat_g: 6.5,
+    });
   });
 
   it('holds back photos still waiting for their scan, but not their deletion', () => {

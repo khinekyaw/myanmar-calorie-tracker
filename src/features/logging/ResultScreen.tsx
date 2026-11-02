@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
-import { numbersTier, OIL_LEVELS, sumMacros, type OilLevel } from '@/domain/meal';
+import { itemName, numbersTier, OIL_LEVELS, sumMacros, type OilLevel } from '@/domain/meal';
 import { formatNumber, formatPlates } from '@/lib/format';
 import { getDish } from '@/data/dishes';
 import { CONFIDENCE_THRESHOLD } from '@/services/scan';
@@ -141,7 +141,7 @@ export function ResultScreen() {
 
   const single = entry.items.length === 1;
   const totals = sumMacros(entry.items);
-  const title = entry.items.map((i) => getDish(i.dishId).name[language]).join(', ');
+  const title = entry.items.map((i) => itemName(i, language)).join(', ');
   const tier = numbersTier(entry.items.map((i) => getDish(i.dishId)));
   const oil = first.oil ?? 'normal';
   const unitStep = dish.unit === 'plate' || dish.unit === 'bowl' ? 0.5 : 1;

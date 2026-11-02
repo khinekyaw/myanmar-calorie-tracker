@@ -19,7 +19,7 @@ Home → **+** opens the add sheet:
 |---|---|---|
 | **Photo** | Camera → shutter → Result (or SharedMeal / PickDish, see 3) → *Done* | Queued, sent when back online |
 | **Say or type** | The keyboard opens → type, or tap the keyboard's mic and say "လက်ဖက်ရည် ပေါ့စိမ့် တစ်ခွက်နဲ့ ပလာတာ တစ်ချပ်" → check the parsed dishes → *Save* | Yes |
-| **Search** | The search box at the top of the + sheet → type "laphet yay" / "mohinga" → tap dishes to pick several (each with its amount and tea sweetness; picks stay as chips while you search again; tap a chip to remove it) → *Add N dishes* logs each dish as its own entry | Yes |
+| **Search** | The search box at the top of the + sheet → type "laphet yay" / "mohinga" → tap dishes to pick several (each with its amount and tea sweetness; picks stay as chips while you search again; tap a chip to remove it) → *Add N dishes* logs each dish as its own entry. Under the results: *Not here? Pick the closest type* lists the "Other …" types (other meat curry, other noodle soup, other fried snack…), logged with an *Estimate* badge | Yes |
 | **Quick re-log** | Tap a chip (milk tea, palata…) | Yes |
 | Barcode | Shown as *Soon* (later scope) | — |
 
@@ -33,6 +33,7 @@ After logging, Home updates the calories left (or *Calories over*), plates of ri
 - **Low confidence** (< 0.6) → **PickDish**: top 3 guesses, the first marked *Closest*; *Something else* opens voice/text logging for that photo.
 - **Wrong dish on a confident scan**: Result → *Fix* → PickDish (on a shared meal, *Fix* opens SharedMeal).
 - **Oil**: Result → *Oil · Normal* cycles less / normal / more for curries and fried food.
+- **A food not on the list**: the scan names it (e.g. "Pork leg stew"), files it under the closest "Other …" type and estimates its numbers; it's logged under its own name with an *Estimate* badge. *Fix* swaps it for a listed dish.
 
 ## 4. Fix or remove a meal later
 

@@ -1,0 +1,30 @@
+{
+  "id": "otherMeatCurry",
+  "name": { "en": "Other meat curry", "my": "တခြား အသားဟင်း" },
+  "aliases": {
+    "roman": ["other curry", "meat curry", "a tha hin"],
+    "my": ["အသားဟင်း", "ဟင်း"]
+  },
+  "generic": true,
+  "oilSensitive": true,
+  "unit": "spoon",
+  "servingG": 30,
+  "servingWeighed": false,
+  "yieldWeighed": false,
+  "lines": [
+    { "dish": "porkCurry", "g": 100 },
+    { "dish": "chickenCurry", "g": 100 },
+    { "dish": "beefCurry", "g": 100 },
+    { "dish": "muttonCurry", "g": 100 },
+    { "dish": "duckCurry", "g": 100 },
+    { "dish": "chickenPotatoCurry", "g": 100 },
+    { "dish": "porkBambooCurry", "g": 100 },
+    { "dish": "chickenGizzardCurry", "g": 100 },
+    { "dish": "venisonCurry", "g": 100 },
+    { "dish": "muttonMeatballCurry", "g": 100 },
+    { "dish": "ponYayGyiPork", "g": 100 }
+  ],
+  "sources": [],
+  "status": "draft",
+  "notes": "Fallback for food not in the catalogue (2026-11-03): equal parts of the dishes listed, served at their average serving weight. Update the list when dishes are added."
+}

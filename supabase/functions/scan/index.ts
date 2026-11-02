@@ -69,7 +69,8 @@ Match what you see to dishes in the catalogue below and estimate how much is in 
 - cup: one cup (tea, coffee)
 
 Rules:
-- dish_id must be an id from the catalogue. If a food is clearly not in the catalogue, set dish_id to null and name it in English in "name"; otherwise "name" is the catalogue English name.
+- dish_id must be an id from the catalogue. Otherwise "name" is the catalogue English name, and name_my, closest and estimate are empty ("", null, null).
+- If a food is clearly not in the catalogue, set dish_id to null, name it in English in "name" and in Burmese in "name_my" ("" if you don't know it), set "closest" to the type below that fits it best, and give qty in that type's unit. In "estimate", give your best estimate of kcal, carb_g, protein_g and fat_g for ONE unit of it as served in Myanmar.
 - confidence (0 to 1) is how sure you are that the dish is right.
 - shared_table is true when several curries and sides are laid out to share, usually around rice (a family table, ဝိုင်းစား). List every dish on the table then, with rice in plates and each curry in spoons.
 - When the photo shows one main dish and you are not sure what it is (confidence below 0.6), put up to 3 likely catalogue dishes in "candidates", most likely first. Otherwise leave candidates empty.
@@ -152,11 +153,15 @@ async function loadCatalogue(admin: SupabaseAdmin): Promise<CatalogueDish[]> {
   if (catalogueCache && Date.now() - catalogueCache.at < 10 * 60_000) return catalogueCache.dishes;
   const { data, error } = await admin
     .from('dishes')
-    .select('id, name_my, name_en, unit')
+    .select('id, name_my, name_en, unit, source')
     .is('deleted_at', null)
     .order('id');
   if (error) throw new Error(`catalogue: ${error.message}`);
-  catalogueCache = { at: Date.now(), dishes: data as CatalogueDish[] };
+  const dishes = (data as (CatalogueDish & { source: string | null })[]).map(({ source, ...d }) => ({
+    ...d,
+    ...(source === 'generic' && { generic: true }),
+  }));
+  catalogueCache = { at: Date.now(), dishes };
   return catalogueCache.dishes;
 }
 

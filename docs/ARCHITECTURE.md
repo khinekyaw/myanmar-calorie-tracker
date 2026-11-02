@@ -230,7 +230,7 @@ MealItem { dishId, qty, oil?: less|normal|more, sweetness?: choSeint|pawSeint|ky
 
 | Area | Prototype | Real version |
 |---|---|---|
-| Photo scan | **Real** with a backend: upload to `meal-photos` + `scan` Edge Function → Claude or Gemini (`SCAN_MODEL`, [BACKEND.md](BACKEND.md)). Without one: `services/scan.ts` cycles 3 demo answers. Not yet run against the real model (no API key here) | Model/effort chosen with ~100 labelled photos |
+| Photo scan | **Real** with a backend: upload to `meal-photos` + `scan` Edge Function → Claude or Gemini (`SCAN_MODEL`, [BACKEND.md](BACKEND.md)). Without one: `services/scan.ts` cycles 4 demo answers (the last has a food not on the list). Not yet run against the real model (no API key here) | Model/effort chosen with ~100 labelled photos |
 | Dish data | `catalogue/` recipes ([CATALOGUE.md](CATALOGUE.md)) → `catalogue/calculated.json` → `data/dishes.ts` (adds bundled photos), which seeds the phone and the server (`supabase/seeds/catalogue.sql`). 151 dishes with sugar and sodium, all **draft recipes**, so they show *Calculated* and none are verified | Verified `dishes` table (200–300) from the nutritionist |
 | Food photos | Wikimedia Commons images bundled in the app (`assets/images/dishes/`) | Our own photos (bundled + `dish-photos` bucket) |
 | Speech-to-text | **Real, at no cost:** the phone keyboard's own voice typing (its mic key) fills the text box; we run no speech service | Works where the keyboard supports Burmese voice typing; check on target phones |
