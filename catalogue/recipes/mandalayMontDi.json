@@ -5,6 +5,7 @@
     "roman": ["mandalay mont di", "mandalay mondi", "mandalay mote ti"],
     "my": ["မန္တလေးမုန့်တီ"]
   },
+  "addOns": ["boiledEgg"],
   "oilSensitive": true,
   "unit": "bowl",
   "servingG": 300,

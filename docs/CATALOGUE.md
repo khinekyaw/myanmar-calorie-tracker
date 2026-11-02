@@ -51,6 +51,7 @@ After a build that changes numbers:
   "id": "samusa",                       // = file name = app dish id; "_" prefix = component
   "name": { "en": "Samosa", "my": "စမူဆာ" },
   "aliases": { "roman": ["samusa", "samosa"], "my": ["စမူဆာ"] },   // what people type or say
+  "addOns": ["boiledEgg"],              // toppings / sides often added: one-tap chips on Result
   "oilSensitive": true,                 // also hasSweetness, isVegetarian
   "unit": "piece",                      // plate | bowl | spoon (a serving spoon) | piece | cup
   "servingG": 45,                       // cooked grams in one unit

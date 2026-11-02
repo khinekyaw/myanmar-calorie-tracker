@@ -5,6 +5,7 @@
     "roman": ["shan khauk swe", "shan noodles"],
     "my": ["ရှမ်းခေါက်ဆွဲ"]
   },
+  "addOns": ["boiledEgg"],
   "unit": "bowl",
   "servingG": 355,
   "servingWeighed": false,

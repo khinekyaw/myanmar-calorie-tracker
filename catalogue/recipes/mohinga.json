@@ -5,6 +5,7 @@
     "roman": ["mohinga", "mont hin gar", "mohinkha", "mote hin khar"],
     "my": ["မုန့်ဟင်းခါး"]
   },
+  "addOns": ["boiledEgg", "bayaKyaw", "gourdFritter", "onionFritter"],
   "unit": "bowl",
   "servingG": 533,
   "servingWeighed": false,

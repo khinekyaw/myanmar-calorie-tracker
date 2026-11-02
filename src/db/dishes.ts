@@ -7,13 +7,15 @@ import { db, getMeta, setMeta } from './database';
  * (new dishes, verified numbers) without an app release. The bundled list
  * seeds it; bump CATALOGUE_VERSION and CATALOGUE_DATE when it changes.
  * Rows from the server are newer than CATALOGUE_DATE, so a re-seed never
- * overwrites them.
+ * overwrites them. Rows dated in the future (an earlier CATALOGUE_DATE set
+ * ahead of the clock) can't be from the server and are replaced.
  */
-const CATALOGUE_VERSION = 6;
-const CATALOGUE_DATE = '2026-11-02T18:00:00.000Z';
+const CATALOGUE_VERSION = 8;
+const CATALOGUE_DATE = '2026-11-02T18:30:00.000Z';
 
 export function seedCatalogue() {
   if (Number(getMeta('catalogue_version') ?? 0) >= CATALOGUE_VERSION) return;
+  const now = new Date().toISOString();
   db.withTransactionSync(() => {
     for (const dish of Object.values(bundled)) {
       // Photos are bundled assets, so they aren't stored; they're matched by id on load.
@@ -21,10 +23,11 @@ export function seedCatalogue() {
       db.runSync(
         `INSERT INTO dishes (id, data, updated_at) VALUES (?, ?, ?)
          ON CONFLICT(id) DO UPDATE SET data = excluded.data, updated_at = excluded.updated_at
-         WHERE dishes.updated_at < excluded.updated_at`,
+         WHERE dishes.updated_at < excluded.updated_at OR dishes.updated_at > ?`,
         dish.id,
         JSON.stringify(data),
         CATALOGUE_DATE,
+        now,
       );
     }
     setMeta('catalogue_version', String(CATALOGUE_VERSION));

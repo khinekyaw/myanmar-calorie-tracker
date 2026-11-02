@@ -5,6 +5,7 @@
     "roman": ["mont di thoke", "mohnt di", "rice noodle salad"],
     "my": ["မုန့်တီသုပ်"]
   },
+  "addOns": ["boiledEgg", "bayaKyaw"],
   "oilSensitive": true,
   "unit": "plate",
   "servingG": 258,

@@ -74,7 +74,8 @@ Rules:
 - confidence (0 to 1) is how sure you are that the dish is right.
 - shared_table is true when several curries and sides are laid out to share, usually around rice (a family table, ဝိုင်းစား). List every dish on the table then, with rice in plates and each curry in spoons.
 - When the photo shows one main dish and you are not sure what it is (confidence below 0.6), put up to 3 likely catalogue dishes in "candidates", most likely first. Otherwise leave candidates empty.
-- Toppings and sides that are catalogue dishes of their own are separate items, each in its own unit: fritters on mohinga or noodles (split pea fritter, gourd fritter, onion fritter), a fried or boiled egg on rice, fried fish next to a curry. Count them (e.g. 2 pieces). Don't list garnishes that belong to the dish itself: herbs, lime, sliced onion, fried garlic, chilli flakes, or the half boiled egg in mohinga.
+- Look closely for toppings and sides: they change the calories a lot. Those that are catalogue dishes of their own are separate items, each in its own unit: fritters on mohinga or noodles (split pea fritter, gourd fritter, onion fritter, also when broken into pieces), boiled eggs on mohinga or noodles, a fried or boiled egg on rice, fried fish next to a curry. Count them (e.g. 2 pieces).
+- A catalogue dish already includes its usual garnish: herbs, lime, sliced onion, fried garlic, chilli flakes, and HALF a boiled egg in mohinga. Don't list those, but list anything beyond them: mohinga with 2 whole eggs (4 halves) is mohinga 1 bowl + boiled egg 1.5 pieces.
 - One bowl or plate with toppings is not a shared table.
 - If there is no food in the photo, return an empty items list.
 - Curries are cooked with the usual amount of oil; don't adjust for oil.

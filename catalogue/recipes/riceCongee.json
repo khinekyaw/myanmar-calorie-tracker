@@ -5,6 +5,7 @@
     "roman": ["san byoke", "congee", "rice porridge"],
     "my": ["ဆန်ပြုတ်"]
   },
+  "addOns": ["eKyaKwe", "boiledEgg"],
   "isVegetarian": true,
   "unit": "bowl",
   "servingG": 300,

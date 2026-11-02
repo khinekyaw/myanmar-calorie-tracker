@@ -5,6 +5,7 @@
     "roman": ["pe byote htamin kyaw", "pea fried rice"],
     "my": ["ပဲပြုတ်ထမင်းကြော်"]
   },
+  "addOns": ["friedEgg"],
   "oilSensitive": true,
   "isVegetarian": true,
   "unit": "plate",

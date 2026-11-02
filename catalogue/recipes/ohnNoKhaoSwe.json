@@ -5,6 +5,7 @@
     "roman": ["ohn no khauk swe", "coconut noodle soup"],
     "my": ["အုန်းနို့ခေါက်ဆွဲ"]
   },
+  "addOns": ["boiledEgg", "bayaKyaw"],
   "unit": "bowl",
   "servingG": 570,
   "servingWeighed": false,

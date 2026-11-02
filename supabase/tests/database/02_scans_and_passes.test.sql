@@ -25,7 +25,8 @@ select is(pg_temp.scan(1) ->> 'outcome', 'go', 'first scan starts');
 select is((pg_temp.scan(1)) ->> 'outcome', 'in_progress', 'the same photo twice at once is refused');
 select is((pg_temp.finish(1, true)) ->> 'scans_left', '2', 'a finished scan used one free scan');
 select is(pg_temp.scan(1) ->> 'outcome', 'cached', 'a repeated request returns the stored answer');
-select is((select used from public.scan_quota where day = (now() at time zone 'Asia/Yangon')::date), 1::smallint,
+select is((select used from public.scan_quota
+    where user_id = 'cccccccc-0000-4000-8000-000000000003' and day = (now() at time zone 'Asia/Yangon')::date), 1::smallint,
   'a repeated request is not charged again');
 
 -- A failed scan gives the free scan back; its retry is charged once.

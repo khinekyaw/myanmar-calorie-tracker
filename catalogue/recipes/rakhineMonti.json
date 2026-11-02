@@ -5,6 +5,7 @@
     "roman": ["rakhine mont di", "rakhine noodles", "arakan mont di"],
     "my": ["ရခိုင်မုန့်တီ"]
   },
+  "addOns": ["boiledEgg"],
   "unit": "bowl",
   "servingG": 539,
   "servingWeighed": false,

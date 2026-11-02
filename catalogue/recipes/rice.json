@@ -5,6 +5,7 @@
     "roman": ["htamin", "hta min", "rice", "paw san hmwe", "pawsan"],
     "my": ["ထမင်း", "ပေါ်ဆန်းမွှေး", "ပေါ်ဆန်း"]
   },
+  "addOns": ["friedEgg", "clearSoup", "ngapiYay"],
   "isVegetarian": true,
   "unit": "plate",
   "servingG": 200,

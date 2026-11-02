@@ -1,16 +1,18 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, ScrollView, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
-import { itemName, numbersTier, OIL_LEVELS, sumMacros, type OilLevel } from '@/domain/meal';
+import { itemName, numbersTier, OIL_LEVELS, sumMacros, type MealItem, type OilLevel } from '@/domain/meal';
 import { formatNumber, formatPlates } from '@/lib/format';
-import { getDish } from '@/data/dishes';
+import { getDish, type DishId } from '@/data/dishes';
+import { tap } from '@/lib/haptics';
 import { CONFIDENCE_THRESHOLD } from '@/services/scan';
 import { useEntry, useLog } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
-import { Badge, Button, Chip, ConfirmSheet, Icon, PhotoSheet, Stepper, Text, type IconName } from '@/ui';
+import { Badge, Button, Chip, ConfirmSheet, EdgeScrollView, Icon, PhotoSheet, Stepper, Text, type IconName } from '@/ui';
 
+import { MealItemRow } from './components/MealItemRow';
 import { retryScan, useWaitReason, type WaitReason } from './scanQueue';
 import { SharedMeal } from './SharedMealScreen';
 
@@ -147,6 +149,19 @@ export function ResultScreen() {
   const unitStep = dish.unit === 'plate' || dish.unit === 'bowl' ? 0.5 : 1;
 
   const setQty = (qty: number) => updateEntry(entry.id, { items: [{ ...first, qty }] });
+  // Several items: each has its own row; 0 takes it out of the meal.
+  const setItemQty = (item: MealItem, qty: number) =>
+    updateEntry(entry.id, {
+      items: qty > 0 ? entry.items.map((i) => (i === item ? { ...i, qty } : i)) : entry.items.filter((i) => i !== item),
+    });
+  // Toppings and sides often added to these dishes, not already in the meal.
+  const addOns = [...new Set(entry.items.flatMap((i) => getDish(i.dishId).addOns ?? []))].filter(
+    (id) => !entry.items.some((i) => i.dishId === id && !i.custom),
+  );
+  const addOn = (dishId: DishId) => {
+    tap();
+    updateEntry(entry.id, { items: [...entry.items, { dishId, qty: 1 }] });
+  };
   const cycleOil = () => {
     const next: OilLevel = OIL_LEVELS[(OIL_LEVELS.indexOf(oil) + 1) % OIL_LEVELS.length];
     updateEntry(entry.id, { items: entry.items.map((i) => ({ ...i, oil: next })) });
@@ -196,36 +211,59 @@ export function ResultScreen() {
         )}
       </View>
 
-      <View style={s.kcalCard}>
-        <Icon name="flame" size={24} strokeWidth={2} />
-        <Text variant="numberLg">{formatNumber(Math.round(totals.kcal), language)}</Text>
-        <Text variant="label" tone="muted">
-          {t('common.kcal')}
-        </Text>
-      </View>
+      <ScrollView showsVerticalScrollIndicator={false} style={s.bleed} contentContainerStyle={s.scroll}>
+        <View style={s.kcalCard}>
+          <Icon name="flame" size={24} strokeWidth={2} />
+          <Text variant="numberLg">{formatNumber(Math.round(totals.kcal), language)}</Text>
+          <Text variant="label" tone="muted">
+            {t('common.kcal')}
+          </Text>
+        </View>
 
-      <View style={s.macros}>
-        <MacroTile label={t('result.carbs')} grams={totals.carbG} color={theme.colors.nutrient.carbs} />
-        <MacroTile label={t('result.protein')} grams={totals.proteinG} color={theme.colors.nutrient.protein} />
-        <MacroTile label={t('result.fat')} grams={totals.fatG} color={theme.colors.nutrient.fat} />
-      </View>
+        <View style={s.macros}>
+          <MacroTile label={t('result.carbs')} grams={totals.carbG} color={theme.colors.nutrient.carbs} />
+          <MacroTile label={t('result.protein')} grams={totals.proteinG} color={theme.colors.nutrient.protein} />
+          <MacroTile label={t('result.fat')} grams={totals.fatG} color={theme.colors.nutrient.fat} />
+        </View>
 
-      <View style={s.actions}>
-        <Chip
-          icon="users"
-          label={t('result.sharedMeal')}
-          style={s.flex}
-          onPress={() => router.push({ pathname: '/shared-meal', params: { id: entry.id } })}
-        />
-        {dish.oilSensitive && (
-          <Chip
-            icon="oil"
-            label={t('result.oil', { level: t(OIL_LABEL[oil]) })}
-            style={s.flex}
-            onPress={cycleOil}
-          />
+        {!single && (
+          <View>
+            {entry.items.map((item, i) => (
+              <MealItemRow
+                key={`${item.dishId}-${i}`}
+                item={item}
+                onChange={(q) => setItemQty(item, q)}
+                divider={i < entry.items.length - 1}
+              />
+            ))}
+          </View>
         )}
-      </View>
+
+        {addOns.length > 0 && (
+          <EdgeScrollView contentContainerStyle={s.addOns}>
+            {addOns.map((id) => (
+              <Chip key={id} icon="plus" label={getDish(id).name[language]} onPress={() => addOn(id)} />
+            ))}
+          </EdgeScrollView>
+        )}
+
+        <View style={s.actions}>
+          <Chip
+            icon="users"
+            label={t('result.sharedMeal')}
+            style={s.flex}
+            onPress={() => router.push({ pathname: '/shared-meal', params: { id: entry.id } })}
+          />
+          {dish.oilSensitive && (
+            <Chip
+              icon="oil"
+              label={t('result.oil', { level: t(OIL_LABEL[oil]) })}
+              style={s.flex}
+              onPress={cycleOil}
+            />
+          )}
+        </View>
+      </ScrollView>
       {confirmDelete}
     </PhotoSheet>
   );
@@ -281,5 +319,9 @@ const useStyles = makeStyles(({ theme }) => ({
   dot: { width: 8, height: 8, borderRadius: 4 },
   tileValue: { fontSize: 18 },
   actions: { flexDirection: 'row', gap: theme.space.sm },
+  // Full width, so the add-on chips scroll to the screen edges (edge-to-edge rule).
+  bleed: { marginHorizontal: -theme.gutter },
+  scroll: { gap: theme.space.lg, paddingBottom: theme.space.lg, paddingHorizontal: theme.gutter },
+  addOns: { gap: theme.space.sm },
   footer: { flexDirection: 'row', gap: theme.space.sm },
 }));

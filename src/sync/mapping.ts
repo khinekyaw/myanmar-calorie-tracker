@@ -3,7 +3,7 @@ import type { Sex, Workday } from '@/domain/nutrition';
 import { PACES, type Goal, type Pace } from '@/domain/plan';
 import { ftInToCm, kgToLb, lbToKg } from '@/domain/units';
 import type { Language } from '@/i18n/languages';
-import type { Dish, Unit } from '@/data/dishes';
+import type { Dish, DishId, Unit } from '@/data/dishes';
 import type { EatingPlace, HealthFlag, OnboardingDraft } from '@/store/onboarding';
 
 /**
@@ -293,6 +293,7 @@ export type ServerDish = {
   aliases_my: string[];
   aliases_zawgyi: string[];
   aliases_roman: string[];
+  add_ons: string[] | null;
   unit: Unit;
   serving_g: number | null;
   kcal: number;
@@ -323,6 +324,7 @@ export function dishFromServer(d: ServerDish): Dish {
     aliasesRoman: d.aliases_roman ?? [],
     // Zawgyi spellings are matched like any other Burmese alias.
     aliasesMy: [...(d.aliases_my ?? []), ...(d.aliases_zawgyi ?? [])],
+    ...(d.add_ons?.length && { addOns: d.add_ons as DishId[] }),
     unit: d.unit,
     ...(d.serving_g !== null && d.serving_g !== undefined && { servingG: Number(d.serving_g) }),
     kcal: Number(d.kcal),

@@ -22,6 +22,7 @@ migrations/
   20261101130000_first_week_scans.sql   more free scans in the first week
   20261103120000_dish_serving_grams.sql dishes.serving_g
   20261103130000_food_not_on_the_list.sql  log_items.custom, search_misses, catalogue_misses; sync_push carries both
+  20261103140000_dish_add_ons.sql   dishes.add_ons (toppings offered on Result)
 seeds/catalogue.sql         dish list, generated from src/data/dishes.ts (recipe-calculated numbers, drafts)
 seeds/dev.sql               local only: logs SMS codes instead of sending them
 functions/scan/             photo → dishes (Claude vision)

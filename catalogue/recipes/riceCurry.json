@@ -5,6 +5,7 @@
     "roman": ["htamin hin", "rice and curry", "rice curry", "rice and chicken curry"],
     "my": ["ထမင်းဟင်း"]
   },
+  "addOns": ["friedEgg", "clearSoup"],
   "oilSensitive": true,
   "unit": "plate",
   "servingG": 475,

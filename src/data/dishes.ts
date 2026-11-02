@@ -15,6 +15,8 @@ export type Dish = {
   aliasesRoman: string[];
   /** Other Burmese spellings / short forms. Zawgyi variants come with the real database. */
   aliasesMy: string[];
+  /** Toppings and sides often added (eggs, fritters): one-tap chips on Result. */
+  addOns?: DishId[];
   unit: Unit;
   /** Cooked grams in one unit (shown next to the amount). Not every server dish has it yet. */
   servingG?: number;
@@ -68,6 +70,7 @@ export const dishes = Object.fromEntries(
       name: c.name,
       aliasesRoman: c.aliasesRoman,
       aliasesMy: c.aliasesMy,
+      ...(c.addOns.length > 0 && { addOns: c.addOns as DishId[] }),
       unit: c.unit as Unit,
       servingG: c.servingG,
       kcal: c.kcal,

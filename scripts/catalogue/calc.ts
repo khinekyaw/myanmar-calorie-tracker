@@ -43,6 +43,8 @@ export type Recipe = {
   name: { en: string; my: string };
   /** Other spellings people type or say: romanized, and other Burmese spellings. */
   aliases?: { roman: string[]; my: string[] };
+  /** Toppings and sides often added to this dish (eggs, fritters), offered as one-tap chips on Result. */
+  addOns?: string[];
   /**
    * "Other meat curry" and the like: the average of a type of dish, for food
    * not in the catalogue. Shown as an estimate, never in plain search results.
@@ -218,6 +220,9 @@ export function calculate(
       if (!recipe.unit || !(recipe.servingG && recipe.servingG > 0)) errors.push('needs a unit and servingG');
       if (!recipe.aliases) errors.push('needs aliases (roman and my)');
     }
+    for (const a of recipe.addOns ?? []) {
+      if (!recipes[a] || isComponent(recipes[a])) errors.push(`add-on "${a}" is not a dish`);
+    }
     if (recipe.status === 'reviewed' && !recipe.reviewedBy) errors.push('reviewed needs reviewedBy');
     if (recipe.status === 'reviewed' && placeholders.size) errors.push('cannot be reviewed while it uses placeholder ingredients');
     if (!recipe.sources.length) warnings.push('no source recipe');
@@ -261,6 +266,7 @@ export function catalogueJson(results: Map<string, DishResult>) {
       name: r.recipe.name,
       aliasesRoman: r.recipe.aliases?.roman ?? [],
       aliasesMy: r.recipe.aliases?.my ?? [],
+      addOns: r.recipe.addOns ?? [],
       generic: Boolean(r.recipe.generic),
       oilSensitive: Boolean(r.recipe.oilSensitive),
       hasSweetness: Boolean(r.recipe.hasSweetness),

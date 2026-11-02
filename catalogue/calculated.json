@@ -11,6 +11,7 @@
     "aliasesMy": [
       "အသုပ်စုံ"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -39,6 +40,7 @@
     "aliasesMy": [
       "ပန်းသီး"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -68,6 +70,7 @@
     "aliasesMy": [
       "ထောပတ်သီးဖျော်ရည်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -98,6 +101,7 @@
       "ဘာလချောင်",
       "ပုစွန်ခြောက်ကြော်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -129,6 +133,7 @@
       "မျှစ်ဟင်း",
       "မျှစ်ကြော်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -157,6 +162,7 @@
     "aliasesMy": [
       "ငှက်ပျောသီး"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -185,6 +191,7 @@
     "aliasesMy": [
       "ဘယာကြော်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -215,6 +222,7 @@
       "အမဲသားဟင်း",
       "အမဲသားနှပ်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -243,6 +251,7 @@
     "aliasesMy": [
       "ဘီယာ"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -272,6 +281,7 @@
     "aliasesMy": [
       "ဘိန်းမုန့်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -301,6 +311,7 @@
     "aliasesMy": [
       "ကြက်ဟင်းခါးသီးကြော်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -329,6 +340,7 @@
     "aliasesMy": [
       "ကြက်ဥပြုတ်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -359,6 +371,7 @@
       "ဟင်းသီးဟင်းရွက်ပြုတ်",
       "အသီးအရွက်ပြုတ်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -388,6 +401,7 @@
       "ဆန်လုံးညိုထမင်း",
       "ဆန်လုံးညို"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -418,6 +432,7 @@
       "ထောပတ်သကြားပေါင်မုန့်",
       "ပေါင်မုန့်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -448,6 +463,7 @@
       "ဂေါ်ဖီထုပ်ကြော်",
       "ဂေါ်ဖီကြော်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -476,6 +492,7 @@
     "aliasesMy": [
       "ချပါတီ"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -505,6 +522,7 @@
     "aliasesMy": [
       "ဂေါ်ရခါးသီးကြော်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -535,6 +553,7 @@
       "ကြက်သားဟင်း",
       "ကြက်သားဆီပြန်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -565,6 +584,7 @@
       "ကြက်အမြစ်ဟင်း",
       "ကြက်အမြစ်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -593,6 +613,7 @@
     "aliasesMy": [
       "ကြက်သားအာလူးဟင်း"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -621,6 +642,7 @@
     "aliasesMy": [
       "ကြက်ဆီထမင်း"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -649,6 +671,7 @@
     "aliasesMy": [
       "ကြက်သားသုပ်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -677,6 +700,7 @@
     "aliasesMy": [
       "ကြက်သားဟင်းချို"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -706,6 +730,7 @@
     "aliasesMy": [
       "ဟင်းချို"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -734,6 +759,7 @@
     "aliasesMy": [
       "အုန်းထမင်း"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -762,6 +788,7 @@
     "aliasesMy": [
       "အုန်းရည်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -790,6 +817,7 @@
     "aliasesMy": [
       "ကော်ဖီ"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": true,
@@ -820,6 +848,7 @@
       "ကော်ဖီမစ်",
       "သရီးအင်ဝမ်း"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -851,6 +880,7 @@
       "ပဲဟင်း",
       "ပဲဟင်းချို"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -881,6 +911,7 @@
       "ဒံပေါက်",
       "ကြက်သားဒံပေါက်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -909,6 +940,7 @@
     "aliasesMy": [
       "ငါးခြောက်ကြော်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -937,6 +969,7 @@
     "aliasesMy": [
       "ဘဲသားဟင်း"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -967,6 +1000,7 @@
     "aliasesMy": [
       "အီကြာကွေး"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -996,6 +1030,7 @@
       "ကြက်ဥဟင်း",
       "ကြက်ဥဆီပြန်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -1025,6 +1060,7 @@
     "aliasesMy": [
       "ပလာတာ"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -1054,6 +1090,7 @@
     "aliasesMy": [
       "ကြက်ဥပလာတာ"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -1084,6 +1121,7 @@
       "ခရမ်းသီးဟင်း",
       "ခရမ်းသီးနှပ်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -1113,6 +1151,7 @@
     "aliasesMy": [
       "ကျောက်ကျော"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -1141,6 +1180,7 @@
     "aliasesMy": [
       "ဖာလူဒါ"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -1170,6 +1210,7 @@
       "ငါးလုံးဟင်းချို",
       "ငါးဖယ်ဟင်းချို"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -1199,6 +1240,7 @@
       "ငါးဖယ်ကြော်",
       "ငါးဖယ်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -1228,6 +1270,7 @@
     "aliasesMy": [
       "ငါးဖယ်သုပ်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -1258,6 +1301,7 @@
       "ငါးဟင်း",
       "ငါးဆီပြန်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -1287,6 +1331,7 @@
       "ကြက်သားကြော်",
       "ကြက်ကြော်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -1316,6 +1361,7 @@
       "ကြက်ဥကြော်",
       "ကြက်ဥမျက်လုံး"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -1344,6 +1390,7 @@
     "aliasesMy": [
       "ငါးကြော်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -1372,6 +1419,7 @@
     "aliasesMy": [
       "ခေါက်ဆွဲကြော်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -1399,6 +1447,9 @@
     ],
     "aliasesMy": [
       "ထမင်းကြော်"
+    ],
+    "addOns": [
+      "friedEgg"
     ],
     "generic": false,
     "oilSensitive": true,
@@ -1428,6 +1479,7 @@
     "aliasesMy": [
       "ဂျင်းသုပ်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -1458,6 +1510,7 @@
     "aliasesMy": [
       "ကြာဆံသုပ်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -1489,6 +1542,7 @@
     "aliasesMy": [
       "ဘူးသီးကြော်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -1518,6 +1572,7 @@
     "aliasesMy": [
       "ရေနွေးကြမ်း"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -1546,6 +1601,7 @@
     "aliasesMy": [
       "မာလကာသီး"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -1576,6 +1632,7 @@
       "ငါးသလောက်ဟင်း",
       "ငါးသလောက်ပေါင်း"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -1604,6 +1661,7 @@
     "aliasesMy": [
       "ထမင်းသုပ်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -1633,6 +1691,7 @@
     "aliasesMy": [
       "ထပ်တစ်ရာ"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -1662,6 +1721,7 @@
     "aliasesMy": [
       "ကော်ဖီအေး"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": true,
@@ -1694,6 +1754,7 @@
       "မာမား",
       "ခေါက်ဆွဲခြောက်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -1722,6 +1783,7 @@
     "aliasesMy": [
       "ပိန္နဲသီး"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -1751,6 +1813,7 @@
     "aliasesMy": [
       "ကတ်ကြေးကိုက်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -1779,6 +1842,7 @@
     "aliasesMy": [
       "ကောက်ညှင်းကျည်တောက်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -1807,6 +1871,7 @@
     "aliasesMy": [
       "ခေါက်ဆွဲသုပ်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -1839,6 +1904,7 @@
       "ကြာဆံဟင်း",
       "ကြာဆံချက်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -1867,6 +1933,7 @@
     "aliasesMy": [
       "ကြေးအိုး"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -1896,6 +1963,7 @@
       "ဆီချက်ကြေးအိုး",
       "ဆီချက်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -1927,6 +1995,7 @@
       "လက်ဖက်သုပ်",
       "လဘက်သုပ်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -1957,6 +2026,7 @@
     "aliasesMy": [
       "သံပုရာသီးသုပ်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -1988,6 +2058,7 @@
     "aliasesMy": [
       "သံပုရာရည်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -2017,6 +2088,7 @@
     "aliasesMy": [
       "ပဲတောင့်ရှည်ကြော်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -2045,6 +2117,9 @@
     ],
     "aliasesMy": [
       "မန္တလေးမုန့်တီ"
+    ],
+    "addOns": [
+      "boiledEgg"
     ],
     "generic": false,
     "oilSensitive": true,
@@ -2075,6 +2150,7 @@
     "aliasesMy": [
       "လိမ္မော်သီး"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -2103,6 +2179,7 @@
     "aliasesMy": [
       "သရက်သီး"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -2133,6 +2210,7 @@
       "သရက်သီးသုပ်",
       "သရက်သီးစိမ်းသုပ်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -2164,6 +2242,7 @@
     "aliasesMy": [
       "မြီးရှည်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -2194,6 +2273,7 @@
       "ဟင်းသီးဟင်းရွက်ကြော်",
       "အသီးအရွက်ကြော်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -2223,6 +2303,12 @@
     ],
     "aliasesMy": [
       "မုန့်ဟင်းခါး"
+    ],
+    "addOns": [
+      "boiledEgg",
+      "bayaKyaw",
+      "gourdFritter",
+      "onionFritter"
     ],
     "generic": false,
     "oilSensitive": false,
@@ -2255,6 +2341,10 @@
     "aliasesMy": [
       "မုန့်တီသုပ်"
     ],
+    "addOns": [
+      "boiledEgg",
+      "bayaKyaw"
+    ],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -2284,6 +2374,7 @@
     "aliasesMy": [
       "မုန့်လက်ဆောင်း"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -2313,6 +2404,7 @@
     "aliasesMy": [
       "မုန့်လင်မယား"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -2342,6 +2434,7 @@
     "aliasesMy": [
       "မုန့်ဖက်ထုပ်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -2371,6 +2464,7 @@
     "aliasesMy": [
       "မုန့်ပြားသလက်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -2400,6 +2494,7 @@
     "aliasesMy": [
       "မုန့်ဆီကြော်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -2428,6 +2523,7 @@
     "aliasesMy": [
       "မုန့်လုံးရေပေါ်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -2456,6 +2552,7 @@
     "aliasesMy": [
       "မုန့်စိမ်းပေါင်း"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -2485,6 +2582,7 @@
     "aliasesMy": [
       "မှိုကြော်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -2513,6 +2611,7 @@
     "aliasesMy": [
       "မုန်ညင်းချဉ်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -2542,6 +2641,7 @@
     "aliasesMy": [
       "မုန်ညင်းချဉ်ဟင်းချို"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -2571,6 +2671,7 @@
     "aliasesMy": [
       "ဆိတ်သားဟင်း"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -2601,6 +2702,7 @@
       "ဆိတ်သားလုံးဟင်း",
       "ဆိတ်သားလုံး"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -2630,6 +2732,7 @@
     "aliasesMy": [
       "မြေပဲယို"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -2657,6 +2760,10 @@
     ],
     "aliasesMy": [
       "နန်းကြီးသုပ်"
+    ],
+    "addOns": [
+      "boiledEgg",
+      "bayaKyaw"
     ],
     "generic": false,
     "oilSensitive": true,
@@ -2691,6 +2798,7 @@
       "နံပြား",
       "ပဲပြုတ်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -2720,6 +2828,7 @@
     "aliasesMy": [
       "ငါးပိရည်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -2749,6 +2858,10 @@
     ],
     "aliasesMy": [
       "အုန်းနို့ခေါက်ဆွဲ"
+    ],
+    "addOns": [
+      "boiledEgg",
+      "bayaKyaw"
     ],
     "generic": false,
     "oilSensitive": false,
@@ -2780,6 +2893,7 @@
       "ရုံးပတီသီးကြော်",
       "ရုံးပတီကြော်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -2811,6 +2925,7 @@
       "ကြက်ဥမွှေကြော်",
       "ကြက်ဥခေါက်ကြော်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -2839,6 +2954,7 @@
     "aliasesMy": [
       "ကြက်သွန်ကြော်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -2872,6 +2988,7 @@
       "လက်ဖက်ရည်",
       "လဘက်ရည်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": true,
@@ -2900,6 +3017,7 @@
     "aliasesMy": [
       "ကြံရည်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -2932,6 +3050,7 @@
       "အချိုရည်",
       "အအေး"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -2961,6 +3080,7 @@
       "မန်ကျည်းဖျော်ရည်",
       "မန်ကျည်းရည်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -2990,6 +3110,7 @@
     "aliasesMy": [
       "ဆီးဖျော်ရည်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -3018,6 +3139,7 @@
     "aliasesMy": [
       "ပဲနို့"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -3048,6 +3170,7 @@
       "ဖျော်ရည်",
       "အအေး"
     ],
+    "addOns": [],
     "generic": true,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -3080,6 +3203,7 @@
       "ပုစွန်ဟင်း",
       "ပုစွန်ဆီပြန်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -3109,6 +3233,7 @@
       "ပြည်ကြီးငါးဟင်း",
       "ပြည်ကြီးငါးဆီပြန်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -3137,6 +3262,7 @@
     "aliasesMy": [
       "ငါးချဉ်စပ်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -3167,6 +3293,7 @@
       "ငါးဟင်း",
       "ပုစွန်ဟင်း"
     ],
+    "addOns": [],
     "generic": true,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -3196,6 +3323,7 @@
     "aliasesMy": [
       "စမူဆာ"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -3226,6 +3354,7 @@
       "ကော်ပြန့်ကြော်",
       "ကော်ပြန့်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -3256,6 +3385,7 @@
       "တိုဟူးကြော်",
       "ရှမ်းတိုဟူးကြော်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -3285,6 +3415,7 @@
     "aliasesMy": [
       "အကြော်"
     ],
+    "addOns": [],
     "generic": true,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -3315,6 +3446,7 @@
       "ဝက်သားဟင်း",
       "ဝက်သားဆီပြန်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -3344,6 +3476,7 @@
       "ဝက်သားမျှစ်ချဉ်",
       "ဝက်သားမျှစ်ချဉ်ဟင်း"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -3373,6 +3506,7 @@
     "aliasesMy": [
       "ဆတ်သားဟင်း"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -3403,6 +3537,7 @@
       "ပုံးရည်ကြီးဝက်သား",
       "ပုံးရည်ကြီး"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -3433,6 +3568,7 @@
       "အသားဟင်း",
       "ဟင်း"
     ],
+    "addOns": [],
     "generic": true,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -3461,6 +3597,9 @@
     ],
     "aliasesMy": [
       "ရခိုင်မုန့်တီ"
+    ],
+    "addOns": [
+      "boiledEgg"
     ],
     "generic": false,
     "oilSensitive": false,
@@ -3493,6 +3632,7 @@
       "တိုဟူးနွေး",
       "တိုဟူးနွေးခေါက်ဆွဲ"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -3522,6 +3662,7 @@
     "aliasesMy": [
       "ပန်းသေးခေါက်ဆွဲ"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -3552,6 +3693,7 @@
       "ခေါက်ဆွဲ",
       "မုန့်"
     ],
+    "addOns": [],
     "generic": true,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -3584,6 +3726,7 @@
       "ခေါက်ဆွဲကြော်",
       "ခေါက်ဆွဲသုပ်"
     ],
+    "addOns": [],
     "generic": true,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -3613,6 +3756,9 @@
     ],
     "aliasesMy": [
       "ပဲပြုတ်ထမင်းကြော်"
+    ],
+    "addOns": [
+      "friedEgg"
     ],
     "generic": false,
     "oilSensitive": true,
@@ -3644,6 +3790,7 @@
       "ငါးထမင်းချဉ်",
       "ထမင်းချဉ်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -3677,6 +3824,11 @@
       "ပေါ်ဆန်းမွှေး",
       "ပေါ်ဆန်း"
     ],
+    "addOns": [
+      "friedEgg",
+      "clearSoup",
+      "ngapiYay"
+    ],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -3706,6 +3858,10 @@
     ],
     "aliasesMy": [
       "ထမင်းဟင်း"
+    ],
+    "addOns": [
+      "friedEgg",
+      "clearSoup"
     ],
     "generic": false,
     "oilSensitive": true,
@@ -3739,6 +3895,7 @@
       "ထမင်းကြော်",
       "ထမင်း"
     ],
+    "addOns": [],
     "generic": true,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -3769,6 +3926,7 @@
     "aliasesMy": [
       "ခရမ်းချဉ်သီးသုပ်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -3798,6 +3956,7 @@
       "တိုဟူးသုပ်",
       "ရှမ်းတိုဟူးသုပ်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -3826,6 +3985,7 @@
     "aliasesMy": [
       "စမူဆာသုပ်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -3854,6 +4014,7 @@
     "aliasesMy": [
       "မြင်းခွာရွက်သုပ်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -3882,6 +4043,7 @@
     "aliasesMy": [
       "ကျွဲကောသီးသုပ်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -3913,6 +4075,7 @@
     "aliasesMy": [
       "အသုပ်"
     ],
+    "addOns": [],
     "generic": true,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -3945,6 +4108,7 @@
       "ချဉ်ရည်ဟင်း",
       "ချဉ်ရည်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -3976,6 +4140,7 @@
       "ချဉ်ပေါင်ဟင်းချို",
       "ချဉ်ပေါင်ဟင်း"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -4005,6 +4170,7 @@
     "aliasesMy": [
       "ကျောက်ဖရုံသီးဟင်းချို"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -4035,6 +4201,7 @@
       "ဟင်းချို",
       "ဟင်းရည်"
     ],
+    "addOns": [],
     "generic": true,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -4065,6 +4232,7 @@
     "aliasesMy": [
       "ဆနွင်းမကင်း"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -4094,6 +4262,7 @@
       "ရွှေကြည်",
       "ဆနွင်းရွှေကြည်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -4123,6 +4292,7 @@
     "aliasesMy": [
       "ပေါက်စီ"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -4154,6 +4324,7 @@
       "မုန့်",
       "မုန့်ချို"
     ],
+    "addOns": [],
     "generic": true,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -4184,6 +4355,7 @@
       "ကန်စွန်းရွက်ကြော်",
       "ကန်စွန်းကြော်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -4214,6 +4386,7 @@
       "ချဉ်ပေါင်ကြော်",
       "ချဉ်ပေါင်ရွက်ကြော်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -4245,6 +4418,7 @@
       "ရွှေဖရုံသီးဟင်း",
       "ဖရုံသီးဟင်း"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -4277,6 +4451,7 @@
       "အာလူးဟင်း",
       "အာလူးဆီပြန်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -4307,6 +4482,7 @@
       "ဟင်းသီးဟင်းရွက်",
       "ဟင်းရွက်ကြော်"
     ],
+    "addOns": [],
     "generic": true,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -4337,6 +4513,7 @@
     "aliasesMy": [
       "သင်္ဘောသီး"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -4365,6 +4542,7 @@
     "aliasesMy": [
       "မြင်းခွာရွက်ဖျော်ရည်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -4393,6 +4571,7 @@
     "aliasesMy": [
       "နာနတ်သီး"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -4422,6 +4601,7 @@
       "ပုစွန်ကြက်ဟင်းခါး",
       "ပုစွန်ကြက်ဟင်းခါးသီးကြော်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -4450,6 +4630,7 @@
     "aliasesMy": [
       "ပူရီ"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -4479,6 +4660,7 @@
       "ငုံးဥဟင်း",
       "ငုံးဥဆီပြန်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -4509,6 +4691,7 @@
       "တို့စရာ",
       "အစိမ်းတို့စရာ"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -4538,6 +4721,10 @@
     "aliasesMy": [
       "ဆန်ပြုတ်"
     ],
+    "addOns": [
+      "eKyaKwe",
+      "boiledEgg"
+    ],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -4565,6 +4752,9 @@
     ],
     "aliasesMy": [
       "ရှမ်းခေါက်ဆွဲ"
+    ],
+    "addOns": [
+      "boiledEgg"
     ],
     "generic": false,
     "oilSensitive": false,
@@ -4595,6 +4785,7 @@
     "aliasesMy": [
       "ရွှေရင်အေး"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -4626,6 +4817,7 @@
       "ဆီချက်ခေါက်ဆွဲ",
       "ဆီချက်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -4655,6 +4847,7 @@
       "ကောက်ညှင်းပေါင်း",
       "ကောက်ညှင်း"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -4684,6 +4877,7 @@
     "aliasesMy": [
       "တိုရှည်"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": true,
     "hasSweetness": false,
@@ -4712,6 +4906,7 @@
     "aliasesMy": [
       "ဖရဲသီး"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,
@@ -4743,6 +4938,7 @@
       "ဝက်သားတုတ်ထိုး",
       "တုတ်ထိုး"
     ],
+    "addOns": [],
     "generic": false,
     "oilSensitive": false,
     "hasSweetness": false,

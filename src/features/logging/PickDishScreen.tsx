@@ -36,7 +36,9 @@ export function PickDishScreen() {
     if (!entry || !picked) return;
     const dish = getDish(picked);
     const qty = current && getDish(current.dishId).unit === dish.unit ? current.qty : 1;
-    updateEntry(entry.id, { items: [{ dishId: picked, qty, oil: 'normal' }], confidence: 1, status: 'done' });
+    // Swap the main dish; add-ons (eggs, fritters) stay.
+    const rest = entry.items.slice(1);
+    updateEntry(entry.id, { items: [{ dishId: picked, qty, oil: 'normal' }, ...rest], confidence: 1, status: 'done' });
     if (from === 'result') router.back();
     else router.replace({ pathname: '/result', params: { id: entry.id } });
   };

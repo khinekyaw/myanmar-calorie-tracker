@@ -3,14 +3,14 @@ import { useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
-import { itemMacros, itemName, numbersTier, sumMacros, type MealItem } from '@/domain/meal';
-import { formatNumber, formatPlates } from '@/lib/format';
+import { numbersTier, sumMacros, type MealItem } from '@/domain/meal';
+import { formatNumber } from '@/lib/format';
 import { getDish } from '@/data/dishes';
 import { useEntry, useLog, type LogEntry } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
-import { Badge, Button, ConfirmSheet, PhotoSheet, Stepper, Text } from '@/ui';
+import { Badge, Button, ConfirmSheet, PhotoSheet, Text } from '@/ui';
 
-import { amountLabel } from './amountLabel';
+import { MealItemRow } from './components/MealItemRow';
 import { SaveBar } from './components/SaveBar';
 import { useMealDraft } from './mealDraft';
 
@@ -99,34 +99,9 @@ export function SharedMeal({ entry }: { entry: LogEntry }) {
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={s.list}>
-        {items.map((item, i) => {
-          const dish = getDish(item.dishId);
-          const name = itemName(item, language);
-          const off = item.qty === 0;
-          return (
-            <View key={`${item.dishId}-${i}`} style={[s.row, s.divider]}>
-              <View style={s.flex}>
-                <Text variant="body" tone={off ? 'subtle' : 'default'}>
-                  {name}
-                </Text>
-                <Text variant="caption" tone="subtle">
-                  {off
-                    ? t('shared.notEaten')
-                    : `${amountLabel(t, dish, item.qty, language)} · ${formatNumber(Math.round(itemMacros(item).kcal), language)}`}
-                </Text>
-              </View>
-              <Stepper
-                value={item.qty}
-                step={dish.unit === 'spoon' || dish.unit === 'piece' ? 1 : 0.5}
-                max={30}
-                display={formatPlates(item.qty, language) || '0'}
-                onChange={(q) => set(item, q)}
-                decreaseLabel={`${name} ${t('result.less')}`}
-                increaseLabel={`${name} ${t('result.more')}`}
-              />
-            </View>
-          );
-        })}
+        {items.map((item, i) => (
+          <MealItemRow key={`${item.dishId}-${i}`} item={item} onChange={(q) => set(item, q)} />
+        ))}
         <Button
           variant="secondary"
           icon="plus"
@@ -149,11 +124,8 @@ export function SharedMeal({ entry }: { entry: LogEntry }) {
 }
 
 const useStyles = makeStyles(({ theme }) => ({
-  flex: { flex: 1 },
   head: { gap: theme.space.sm, alignItems: 'flex-start' },
   badges: { flexDirection: 'row', gap: theme.space.sm },
   list: { paddingBottom: theme.space.lg },
-  row: { flexDirection: 'row', alignItems: 'center', gap: theme.space.md, minHeight: 68, paddingVertical: theme.space.sm },
-  divider: { borderBottomWidth: 1, borderBottomColor: theme.colors.hairline },
   add: { marginTop: theme.space.lg },
 }));

@@ -5,6 +5,7 @@
     "roman": ["nan gyi thoke", "nangyi thoke"],
     "my": ["နန်းကြီးသုပ်"]
   },
+  "addOns": ["boiledEgg", "bayaKyaw"],
   "oilSensitive": true,
   "unit": "plate",
   "servingG": 323,

@@ -5,6 +5,7 @@
     "roman": ["htamin kyaw", "fried rice"],
     "my": ["ထမင်းကြော်"]
   },
+  "addOns": ["friedEgg"],
   "oilSensitive": true,
   "unit": "plate",
   "servingG": 324,

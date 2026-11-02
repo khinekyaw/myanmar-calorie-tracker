@@ -91,6 +91,8 @@ describe('calculate', () => {
       recipe({ id: 'd', yieldG: 500, lines: [{ ing: 'flour', g: 100 }] }),
       recipe({ id: 'e', status: 'reviewed', lines: [{ ing: 'leaf', g: 10 }] }),
       recipe({ id: 'f', unit: undefined, lines: [{ ing: 'flour', g: 10 }] }),
+      recipe({ id: 'g', addOns: ['f', 'nope', '_part'], lines: [{ ing: 'flour', g: 10 }] }),
+      recipe({ id: '_part', lines: [{ ing: 'flour', g: 10 }] }),
     );
     expect(results.get('a')!.errors.join()).toMatch(/inside itself|which has errors/);
     expect(results.get('c')!.errors).toEqual(['unknown ingredient "nope"', 'flour: grams must be above 0']);
@@ -98,6 +100,7 @@ describe('calculate', () => {
     expect(results.get('e')!.errors).toEqual(['reviewed needs reviewedBy', 'cannot be reviewed while it uses placeholder ingredients']);
     expect(results.get('f')!.errors).toEqual(['needs a unit and servingG']);
     expect(results.get('f')!.perServing).toBeNull();
+    expect(results.get('g')!.errors).toEqual(['add-on "nope" is not a dish', 'add-on "_part" is not a dish']);
   });
 
   it('flags missing values only for a real share of the batch', () => {

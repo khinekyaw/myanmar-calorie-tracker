@@ -280,6 +280,14 @@ The editor used to write every stepper tap straight into the meal (and Search "+
 - **Bottom sheets share one motion** (`ui/BottomSheet.tsx`). Before, each sheet faded and slid in on its own and vanished at once on close. Now they spring in with a small bounce (damping ratio about 0.78), slide out in 170 ms with the scrim fading, and travel their own height, so they appear at once. They reach 48 px below the screen edge so the bounce shows no gap. `BottomSheet` stays mounted until its exit has played. The `AddSheet` route uses `useSheetMotion` and navigates after the exit, Android back included.
 - **`Text hugged`**: Android measures Burmese text narrower than it draws. In content-sized boxes (pills, chips, badges) the last mark was cut at large system font sizes ("ဒီနေ့" lost its dot). End padding and `textBreakStrategy="simple"` didn't help; a trailing no-break space did, so `hugged` adds one after Burmese strings.
 
+## Toppings: add-on chips and a clearer scan rule (2026-11-03)
+
+Two mohinga photos, one plain and one with eggs and fritters, both came back from Gemini Flash-Lite as "mohinga, 1 bowl" (390 kcal). The contract already allows several items per photo; two things stood in the way.
+- **The prompt told the model to skip the egg** ("the half boiled egg in mohinga" is part of the recipe), so it left out every egg. Now: the dish includes its usual garnish and *half* an egg; list anything beyond it (2 whole eggs → boiled egg 1.5), and look closely for fritters, also broken up.
+- **Result couldn't add a topping.** Recipes now list `addOns` (12 dishes so far; server `dishes.add_ons`), shown as one-tap chips on Result. A meal with several items shows a row per item (`MealItemRow`, shared with ဝိုင်းစား), and PickDish swaps only the main dish.
+- A stronger model (Gemini Flash, Claude Haiku) would see toppings more often but costs more per scan. Decide with ~50 labelled photos, not now.
+- The dish seed now also replaces rows dated in the future: phones that took the catalogue while `CATALOGUE_DATE` was set ahead of the clock would otherwise keep that copy.
+
 ## ဝိုင်းစား as one list (2026-11-03)
 
 The shared-meal editor didn't explain itself: a "What I ate" label, rice as a big card, curries as rows, soup and ngapi as pills next to a "+" pill, all behind *Fix* on a Result that showed only the names. It also added a plate of rice to any meal it opened, so a palata and soup meal gained 260 kcal on Save.

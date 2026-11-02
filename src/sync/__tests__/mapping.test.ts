@@ -151,6 +151,7 @@ describe('dishes', () => {
       aliases_my: ['လက်ဖက်ရည်'],
       aliases_zawgyi: ['zawgyi-tea'],
       aliases_roman: ['laphet yay'],
+      add_ons: ['eKyaKwe'],
       unit: 'cup',
       serving_g: '150' as never,
       kcal: '120.0' as never,
@@ -169,6 +170,7 @@ describe('dishes', () => {
     });
     expect(d).toMatchObject({
       servingG: 150,
+      addOns: ['eKyaKwe'],
       kcal: 120,
       sugarG: 16.1,
       sodiumMg: 61,
@@ -190,6 +192,7 @@ describe('dishes', () => {
       aliases_my: [],
       aliases_zawgyi: [],
       aliases_roman: [],
+      add_ons: null,
       unit: 'plate',
       serving_g: null,
       kcal: 100,
