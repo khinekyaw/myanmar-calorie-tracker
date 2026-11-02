@@ -21,10 +21,10 @@
     { "ing": "wheatFlour", "g": 400 },
     { "ing": "water", "g": 180 },
     { "ing": "peanutOil", "g": 40 },
-    { "ing": "peanutOil", "g": 1500, "kept": 0.08 }
+    { "ing": "peanutOil", "absorbed": 0.1, "note": "only the pastry around the filling fries (CATALOGUE.md)" }
   ],
   "method": "Potato and onion filling with curry powder; folded pastry; deep-fried.",
   "sources": [],
   "status": "draft",
-  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. Lines: filling oil, dough oil, then deep-frying oil (8 % kept). Piece size is a guess."
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. Lines: filling oil, dough oil, then the oil it soaks up in the fryer. Piece size is a guess."
 }

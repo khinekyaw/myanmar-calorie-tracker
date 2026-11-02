@@ -135,6 +135,7 @@ describe('dishes', () => {
       aliases_zawgyi: ['zawgyi-tea'],
       aliases_roman: ['laphet yay'],
       unit: 'cup',
+      serving_g: '150' as never,
       kcal: '120.0' as never,
       carb_g: 18,
       protein_g: 3,
@@ -150,6 +151,7 @@ describe('dishes', () => {
       updated_at: '2026-10-30T00:00:00Z',
     });
     expect(d).toMatchObject({
+      servingG: 150,
       kcal: 120,
       sugarG: 16.1,
       sodiumMg: 61,
@@ -163,7 +165,7 @@ describe('dishes', () => {
     expect(Object.keys(d)).toEqual(expect.arrayContaining(Object.keys(dishes.tea).filter((k) => k !== 'photo')));
   });
 
-  it('leaves out missing sugar and sodium, and guessed numbers are not calculated', () => {
+  it('leaves out missing grams, sugar and sodium, and guessed numbers are not calculated', () => {
     const d = dishFromServer({
       id: 'x',
       name_my: 'x',
@@ -172,6 +174,7 @@ describe('dishes', () => {
       aliases_zawgyi: [],
       aliases_roman: [],
       unit: 'plate',
+      serving_g: null,
       kcal: 100,
       carb_g: 10,
       protein_g: 5,
@@ -186,6 +189,7 @@ describe('dishes', () => {
       deleted_at: null,
       updated_at: '2026-10-30T00:00:00Z',
     });
+    expect(d.servingG).toBeUndefined();
     expect(d.sugarG).toBeUndefined();
     expect(d.sodiumMg).toBeUndefined();
     expect(d.calculated).toBeUndefined();

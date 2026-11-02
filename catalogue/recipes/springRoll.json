@@ -22,7 +22,7 @@
     { "ing": "soySauce", "g": 15 },
     { "ing": "salt", "g": 3 },
     { "ing": "peanutOil", "g": 30 },
-    { "ing": "peanutOil", "g": 1500, "kept": 0.07 }
+    { "ing": "peanutOil", "absorbed": 0.1, "note": "only the pastry around the filling fries (CATALOGUE.md)" }
   ],
   "sources": [],
   "status": "draft",

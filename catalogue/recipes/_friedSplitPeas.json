@@ -10,10 +10,10 @@
   "lines": [
     { "ing": "splitPeasRaw", "g": 100 },
     { "ing": "water", "g": 100 },
-    { "ing": "peanutOil", "g": 200, "kept": 0.12 }
+    { "ing": "peanutOil", "absorbed": 0.2, "note": "small crisp bits (fried snacks 20–40 %, CATALOGUE.md)" }
   ],
   "method": "Soak, drain, deep-fry until crisp.",
   "sources": [],
   "status": "draft",
-  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. Oil kept: 12 % of the frying oil (about a fifth of the fried weight); needs checking."
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes."
 }

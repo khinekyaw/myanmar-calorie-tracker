@@ -244,6 +244,7 @@ export type ServerDish = {
   aliases_zawgyi: string[];
   aliases_roman: string[];
   unit: Unit;
+  serving_g: number | null;
   kcal: number;
   carb_g: number;
   protein_g: number;
@@ -271,6 +272,7 @@ export function dishFromServer(d: ServerDish): Dish {
     // Zawgyi spellings are matched like any other Burmese alias.
     aliasesMy: [...(d.aliases_my ?? []), ...(d.aliases_zawgyi ?? [])],
     unit: d.unit,
+    ...(d.serving_g !== null && d.serving_g !== undefined && { servingG: Number(d.serving_g) }),
     kcal: Number(d.kcal),
     carbG: Number(d.carb_g),
     proteinG: Number(d.protein_g),

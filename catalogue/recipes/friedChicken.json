@@ -16,7 +16,7 @@
     { "ing": "turmeric", "g": 5 },
     { "ing": "salt", "g": 10 },
     { "ing": "riceFlour", "g": 50 },
-    { "ing": "peanutOil", "g": 2000, "kept": 0.03 }
+    { "ing": "peanutOil", "absorbed": 0.08, "note": "whole pieces, little batter (CATALOGUE.md)" }
   ],
   "method": "Turmeric-salt chicken, dusted in rice flour, deep-fried.",
   "sources": [],

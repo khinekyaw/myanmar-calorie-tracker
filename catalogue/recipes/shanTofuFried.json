@@ -14,7 +14,7 @@
   "yieldWeighed": false,
   "lines": [
     { "dish": "_shanTofu", "g": 500 },
-    { "ing": "peanutOil", "g": 1000, "kept": 0.08 }
+    { "ing": "peanutOil", "absorbed": 0.12, "note": "starchy pieces, like chips (fries 10–15 %, CATALOGUE.md)" }
   ],
   "method": "Slices of Shan tofu deep-fried until puffed.",
   "sources": [],

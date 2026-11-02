@@ -15,7 +15,7 @@
     { "ing": "surimi", "g": 500 },
     { "ing": "riceFlour", "g": 30 },
     { "ing": "salt", "g": 5 },
-    { "ing": "peanutOil", "g": 1000, "kept": 0.06 }
+    { "ing": "peanutOil", "absorbed": 0.08, "note": "whole pieces, little batter (CATALOGUE.md)" }
   ],
   "method": "Fish paste shaped and deep-fried.",
   "sources": [],

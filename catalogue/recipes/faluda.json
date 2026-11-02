@@ -6,7 +6,7 @@
     "my": ["ဖာလူဒါ"]
   },
   "unit": "cup",
-  "servingG": 305,
+  "servingG": 365,
   "servingWeighed": false,
   "yieldWeighed": false,
   "lines": [
@@ -15,9 +15,11 @@
     { "dish": "kyaukKyaw", "g": 40 },
     { "ing": "tapioca", "g": 10 },
     { "ing": "water", "g": 30 },
-    { "ing": "sugar", "g": 15 }
+    { "ing": "sugar", "g": 15 },
+    { "dish": "_eggPudding", "g": 40 },
+    { "ing": "condensedMilk", "g": 20 }
   ],
   "sources": [],
   "status": "draft",
-  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. Sugar line = rose syrup."
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. Sugar line = rose syrup. Egg pudding and condensed milk added 2026-11-03: many shops use both. Glass size is a guess; weigh a tall glass from a few shops."
 }

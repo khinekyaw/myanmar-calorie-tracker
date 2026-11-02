@@ -17,7 +17,7 @@
     { "ing": "water", "g": 600 },
     { "ing": "salt", "g": 15 },
     { "ing": "yeast", "g": 10 },
-    { "ing": "peanutOil", "g": 3000, "kept": 0.06 }
+    { "ing": "peanutOil", "absorbed": 0.18, "note": "deep-fried dough or batter (doughnuts absorb 15–20 %, CATALOGUE.md)" }
   ],
   "sources": [],
   "status": "draft",

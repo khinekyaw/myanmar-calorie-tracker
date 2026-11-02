@@ -12,6 +12,7 @@ import { useLog } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Chip, EdgeScrollView, FadeEdge, Icon, IconButton, Screen, Stepper, Text } from '@/ui';
 
+import { amountLabel } from './amountLabel';
 import { SaveBar } from './components/SaveBar';
 import { useMealDraft } from './mealDraft';
 
@@ -19,7 +20,7 @@ import { useMealDraft } from './mealDraft';
  * Search by Burmese, English or romanized name ("laphet yay", "mont hin gar").
  * Tap dishes to pick several (each with its amount and tea sweetness); picked
  * dishes stay as chips under the field while you search for the next one,
- * and one button adds them all as one meal.
+ * and one button logs each as its own entry.
  * With `?addTo=<entryId>` they go into that meal's unsaved draft (SharedMeal "+").
  */
 export function FoodSearchScreen() {
@@ -54,7 +55,11 @@ export function FoodSearchScreen() {
       picked.forEach(putInDraft);
       router.back();
     } else {
-      addEntry({ source: 'search', status: 'done', items: picked });
+      // One entry per dish, listed (newest first) in the order they were picked.
+      const now = Date.now();
+      [...picked].reverse().forEach((item, i) =>
+        addEntry({ source: 'search', status: 'done', items: [item], eatenAt: new Date(now - picked.length + 1 + i) }),
+      );
       router.dismissTo('/home');
     }
   };
@@ -176,7 +181,7 @@ export function FoodSearchScreen() {
                           increaseLabel={t('result.more')}
                         />
                         <Text variant="caption" tone="muted" style={s.flex}>
-                          {t(`units.${dish.unit}`, { count: item.qty })}
+                          {amountLabel(t, dish, item.qty, language)}
                         </Text>
                       </View>
                     </View>

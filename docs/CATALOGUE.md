@@ -52,14 +52,14 @@ After a build that changes numbers:
   "name": { "en": "Samosa", "my": "စမူဆာ" },
   "aliases": { "roman": ["samusa", "samosa"], "my": ["စမူဆာ"] },   // what people type or say
   "oilSensitive": true,                 // also hasSweetness, isVegetarian
-  "unit": "piece",                      // plate | bowl | spoon | piece | cup
+  "unit": "piece",                      // plate | bowl | spoon (a serving spoon) | piece | cup
   "servingG": 45,                       // cooked grams in one unit
   "servingWeighed": false,              // true once someone weighed real portions
   "yieldG": 1250,                       // whole batch after cooking; omit if nothing is lost
   "yieldWeighed": false,
   "lines": [
     { "ing": "potato", "g": 500 },                      // raw grams
-    { "ing": "peanutOil", "g": 1500, "kept": 0.08 },    // deep-frying: share left in the food
+    { "ing": "peanutOil", "absorbed": 0.10 },           // deep-frying: oil soaked up, share of yieldG
     { "dish": "_mohingaBroth", "g": 350 }               // cooked grams of another recipe
   ],
   "method": "…", "sources": ["https://…"], "status": "draft", "notes": "…"
@@ -68,10 +68,22 @@ After a build that changes numbers:
 
 - **Batch recipes** (curries, dough, broth) list the raw ingredients for a whole pot. `yieldG` is what the pot weighs after cooking, so water lost to cooking is counted. **Assembled dishes** (a bowl of mohinga, a rice plate, a salad) list one serving and leave out `yieldG`.
 - **Components** (`_mohingaBroth`, `_friedSplitPeas`, `_naan`) are shared parts. They have no unit and are never logged. They work as templates: one reviewed curry base can serve every protein.
-- Weights are edible portions: no bones, peels or discarded stalks. Use `kept` for anything partly removed (lemongrass, frying oil).
+- Weights are edible portions: no bones, peels or discarded stalks. Use `kept` for anything partly removed (lemongrass, pan-frying oil that stays in the pan).
+- **Deep-frying oil** is `absorbed`: the oil the food soaks up, as a share of the cooked batch (`yieldG`), whatever was in the pan. Pick the type:
+
+  | Fried food | `absorbed` | Dishes |
+  |---|---|---|
+  | Dough or batter | 0.18 | fried dough stick, puri, split pea / gourd / onion fritters |
+  | Pastry around a filling | 0.10 | samosa, spring roll |
+  | Starchy pieces | 0.12 | fried Shan tofu |
+  | Whole pieces, little batter | 0.08 | fried chicken, fried fish, fish cake |
+  | Small crisp bits | 0.20 | fried dried fish, fried split peas |
+
+  Published oil contents of fried foods: doughnuts 20–25 %, french fries 10–15 %, potato chips 33–38 %, most fried snacks 20–40 % ([Moreira et al. 1999, cited here](https://www.ahealthylife.nl/wp-content/uploads/2018/06/deep-fat_vs_air-frying.pdf)); doughnuts absorb 15–20 % of their weight ([Grasas y Aceites, 1998](https://doaj.org/article/fed67d570f2d4e5889832fb84444652c)). The values above are placed inside those ranges for our foods. No study measured Burmese dishes; replace a value when one is measured or the nutritionist sets it.
+- **Units:** `spoon` is a **serving spoon** (ဟင်းခပ်ဇွန်း), not a tablespoon: 30 g of curry, 40 g of vegetables, 15 g of relish. The app shows the grams next to the amount (`servingG`, also in the server's `dishes.serving_g`).
 - Water and salt are ingredients. Leaving out the water makes `yieldG` look too high, and the build catches that.
 
-The checks. **Errors** fail the build: unknown ingredient, a recipe used inside itself, cooked weight above the ingredient weight, more than 900 kcal per 100 g, a missing unit or serving, reviewed without `reviewedBy`, reviewed with placeholders. **Warnings** go in the review sheet: kcal and 4/4/9 differ by more than 15 %, no source recipe, a nutrient with no value for an ingredient making up 5 % or more of the batch.
+The checks. **Errors** fail the build: unknown ingredient, `absorbed` without `yieldG` or above 0.5, a recipe used inside itself, cooked weight above the ingredient weight, more than 900 kcal per 100 g, a missing unit or serving, reviewed without `reviewedBy`, reviewed with placeholders. **Warnings** go in the review sheet: kcal and 4/4/9 differ by more than 15 %, no source recipe, a nutrient with no value for an ingredient making up 5 % or more of the batch.
 
 ## Drafting a dish (person or Claude)
 

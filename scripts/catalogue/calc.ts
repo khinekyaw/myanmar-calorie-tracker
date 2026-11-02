@@ -26,8 +26,14 @@ export type Ingredient = {
 };
 
 export type RecipeLine =
-  /** Raw ingredient. `kept` = share left in the food (deep-frying oil, discarded lemongrass). */
+  /** Raw ingredient. `kept` = share left in the food (pan-frying oil, discarded lemongrass). */
   | { ing: string; g: number; kept?: number; note?: string }
+  /**
+   * Deep-frying oil the food soaks up, as a share of the cooked batch
+   * (`yieldG`): 0.18 = 18 g in every 100 g. How much oil was in the pan
+   * doesn't matter, so this replaces "pan grams × kept".
+   */
+  | { ing: string; absorbed: number; note?: string }
   /** Grams of another recipe's cooked food (a curry on a rice plate, a broth). */
   | { dish: string; g: number; note?: string };
 
@@ -110,6 +116,8 @@ const ATWATER_TOLERANCE = 0.15;
 /** Pure fat is ~900 kcal per 100 g; anything above is a typo. */
 const MAX_KCAL_PER_100G = 900;
 const MISSING_SHARE = 0.05;
+/** Even crisps hold under 40 % oil; more than half is a typo. */
+const MAX_ABSORBED = 0.5;
 
 export function calculate(
   ingredients: Record<string, Ingredient>,
@@ -134,9 +142,16 @@ export function calculate(
     let massInG = 0;
 
     for (const line of recipe.lines) {
-      if (!(line.g > 0)) errors.push(`${'ing' in line ? line.ing : line.dish}: grams must be above 0`);
+      if ('absorbed' in line) {
+        if (!(line.absorbed > 0 && line.absorbed <= MAX_ABSORBED)) {
+          errors.push(`${line.ing}: absorbed must be above 0 and at most ${MAX_ABSORBED}`);
+        }
+        if (!recipe.yieldG) errors.push(`${line.ing}: absorbed oil needs the batch's yieldG`);
+      } else if (!(line.g > 0)) errors.push(`${'ing' in line ? line.ing : line.dish}: grams must be above 0`);
       if ('ing' in line) {
-        const kept = line.kept ?? 1;
+        const absorbed = 'absorbed' in line;
+        const g = absorbed ? line.absorbed * (recipe.yieldG ?? 0) : line.g;
+        const kept = absorbed ? 1 : (line.kept ?? 1);
         if (!(kept > 0 && kept <= 1)) errors.push(`${line.ing}: kept must be above 0 and at most 1`);
         const ing = ingredients[line.ing];
         if (!ing) {
@@ -151,11 +166,11 @@ export function calculate(
           else values[k] = v;
         }
         if (ing.placeholder) placeholders.add(line.ing);
-        const n = scale(values, (line.g * kept) / 100);
+        const n = scale(values, (g * kept) / 100);
         add(batch, n);
-        massInG += line.g * kept;
-        lines.push({ label: line.ing, g: line.g, kept, batch: n });
-        if (gap.length) gaps.push({ mass: line.g * kept, nutrients: gap, label: line.ing });
+        massInG += g * kept;
+        lines.push({ label: line.ing, g, kept, batch: n });
+        if (gap.length) gaps.push({ mass: g * kept, nutrients: gap, label: line.ing });
       } else {
         if (visiting.has(line.dish)) {
           errors.push(`"${line.dish}" is used inside itself`);

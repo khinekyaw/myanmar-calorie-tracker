@@ -28,6 +28,7 @@ export function catalogueSeedSql(list: Dish[]): string {
           arr(d.aliasesMy),
           arr(d.aliasesRoman),
           q(d.unit),
+          opt(d.servingG),
           d.kcal,
           d.carbG,
           d.proteinG,
@@ -44,7 +45,7 @@ export function catalogueSeedSql(list: Dish[]): string {
 -- Dish catalogue: numbers from the recipe calculation (draft recipes), not verified.
 
 insert into public.dishes (
-  id, name_my, name_en, aliases_my, aliases_roman, unit,
+  id, name_my, name_en, aliases_my, aliases_roman, unit, serving_g,
   kcal, carb_g, protein_g, fat_g, sugar_g, sodium_mg, oil_sensitive, has_sweetness, is_vegetarian, source
 ) values
 ${rows.join(',\n')}

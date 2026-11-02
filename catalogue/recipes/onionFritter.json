@@ -19,7 +19,7 @@
     { "ing": "chickpeaFlour", "g": 50 },
     { "ing": "water", "g": 200 },
     { "ing": "salt", "g": 5 },
-    { "ing": "peanutOil", "g": 2000, "kept": 0.08 }
+    { "ing": "peanutOil", "absorbed": 0.18, "note": "deep-fried dough or batter (doughnuts absorb 15–20 %, CATALOGUE.md)" }
   ],
   "sources": [],
   "status": "draft",

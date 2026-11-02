@@ -10,6 +10,7 @@ import { useEntry, useLog } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Chip, Icon, IconButton, Screen, Stepper, Text } from '@/ui';
 
+import { amountLabel } from './amountLabel';
 import { SaveBar } from './components/SaveBar';
 import { useMealDraft } from './mealDraft';
 
@@ -102,7 +103,7 @@ export function SharedMealScreen() {
                     {dish.name[language]}
                   </Text>
                   <Text variant="caption" tone="subtle">
-                    {t(`units.${dish.unit}`, { count: item.qty })} · {formatNumber(Math.round(itemMacros(item).kcal), language)}
+                    {amountLabel(t, dish, item.qty, language)} · {formatNumber(Math.round(itemMacros(item).kcal), language)}
                   </Text>
                 </View>
                 <Stepper

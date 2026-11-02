@@ -19,7 +19,7 @@ Home → **+** opens the add sheet:
 |---|---|---|
 | **Photo** | Camera → shutter → Result (or SharedMeal / PickDish, see 3) → *Done* | Queued, sent when back online |
 | **Say or type** | The keyboard opens → type, or tap the keyboard's mic and say "လက်ဖက်ရည် ပေါ့စိမ့် တစ်ခွက်နဲ့ ပလာတာ တစ်ချပ်" → check the parsed dishes → *Save* | Yes |
-| **Search** | The search box at the top of the + sheet → type "laphet yay" / "mohinga" → tap dishes to pick several (each with its amount and tea sweetness; picks stay as chips while you search again; tap a chip to remove it) → *Add N dishes* logs them as one meal | Yes |
+| **Search** | The search box at the top of the + sheet → type "laphet yay" / "mohinga" → tap dishes to pick several (each with its amount and tea sweetness; picks stay as chips while you search again; tap a chip to remove it) → *Add N dishes* logs each dish as its own entry | Yes |
 | **Quick re-log** | Tap a chip (milk tea, palata…) | Yes |
 | Barcode | Shown as *Soon* (later scope) | — |
 

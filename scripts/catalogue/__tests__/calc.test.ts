@@ -52,6 +52,25 @@ describe('calculate', () => {
     expect(r.massInG).toBeCloseTo(110);
   });
 
+  it('counts deep-frying oil as a share of the cooked batch', () => {
+    // 100 g flour + 100 g water fried down to 150 g, 20 % of it oil → 30 g oil.
+    const results = run(
+      recipe({
+        id: 'fritter',
+        yieldG: 150,
+        lines: [{ ing: 'flour', g: 100 }, { ing: 'water', g: 100 }, { ing: 'oil', absorbed: 0.2 }],
+      }),
+      recipe({ id: 'noYield', lines: [{ ing: 'flour', g: 100 }, { ing: 'oil', absorbed: 0.2 }] }),
+      recipe({ id: 'tooOily', yieldG: 100, lines: [{ ing: 'flour', g: 100 }, { ing: 'oil', absorbed: 0.8 }] }),
+    );
+    const r = results.get('fritter')!;
+    expect(r.batch.kcal).toBeCloseTo(360 + 270);
+    expect(r.batch.fatG).toBeCloseTo(30);
+    expect(r.errors).toEqual([]);
+    expect(results.get('noYield')!.errors.join()).toMatch(/needs the batch's yieldG/);
+    expect(results.get('tooOily')!.errors.join()).toMatch(/at most 0.5/);
+  });
+
   it('uses other recipes by cooked weight and passes placeholders up', () => {
     const results = run(
       recipe({ id: '_paste', yieldG: 50, lines: [{ ing: 'oil', g: 10 }, { ing: 'leaf', g: 100 }] }),

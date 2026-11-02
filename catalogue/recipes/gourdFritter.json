@@ -19,10 +19,10 @@
     { "ing": "water", "g": 200 },
     { "ing": "salt", "g": 5 },
     { "ing": "turmeric", "g": 2 },
-    { "ing": "peanutOil", "g": 1500, "kept": 0.1 }
+    { "ing": "peanutOil", "absorbed": 0.18, "note": "deep-fried dough or batter (doughnuts absorb 15–20 %, CATALOGUE.md)" }
   ],
   "method": "Gourd strips in rice-flour batter, deep-fried.",
   "sources": [],
   "status": "draft",
-  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. The app logs this in spoons today; a piece fits better. Oil kept 10 % of the frying oil."
+  "notes": "Drafted by Claude from general knowledge (2026-11-01); not yet checked against published recipes. The app logs this in spoons today; a piece fits better."
 }

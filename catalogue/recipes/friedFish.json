@@ -15,7 +15,7 @@
     { "ing": "tilapia", "g": 1000 },
     { "ing": "turmeric", "g": 5 },
     { "ing": "salt", "g": 10 },
-    { "ing": "peanutOil", "g": 1500, "kept": 0.06 }
+    { "ing": "peanutOil", "absorbed": 0.08, "note": "whole pieces, little batter (CATALOGUE.md)" }
   ],
   "method": "Turmeric-salt fish pieces, deep-fried.",
   "sources": [],

@@ -266,7 +266,7 @@ The editor used to write every stepper tap straight into the meal (and Search "+
 ## Search: a box in the + sheet, several dishes at once (2026-11-01)
 
 - **The + sheet starts with a search box** (it opens Search with the keyboard up), above the Photo and Say-or-type tiles. Search was a plain row.
-- **Search picks several dishes.** Tapping a result toggles it; picked rows show their amount (and tea sweetness). Picks stay as chips under the field across searches. *Add N dishes* (with the kcal total) logs them as one meal, or puts them all into the shared-meal draft from its "+".
+- **Search picks several dishes.** Tapping a result toggles it; picked rows show their amount (and tea sweetness). Picks stay as chips under the field across searches. *Add N dishes* (with the kcal total) logs each dish as its own entry (2026-11-02: was one combined meal; separate rows are easier to read, edit and delete), or puts them all into the shared-meal draft from its "+".
 - **Search fix:** a dish name counts as "inside a longer query" only when it's at least 4 letters (normalized). "3 in 1" became "in" and matched "mohin".
 
 ## Date picker: a month calendar sheet (2026-11-02)
@@ -279,6 +279,15 @@ The editor used to write every stepper tap straight into the meal (and Search "+
 - **Bottom sheets share one motion** (`ui/BottomSheet.tsx`). Before, each sheet faded and slid in on its own and vanished at once on close. Now they spring in with a small bounce (damping ratio about 0.78), slide out in 170 ms with the scrim fading, and travel their own height, so they appear at once. They reach 48 px below the screen edge so the bounce shows no gap. `BottomSheet` stays mounted until its exit has played. The `AddSheet` route uses `useSheetMotion` and navigates after the exit, Android back included.
 - **`Text hugged`**: Android measures Burmese text narrower than it draws. In content-sized boxes (pills, chips, badges) the last mark was cut at large system font sizes ("ဒီနေ့" lost its dot). End padding and `textBreakStrategy="simple"` didn't help; a trailing no-break space did, so `hugged` adds one after Burmese strings.
 
+## Dish fixes from a second opinion (2026-11-03)
+
+Gemini reviewed the dish list. We took four points, with our own numbers:
+- **"Spoon" is a serving spoon** (ဟင်းခပ်ဇွန်း), and the app shows grams next to the amount ("2 serving spoons · 60 g") on Search and the shared meal. The bare "spoon" read as a 15 g tablespoon. The grams come from the recipe's `servingG`, sent to phones in the new `dishes.serving_g` column.
+- **Deep-frying oil is a share of the food**, not of the pan (`absorbed`, CATALOGUE.md). "Pan grams × kept" changed the calories whenever a recipe assumed a bigger pan. Five food types, placed inside published ranges. Fried dough stick 132 → 155 kcal, puri 108 → 126, fried fish 173 → 152.
+- **Rice & curry is "Rice & chicken curry"** (ထမင်း + ကြက်သားဟင်း): the plate always held chicken curry. It stays for quick logging and old meals, and ထမင်းဟင်း still finds it. Rice with another curry: log the two.
+- **Faluda gains egg pudding and condensed milk**: 305 g / 355 kcal → 365 g / 467 kcal. The glass size is still a guess to weigh.
+- Not taken: Gemini's 50 g ladle and its 8 % / 12 % oil figures had no source. Mohinga fritters were already logged separately.
+
 ## Tests for domain logic only (for now)
 
 Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, meal parsing, search). UI is checked on the emulator. Component tests can come once screens stop changing. Note: TypeScript 6 no longer loads global types automatically, so `tsconfig.json` lists `"types": ["jest"]`.
@@ -286,6 +295,7 @@ Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, mea
 ## Copy review
 
 All Burmese strings in `src/i18n/locales/my.ts` need native-speaker review. New strings not on the canvas (please check first):
+Batch 15 (units): `units.spoon` (ဟင်းခပ်ဇွန်း), and the names ထမင်း + ကြက်သားဟင်း (rice & chicken curry) and ပူတင်း (egg pudding, a faluda part).
 Batch 14 (weight date): `logWeight.yesterday` (မနေ့က), `logWeight.pickDay` (ရက်ပြောင်းမယ်), `logWeight.earlierMonth` (အရင်လ), `logWeight.laterMonth` (နောက်လ).
 Batch 13 (search): `search.addDishes` ({{count}} မျိုး ထည့်မယ်), `search.remove` (ဖယ်မယ်).
 Batch 12 (waiting photos): `result.waitQuota` (ဒီနေ့ အခမဲ့ စစ်ခွင့် ကုန်ပြီ), `result.waitQuotaNote` (မနက်ဖြန် စစ်ပေးမယ်), `result.waitOffline` (အင်တာနက် စောင့်နေတယ်), `result.waitFailed` (ဒီဓာတ်ပုံ စစ်လို့ မရဘူး), `result.waitEmpty` (ဒီဓာတ်ပုံမှာ အစားအစာ မတွေ့ဘူး), `queue.quota` / `failed` / `empty`.

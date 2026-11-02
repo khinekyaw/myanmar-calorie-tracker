@@ -13,7 +13,7 @@
   "yieldWeighed": false,
   "lines": [
     { "ing": "driedSaltedFish", "g": 200 },
-    { "ing": "peanutOil", "g": 200, "kept": 0.25 },
+    { "ing": "peanutOil", "absorbed": 0.2, "note": "small crisp bits (fried snacks 20–40 %, CATALOGUE.md)" },
     { "ing": "onion", "g": 50 },
     { "ing": "garlic", "g": 20 },
     { "ing": "chiliRed", "g": 5 }

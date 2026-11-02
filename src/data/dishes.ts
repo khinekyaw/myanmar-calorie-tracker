@@ -16,6 +16,8 @@ export type Dish = {
   /** Other Burmese spellings / short forms. Zawgyi variants come with the real database. */
   aliasesMy: string[];
   unit: Unit;
+  /** Cooked grams in one unit (shown next to the amount). Not every server dish has it yet. */
+  servingG?: number;
   /** Nutrition for ONE unit. */
   kcal: number;
   carbG: number;
@@ -65,6 +67,7 @@ export const dishes = Object.fromEntries(
       aliasesRoman: c.aliasesRoman,
       aliasesMy: c.aliasesMy,
       unit: c.unit as Unit,
+      servingG: c.servingG,
       kcal: c.kcal,
       carbG: c.carbG,
       proteinG: c.proteinG,
