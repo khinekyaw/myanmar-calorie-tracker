@@ -127,6 +127,3 @@ export const fallbackDishes = (): Dish[] =>
 
 /** Quick re-log chips in the add sheet. */
 export const quickRelog: DishId[] = ['tea', 'palata', 'riceCurry', 'mohinga'];
-
-/** "Free" sides on a shared table, logged as on/off toggles. */
-export const freeSides: DishId[] = ['clearSoup', 'ngapiYay'];

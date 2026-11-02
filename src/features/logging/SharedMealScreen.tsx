@@ -1,159 +1,159 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
-import { itemMacros, itemName, sumMacros, type MealItem } from '@/domain/meal';
+import { itemMacros, itemName, numbersTier, sumMacros, type MealItem } from '@/domain/meal';
 import { formatNumber, formatPlates } from '@/lib/format';
-import { freeSides, getDish } from '@/data/dishes';
-import { useEntry, useLog } from '@/store/log';
+import { getDish } from '@/data/dishes';
+import { useEntry, useLog, type LogEntry } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
-import { Chip, Icon, IconButton, Screen, Stepper, Text } from '@/ui';
+import { Badge, Button, ConfirmSheet, PhotoSheet, Stepper, Text } from '@/ui';
 
 import { amountLabel } from './amountLabel';
 import { SaveBar } from './components/SaveBar';
 import { useMealDraft } from './mealDraft';
 
-/**
- * ဝိုင်းစား — a family table with shared curries. Rice in plates (½ steps),
- * each curry in spoonfuls, free sides as toggles. Changes stay in a draft
- * (useMealDraft, which Search "+" adds to) until Save; going back discards
- * them. Save drops zero rows.
- */
-/** A shared table always has a rice row (1 plate to start). */
-const withRice = (items: MealItem[]): MealItem[] =>
-  items.some((i) => i.dishId === 'rice') ? items : [{ dishId: 'rice', qty: 1 }, ...items];
-
+/** Route `/shared-meal?id=`: turn a meal into a ဝိုင်းစား (Result → "Shared meal"). */
 export function SharedMealScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const entry = useEntry(id);
+  if (!entry) return null;
+  return <SharedMeal entry={entry} />;
+}
+
+/**
+ * ဝိုင်းစား — a table of shared dishes, of which the person ate a share. One
+ * question ("How much did you eat?") over one list: every dish, rice
+ * included, is a row with its amount, grams, kcal and a stepper; 0 = didn't
+ * eat it. Result shows this for shared meals instead of its own layout.
+ * Changes stay in a draft (useMealDraft, which Search "+" adds to) until
+ * Save; going back discards them. Save drops zero rows.
+ */
+export function SharedMeal({ entry }: { entry: LogEntry }) {
   const { t } = useTranslation();
   const s = useStyles();
   const { language } = useStyleContext();
-  const entry = useEntry(id);
   const updateEntry = useLog((st) => st.updateEntry);
+  const removeEntry = useLog((st) => st.removeEntry);
   const draft = useMealDraft();
+  const [confirming, setConfirming] = useState(false);
 
-  // Start a draft from the meal when the editor opens; drop it when it closes.
-  const entryId = entry?.id;
+  // Start a draft from the meal when the screen opens; drop it when it closes.
+  const entryId = entry.id;
   useEffect(() => {
     const saved = useLog.getState().entries.find((e) => e.id === entryId);
     if (!saved) return;
-    useMealDraft.getState().start(saved.id, withRice(saved.items));
+    useMealDraft.getState().start(saved.id, saved.items);
     return () => useMealDraft.getState().clear();
   }, [entryId]);
-  const stored = draft.id === entryId ? draft.items : withRice(entry?.items ?? []);
-  const items: MealItem[] = [
-    ...stored,
-    ...freeSides.filter((d) => !stored.some((i) => i.dishId === d)).map((dishId) => ({ dishId, qty: 0 })),
-  ];
+  const items = draft.id === entryId ? draft.items : entry.items;
 
   // By item, not dish: two scanned foods can share an "Other …" type.
-  const set = (item: MealItem, qty: number) => {
-    draft.setItems(stored.includes(item) ? stored.map((i) => (i === item ? { ...i, qty } : i)) : [...stored, { ...item, qty }]);
-  };
+  const set = (item: MealItem, qty: number) => draft.setItems(items.map((i) => (i === item ? { ...i, qty } : i)));
 
-  const rice = items.find((i) => i.dishId === 'rice');
-  const dishes = items.filter((i) => i.dishId !== 'rice' && !freeSides.includes(i.dishId));
-  const sides = items.filter((i) => freeSides.includes(i.dishId));
-  const total = sumMacros(items.filter((i) => i.qty > 0)).kcal;
+  const eaten = items.filter((i) => i.qty > 0);
+  const total = sumMacros(eaten).kcal;
+  const tier = numbersTier(eaten.map((i) => getDish(i.dishId)));
+  const first = entry.items[0];
+  const photo = entry.photoUri ?? (first && getDish(first.dishId).photo);
 
   const save = () => {
-    if (!entry) return;
-    updateEntry(entry.id, { items: stored.filter((i) => i.qty > 0), isSharedMeal: true, confidence: 1, status: 'done' });
+    updateEntry(entry.id, { items: eaten, isSharedMeal: true, confidence: 1, status: 'done' });
+    router.dismissTo('/home');
+  };
+  const remove = () => {
+    setConfirming(false);
+    removeEntry(entry.id);
     router.dismissTo('/home');
   };
 
   return (
-    <Screen
-      footer={<SaveBar label={t('shared.save')} kcal={formatNumber(Math.round(total), language)} onPress={save} />}>
-      <View style={s.header}>
-        <IconButton icon="chevronLeft" accessibilityLabel={t('common.back')} onPress={() => router.back()} />
-      </View>
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={s.scroll}>
-        <Text variant="title" accessibilityRole="header">
+    <PhotoSheet
+      photo={photo}
+      backLabel={t('common.back')}
+      action={{ icon: 'trash', label: t('result.delete'), onPress: () => setConfirming(true) }}
+      footer={
+        <SaveBar
+          label={t('shared.save')}
+          kcal={formatNumber(Math.round(total), language)}
+          disabled={!eaten.length}
+          onPress={save}
+        />
+      }>
+      <View style={s.head}>
+        <View style={s.badges}>
+          <Badge icon="users" label={t('result.sharedMeal')} />
+          {eaten.length > 0 && (
+            <Badge
+              key={tier}
+              tone={tier === 'verified' ? 'ink' : 'surface'}
+              icon={tier === 'verified' ? 'check' : undefined}
+              label={t(`result.${tier}`)}
+            />
+          )}
+        </View>
+        <Text variant="headline" accessibilityRole="header">
           {t('shared.title')}
         </Text>
+      </View>
 
-        {rice && (
-          <View style={s.riceCard}>
-            <Icon name="rice" size={28} />
-            <Text variant="bodyStrong" style={s.flex}>
-              {getDish('rice').name[language]}
-            </Text>
-            <Stepper
-              value={rice.qty}
-              step={0.5}
-              max={8}
-              display={formatPlates(rice.qty, language) || '0'}
-              onChange={(q) => set(rice, q)}
-              decreaseLabel={`${getDish('rice').name[language]} ${t('result.less')}`}
-              increaseLabel={`${getDish('rice').name[language]} ${t('result.more')}`}
-            />
-          </View>
-        )}
-
-        <View>
-          {dishes.map((item, i) => {
-            const dish = getDish(item.dishId);
-            const name = itemName(item, language);
-            const off = item.qty === 0;
-            return (
-              <View key={item.custom ? `${item.dishId}-${i}` : item.dishId} style={[s.row, i < dishes.length - 1 && s.divider]}>
-                <View style={s.flex}>
-                  <Text variant="body" tone={off ? 'subtle' : 'default'}>
-                    {name}
-                  </Text>
-                  <Text variant="caption" tone="subtle">
-                    {amountLabel(t, dish, item.qty, language)} · {formatNumber(Math.round(itemMacros(item).kcal), language)}
-                  </Text>
-                </View>
-                <Stepper
-                  value={item.qty}
-                  step={dish.unit === 'spoon' ? 1 : 0.5}
-                  max={30}
-                  display={formatPlates(item.qty, language) || '0'}
-                  onChange={(q) => set(item, q)}
-                  decreaseLabel={`${name} ${t('result.less')}`}
-                  increaseLabel={`${name} ${t('result.more')}`}
-                />
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={s.list}>
+        {items.map((item, i) => {
+          const dish = getDish(item.dishId);
+          const name = itemName(item, language);
+          const off = item.qty === 0;
+          return (
+            <View key={`${item.dishId}-${i}`} style={[s.row, s.divider]}>
+              <View style={s.flex}>
+                <Text variant="body" tone={off ? 'subtle' : 'default'}>
+                  {name}
+                </Text>
+                <Text variant="caption" tone="subtle">
+                  {off
+                    ? t('shared.notEaten')
+                    : `${amountLabel(t, dish, item.qty, language)} · ${formatNumber(Math.round(itemMacros(item).kcal), language)}`}
+                </Text>
               </View>
-            );
-          })}
-        </View>
-
-        <View style={s.sides}>
-          {sides.map((item) => (
-            <Chip
-              key={item.dishId}
-              label={getDish(item.dishId).name[language]}
-              selected={item.qty > 0}
-              onPress={() => set(item, item.qty > 0 ? 0 : 1)}
-            />
-          ))}
-          <Chip
-            icon="plus"
-            accessibilityLabel={t('shared.addMore')}
-            onPress={() => entry && router.push({ pathname: '/search', params: { addTo: entry.id } })}
-          />
-        </View>
+              <Stepper
+                value={item.qty}
+                step={dish.unit === 'spoon' || dish.unit === 'piece' ? 1 : 0.5}
+                max={30}
+                display={formatPlates(item.qty, language) || '0'}
+                onChange={(q) => set(item, q)}
+                decreaseLabel={`${name} ${t('result.less')}`}
+                increaseLabel={`${name} ${t('result.more')}`}
+              />
+            </View>
+          );
+        })}
+        <Button
+          variant="secondary"
+          icon="plus"
+          label={t('shared.addMore')}
+          onPress={() => router.push({ pathname: '/search', params: { addTo: entry.id } })}
+          style={s.add}
+        />
       </ScrollView>
-    </Screen>
+
+      <ConfirmSheet
+        visible={confirming}
+        title={t('result.deleteTitle')}
+        confirmLabel={t('result.delete')}
+        cancelLabel={t('common.cancel')}
+        onConfirm={remove}
+        onCancel={() => setConfirming(false)}
+      />
+    </PhotoSheet>
   );
 }
 
 const useStyles = makeStyles(({ theme }) => ({
   flex: { flex: 1 },
-  header: { flexDirection: 'row', paddingTop: theme.space.md },
-  scroll: { gap: theme.space.lg, paddingTop: theme.space.xxl, paddingBottom: theme.space.lg },
-  riceCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: theme.space.md,
-    padding: theme.space.lg,
-    borderRadius: theme.radius.xl,
-    backgroundColor: theme.colors.surface,
-  },
+  head: { gap: theme.space.sm, alignItems: 'flex-start' },
+  badges: { flexDirection: 'row', gap: theme.space.sm },
+  list: { paddingBottom: theme.space.lg },
   row: { flexDirection: 'row', alignItems: 'center', gap: theme.space.md, minHeight: 68, paddingVertical: theme.space.sm },
   divider: { borderBottomWidth: 1, borderBottomColor: theme.colors.hairline },
-  sides: { flexDirection: 'row', flexWrap: 'wrap', gap: theme.space.sm },
+  add: { marginTop: theme.space.lg },
 }));

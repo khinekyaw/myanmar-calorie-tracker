@@ -12,6 +12,7 @@ import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Badge, Button, Chip, ConfirmSheet, Icon, PhotoSheet, Stepper, Text, type IconName } from '@/ui';
 
 import { retryScan, useWaitReason, type WaitReason } from './scanQueue';
+import { SharedMeal } from './SharedMealScreen';
 
 const OIL_LABEL = { less: 'result.oilLess', normal: 'result.oilNormal', more: 'result.oilMore' } as const;
 
@@ -25,9 +26,10 @@ const WAITING = {
 
 /**
  * Scan result for one log entry. While the photo is being analysed it shows
- * a loading state, then routes low-confidence scans to PickDish and shared
- * tables to SharedMeal (AI scan contract rules). A photo that is waiting
- * (no free scans, offline, failed) or had no food says why, with a way on.
+ * a loading state, then routes low-confidence scans to PickDish (AI scan
+ * contract rules); a shared table shows the ဝိုင်းစား list (SharedMeal). A
+ * photo that is waiting (no free scans, offline, failed) or had no food says
+ * why, with a way on.
  */
 export function ResultScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -51,11 +53,7 @@ export function ResultScreen() {
   // Branch once the scan answer arrives (only for fresh, unreviewed scans).
   useEffect(() => {
     if (!entry || entry.status !== 'done' || entry.source !== 'photo' || !entry.items.length) return;
-    if (entry.isSharedMeal && entry.confidence !== 1) {
-      router.replace({ pathname: '/shared-meal', params: { id: entry.id } });
-    } else if (lowConfidence) {
-      router.replace({ pathname: '/pick-dish', params: { id: entry.id } });
-    }
+    if (!entry.isSharedMeal && lowConfidence) router.replace({ pathname: '/pick-dish', params: { id: entry.id } });
   }, [entry, lowConfidence]);
 
   const first = entry?.items[0];
@@ -139,6 +137,8 @@ export function ResultScreen() {
     );
   }
 
+  if (entry.isSharedMeal) return <SharedMeal entry={entry} />;
+
   const single = entry.items.length === 1;
   const totals = sumMacros(entry.items);
   const title = entry.items.map((i) => itemName(i, language)).join(', ');
@@ -164,11 +164,7 @@ export function ResultScreen() {
             variant="secondary"
             label={t('result.fix')}
             style={s.flex}
-            onPress={() =>
-              entry.isSharedMeal
-                ? router.push({ pathname: '/shared-meal', params: { id: entry.id } })
-                : router.push({ pathname: '/pick-dish', params: { id: entry.id, from: 'result' } })
-            }
+            onPress={() => router.push({ pathname: '/pick-dish', params: { id: entry.id, from: 'result' } })}
           />
           <Button label={t('result.done')} style={s.flex} onPress={() => router.dismissTo('/home')} />
         </View>
@@ -215,14 +211,12 @@ export function ResultScreen() {
       </View>
 
       <View style={s.actions}>
-        {!entry.isSharedMeal && (
-          <Chip
-            icon="users"
-            label={t('result.sharedMeal')}
-            style={s.flex}
-            onPress={() => router.push({ pathname: '/shared-meal', params: { id: entry.id } })}
-          />
-        )}
+        <Chip
+          icon="users"
+          label={t('result.sharedMeal')}
+          style={s.flex}
+          onPress={() => router.push({ pathname: '/shared-meal', params: { id: entry.id } })}
+        />
         {dish.oilSensitive && (
           <Chip
             icon="oil"

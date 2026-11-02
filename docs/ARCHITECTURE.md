@@ -39,7 +39,7 @@ src/
     camera.tsx         Full-screen camera (fullScreenModal)
     result.tsx         Scan result / meal detail (?id=)
     pick-dish.tsx      Low-confidence picker (?id=)
-    shared-meal.tsx    ဝိုင်းစား editor (?id=)
+    shared-meal.tsx    ဝိုင်းစား list for a meal (?id=); Result shows the same for shared meals
     text-log.tsx       Say-or-type logging; voice through the keyboard's mic (?id= to fix a scan)
     search.tsx         Food search (?addTo= to add to a meal)
     log-weight.tsx     Log weight (modal; waist hidden for now)

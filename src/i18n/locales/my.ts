@@ -139,8 +139,9 @@ const my: Translations = {
     done: 'ပြီးပြီ',
   },
   shared: {
-    title: 'ကိုယ် စားတာ',
-    addMore: 'ထပ်ထည့်',
+    title: 'ကိုယ် ဘယ်လောက် စားလဲ',
+    notEaten: 'မစားဘူး',
+    addMore: 'ဟင်း ထပ်ထည့်မယ်',
     save: 'မှတ်မယ်',
   },
   pick: {

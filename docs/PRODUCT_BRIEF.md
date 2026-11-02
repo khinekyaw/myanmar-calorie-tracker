@@ -19,7 +19,7 @@ UI design canvas (22 screens, Claude Design): https://claude.ai/artifact/DYDw9tR
   - Carbs as **plates of rice** ("ထမင်း 3 ပန်းကန်").
   - Nutrient words ကစီ(ဓာတ်) / အသား(ဓာတ်) / အဆီ(ဓာတ်), not "carbs/protein".
   - A gradual rice cut: 4 → 3½ → 3 plates.
-- **Shared-meal logging (ဝိုင်းစား):** rice with a plate stepper, each curry in spoonfuls, free sides (ဟင်းချို, ငါးပိရည်) as toggles.
+- **Shared-meal logging (ဝိုင်းစား):** one list of the table's dishes, each with a stepper for how much you ate: rice in plates, each curry in spoonfuls, soup and ngapi like any other dish (changed 2026-11-03, see DECISIONS.md).
 - **Input methods:** photo, voice (Burmese, primary), text, search, quick re-log chips. Search must match Unicode, Zawgyi, romanized spellings ("laphet yay", "mohinga", "mont hin gar") and spelling variants.
 - **Offline-first:** text, voice and search logging work offline. Photos are compressed (~800px; the server gets a 512px copy for scanning) and queued until a connection returns. Option to send photos on Wi-Fi only.
 - **Monetization:** free tier 3 photo scans/day in the first week, then 1/day (since 2026-11-01; [reports/Unit economics.md](../reports/Unit%20economics.md)); voice, text, search unlimited. **Prepaid passes** (1 and 3 months) in kyat via KBZPay / WavePay, no auto-renew (screens say so). Paywall only after free scans are used up, never during onboarding. ⚠️ Check Google Play payments policy; Play Billing (MMK) is the fallback.

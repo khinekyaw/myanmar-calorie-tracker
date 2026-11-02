@@ -280,6 +280,13 @@ The editor used to write every stepper tap straight into the meal (and Search "+
 - **Bottom sheets share one motion** (`ui/BottomSheet.tsx`). Before, each sheet faded and slid in on its own and vanished at once on close. Now they spring in with a small bounce (damping ratio about 0.78), slide out in 170 ms with the scrim fading, and travel their own height, so they appear at once. They reach 48 px below the screen edge so the bounce shows no gap. `BottomSheet` stays mounted until its exit has played. The `AddSheet` route uses `useSheetMotion` and navigates after the exit, Android back included.
 - **`Text hugged`**: Android measures Burmese text narrower than it draws. In content-sized boxes (pills, chips, badges) the last mark was cut at large system font sizes ("ဒီနေ့" lost its dot). End padding and `textBreakStrategy="simple"` didn't help; a trailing no-break space did, so `hugged` adds one after Burmese strings.
 
+## ဝိုင်းစား as one list (2026-11-03)
+
+The shared-meal editor didn't explain itself: a "What I ate" label, rice as a big card, curries as rows, soup and ngapi as pills next to a "+" pill, all behind *Fix* on a Result that showed only the names. It also added a plate of rice to any meal it opened, so a palata and soup meal gained 260 kcal on Save.
+- Shared meals now open straight into one screen on the photo sheet: a ဝိုင်းစား badge, the question *How much did you eat?*, and one list where every dish (rice too) is the same row with amount, grams, kcal and a stepper. 0 = didn't eat it, and Save drops those rows.
+- Rice is only there if the scan saw it. Soup and ngapi are no longer offered by default as toggles (they were on every table, eaten or not); they come from the scan or *Add a dish*.
+- *Add a dish* is a full row. Save carries the total, so there is no separate kcal card.
+
 ## Food not on the list (2026-11-03)
 
 Before, a dish we don't have couldn't be logged: Search ended at "No matches", typing ignored it, and a scan dropped it without a word (or said "No food found"), so the meal counted low.
@@ -306,6 +313,7 @@ Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, mea
 ## Copy review
 
 All Burmese strings in `src/i18n/locales/my.ts` need native-speaker review. New strings not on the canvas (please check first):
+Batch 18 (ဝိုင်းစား): `shared.title` (ကိုယ် ဘယ်လောက် စားလဲ, was ကိုယ် စားတာ), `shared.notEaten` (မစားဘူး), `shared.addMore` (ဟင်း ထပ်ထည့်မယ်, was ထပ်ထည့်).
 Batch 17 (food not on the list): `search.notFound` (စာရင်းထဲ မရှိသေးဘူး။ အနီးစပ်ဆုံး ရွေးမယ်), `search.notHere` (မတွေ့ဘူးလား။ အနီးစပ်ဆုံး ရွေးမယ်), and the 11 type names (တခြား အသားဟင်း, တခြား ငါး၊ ပုစွန် ဟင်း, တခြား ဟင်းသီးဟင်းရွက်, တခြား အသုပ်, တခြား ထမင်းဟင်းလျာ, တခြား ခေါက်ဆွဲ ဟင်းရည်, တခြား ခေါက်ဆွဲ, တခြား ဟင်းချို, တခြား အကြော်, တခြား မုန့်, တခြား အချိုရည်).
 Batch 16 (dish names): the Burmese names and spellings of the 36 dishes added on 2026-11-03 (`catalogue/recipes/*.json`), e.g. ကြက်အမြစ်ဟင်း (gizzard), ကောက်ညှင်းကျည်တောက်, မြေပဲယို, ဆီးဖျော်ရည်.
 Batch 15 (units): `units.spoon` (ဟင်းခပ်ဇွန်း), and the names ထမင်း + ကြက်သားဟင်း (rice & chicken curry) and ပူတင်း (egg pudding, a faluda part).

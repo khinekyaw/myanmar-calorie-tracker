@@ -136,8 +136,9 @@ const en = {
     done: 'Done',
   },
   shared: {
-    title: 'What I ate',
-    addMore: 'Add',
+    title: 'How much did you eat?',
+    notEaten: "Didn't eat",
+    addMore: 'Add a dish',
     save: 'Save',
   },
   pick: {

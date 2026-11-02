@@ -29,7 +29,7 @@ After logging, Home updates the calories left (or *Calories over*), plates of ri
 
 ## 3. When the scan isn't sure
 
-- **Shared table** (several curries) → **SharedMeal**: rice in ½-plates, each curry in spoonfuls, soup / ngapi toggles, *+* adds any dish via Search → *Save*. Nothing changes until *Save*; going back discards the edits.
+- **Shared table** (several curries, ဝိုင်းစား): Result shows the ဝိုင်းစား list instead of its usual layout. One question, *ကိုယ် ဘယ်လောက် စားလဲ* (How much did you eat?), over one list: every dish the scan saw (rice only if it saw rice) is a row with its amount, grams, kcal and a − / + stepper; 0 = didn't eat it. *Add a dish* (a full row) adds any dish via Search → *Save* (with the total). Nothing changes until *Save*; going back discards the edits. A single-dish Result has a *Shared meal* chip that opens the same list.
 - **Low confidence** (< 0.6) → **PickDish**: top 3 guesses, the first marked *Closest*; *Something else* opens voice/text logging for that photo.
 - **Wrong dish on a confident scan**: Result → *Fix* → PickDish (on a shared meal, *Fix* opens SharedMeal).
 - **Oil**: Result → *Oil · Normal* cycles less / normal / more for curries and fried food.
