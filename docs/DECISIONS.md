@@ -314,6 +314,17 @@ Gemini reviewed the dish list. We took four points, with our own numbers:
 - **Faluda gains egg pudding and condensed milk**: 305 g / 355 kcal → 365 g / 467 kcal. The glass size is still a guess to weigh.
 - Not taken: Gemini's 50 g ladle and its 8 % / 12 % oil figures had no source. Mohinga fritters were already logged separately.
 
+## 30-day free-user simulation and what it changed (2026-11-05)
+
+`npm run simulate` lives through 30 days as one free user against the app's real stores, SQLite schema and scan queue, with a stand-in server that copies the quota SQL and answers scans with the mock AI (scripts/simulation). No AI is called. Each day ends with the phone's "scans left" equal to the server's. Changes it led to:
+- **Feast days are kept per day** (`settings.feastDays`), not one on/off switch. The switch counted every later day while left on, and turning it off took back the feast day already counted, breaking the streak afterwards. Phone only, not synced (it wasn't before either).
+- **The first week of free scans is 7 Myanmar calendar days on the server too** (migration `20261105120000`), as on the phone. It was 7 × 24 hours, so on day 7 the server still gave 3 until the hour of sign-up while the phone showed 1.
+- **A photo that was never sent gives its free scan back** on the phone when it is deleted or logged by words instead. Not after a server refusal that day: the server's count is the real one then.
+- **Failed scans stop retrying by themselves after 3 tries; the server refuses a photo after 6** (`422 too_many_attempts`). A failure gives the free scan back, so a photo the AI can never read cost an AI call every 15 minutes while the app was open.
+- **A refused scan (402) waits before it is sent again.** With the phone-only mock pass the queue resent it at once, in a loop.
+- **`SCAN_MODEL=mock`**: the scan function answers with fixed answers (one per Result branch) and calls no AI, for local and staging testing. The same photo always gets the same answer.
+- **Jest runs on Myanmar time** (`scripts/jestTimezone.js`), so date tests give the same result on every machine. A time zone set inside a test file doesn't reach Node's clock.
+
 ## Tests for domain logic only (for now)
 
 Jest with the `jest-expo` preset covers `domain/` (plan maths, BMI cut-offs, meal parsing, search). UI is checked on the emulator. Component tests can come once screens stop changing. Note: TypeScript 6 no longer loads global types automatically, so `tsconfig.json` lists `"types": ["jest"]`.

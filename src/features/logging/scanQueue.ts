@@ -5,10 +5,12 @@ import { waitReason, type WaitReason } from '@/domain/waitReason';
 import { dayKey } from '@/lib/dates';
 import { useConnectivity } from '@/lib/network';
 import { ensureSession } from '@/services/auth';
-import { ScanError, scanPhoto, toMealItems, uploadPhoto } from '@/services/scan';
+import { newId } from '@/db/database';
+import { keepPhoto } from '@/db/photos';
+import { compressPhoto, ScanError, scanPhoto, toMealItems, uploadPhoto } from '@/services/scan';
 import { backendEnabled } from '@/services/supabase';
 import { useLog, type LogEntry } from '@/store/log';
-import { useIsPremium } from '@/store/premium';
+import { isPremiumNow, useIsPremium } from '@/store/premium';
 import { useScanQuota } from '@/store/scanQuota';
 
 /** Failed attempts per entry and when to try again (in memory: a restart retries at once). */
@@ -17,6 +19,13 @@ const retryAt = new Map<string, number>();
 
 /** 30 s, 1 min, 2 min … up to 15 minutes. */
 const backoff = (n: number) => Math.min(30_000 * 2 ** (n - 1), 15 * 60_000);
+
+/**
+ * Failed scans are sent again by themselves this many times, then wait for
+ * Retry: a photo the AI can't read would otherwise cost an AI call every 15
+ * minutes (a failure gives the free scan back). The server stops at 6.
+ */
+export const MAX_AUTO_TRIES = 3;
 
 /** Photos whose last scan attempt failed, for Home and Result (in memory, like the retry times). */
 const useFailedScans = create<{ ids: Record<string, true> }>(() => ({ ids: {} }));
@@ -29,6 +38,20 @@ function markFailed(id: string, failed: boolean) {
     else delete ids[id];
     return { ids };
   });
+}
+
+/**
+ * A camera or gallery photo becomes a queued meal: one free scan is counted
+ * on this phone, the compressed photo is kept in permanent storage (not the
+ * cache) so it survives restarts, and the queue sends it. Returns the meal id.
+ */
+export async function queuePhoto(photo: { uri: string; width: number; height: number }): Promise<string> {
+  useScanQuota.getState().consume();
+  const compressed = await compressPhoto(photo.uri, photo.width, photo.height).catch(() => photo.uri);
+  const id = newId();
+  const photoUri = keepPhoto(compressed, id);
+  useLog.getState().addEntry({ id, source: 'photo', status: 'queued', photoUri, items: [] });
+  return id;
 }
 
 /** Send one photo entry to the scan service and store the answer on the entry. */
@@ -62,11 +85,17 @@ export async function analyzeEntry(entry: LogEntry) {
     updateEntry(entry.id, { status: 'queued', ...(kind === 'photo' && { remotePhoto: undefined }) });
     if (kind === 'quota') {
       useScanQuota.getState().blockToday();
+      // Free users wait for tomorrow (blockedDay). Someone the server doesn't
+      // see as Premium (a phone-only pass) must not resend at once in a loop.
+      const n = (failures.get(entry.id) ?? 0) + 1;
+      failures.set(entry.id, n);
+      retryAt.set(entry.id, Date.now() + backoff(n));
     } else {
       const n = (failures.get(entry.id) ?? 0) + 1;
       failures.set(entry.id, n);
       // A missing photo is uploaded again straight away, once.
-      retryAt.set(entry.id, Date.now() + (kind === 'photo' && n === 1 ? 0 : backoff(n)));
+      const wait = kind === 'photo' && n === 1 ? 0 : n >= MAX_AUTO_TRIES ? Infinity : backoff(n);
+      retryAt.set(entry.id, Date.now() + wait);
       if (kind === 'retry' || (kind === 'photo' && n > 1)) markFailed(entry.id, true);
     }
     if (kind !== 'busy') console.warn('[scan]', kind, e instanceof Error ? e.message : e);
@@ -93,11 +122,35 @@ export function useWaitReason(entry: LogEntry | undefined): WaitReason | null {
   return waitReason({ status: entry.status, itemCount: entry.items.length, blocked, canUpload, failed });
 }
 
+/** Milliseconds until the next local midnight. */
+const untilMidnight = (now: Date) =>
+  new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1).getTime() - now.getTime();
+
 /**
- * Mounted once (root layout). Whenever uploads are allowed, sends every
- * queued photo. Photos stay queued offline, off Wi-Fi in "Wi-Fi only" mode,
- * after a failure (until its retry time), and for the rest of the day once
- * the server says the free scans are used up.
+ * Send every queued photo that is due. Returns when to look again (ms
+ * timestamp; Infinity when nothing waits). Photos wait offline (the caller
+ * checks), after a failure until their retry time, and for the rest of the
+ * day once the server says the free scans are used up.
+ */
+export function sendDuePhotos(now = Date.now()): number {
+  const premium = isPremiumNow();
+  const blocked = useScanQuota.getState().blockedDay === dayKey(new Date(now)) && !premium;
+  const queued = useLog.getState().entries.filter((e) => e.status === 'queued' && e.photoUri);
+  if (!queued.length) return Infinity;
+  // A new day gives new free scans: look again at midnight.
+  if (blocked) return now + untilMidnight(new Date(now));
+  let nextTry = Infinity;
+  for (const entry of queued) {
+    const at = retryAt.get(entry.id) ?? 0;
+    if (at <= now) void analyzeEntry(entry);
+    else nextTry = Math.min(nextTry, at);
+  }
+  return nextTry;
+}
+
+/**
+ * Mounted once (root layout). Whenever uploads are allowed, sends the
+ * queued photos that are due (sendDuePhotos) and wakes up for the next one.
  */
 export function useScanQueue() {
   const { canUpload } = useConnectivity();
@@ -107,17 +160,11 @@ export function useScanQueue() {
   const [wake, setWake] = useState(0);
 
   useEffect(() => {
-    if (!canUpload || !queued || blocked) return;
+    if (!canUpload || !queued) return;
     const now = Date.now();
-    let nextTry = Infinity;
-    for (const entry of useLog.getState().entries) {
-      if (entry.status !== 'queued') continue;
-      const at = retryAt.get(entry.id) ?? 0;
-      if (at <= now) void analyzeEntry(entry);
-      else nextTry = Math.min(nextTry, at);
-    }
+    const nextTry = sendDuePhotos(now);
     if (nextTry === Infinity) return;
-    const timer = setTimeout(() => setWake((n) => n + 1), nextTry - now);
+    const timer = setTimeout(() => setWake((n) => n + 1), Math.max(nextTry - now, 1000));
     return () => clearTimeout(timer);
-  }, [canUpload, queued, blocked, wake]);
+  }, [canUpload, queued, blocked, premium, wake]);
 }

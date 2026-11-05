@@ -3,14 +3,15 @@
 // POST { log_id, taken_at } with the user's JWT. The app uploads the photo
 // to meal-photos/<user id>/<log id>.jpg first. Steps: use one free scan
 // (atomic, skipped for Premium) → photo + catalogue to the vision model (Claude or
-// Gemini, by SCAN_MODEL) → validate the
+// Gemini, by SCAN_MODEL; `mock` calls no AI, for testing) → validate the
 // JSON → record cost → { scan: ScanResponse, scans_left }.
 //
 // Retry-safe: the same log_id is never charged twice, and a scan that already
 // succeeded returns the stored answer. A failed scan gives the free scan back.
 //
 // Responses: 200 ok · 400 bad request · 402 no free scans · 404 photo not uploaded
-// · 409 already scanning · 502 scan failed (retry later) · 503 not configured / over budget
+// · 409 already scanning · 422 this photo failed too often · 502 scan failed (retry later)
+// · 503 not configured / over budget
 
 import Anthropic from 'npm:@anthropic-ai/sdk@1.3.0';
 import { withSupabase, type SupabaseContext } from 'npm:@supabase/server@1.9.2';
@@ -26,6 +27,7 @@ import {
   costUsd,
   geminiRequest,
   geminiThinking,
+  mockVisionAnswer,
   providerOf,
   readGeminiResponse,
   type VisionAnswer,
@@ -57,6 +59,9 @@ const ANTHROPIC_API_KEY = Deno.env.get('ANTHROPIC_API_KEY');
 const GEMINI_API_KEY = Deno.env.get('GEMINI_API_KEY');
 
 const MAX_PHOTO_BYTES = 2 * 1024 * 1024;
+// A failure gives the free scan back, so a photo the AI can never read would
+// cost a call on every retry. After this many attempts it is refused (422).
+const MAX_ATTEMPTS_PER_PHOTO = 6;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 const SYSTEM_RULES = `You identify food in meal photos for Sar AI, a calorie-tracking app used in Myanmar.
@@ -87,7 +92,10 @@ const anthropic =
   PROVIDER === 'anthropic' && ANTHROPIC_API_KEY
     ? new Anthropic({ apiKey: ANTHROPIC_API_KEY, timeout: 45_000, maxRetries: 1 })
     : null;
-const configured = PROVIDER === 'anthropic' ? anthropic !== null : PROVIDER === 'gemini' && Boolean(GEMINI_API_KEY);
+const configured =
+  PROVIDER === 'mock' ||
+  (PROVIDER === 'anthropic' ? anthropic !== null : PROVIDER === 'gemini' && Boolean(GEMINI_API_KEY));
+if (PROVIDER === 'mock') console.warn(JSON.stringify({ event: 'scan', warning: 'SCAN_MODEL=mock: fixed answers, no AI called' }));
 
 const PROMPT = 'What food is in this photo, and how much?';
 
@@ -201,6 +209,16 @@ export default {
     }
     const freePerDay = allowance.data as number;
 
+    const prior = await admin
+      .from('scans')
+      .select('status, attempts')
+      .eq('user_id', userId)
+      .eq('log_id', logId)
+      .maybeSingle();
+    if (prior.data?.status === 'failed' && prior.data.attempts >= MAX_ATTEMPTS_PER_PHOTO) {
+      return json(422, { error: 'too_many_attempts', scans_left: null });
+    }
+
     const photoPath = `${userId}/${logId}.jpg`;
     const begin = await admin.rpc('begin_scan', {
       p_user: userId,
@@ -250,11 +268,16 @@ export default {
       const photo = await admin.storage.from('meal-photos').download(photoPath);
       if (photo.error || !photo.data) throw new ScanFailure(404, 'photo_missing', 'photo not uploaded');
       if (photo.data.size > MAX_PHOTO_BYTES) throw new ScanFailure(400, 'photo_too_large', 'photo too large');
-      const image = encodeBase64(new Uint8Array(await photo.data.arrayBuffer()));
+      const bytes = new Uint8Array(await photo.data.arrayBuffer());
 
       const dishes = await loadCatalogue(admin);
       const system = SYSTEM_RULES + catalogueLines(dishes);
-      const answer = PROVIDER === 'gemini' ? await askGemini(system, image) : await askClaude(system, image);
+      const answer =
+        PROVIDER === 'mock'
+          ? mockVisionAnswer(bytes)
+          : PROVIDER === 'gemini'
+            ? await askGemini(system, encodeBase64(bytes))
+            : await askClaude(system, encodeBase64(bytes));
       usage = answer.usage;
       servedBy = answer.model;
       if (!answer.ok) throw new ScanFailure(502, answer.reason, answer.detail);

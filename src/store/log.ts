@@ -10,6 +10,7 @@ import { deletePhoto } from '@/db/photos';
 import { streakDays } from '@/domain/streak';
 
 import { usePlan } from './plan';
+import { useScanQuota } from './scanQuota';
 import { useSettings } from './settings';
 import { dayKey } from './weights';
 
@@ -66,12 +67,15 @@ export const useLog = create<LogState>()((set, get) => ({
   updateEntry: (id, patch) => {
     const current = get().entries.find((e) => e.id === id);
     if (!current) return;
+    // Logged by words before the photo was sent: its scan is never used.
+    if (patch.status === 'done' && neverSent(current)) useScanQuota.getState().release();
     const next = { ...current, ...patch };
     saveLog(next);
     set((s) => ({ entries: s.entries.map((e) => (e.id === id ? next : e)) }));
   },
   removeEntry: (id) => {
     const current = get().entries.find((e) => e.id === id);
+    if (current && neverSent(current)) useScanQuota.getState().release();
     deleteLog(id);
     deletePhoto(current?.photoUri);
     set((s) => ({ entries: s.entries.filter((e) => e.id !== id) }));
@@ -86,6 +90,14 @@ export const useLog = create<LogState>()((set, get) => ({
     set({ entries: loadLogs().map((e) => inFlight.get(e.id) ?? e) });
   },
 }));
+
+/**
+ * A photo from today still waiting to be sent: the camera counted a free scan
+ * for it, but the server hasn't (a failed attempt is refunded there too).
+ */
+function neverSent(e: LogEntry) {
+  return e.source === 'photo' && e.status === 'queued' && e.eatenAt.toDateString() === new Date().toDateString();
+}
 
 export const useEntry = (id: string | undefined) => useLog((s) => s.entries.find((e) => e.id === id));
 
@@ -121,8 +133,7 @@ export function useDaySummary(day: Date = new Date()) {
 /** Current logging streak (feast days count as logged). */
 export function useStreak() {
   const entries = useLog((s) => s.entries);
-  const feastToday = useSettings((s) => s.feastDay);
-  const today = new Date();
+  const feastDays = useSettings((s) => s.feastDays);
   const logged = new Set(entries.filter((e) => e.status === 'done').map((e) => dayKey(e.eatenAt)));
-  return streakDays(logged, new Set(feastToday ? [dayKey(today)] : []), today, dayKey);
+  return streakDays(logged, new Set(feastDays), new Date(), dayKey);
 }

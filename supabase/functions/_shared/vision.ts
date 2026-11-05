@@ -1,15 +1,19 @@
 /**
  * The vision model behind the scan is a setting (SCAN_MODEL): `claude-*` goes
  * to Anthropic, `gemini-*` to Google's Gemini API. Both answer in the same
- * shape (VisionAnswer). Pure TypeScript with no imports, so Jest can test the
+ * shape (VisionAnswer). `mock` calls no AI at all (mockVisionAnswer): for
+ * local and staging testing, never for real users. Pure TypeScript with no imports, so Jest can test the
  * Gemini request and response handling; the `scan` function makes the calls.
  */
 
-export type Provider = 'anthropic' | 'gemini';
+export type Provider = 'anthropic' | 'gemini' | 'mock';
+
+export const MOCK_MODEL = 'mock';
 
 export function providerOf(model: string): Provider | null {
   if (model.startsWith('claude-')) return 'anthropic';
   if (model.startsWith('gemini-')) return 'gemini';
+  if (model === MOCK_MODEL) return 'mock';
   return null;
 }
 
@@ -35,6 +39,7 @@ export const PRICES: Record<string, [number, number, number, number]> = {
   'gemini-2.5-flash': [0.3, 2.5, 0.03, 0],
   'gemini-3.1-flash-lite': [0.25, 1.5, 0.025, 0],
   'gemini-3.5-flash-lite': [0.3, 2.5, 0.03, 0],
+  [MOCK_MODEL]: [0, 0, 0, 0],
 };
 
 /** Cost of one call, priced by the model that answered, else the one asked for. */
@@ -157,4 +162,81 @@ export function readGeminiResponse(raw: unknown, requested: string): VisionAnswe
     .join('');
   if (!text) return { ok: false, reason: 'no_answer', detail: 'no text in answer', model, usage };
   return { ok: true, text, model, usage: usage ?? { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 } };
+}
+
+const item = (dish_id: string, qty: number, unit: string, confidence: number) => ({
+  dish_id,
+  name: '',
+  name_my: '',
+  closest: null,
+  estimate: null,
+  qty,
+  unit,
+  confidence,
+});
+
+/**
+ * Fixed answers in the model's output format (SCAN_OUTPUT_SCHEMA), one per
+ * branch of the app's Result flow: one dish with toppings, a shared table,
+ * an unsure guess (PickDish), a food not on the list, a tea-shop order, and
+ * a photo with no food.
+ */
+export const MOCK_ANSWERS = [
+  { shared_table: false, items: [item('mohinga', 1, 'bowl', 0.88), item('boiledEgg', 1, 'piece', 0.8)], candidates: [] },
+  {
+    shared_table: true,
+    items: [
+      item('rice', 1.5, 'plate', 0.9),
+      item('chickenCurry', 3, 'spoon', 0.8),
+      item('gourdFritter', 2, 'piece', 0.72),
+      item('clearSoup', 1, 'bowl', 0.7),
+      item('ngapiYay', 1, 'spoon', 0.65),
+    ],
+    candidates: [],
+  },
+  {
+    shared_table: false,
+    items: [item('chickenCurry', 3, 'spoon', 0.45)],
+    candidates: [
+      { dish_id: 'chickenCurry', confidence: 0.45 },
+      { dish_id: 'porkCurry', confidence: 0.3 },
+      { dish_id: 'fishCurry', confidence: 0.12 },
+    ],
+  },
+  {
+    shared_table: true,
+    items: [
+      item('rice', 1, 'plate', 0.9),
+      {
+        dish_id: null,
+        name: 'Pork leg stew',
+        name_my: 'ဝက်ခြေထောက်ဟင်း',
+        closest: 'otherMeatCurry',
+        estimate: { kcal: 95, carb_g: 2, protein_g: 7, fat_g: 6.5 },
+        qty: 3,
+        unit: 'spoon',
+        confidence: 0.7,
+      },
+    ],
+    candidates: [],
+  },
+  { shared_table: false, items: [item('palata', 2, 'piece', 0.82), item('tea', 1, 'cup', 0.9)], candidates: [] },
+  { shared_table: false, items: [], candidates: [] },
+];
+
+/**
+ * SCAN_MODEL=mock: answer without calling any AI, at no cost. The same photo
+ * always gets the same answer (picked from the photo's bytes), so a retry or
+ * a second phone sees what the first one saw.
+ */
+export function mockVisionAnswer(photo: Uint8Array): VisionAnswer {
+  let hash = photo.length;
+  for (let i = 0; i < photo.length; i += 97) hash = (hash * 31 + photo[i]) >>> 0;
+  const answer = MOCK_ANSWERS[hash % MOCK_ANSWERS.length];
+  return {
+    ok: true,
+    text: JSON.stringify(answer),
+    model: MOCK_MODEL,
+    usage: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
+  };
 }

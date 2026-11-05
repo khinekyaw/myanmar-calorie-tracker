@@ -23,7 +23,7 @@ export function useWeekRange() {
 export function useWeekReport(weekStart: string) {
   const entries = useLog((s) => s.entries);
   const weightEntries = useWeights((s) => s.entries);
-  const feastToday = useSettings((s) => s.feastDay);
+  const feastDays = useSettings((s) => s.feastDays);
   const plan = usePlan((s) => s.plan);
   const { badges } = useBadges();
 
@@ -53,7 +53,7 @@ export function useWeekReport(weekStart: string) {
 
   // Streak as the week ended (or today, for this week).
   const logged = new Set(done.map((e) => dayKey(e.eatenAt)));
-  const feast = new Set(feastToday ? [today] : []);
+  const feast = new Set(feastDays);
   const streak = streakDays(logged, feast, fromDayKey(weekEnd < today ? weekEnd : today), dayKey);
 
   const earned = badges.filter((b) => b.earnedOn && b.earnedOn >= weekStart && b.earnedOn <= weekEnd);

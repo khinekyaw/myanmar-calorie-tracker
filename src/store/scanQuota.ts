@@ -31,6 +31,12 @@ type ScanQuotaState = {
   /** Day the server refused a scan for lack of free scans; queued photos wait for the next day. */
   blockedDay: string | null;
   consume: () => void;
+  /**
+   * Give back a scan used today for a photo that was never sent (deleted, or
+   * logged by words instead). Not after the server refused one today: its
+   * count is the real one then.
+   */
+  release: () => void;
   reset: () => void;
   /** Take the server's count when it is higher (another phone, or photos sent later). */
   syncUsed: (used: number) => void;
@@ -55,6 +61,8 @@ export const useScanQuota = create<ScanQuotaState>()(
           day: today(),
           used: Math.min((s.day === today() ? s.used : 0) + 1, allowance(s)),
         })),
+      release: () =>
+        set((s) => (s.day !== today() || s.blockedDay === today() ? s : { used: Math.max(s.used - 1, 0) })),
       reset: () => set({ day: today(), used: 0, blockedDay: null }),
       syncUsed: (used) =>
         set((s) => ({

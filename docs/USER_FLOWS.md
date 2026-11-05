@@ -68,7 +68,7 @@ Progress → **Weekly report** (under *This week*), or tap the Monday 8:00 notif
 
 ## 7. Settings
 
-Premium (paywall) · **Phone number** (*Sign in* when not signed in; the number once signed in) · **Goals** (= Edit goal) · **Health** (blood sugar / pressure, sex, birth year, height) · Uposatha vegetarian · Feast day · Reminders · Wi-Fi only · Language · **Delete account** (confirm sheet; removes everything on the server and the phone, back to Welcome). Phone number and Delete account appear only with a backend. Dev builds also show Simulate offline, Premium (mock), Reset free scans, Changes waiting to sync, Sync now, Restart onboarding.
+Premium (paywall) · **Phone number** (*Sign in* when not signed in; the number once signed in) · **Goals** (= Edit goal) · **Health** (blood sugar / pressure, sex, birth year, height) · Uposatha vegetarian · Feast day (marks today only) · Reminders · Wi-Fi only · Language · **Delete account** (confirm sheet; removes everything on the server and the phone, back to Welcome). Phone number and Delete account appear only with a backend. Dev builds also show Simulate offline, Premium (mock), Reset free scans, Changes waiting to sync, Sync now, Restart onboarding.
 
 ## 7b. Several phones
 
@@ -104,7 +104,7 @@ A queued photo's Home card and its Result screen say why it is waiting. Every ca
 | Being sent or analysed | *Analyzing…* | spinner |
 | No connection, or not on Wi-Fi in Wi-Fi-only mode | *Waiting* | *Waiting for a connection* · Say or type · Done |
 | Today's free scans used up (also when used on another phone) | *Free scans used up* | *Today's free scans are used up* + "scanned tomorrow" · Say or type · Premium |
-| The last attempt failed (it is still retried in the background) | *Couldn't scan* | *Couldn't scan this photo* · Say or type · Try again |
+| The last attempt failed (retried in the background up to 3 times, then only with *Try again*) | *Couldn't scan* | *Couldn't scan this photo* · Say or type · Try again |
 | The scan found no food | *No food found* | *No food found in this photo* · Say or type (delete from the top) |
 
 ## Still open (prototype limits)

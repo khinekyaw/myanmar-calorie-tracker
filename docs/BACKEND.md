@@ -23,6 +23,7 @@ migrations/
   20261103120000_dish_serving_grams.sql dishes.serving_g
   20261103130000_food_not_on_the_list.sql  log_items.custom, search_misses, catalogue_misses; sync_push carries both
   20261103140000_dish_add_ons.sql   dishes.add_ons (toppings offered on Result)
+  20261105120000_first_week_calendar_days.sql  first week = 7 Myanmar calendar days
 seeds/catalogue.sql         dish list, generated from src/data/dishes.ts (recipe-calculated numbers, drafts)
 seeds/dev.sql               local only: logs SMS codes instead of sending them
 functions/scan/             photo → dishes (Claude vision)
@@ -43,7 +44,7 @@ All user tables are keyed by `(user_id, id)` with phone-made ids, carry the phon
 | `weights` | weight (kg) and waist (cm) per day | the user (via sync) |
 | `dishes` | the catalogue; readable by everyone, retired dishes keep their row | team (Studio / SQL) |
 | `passes` | Premium passes | server only (`grant_pass`) |
-| `scan_quota` | free scans used per Myanmar day; the allowance is 3 in the account's first week, then 1 (`free_scans_per_day`, `FREE_SCANS_FIRST_WEEK` / `FREE_SCANS_PER_DAY`) | server only (`begin_scan`) |
+| `scan_quota` | free scans used per Myanmar day; the allowance is 3 in the account's first week (days 0–6 after sign-up, Myanmar calendar days), then 1 (`free_scans_per_day`, `FREE_SCANS_FIRST_WEEK` / `FREE_SCANS_PER_DAY`) | server only (`begin_scan`) |
 | `scans` | one row per scanned photo: status, answer, tokens, cost | server only |
 | `catalogue_misses` (view) | what people eat that the list lacks: searches with no result and unknown foods in scan answers, with counts (`select * from catalogue_misses order by people desc`) | read by the team (service role / Studio) |
 
@@ -62,10 +63,12 @@ One round trip each, for slow mobile data. Details and the reasons in [OFFLINE.m
 3. `parseScanOutput` checks the answer: unknown dishes become `dish_id: null` with a name (English and Burmese), the closest "Other …" type and the model's estimate for one unit of that type (clamped); units come from the catalogue, numbers are clamped, runner-ups must be real dishes.
 4. `finish_scan` stores the answer and cost; a failure **gives the free scan back**.
 
-Answers: `200 { scan, scans_left }` · `402` no free scans · `404` photo not uploaded · `409` already scanning · `502` failed (retry) · `503` not configured or over budget.
+Answers: `200 { scan, scans_left }` · `402` no free scans · `404` photo not uploaded · `409` already scanning · `422` this photo failed 6 times (no more AI calls for it) · `502` failed (retry) · `503` not configured or over budget.
+
+A failure gives the free scan back, so retries are capped: the app sends a failed photo again by itself 3 times (30 s, 1 min, then only with *Try again*), and the function refuses a photo after 6 attempts.
 
 Settings (function secrets, see `functions/.env.example`):
-- `SCAN_MODEL` (default `claude-haiku-5-5`): any `claude-*` or `gemini-*` id, e.g. `gemini-3.1-flash-lite` (Gemini 2.5 models are closed to new accounts). The provider follows from the name.
+- `SCAN_MODEL` (default `claude-haiku-5-5`): any `claude-*` or `gemini-*` id, e.g. `gemini-3.1-flash-lite` (Gemini 2.5 models are closed to new accounts). The provider follows from the name. **`mock`** calls no AI: fixed answers in the model's format (`MOCK_ANSWERS` in `_shared/vision.ts`: dish with egg, shared table, unsure guess, food not on the list, tea-shop order, no food), cost $0, the same photo always the same answer. Quota, upload, caching and refunds all run for real. For local and staging testing only.
 - `ANTHROPIC_API_KEY` for Claude models, `GEMINI_API_KEY` for Gemini models. Without the matching key, scans answer `503 not_configured`. **For Gemini, use a key from a project with billing on.** On the free tier, Google may use and have people review the photos ([terms](https://ai.google.dev/gemini-api/terms)).
 - `SCAN_EFFORT` (default `low`: a short perception task while the user waits). On Gemini, `low` asks for the least thinking: `thinkingBudget: 0` on 2.5, `thinkingLevel: minimal` on 3.x, which rejects a zero budget.
 - `FREE_SCANS_FIRST_WEEK` (3), `FREE_SCANS_PER_DAY` (1), `SCAN_DAILY_BUDGET_USD` (no cap when empty).
@@ -92,7 +95,7 @@ npx expo start              # Metro reads .env.local; the app now syncs to the l
 - The Android emulator reaches the Mac at `10.0.2.2`; a real phone needs the Mac's LAN address.
 - **Sign-in test numbers** (no SMS): +95 9123456789 → `123456`, +95 9987654321 → `654321`. Other numbers: the code is in `docker logs supabase_db_sar-ai 2>&1 | grep "SMS code"`. One code per number per 30 seconds.
 - **Google sign-in** needs an OAuth client: put `SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID` / `_SECRET` in `supabase/.env` (not committed) and restart the stack. In Google Cloud the client's authorized redirect URI is `http://127.0.0.1:54321/auth/v1/callback`; on the emulator run `adb reverse tcp:54321 tcp:54321` so the browser can reach it. Without a client the button opens Google with an invalid client id.
-- **Scans** need the functions running with a key: copy `supabase/functions/.env.example` to `supabase/functions/.env`, set the key for `SCAN_MODEL` (`ANTHROPIC_API_KEY` or `GEMINI_API_KEY`), then `npx supabase functions serve --env-file supabase/functions/.env`.
+- **Scans** need the functions running: copy `supabase/functions/.env.example` to `supabase/functions/.env`, then `npx supabase functions serve --env-file supabase/functions/.env`. With `SCAN_MODEL=mock` no key is needed and nothing is spent; for real scans set the model and its key (`ANTHROPIC_API_KEY` or `GEMINI_API_KEY`), and keep `SCAN_DAILY_BUDGET_USD` low.
 - Without `.env.local` the app runs exactly as the prototype did (mock scan, any sign-in code).
 - **macOS:** Docker Desktop needs access to the Desktop folder (System Settings → Privacy & Security → Files and Folders → Docker → Desktop Folder) to mount this project. Without it, Studio and the functions runtime can't start: use `npx supabase start -x edge-runtime,studio`, and serve functions from a copy of `supabase/` outside Desktop (`--workdir`).
 
@@ -100,7 +103,8 @@ npx expo start              # Metro reads .env.local; the app now syncs to the l
 |---|---|
 | `npm run test:db` | pgTAP database tests (also works without the Desktop permission) |
 | `npm run check:functions` | type-check the Edge Functions with Deno |
-| `npm test` | Jest, including sync mapping, scan contract and the seed check |
+| `npm test` | Jest, including sync mapping, scan contract, the seed check and the 30-day simulation |
+| `npm run simulate` | the 30-day free-user simulation, printing its day-by-day journal |
 | `npm run db:reset` | re-apply migrations and seeds (wipes local data) |
 | `npm run db:types` | regenerate `src/services/database.types.ts` after a schema change |
 
@@ -122,6 +126,8 @@ Schema changes = a **new** migration file (never edit one that has been deployed
 | Delete account: server rows, photos and auth user gone; phone wiped to Welcome; new anonymous account | ✅ |
 | Account deleted while a token is still valid → phone starts over automatically | ✅ (bug found and fixed) |
 | `scan` edge cases with curl: repeat → cached, missing photo → 404 + refund, refusal → 502 + refund, 4th scan → 402, other user's folder → refused, no token → 401 | ✅ |
+
+2026-11-05, **30 days as a free user** (`npm run simulate`; scripts/simulation): the app's stores, SQLite schema and scan queue against a stand-in server with the same quota rules and the mock AI. 106 meals (35 photos), 40 AI calls (7 failed and given back), 34 of 44 free scans used; at real prices about $0.02 a month on Gemini 3.1 Flash-Lite and $0.007 on Haiku 5.5. Covered: onboarding plan, 3 scans then the paywall, PickDish, ဝိုင်းစား share, photos queued offline overnight (charged to the day taken), an AI error and its retry, a photo with no food, a deleted unsent photo, the day-7 drop to 1 scan, another phone using today's scan (402, sent after midnight), a feast day, the app closed mid-scan (answer from the cache, no second AI call), an unreadable photo (retries capped), a search with no result, a missed day, weekly reports, badges, the month change. Fixes it led to: [DECISIONS → 30-day free-user simulation](DECISIONS.md#30-day-free-user-simulation-and-what-it-changed-2026-11-05).
 
 ## Deploying (staging, then production)
 

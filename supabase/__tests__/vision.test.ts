@@ -1,5 +1,15 @@
-import { SCAN_OUTPUT_SCHEMA } from '../functions/_shared/scanContract';
-import { costUsd, geminiRequest, geminiThinking, providerOf, readGeminiResponse, toGeminiSchema } from '../functions/_shared/vision';
+import { parseScanOutput, SCAN_OUTPUT_SCHEMA, type CatalogueDish } from '../functions/_shared/scanContract';
+import {
+  costUsd,
+  geminiRequest,
+  geminiThinking,
+  MOCK_ANSWERS,
+  MOCK_MODEL,
+  mockVisionAnswer,
+  providerOf,
+  readGeminiResponse,
+  toGeminiSchema,
+} from '../functions/_shared/vision';
 
 describe('providerOf', () => {
   it('picks the provider from the model name', () => {
@@ -89,5 +99,37 @@ describe('costUsd', () => {
     // 700 × $0.10 + 400 × $0.40 + 4000 × $0.01 per million tokens.
     expect(costUsd(['gemini-2.5-flash-lite-preview', 'gemini-2.5-flash-lite'], u)).toBeCloseTo(0.00027);
     expect(costUsd(['unknown'], u)).toBeNull();
+  });
+});
+
+describe('SCAN_MODEL=mock', () => {
+  const { dishes } = jest.requireActual<typeof import('@/data/dishes')>('@/data/dishes');
+  const catalogue = new Map<string, CatalogueDish>(
+    Object.values(dishes).map((d) => [
+      d.id,
+      { id: d.id, name_my: d.name.my, name_en: d.name.en, unit: d.unit, ...(d.generic && { generic: true }) },
+    ]),
+  );
+
+  it('is its own provider and costs nothing', () => {
+    expect(providerOf(MOCK_MODEL)).toBe('mock');
+    expect(costUsd([MOCK_MODEL], { input: 1000, output: 1000, cacheRead: 1000, cacheWrite: 1000 })).toBe(0);
+  });
+
+  it('gives every mock answer in a shape the real answer check accepts', () => {
+    for (const answer of MOCK_ANSWERS) {
+      const scan = parseScanOutput(JSON.parse(JSON.stringify(answer)), catalogue);
+      expect(scan.items).toHaveLength(answer.items.length);
+      // Every catalogue dish in a mock answer exists (no silent "not on the list").
+      answer.items.filter((i) => i.dish_id).forEach((i, n) => expect(scan.items[n].dish_id).toBe(i.dish_id));
+    }
+  });
+
+  it('answers the same photo the same way, and different photos differently', () => {
+    const photo = (seed: number) => Uint8Array.from({ length: 4000 }, (_, i) => (i * seed) % 251);
+    const text = (seed: number) => (mockVisionAnswer(photo(seed)) as { text: string }).text;
+    expect(text(7)).toBe(text(7));
+    expect(new Set([1, 2, 3, 5, 7, 11, 13, 17].map(text)).size).toBeGreaterThan(1);
+    expect(mockVisionAnswer(photo(3))).toMatchObject({ ok: true, model: MOCK_MODEL });
   });
 });

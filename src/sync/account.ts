@@ -5,11 +5,12 @@ import { useOnboarding } from '@/store/onboarding';
 import { resetPlan } from '@/store/plan';
 import { usePremium } from '@/store/premium';
 import { useScanQuota } from '@/store/scanQuota';
+import { useSettings } from '@/store/settings';
 import { useWeights } from '@/store/weights';
 
 /**
  * Delete the account on the server, then everything it left on this phone
- * (meals, photos, weights, profile, plan, passes). Language and app
+ * (meals, photos, weights, profile, plan, passes, feast days). Language and app
  * settings stay. The next sync starts a fresh anonymous account.
  */
 export async function deleteAccountAndData() {
@@ -21,4 +22,5 @@ export async function deleteAccountAndData() {
   resetPlan();
   usePremium.setState({ activeUntil: null, serverUntil: null });
   useScanQuota.getState().reset();
+  useSettings.setState({ feastDays: [] });
 }

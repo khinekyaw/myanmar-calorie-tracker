@@ -10,7 +10,7 @@ import { dayKey, series, useWeights } from '@/store/weights';
 export function useBadges() {
   const entries = useLog((s) => s.entries);
   const weightEntries = useWeights((s) => s.entries);
-  const feastToday = useSettings((s) => s.feastDay);
+  const feastDays = useSettings((s) => s.feastDays);
   const goal = useOnboarding((s) => s.goal);
   const targetLb = useOnboarding((s) => s.targetWeightLb);
   const plan = usePlan((s) => s.plan);
@@ -32,7 +32,6 @@ export function useBadges() {
   });
 
   const today = dayKey(new Date());
-  const feastDays = feastToday ? [today] : [];
   const badges = evaluateBadges({
     meals,
     days,

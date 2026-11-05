@@ -12,7 +12,7 @@ import { useAccount } from '@/services/auth';
 import { backendEnabled } from '@/services/supabase';
 import { useIsPremium, usePremium, usePremiumUntil } from '@/store/premium';
 import { useScanQuota } from '@/store/scanQuota';
-import { useSettings } from '@/store/settings';
+import { useFeastToday, useSettings } from '@/store/settings';
 import { deleteAccountAndData } from '@/sync/account';
 import { syncNow } from '@/sync/engine';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
@@ -26,6 +26,7 @@ export function SettingsScreen() {
   const s = useStyles();
   const { theme, language } = useStyleContext();
   const settings = useSettings();
+  const feastToday = useFeastToday();
   const resetOnboarding = useOnboarding((st) => st.reset);
   const goal = useOnboarding((st) => st.goal);
   const resetScans = useScanQuota((st) => st.reset);
@@ -122,8 +123,8 @@ export function SettingsScreen() {
           <ListRow
             kind="switch"
             label={t('settings.feastDay')}
-            value={settings.feastDay}
-            onValueChange={() => settings.toggle('feastDay')}
+            value={feastToday}
+            onValueChange={settings.toggleFeastToday}
           />
           <ListRow
             kind="switch"

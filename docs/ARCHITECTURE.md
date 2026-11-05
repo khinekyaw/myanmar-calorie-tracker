@@ -23,7 +23,7 @@ Status: **all 22 canvas screens built, offline-first** (meals, photo queue and w
 | Network | **expo-network** | Online / Wi-Fi state for the offline photo queue. |
 | Photo compression | **expo-image-manipulator** | 800 px long edge, JPEG 0.7, before queueing; a 512 px copy is uploaded for the scan. |
 | Notifications | **expo-notifications** | Reminder permission; the Monday weekly-report notification (`features/report/weeklyReminder.ts`). |
-| Tests | **Jest** (`jest-expo` preset) | Pure domain logic: plan maths, meal parsing, search. |
+| Tests | **Jest** (`jest-expo` preset) | Pure domain logic: plan maths, meal parsing, search; `npm run simulate`: 30 days as a free user against the real stores and SQLite schema (scripts/simulation). |
 
 ## Folder layout
 
@@ -230,7 +230,7 @@ MealItem { dishId, qty, oil?: less|normal|more, sweetness?: choSeint|pawSeint|ky
 
 | Area | Prototype | Real version |
 |---|---|---|
-| Photo scan | **Real** with a backend: upload to `meal-photos` + `scan` Edge Function → Claude or Gemini (`SCAN_MODEL`, [BACKEND.md](BACKEND.md)). Without one: `services/scan.ts` cycles 4 demo answers (the last has a food not on the list). Not yet run against the real model (no API key here) | Model/effort chosen with ~100 labelled photos |
+| Photo scan | **Real** with a backend: upload to `meal-photos` + `scan` Edge Function → Claude or Gemini (`SCAN_MODEL`, [BACKEND.md](BACKEND.md)). Without one: `services/scan.ts` cycles 4 demo answers (the last has a food not on the list). `SCAN_MODEL=mock` on the server: the whole server path with 6 fixed answers and no AI call (the local default for now). Not yet run against the real model | Model/effort chosen with ~100 labelled photos |
 | Dish data | `catalogue/` recipes ([CATALOGUE.md](CATALOGUE.md)) → `catalogue/calculated.json` → `data/dishes.ts` (adds bundled photos), which seeds the phone and the server (`supabase/seeds/catalogue.sql`). 151 dishes with sugar and sodium, all **draft recipes**, so they show *Calculated* and none are verified | Verified `dishes` table (200–300) from the nutritionist |
 | Food photos | Wikimedia Commons images bundled in the app (`assets/images/dishes/`) | Our own photos (bundled + `dish-photos` bucket) |
 | Speech-to-text | **Real, at no cost:** the phone keyboard's own voice typing (its mic key) fills the text box; we run no speech service | Works where the keyboard supports Burmese voice typing; check on target phones |

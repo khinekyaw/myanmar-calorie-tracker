@@ -48,3 +48,10 @@ export const usePremiumUntil = () =>
   });
 
 export const useIsPremium = () => usePremiumUntil() !== null;
+
+/** Outside React (the scan queue): is a pass active right now? */
+export function isPremiumNow() {
+  const { activeUntil, serverUntil } = usePremium.getState();
+  const until = latest(activeUntil, serverUntil);
+  return until !== null && new Date(until).getTime() > Date.now();
+}

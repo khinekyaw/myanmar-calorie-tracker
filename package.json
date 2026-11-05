@@ -60,6 +60,7 @@
     "typecheck": "tsc --noEmit",
     "test": "jest",
     "test:db": "sh scripts/test-db.sh",
+    "simulate": "SIM_REPORT=1 jest scripts/simulation",
     "db:start": "supabase start",
     "db:reset": "supabase db reset",
     "db:types": "supabase gen types typescript --local > src/services/database.types.ts",
@@ -70,6 +71,7 @@
   "private": true,
   "jest": {
     "preset": "jest-expo",
+    "globalSetup": "<rootDir>/scripts/jestTimezone.js",
     "moduleNameMapper": {
       "^@/assets/(.*)$": "<rootDir>/assets/$1",
       "^@/(.*)$": "<rootDir>/src/$1"

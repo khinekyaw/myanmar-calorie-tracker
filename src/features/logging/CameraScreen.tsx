@@ -10,13 +10,11 @@ import { useTranslation } from 'react-i18next';
 import { tap } from '@/lib/haptics';
 import { formatNumber } from '@/lib/format';
 import { useConnectivity } from '@/lib/network';
-import { newId } from '@/db/database';
-import { keepPhoto } from '@/db/photos';
-import { compressPhoto } from '@/services/scan';
-import { useLog } from '@/store/log';
-import { useFreeScansToday, useScanQuota, useScansLeft } from '@/store/scanQuota';
+import { useFreeScansToday, useScansLeft } from '@/store/scanQuota';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Button, IconButton, ScanFrame, Text } from '@/ui';
+
+import { queuePhoto } from './scanQueue';
 
 /**
  * Full-screen food camera. The free-scan counter opens the paywall; when no
@@ -33,20 +31,13 @@ export function CameraScreen() {
   const [busy, setBusy] = useState(false);
   const scansLeft = useScansLeft();
   const freeToday = useFreeScansToday();
-  const consume = useScanQuota((st) => st.consume);
 
   const { canUpload } = useConnectivity();
-  const addEntry = useLog((st) => st.addEntry);
 
   // Save the compressed photo to the queue. Online → straight to Result
   // (the scan queue picks it up); offline → back Home, where it waits.
-  const afterCapture = async ({ uri, width, height }: { uri: string; width: number; height: number }) => {
-    consume();
-    const compressed = await compressPhoto(uri, width, height).catch(() => uri);
-    // Keep the photo in permanent storage (not cache) so a queued scan survives restarts.
-    const id = newId();
-    const photoUri = keepPhoto(compressed, id);
-    addEntry({ id, source: 'photo', status: 'queued', photoUri, items: [] });
+  const afterCapture = async (photo: { uri: string; width: number; height: number }) => {
+    const id = await queuePhoto(photo);
     if (canUpload) router.replace({ pathname: '/result', params: { id } });
     else router.back();
   };
