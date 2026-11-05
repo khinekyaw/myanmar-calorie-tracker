@@ -51,6 +51,60 @@ export type Database = {
                   Relationships: [
                     
                   ]
+                },"gift_code_failures": {
+                  Row: {
+                    "at": string,"id": number,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "at"?: string,"id"?: never,"user_id": string
+                  }
+                  Update: {
+                    "at"?: string,"id"?: never,"user_id"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
+                },"gift_codes": {
+                  Row: {
+                    "campaign": string | null,"code_hash": string,"created_at": string,"expires_at": string | null,"id": string,"max_uses": number,"note": string | null,"plan": string,"revoked_at": string | null,"uses": number
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "campaign"?: string | null,"code_hash": string,"created_at"?: string,"expires_at"?: string | null,"id"?: string,"max_uses"?: number,"note"?: string | null,"plan": string,"revoked_at"?: string | null,"uses"?: number
+                  }
+                  Update: {
+                    "campaign"?: string | null,"code_hash"?: string,"created_at"?: string,"expires_at"?: string | null,"id"?: string,"max_uses"?: number,"note"?: string | null,"plan"?: string,"revoked_at"?: string | null,"uses"?: number
+                  }
+                  Relationships: [
+                    
+                  ]
+                },"gift_redemptions": {
+                  Row: {
+                    "campaign": string | null,"code_id": string,"pass_id": string,"redeemed_at": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "campaign"?: string | null,"code_id": string,"pass_id": string,"redeemed_at"?: string,"user_id": string
+                  }
+                  Update: {
+                    "campaign"?: string | null,"code_id"?: string,"pass_id"?: string,"redeemed_at"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "gift_redemptions_code_id_fkey"
+      columns: ["code_id"]
+isOneToOne: false
+      referencedRelation: "gift_codes"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "gift_redemptions_pass_id_fkey"
+      columns: ["pass_id"]
+isOneToOne: false
+      referencedRelation: "passes"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"log_items": {
                   Row: {
                     "custom": Json | null,"dish_id": string,"log_id": string,"oil": string | null,"position": number,"qty": number,"sweetness": string | null,"user_id": string
@@ -172,6 +226,9 @@ isOneToOne: false
             "begin_scan":
 { Args: { "p_daily_budget_usd"?: number,"p_free_per_day": number,"p_log_id": string,"p_photo_path": string,"p_taken_at": string,"p_user": string }; Returns: Json
                            },
+"create_gift_codes":
+{ Args: { "p_campaign"?: string,"p_codes": (string)[],"p_expires_at"?: string,"p_max_uses"?: number,"p_note"?: string,"p_plan": string }; Returns: number
+                           },
 "dev_send_sms":
 { Args: { "event": Json }; Returns: Json
                            },
@@ -199,6 +256,9 @@ isOneToOne: false
         isOneToOne: true
         isSetofReturn: false
       } },
+"redeem_gift_code":
+{ Args: { "p_code": string }; Returns: Json
+                           },
 "sync_pull":
 { Args: { "after"?: Json,"page_size"?: number,"since"?: string }; Returns: Json
                            },

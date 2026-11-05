@@ -3,10 +3,10 @@ import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
-import { PASSES, PAYMENT_PROVIDERS, type PassId } from '@/config/pricing';
-import { formatNumber } from '@/lib/format';
+import { PASSES, PAYMENT_PROVIDERS, PAYMENTS_ENABLED, type PassId } from '@/config/pricing';
+import { formatDayLabel, formatNumber } from '@/lib/format';
 import { tap } from '@/lib/haptics';
-import { usePremium } from '@/store/premium';
+import { usePremium, usePremiumUntil } from '@/store/premium';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Badge, Button, Icon, IconButton, Logo, Screen, Text, type IconName } from '@/ui';
 
@@ -16,13 +16,19 @@ const FEATURES: { key: 'unlimitedScans' | 'weeklyReport'; icon: IconName }[] = [
   { key: 'weeklyReport', icon: 'chart' },
 ];
 
-/** Prepaid passes paid with KBZPay / WavePay. Shown only after free scans run out. */
+/**
+ * Premium: prepaid passes, and gift codes (Redeem). Until payments are
+ * connected (PAYMENTS_ENABLED) it shows no prices or pay buttons, only the
+ * code entry, so the app sells nothing.
+ */
 export function PaywallScreen() {
   const { t } = useTranslation();
   const s = useStyles();
   const { theme, language } = useStyleContext();
   const [pass, setPass] = useState<PassId>('3m');
   const activate = usePremium((st) => st.activate);
+  const until = usePremiumUntil();
+  const enterCode = () => router.push('/redeem');
   const buy = () => {
     activate(PASSES.find((p) => p.id === pass)?.months ?? 1);
     router.back();
@@ -31,20 +37,25 @@ export function PaywallScreen() {
   return (
     <Screen
       footer={
-        <View style={s.footer}>
-          <View style={s.note}>
-            <Icon name="shield" size={16} strokeWidth={2} />
-            <Text variant="label" tone="muted">
-              {t('paywall.noAutoRenew')}
-            </Text>
+        !PAYMENTS_ENABLED ? (
+          <Button label={t('paywall.enterCode')} onPress={enterCode} />
+        ) : (
+          <View style={s.footer}>
+            <View style={s.note}>
+              <Icon name="shield" size={16} strokeWidth={2} />
+              <Text variant="label" tone="muted">
+                {t('paywall.noAutoRenew')}
+              </Text>
+            </View>
+            <View style={s.payRow}>
+              {PAYMENT_PROVIDERS.map((p) => (
+                // MOCK: activates the pass without paying — see docs/DECISIONS.md → "Payments".
+                <Button key={p} label={p} style={s.pay} onPress={buy} />
+              ))}
+            </View>
+            <Button variant="ghost" label={t('paywall.haveCode')} onPress={enterCode} />
           </View>
-          <View style={s.payRow}>
-            {PAYMENT_PROVIDERS.map((p) => (
-              // MOCK: activates the pass without paying — see docs/DECISIONS.md → "Payments".
-              <Button key={p} label={p} style={s.pay} onPress={buy} />
-            ))}
-          </View>
-        </View>
+        )
       }>
       <View style={s.top}>
         <IconButton icon="close" accessibilityLabel={t('common.close')} onPress={() => router.back()} />
@@ -56,6 +67,11 @@ export function PaywallScreen() {
       <Text variant="display" accessibilityRole="header" style={s.title}>
         {t('paywall.title')}
       </Text>
+      {until && (
+        <Text variant="body" tone="muted" style={s.until}>
+          {t('settings.premiumUntil', { date: formatDayLabel(new Date(until), language) })}
+        </Text>
+      )}
 
       <View style={s.features}>
         {FEATURES.map((f) => (
@@ -70,43 +86,45 @@ export function PaywallScreen() {
         ))}
       </View>
 
-      <View style={s.passes} accessibilityRole="radiogroup">
-        {PASSES.map((p) => {
-          const selected = pass === p.id;
-          return (
-            <Pressable
-              key={p.id}
-              accessibilityRole="radio"
-              accessibilityState={{ selected }}
-              onPress={() => {
-                tap();
-                setPass(p.id);
-              }}
-              style={[s.pass, selected && s.passSelected]}>
-              {'bestValue' in p && p.bestValue && (
-                <Badge tone="accent" label={t('paywall.bestValue')} style={s.tag} />
-              )}
-              <Text variant="label" tone="muted">
-                {t(p.months === 1 ? 'paywall.month1' : 'paywall.month3')}
-              </Text>
-              <Text variant="headline">
-                {t('paywall.price', { price: formatNumber(p.priceKs, language) })}
-              </Text>
-              {p.months > 1 && (
-                <Text variant="caption" tone="muted">
-                  {t('paywall.perMonth', {
-                    price: formatNumber(Math.round(p.priceKs / p.months / 100) * 100, language),
-                  })}
+      {PAYMENTS_ENABLED && (
+        <View style={s.passes} accessibilityRole="radiogroup">
+          {PASSES.map((p) => {
+            const selected = pass === p.id;
+            return (
+              <Pressable
+                key={p.id}
+                accessibilityRole="radio"
+                accessibilityState={{ selected }}
+                onPress={() => {
+                  tap();
+                  setPass(p.id);
+                }}
+                style={[s.pass, selected && s.passSelected]}>
+                {'bestValue' in p && p.bestValue && (
+                  <Badge tone="accent" label={t('paywall.bestValue')} style={s.tag} />
+                )}
+                <Text variant="label" tone="muted">
+                  {t(p.months === 1 ? 'paywall.month1' : 'paywall.month3')}
                 </Text>
-              )}
-              {/* Keyed so the gold fill mounts with the view (Android rounding). */}
-              <View key={selected ? 'on' : 'off'} style={[s.radio, selected && s.radioOn]}>
-                {selected && <Icon name="check" size={14} strokeWidth={3} color={theme.colors.onAccent} />}
-              </View>
-            </Pressable>
-          );
-        })}
-      </View>
+                <Text variant="headline">
+                  {t('paywall.price', { price: formatNumber(p.priceKs, language) })}
+                </Text>
+                {p.months > 1 && (
+                  <Text variant="caption" tone="muted">
+                    {t('paywall.perMonth', {
+                      price: formatNumber(Math.round(p.priceKs / p.months / 100) * 100, language),
+                    })}
+                  </Text>
+                )}
+                {/* Keyed so the gold fill mounts with the view (Android rounding). */}
+                <View key={selected ? 'on' : 'off'} style={[s.radio, selected && s.radioOn]}>
+                  {selected && <Icon name="check" size={14} strokeWidth={3} color={theme.colors.onAccent} />}
+                </View>
+              </Pressable>
+            );
+          })}
+        </View>
+      )}
     </Screen>
   );
 }
@@ -123,6 +141,7 @@ const useStyles = makeStyles(({ theme }) => ({
     marginTop: theme.space.xs,
   },
   title: { marginTop: theme.space.lg },
+  until: { marginTop: theme.space.xs },
   features: { marginTop: theme.space.xxl, gap: theme.space.lg },
   feature: { flexDirection: 'row', alignItems: 'center', gap: theme.space.lg },
   featureIcon: {

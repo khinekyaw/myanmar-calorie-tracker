@@ -314,6 +314,17 @@ Gemini reviewed the dish list. We took four points, with our own numbers:
 - **Faluda gains egg pudding and condensed milk**: 305 g / 355 kcal → 365 g / 467 kcal. The glass size is still a guess to weigh.
 - Not taken: Gemini's 50 g ladle and its 8 % / 12 % oil figures had no source. Mohinga fritters were already logged separately.
 
+## Gift codes before payments (2026-11-05, built 2026-11-06)
+
+Built as planned (LAUNCH_CHECKLIST → "Gift codes"; how to make and end codes: BACKEND.md → Gift codes). KBZPay / WavePay may not be ready, so Premium can be given with a code first. The server turns a code into a normal pass through `grant_pass` (provider `gift`), so nothing that reads `passes` changes. These choices are non-obvious:
+- **Codes are hashed** in the database: a leaked table can't be redeemed.
+- **Redeeming needs a phone or Google sign-in**, because a pass on an anonymous account is lost when the phone switches to an existing account.
+- **No per-IP limit**, only per account, because Myanmar mobile users share IP addresses.
+- **The app never links to a place to buy codes** (Play payments policy). Whether to sell codes, and where, is still open ([Payment options](../reports/Payment%20options.md)).
+- **Redeeming is a database function, not an Edge Function** (the plan said `redeem` function). The checks, the try limit and `grant_pass` must happen in one locked transaction anyway, and a function the app calls with `rpc` needs nothing else deployed.
+- **Code entry is a screen (`/redeem`), not a bottom sheet.** A text field with the keyboard inside a sheet is fragile on cheap Android phones; the sign-in screen already works this way. It forces a Latin keyboard on Android (`visible-password`), because the user's keyboard is often Burmese.
+- **`PAYMENTS_ENABLED = false`** (`config/pricing.ts`): the paywall shows no prices or pay buttons, only *Enter a code*, so the app sells nothing until payments are connected.
+
 ## 30-day free-user simulation and what it changed (2026-11-05)
 
 `npm run simulate` lives through 30 days as one free user against the app's real stores, SQLite schema and scan queue, with a stand-in server that copies the quota SQL and answers scans with the mock AI (scripts/simulation). No AI is called. Each day ends with the phone's "scans left" equal to the server's. Changes it led to:
@@ -355,7 +366,8 @@ Batch 1: `welcome.signIn` was on canvas; new ones: `camera.permissionTitle`, `ca
 
 - Food data source and the ~260 kcal per rice-plate constant (`domain/nutrition.ts`, marked PLACEHOLDER).
 - Pass prices: MOCK 4,900 Ks (1 month) and 12,900 Ks (3 months) in `config/pricing.ts`, shown with "≈ 4,300 Ks a month" on the 3-month pass; not decided.
-- Payments: KBZPay/WavePay vs Google Play Billing — check Play policy before building.
+- Payments: Play Billing (cards only in Myanmar), our website (Dinger / KBZPay / WavePay; the app sells nothing), or both. Research in [reports/Payment options.md](../reports/Payment%20options.md); no decision yet.
+- Gift codes: free only, or also sold on our website?
 - Vision model for the scan Edge Function: default `claude-haiku-5-5` at low effort; confirm with ~100 labelled photos, and move to `claude-sonnet-5-5` only if Haiku misses too many.
 - SMS provider (or Send SMS hook to a Myanmar gateway) for +95 OTP.
 - CAPTCHA on anonymous sign-in before launch (each new install gets 3 free scans a day for a week).

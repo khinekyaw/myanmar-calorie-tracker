@@ -10,3 +10,10 @@ export const PASSES = [
 export type PassId = (typeof PASSES)[number]['id'];
 
 export const PAYMENT_PROVIDERS = ['KBZPay', 'WavePay'] as const;
+
+/**
+ * Off until a payment provider is connected (docs/LAUNCH_CHECKLIST.md →
+ * "Payments"). While off, the paywall shows no prices or pay buttons and leads
+ * with the gift-code entry, so the app sells nothing (Google Play rules).
+ */
+export const PAYMENTS_ENABLED = false;

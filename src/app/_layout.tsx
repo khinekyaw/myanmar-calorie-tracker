@@ -74,6 +74,7 @@ export default function RootLayout() {
         />
         <Stack.Screen name="camera" options={{ presentation: 'fullScreenModal', animation: 'slide_from_bottom' }} />
         <Stack.Screen name="paywall" options={{ presentation: 'modal', animation: 'slide_from_bottom' }} />
+        <Stack.Screen name="redeem" />
         <Stack.Screen name="result" options={{ animation: 'fade' }} />
         <Stack.Screen name="pick-dish" />
         <Stack.Screen name="shared-meal" />

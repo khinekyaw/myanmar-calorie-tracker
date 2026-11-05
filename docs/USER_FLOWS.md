@@ -76,7 +76,7 @@ Sign in with the same number on another phone: everything comes down. Changes on
 
 ## 8. Premium
 
-Paywall (from the camera counter, the 4th scan, Settings, or the weekly report): 1- or 3-month prepaid pass, KBZPay / WavePay, "No auto-renew". Payments are not connected yet. Premium today: unlimited scans and the full weekly report; blood sugar / pressure guidance isn't built yet.
+Paywall (from the camera counter, the 4th scan, Settings, or the weekly report): Premium's features, *Active until …* when a pass is on, and **Enter a code** (gift code → `/redeem`: sign in first with a backend, then the code; wrong, expired and used codes say so; success shows *Premium is on* with the end date). Payments are off (`PAYMENTS_ENABLED`); when on, the paywall also shows the 1- or 3-month prepaid pass, KBZPay / WavePay and "No auto-renew", with *Have a code?* below. Premium today: unlimited scans and the full weekly report; blood sugar / pressure guidance isn't built yet.
 
 ---
 

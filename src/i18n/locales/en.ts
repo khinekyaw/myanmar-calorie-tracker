@@ -388,6 +388,21 @@ const en = {
     price: '{{price}} Ks',
     perMonth: '≈ {{price}} Ks a month',
     noAutoRenew: 'No auto-renew',
+    haveCode: 'Have a code?',
+    enterCode: 'Enter a code',
+  },
+  redeem: {
+    title: 'Gift code',
+    redeem: 'Use code',
+    signInTitle: 'Sign in to use a code',
+    doneTitle: 'Premium is on',
+    done: 'Done',
+    invalid: 'That code doesn’t work',
+    expired: 'This code has expired',
+    usedUp: 'This code has been used',
+    alreadyUsed: 'You already used a code from this offer',
+    rateLimited: 'Too many tries. Try again in an hour',
+    error: 'Couldn’t check the code. Try again',
   },
 };
 

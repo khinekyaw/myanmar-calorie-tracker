@@ -24,12 +24,13 @@ migrations/
   20261103130000_food_not_on_the_list.sql  log_items.custom, search_misses, catalogue_misses; sync_push carries both
   20261103140000_dish_add_ons.sql   dishes.add_ons (toppings offered on Result)
   20261105120000_first_week_calendar_days.sql  first week = 7 Myanmar calendar days
+  20261106120000_gift_codes.sql     gift codes: tables, redeem_gift_code, create_gift_codes
 seeds/catalogue.sql         dish list, generated from src/data/dishes.ts (recipe-calculated numbers, drafts)
 seeds/dev.sql               local only: logs SMS codes instead of sending them
 functions/scan/             photo → dishes (Claude vision)
 functions/delete-account/   deletes the account, its photos and every row
 functions/_shared/scanContract.ts   answer validation, shared with Jest tests
-tests/database/*.sql        pgTAP: RLS, sync conflicts, paging, quota, passes, foods not on the list (67 tests)
+tests/database/*.sql        pgTAP: RLS, sync conflicts, paging, quota, passes, foods not on the list, gift codes (96 tests)
 ```
 
 ### Tables
@@ -44,6 +45,7 @@ All user tables are keyed by `(user_id, id)` with phone-made ids, carry the phon
 | `weights` | weight (kg) and waist (cm) per day | the user (via sync) |
 | `dishes` | the catalogue; readable by everyone, retired dishes keep their row | team (Studio / SQL) |
 | `passes` | Premium passes | server only (`grant_pass`) |
+| `gift_codes`, `gift_redemptions`, `gift_code_failures` | gift codes (only a sha-256 hash of each), who redeemed which, wrong tries for the try limit | server only (`create_gift_codes`, `redeem_gift_code`) |
 | `scan_quota` | free scans used per Myanmar day; the allowance is 3 in the account's first week (days 0–6 after sign-up, Myanmar calendar days), then 1 (`free_scans_per_day`, `FREE_SCANS_FIRST_WEEK` / `FREE_SCANS_PER_DAY`) | server only (`begin_scan`) |
 | `scans` | one row per scanned photo: status, answer, tokens, cost | server only |
 | `catalogue_misses` (view) | what people eat that the list lacks: searches with no result and unknown foods in scan answers, with counts (`select * from catalogue_misses order by people desc`) | read by the team (service role / Studio) |
@@ -74,6 +76,16 @@ Settings (function secrets, see `functions/.env.example`):
 - `FREE_SCANS_FIRST_WEEK` (3), `FREE_SCANS_PER_DAY` (1), `SCAN_DAILY_BUDGET_USD` (no cap when empty).
 
 Model and effort are to be chosen with the ~100 labelled photos. To add a model, give its price in `PRICES` (`_shared/vision.ts`) so the cost log stays right; an unknown model logs no cost.
+
+### Gift codes
+
+Premium given with a code, before payments exist ([LAUNCH_CHECKLIST → Gift codes](LAUNCH_CHECKLIST.md#gift-codes-premium-before-payments)). A code becomes an ordinary pass (`grant_pass`, provider `gift`, ref `<code id>:<user id>`), so everything that reads `passes` works unchanged.
+
+- **Redeeming:** the app calls `redeem_gift_code(p_code)` (a database function, signed-in users only). Answers `{ result, ends_at }`: `ok` · `invalid` · `expired` · `used_up` · `already_used` (another code of the same campaign) · `rate_limited` (5 wrong codes an hour per account) · `sign_in_required` (anonymous accounts: the pass would be lost when the phone switches to an existing account). The same code again by the same person returns `ok` and the same pass, so a retry after a lost answer is safe.
+- **Codes** are 10 characters of Crockford base32 (`K7Q2M-9XH4T`), or a short shared word with a use limit (`SARAI100`). Case, spaces and dashes don't matter, Burmese digits count as digits, and O / I / L read as 0 / 1 / 1 (`private.normalize_gift_code`, `domain/giftCode.ts`).
+- **Making codes:** `npm run codes:make -- --plan 1m --count 50 --campaign clinic-nov --expires 2027-01-31` (or `--code SARAI100 --max-uses 100`). Needs `SUPABASE_SECRET_KEY` (locally: `npx supabase status -o env`) and `SUPABASE_URL` (default: the local stack). The plain codes are written once to `codes/*.csv` (git-ignored); the database keeps only hashes. `--expires` is the last day to redeem, Myanmar time.
+- **Ending codes:** `update gift_codes set revoked_at = now() where campaign = 'clinic-nov';` stops new redemptions. Passes already given stay; to end one too: `update passes set ends_at = now() where payment_provider = 'gift' and payment_ref like '<code id>:%';`.
+- **Who used what:** `select c.campaign, c.uses, c.max_uses, c.expires_at from gift_codes c order by created_at desc;`
 
 ### Accounts
 
@@ -146,7 +158,8 @@ Schema changes = a **new** migration file (never edit one that has been deployed
 | Real scans + model/effort choice | Anthropic API key; ~100 labelled Myanmar meal photos for an accuracy test | 2 |
 | SMS delivery to +95 | SMS provider account or gateway (+ Send SMS hook) | 3 |
 | Google sign-in | Built (browser OAuth, links the anonymous account). Needs a Google Cloud OAuth client (Web application) and its id/secret in `supabase/.env` locally or the dashboard; not yet tried against real Google | 3 |
-| Payments: webhook → `grant_pass` | KBZPay / WavePay vs Play Billing decision + merchant accounts. The paywall still activates a **local mock** pass; the server ignores it, so scans past 3/day are refused | 4 |
+| Payments: webhook → `grant_pass` | Choice of Play Billing / website / both ([Payment options](../reports/Payment%20options.md)) + merchant accounts. The paywall still activates a **local mock** pass; the server ignores it, so scans past 3/day are refused | 4 |
+| Gift codes → `grant_pass` | **Built** ([Gift codes](#gift-codes)); redeeming needs phone or Google sign-in, so it waits for SMS or a Google OAuth client in production | 4 |
 | CAPTCHA on anonymous sign-in | Turnstile/hCaptcha keys + app widget | 5 |
 | Monitoring | Sentry for the app; alert on `scans.cost_usd` and failed scans | 5 |
 | Photos on other phones | Meals restored on another phone show the dish photo, not the meal photo (signed URLs) | later |

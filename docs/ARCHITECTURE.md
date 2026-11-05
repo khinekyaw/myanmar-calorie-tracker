@@ -238,7 +238,8 @@ MealItem { dishId, qty, oil?: less|normal|more, sweetness?: choSeint|pawSeint|ky
 | Google sign-in | Real with a backend (Supabase Google OAuth in a browser sheet, `services/auth.ts`); MOCK (goes straight in) without one | Google Cloud OAuth client (id + secret in Supabase) |
 | Free-scan quota | **Real**: server `scan_quota`, mirrored on the phone for the counter | — |
 | Pass prices | MOCK: 4,900 Ks / 12,900 Ks (`config/pricing.ts`) | Decided prices (and per-provider fees) |
-| Payments | Pay buttons activate a **local mock** pass (`store/premium.ts`); the server ignores it | KBZPay / WavePay or Play Billing → webhook → `grant_pass` (server `passes` already read by the app) |
+| Gift codes | **Real** with a backend (`redeem_gift_code`, codes made with `npm run codes:make`). Without one: any code gives a one-month local mock pass | — |
+| Payments | Off (`PAYMENTS_ENABLED = false`): the paywall shows only *Enter a code*. When turned on, the pay buttons still activate a **local mock** pass (`store/premium.ts`); the server ignores it | KBZPay / WavePay or Play Billing → webhook → `grant_pass` (server `passes` already read by the app) |
 | Reminders | Permission request; the Monday weekly-report notification is real (local, needs permission + Reminders on). Daily meal reminders not scheduled yet | Daily meal reminders |
 | Log storage | SQLite on the phone, synced to Supabase; sample history in development builds only | — |
 | Weight history | SQLite `weights`, synced (kg on the server); sample data in development builds only | — |

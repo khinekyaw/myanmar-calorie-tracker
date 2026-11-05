@@ -391,6 +391,21 @@ const my: Translations = {
     price: '{{price}} ကျပ်',
     perMonth: 'တစ်လ ≈ {{price}} ကျပ်',
     noAutoRenew: 'အလိုအလျောက် ငွေ မဖြတ်ဘူး',
+    haveCode: 'ကုဒ် ရှိလား?',
+    enterCode: 'ကုဒ် ထည့်မယ်',
+  },
+  redeem: {
+    title: 'လက်ဆောင် ကုဒ်',
+    redeem: 'ကုဒ် သုံးမယ်',
+    signInTitle: 'ကုဒ် သုံးဖို့ အကောင့် ဝင်ပါ',
+    doneTitle: 'Premium ရပြီ',
+    done: 'ပြီးပြီ',
+    invalid: 'ကုဒ် မှားနေတယ်',
+    expired: 'ကုဒ် သက်တမ်း ကုန်ပြီ',
+    usedUp: 'ဒီကုဒ် သုံးပြီးသွားပြီ',
+    alreadyUsed: 'ဒီလက်ဆောင် ရပြီးသားပါ',
+    rateLimited: 'အကြိမ်များလွန်းတယ်။ တစ်နာရီနေမှ ပြန်စမ်းပါ',
+    error: 'ကုဒ် စစ်လို့ မရဘူး။ ပြန်စမ်းပါ',
   },
 };
 

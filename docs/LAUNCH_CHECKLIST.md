@@ -15,7 +15,8 @@ Already done: offline-first app with on-phone SQLite; Supabase schema with row-l
 - [ ] **Must · You** — **Anthropic API key** for photo scans. Set a monthly spend limit in the Anthropic console.
 - [ ] **Must · You** — **SMS provider** that delivers codes to +95 numbers (or a Myanmar SMS gateway through Supabase's Send SMS hook). Test on MPT, ATOM, U9 and Mytel.
 - [ ] **Must · You** — **Google Cloud OAuth client** (Web application) and the OAuth consent screen with app name, logo, privacy policy link and support email. Google reviews the consent screen before strangers can sign in.
-- [ ] **Must · You** — **Payments**: choose KBZPay / WavePay merchant accounts or Google Play Billing (check Play's policy on outside payments first), then set the real pass prices. The current prices are mock.
+- [ ] **Must · You** — **Payments**: choose how to take money: Google Play Billing (cards only in Myanmar), our own website (Dinger or KBZPay / WavePay, with the app selling nothing), or both. Then set the real pass prices; the current prices are mock. Options and Play rules: [Payment options](../reports/Payment%20options.md).
+- [ ] **Must · You** — **Gift codes instead of payments at launch?** Decide: free codes only (promotions, partners, testers), or also selling codes on our website. Selling them is fine for Play only if the app itself sells nothing ([Gift codes](#gift-codes-premium-before-payments)).
 - [ ] **Must · You** — **Google Play developer account** and an **Expo (EAS) account**.
 - [ ] **Must · You** — A **website / domain** for the privacy policy, terms, account-deletion page and a support email.
 - [ ] **Should · You** — **Trademark and Play Store name check** for "Sar AI" (noted on the design canvas).
@@ -28,6 +29,7 @@ Already done: offline-first app with on-phone SQLite; Supabase schema with row-l
 - [ ] **Must · Claude** — **Auth rate limits** in production: SMS per hour, OTP verify attempts, anonymous sign-ins. Myanmar mobile users share IP addresses, so limits per IP must not lock out a whole network.
 - [ ] **Must · Claude** — **Turn off email sign-up** in production. The app doesn't use email, but `[auth.email] enable_signup` is on by default.
 - [ ] **Must · Claude** — Keep **phone confirmations** and **manual linking** on in the dashboard (already in `supabase/config.toml`). Run Supabase's **Security Advisor** on staging and fix what it flags.
+- [x] **Must · Claude** — **Gift-code redemption** only on the server, with long random codes, hashed in the database, and a limit on wrong tries ([Gift codes](#gift-codes-premium-before-payments)).
 - [ ] **Must · Claude** — Production `SCAN_MODEL` is a real model, **never `mock`** (local and staging may use it), and `SCAN_DAILY_BUDGET_USD` is set.
 - [ ] **Must · Claude** — **Payment webhook**: verify the provider's signature, make it idempotent, and grant passes only through the server `grant_pass`. The app's local mock pass must not ship.
 - [ ] **Must · Claude** — Release builds must not include development-only things: sample data, the Developer section in Settings, and the local `.env.local` server address. These are already behind `__DEV__`; confirm on a release build. Production keys go in EAS environment variables, and only the publishable key ever ships in the app.
@@ -141,4 +143,72 @@ Built 2026-11-01 as described below, except the health line (it waits for sugar 
 1. ~~Weekly report~~ (built 2026-11-01).
 2. Blood sugar (needs sugar values in the dish data).
 3. Blood pressure (needs sodium values and a schema change).
-4. Payments last, so the pass unlocks real features.
+4. ~~Gift codes~~ (built 2026-11-06), so Premium can be given out before payments exist (plan below).
+5. Payments last, so the pass unlocks real features.
+
+### Gift codes (Premium before payments)
+
+Planned 2026-11-05, **built 2026-11-06** as below, with two changes: redeeming is a database function (`redeem_gift_code`) instead of an Edge Function, and code entry is a screen (`/redeem`) instead of a sheet (DECISIONS → Gift codes). How to make and end codes: [BACKEND → Gift codes](BACKEND.md#gift-codes). KBZPay / WavePay merchant accounts may not be ready for launch, so Premium can be **given** with a code. The server turns a code into an ordinary pass through `grant_pass`. Everything that already reads `passes` (scan quota, sync, the gold logo, "Active until …") keeps working unchanged. Payments can be added later beside it, and codes stay useful afterwards for promotions, support and Play review.
+
+**Who gets codes**
+
+- Launch promotions: Facebook giveaways, the first 100 users.
+- Partners: the nutritionist's clients, clinics, gyms.
+- Testers, plus a code for **Google Play review** (Play Console → App access).
+- Support: making up for a broken scan or a lost pass.
+- Selling codes outside the app is a separate decision; see Concerns.
+
+**Code format**
+
+- 10 characters from Crockford base32 (`0-9 A-Z` without I, L, O, U), shown as `K7Q2M-9XH4T`. That is about 50 bits: impossible to guess with the try limit below.
+- Typing is forgiving: lower case, spaces and dashes are fine, and O/I/L are read as 0/1/1.
+- The input uses a Latin keyboard (`autoCapitalize="characters"`, no autocorrect), because the user's normal keyboard is often Burmese.
+- **Campaign codes** are optional: one short public word (e.g. `SARAI100`) with a use limit, for giveaways where the code is public anyway.
+
+**Server**
+
+New migration, plus `npm run db:types` and `test:db` cases:
+
+- **`gift_codes`**:
+  - `id`, `code_hash` (sha-256 of the normalised code, unique; the plain code is never stored)
+  - `plan` (`1m` / `3m`), `campaign`, `max_uses` (1 for personal codes), `uses`
+  - `expires_at` (last day to redeem), `revoked_at`, `note`, `created_at`
+  - Row-level security on, no client policies: the app can't read it.
+- **`gift_redemptions`**: `code_id`, `user_id`, `pass_id`, `redeemed_at`. Unique (`code_id`, `user_id`), so one person can't use a campaign code twice. Also one code per **campaign** per account.
+- **`redeem_gift_code(p_user, p_code)`**:
+  - Service role only, `security definer`.
+  - Normalises and hashes the code, then locks the row, so two phones redeeming the last use can't both win.
+  - Checks expiry, revoked and use limit, then calls `grant_pass(p_user, plan, 'gift', '<code_id>:<user_id>')`.
+  - That reference makes a retry return the same pass, and a new pass extends an active one, as payments do.
+  - Returns `ok` + `ends_at`, or `invalid` / `expired` / `used_up` / `already_used`.
+- **Who may redeem** (inside `redeem_gift_code`, which the app calls directly):
+  - Requires a signed-in, **non-anonymous** user (phone or Google), so the pass can't be lost (Concerns, 2).
+  - At most 5 wrong codes per account per hour (`rate_limited`). A per-IP limit would lock out shared mobile networks.
+- **Making codes**:
+  - `npm run codes:make -- --plan 1m --count 50 --campaign clinic-nov --expires 2027-01-31`, using the service key.
+  - It inserts the hashes and writes the plain codes once to a git-ignored CSV, to share by Viber or print.
+- **Ending a pass**: set `revoked_at` on the code, and if needed `ends_at = now()` on its passes (SQL in [BACKEND → Gift codes](BACKEND.md#gift-codes)).
+
+**App**
+
+- **Entry point**: the paywall (*Enter a code*; with payments on, *Have a code?* under the pay buttons). Settings → Premium opens the paywall. The code is entered on its own screen (`/redeem`).
+- **Burmese copy**: ကုဒ် ရှိလား? / ကုဒ် ထည့်မယ် / လက်ဆောင် ကုဒ် / ကုဒ် သုံးမယ် / Premium ရပြီ and the error lines (`redeem.*` in `my.ts`), for the copy review.
+- **After success**: the pass shows at once (the server's end date), a sync follows, and the screen says *Premium is on* with "Active until …"; the paywall shows the same date.
+- **Not signed in**: the screen first asks the user to sign in, and comes back to the code after.
+- **Offline**: say that it needs internet. Don't queue the code, because a wrong code would fail later with nobody watching.
+- **No backend** (prototype): any code gives a local mock pass. Add a row to the "Mocked vs real" table.
+- **Paywall while payments are off** (`PAYMENTS_ENABLED = false` in `config/pricing.ts`):
+  - No KBZPay / WavePay buttons or prices; *Enter a code* is the only action.
+  - The local mock pass must not ship (already a Must item).
+  - Never link from the app to a place to buy codes (Concerns, 1).
+
+**Concerns**
+
+1. **Google Play policy if codes are sold.** Giving codes away is fine. For selling them, it depends on what the app itself sells ([Payment options](../reports/Payment%20options.md)):
+   - **The app sells nothing** (no pay buttons) and codes are sold on our website: this is Play's "consumption-only" (reader) model, which looks allowed. The app may at most name the website without linking to it; confirm the exact wording.
+   - **The app also sells through Play Billing:** the app must never mention the website as a place to buy. Whether web-bought codes may still be honoured isn't spelled out by Google.
+   - **KBZPay / WavePay buttons inside the app:** not allowed.
+2. **Passes on anonymous accounts can be lost.** Someone can redeem a code, then sign in with a number that already has an account. The phone switches accounts, and the pass stays behind on the old anonymous one. Uninstalling loses it as well. That's why redeeming needs a signed-in account, which means **SMS or Google sign-in must work before codes do**. The SMS for that sign-in costs about $0.16–0.33 per code user ([Unit economics](../reports/Unit%20economics.md)).
+3. **Guessing and leaks.** Long random codes, hashed storage, the try limit, expiry dates, single-use personal codes and revocation cover this. A leaked campaign code costs at most its use limit.
+4. **AI cost.** Every code is unlimited scans for a month or three, with no income. `SCAN_DAILY_BUDGET_USD` still caps the total; keep giveaways sized to the budget.
+5. **Selling codes by hand** (if you choose it): checking transfer screenshots, fake screenshots, refunds, and tax on the income are all manual work. Keep a sales sheet that links each code to its payment reference.
