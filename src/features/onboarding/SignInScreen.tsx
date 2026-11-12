@@ -1,8 +1,9 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { KeyboardAvoidingView, Pressable, TextInput, View, type TextInputInstance } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
+import { formatNumber } from '@/lib/format';
 import { useConnectivity } from '@/lib/network';
 import { requestCode, signInWithGoogle, verifyCode, type CodeRequest } from '@/services/auth';
 import { backendEnabled } from '@/services/supabase';
@@ -11,48 +12,64 @@ import { scheduleSync } from '@/sync/engine';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Button, GoogleLogo, IconButton, Screen, Text } from '@/ui';
 
-const CODE_LENGTH = 6;
+import { AFTER_SIGN_IN, isAfterSignIn } from './signInFirst';
 
-/** Myanmar mobile numbers: 9 + 7–9 digits after +95 (a leading 0 is dropped). */
-const normalizePhone = (raw: string) => raw.replace(/\D/g, '').replace(/^0/, '');
-const isValidPhone = (digits: string) => /^9\d{7,9}$/.test(digits);
+const CODE_LENGTH = 6;
+/** Matches the server's limit (`[auth.email] max_frequency` in supabase/config.toml). */
+const RESEND_SECONDS = 30;
+
+const normalizeEmail = (raw: string) => raw.trim().toLowerCase();
+/** Loose check (something@domain.tld); the email that arrives is the real test. */
+const isValidEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
 
 type Problem = 'errorSend' | 'errorCode' | 'errorGoogle' | 'offline';
 
 /**
- * Phone OTP first, or Google; skip allowed (the data still syncs under an
- * anonymous account). No Facebook (blocked without VPN). Opened from
- * onboarding, or from Settings (`?from=settings`) to sign in later.
+ * Email code first, or Google; skip allowed (the data still syncs under an
+ * anonymous account). No phone/SMS in the first version (docs/DECISIONS.md →
+ * "Email sign-in"); no Facebook (blocked without VPN). Opened from onboarding,
+ * or from Settings (`?from=settings`) to sign in later.
  *
- * Without a backend (prototype builds) no SMS is sent, any 6-digit code
+ * Without a backend (prototype builds) no email is sent, any 6-digit code
  * works and Google just continues (MOCK).
  */
 export function SignInScreen() {
   const { t } = useTranslation();
   const s = useStyles();
-  const { theme, type } = useStyleContext();
-  const { from } = useLocalSearchParams<{ from?: string }>();
+  const { theme, type, language } = useStyleContext();
+  const { from, then } = useLocalSearchParams<{ from?: string; then?: string }>();
   const { online } = useConnectivity();
   const complete = useOnboarding((st) => st.complete);
-  const [phone, setPhone] = useState('');
-  const [step, setStep] = useState<'phone' | 'code'>('phone');
+  const [email, setEmail] = useState('');
+  const [step, setStep] = useState<'email' | 'code'>('email');
   const [code, setCode] = useState('');
-  const [busy, setBusy] = useState(false);
+  /** Seconds until another code may be sent; counts down on the code step. */
+  const [resendIn, setResendIn] = useState(0);
+  /** The action waiting on the network; its button shows a spinner. */
+  const [busy, setBusy] = useState<'send' | 'verify' | 'google' | null>(null);
   const [problem, setProblem] = useState<Problem | null>(null);
   const request = useRef<CodeRequest | null>(null);
   const codeInput = useRef<TextInputInstance>(null);
 
-  const digits = normalizePhone(phone);
+  const address = normalizeEmail(email);
   const finish = () => {
+    // Opened on the way to a screen that needs an account: go on to it.
+    if (isAfterSignIn(then)) return router.replace(AFTER_SIGN_IN[then]);
     if (from === 'settings') return router.back();
     complete();
     router.dismissAll();
     router.replace('/home');
   };
 
+  useEffect(() => {
+    if (resendIn <= 0) return;
+    const timer = setTimeout(() => setResendIn((n) => n - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [resendIn]);
+
   const back = () => {
-    if (step === 'phone') return router.back();
-    setStep('phone');
+    if (step === 'email') return router.back();
+    setStep('email');
     setCode('');
     setProblem(null);
   };
@@ -60,23 +77,27 @@ export function SignInScreen() {
   const sendCode = async () => {
     setProblem(null);
     setCode('');
-    if (!backendEnabled) return setStep('code');
+    if (!backendEnabled) {
+      setResendIn(RESEND_SECONDS);
+      return setStep('code');
+    }
     if (!online) return setProblem('offline');
-    setBusy(true);
+    setBusy('send');
     try {
-      request.current = await requestCode(`+95${digits}`);
+      request.current = await requestCode(address);
       setStep('code');
+      setResendIn(RESEND_SECONDS);
     } catch {
       setProblem('errorSend');
     } finally {
-      setBusy(false);
+      setBusy(null);
     }
   };
 
   const verify = async () => {
     if (!backendEnabled || !request.current) return finish();
     if (!online) return setProblem('offline');
-    setBusy(true);
+    setBusy('verify');
     setProblem(null);
     try {
       await verifyCode(request.current, code);
@@ -88,7 +109,7 @@ export function SignInScreen() {
       setCode('');
       codeInput.current?.focus();
     } finally {
-      setBusy(false);
+      setBusy(null);
     }
   };
 
@@ -96,7 +117,7 @@ export function SignInScreen() {
     setProblem(null);
     if (!backendEnabled) return finish();
     if (!online) return setProblem('offline');
-    setBusy(true);
+    setBusy('google');
     try {
       if ((await signInWithGoogle()) === 'signedIn') {
         scheduleSync();
@@ -105,7 +126,7 @@ export function SignInScreen() {
     } catch {
       setProblem('errorGoogle');
     } finally {
-      setBusy(false);
+      setBusy(null);
     }
   };
 
@@ -114,37 +135,46 @@ export function SignInScreen() {
       <Screen>
         <View style={s.header}>
           <IconButton icon="chevronLeft" accessibilityLabel={t('common.back')} onPress={back} />
-          <Pressable accessibilityRole="button" onPress={finish} hitSlop={8} style={s.skip}>
-            <Text variant="callout" tone="muted">
-              {t('signIn.skip')}
-            </Text>
-          </Pressable>
+          {/* Skip only during onboarding; from Settings or a gift code, Back is the way out. */}
+          {from !== 'settings' && (
+            <Pressable accessibilityRole="button" onPress={finish} hitSlop={8} style={s.skip}>
+              <Text variant="callout" tone="muted">
+                {t('signIn.skip')}
+              </Text>
+            </Pressable>
+          )}
         </View>
 
         <Text variant="title" accessibilityRole="header" style={s.title}>
-          {step === 'phone' ? t('signIn.title') : t('signIn.codeTitle')}
+          {step === 'email' ? t('signIn.title') : t('signIn.codeTitle')}
         </Text>
+        {step === 'code' && (
+          <Text variant="callout" tone="muted" numberOfLines={1} style={s.sentTo}>
+            {address}
+          </Text>
+        )}
 
-        {step === 'phone' ? (
+        {step === 'email' ? (
           <View style={s.field}>
-            <Text variant="numberMd" style={s.prefix}>
-              +95
-            </Text>
             <TextInput
-              value={phone}
-              onChangeText={setPhone}
-              keyboardType="phone-pad"
-              autoComplete="tel"
-              textContentType="telephoneNumber"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoCorrect={false}
+              spellCheck={false}
+              autoComplete="email"
+              textContentType="emailAddress"
               autoFocus
-              maxLength={13}
-              placeholder="9 xxx xxx xxx"
-              placeholderTextColor={theme.colors.iconMuted}
+              maxLength={254}
+              returnKeyType="send"
+              onSubmitEditing={() => isValidEmail(address) && !busy && sendCode()}
               selectionColor={theme.colors.selection}
               cursorColor={theme.colors.cursor}
               selectionHandleColor={theme.colors.cursor}
               accessibilityLabel={t('signIn.title')}
-              style={[type.numberMd, s.input]}
+              // Font only: a fixed lineHeight puts a one-line input's text at the top on iOS.
+              style={[{ fontFamily: type.body.fontFamily }, s.input]}
             />
           </View>
         ) : (
@@ -159,7 +189,7 @@ export function SignInScreen() {
               value={code}
               onChangeText={(v) => setCode(v.replace(/\D/g, '').slice(0, CODE_LENGTH))}
               keyboardType="number-pad"
-              autoComplete="sms-otp"
+              autoComplete="one-time-code"
               textContentType="oneTimeCode"
               autoFocus
               accessibilityLabel={t('signIn.codeTitle')}
@@ -175,9 +205,14 @@ export function SignInScreen() {
         )}
 
         {/* Actions sit right under the field, above the keyboard; Google is the alternative below a divider. */}
-        {step === 'phone' ? (
+        {step === 'email' ? (
           <View style={s.actions}>
-            <Button label={t('signIn.sendCode')} disabled={!isValidPhone(digits) || busy} onPress={sendCode} />
+            <Button
+              label={t('signIn.sendCode')}
+              loading={busy === 'send'}
+              disabled={!isValidEmail(address) || !!busy}
+              onPress={sendCode}
+            />
             <View style={s.divider} accessible={false}>
               <View style={s.line} />
               <Text variant="caption" tone="muted">
@@ -189,14 +224,28 @@ export function SignInScreen() {
               variant="secondary"
               label={t('signIn.google')}
               leading={<GoogleLogo />}
-              disabled={busy}
+              loading={busy === 'google'}
+              disabled={!!busy}
               onPress={google}
             />
           </View>
         ) : (
           <View style={s.actions}>
-            <Button label={t('signIn.verify')} disabled={code.length < CODE_LENGTH || busy} onPress={verify} />
-            <Button variant="ghost" label={t('signIn.resend')} disabled={busy} onPress={sendCode} />
+            <Button
+              label={t('signIn.verify')}
+              loading={busy === 'verify'}
+              disabled={code.length < CODE_LENGTH || !!busy}
+              onPress={verify}
+            />
+            <Button
+              variant="ghost"
+              label={
+                resendIn > 0 ? t('signIn.resendIn', { seconds: formatNumber(resendIn, language) }) : t('signIn.resend')
+              }
+              loading={busy === 'send'}
+              disabled={!!busy || resendIn > 0}
+              onPress={sendCode}
+            />
           </View>
         )}
       </Screen>
@@ -218,8 +267,15 @@ const useStyles = makeStyles(({ theme }) => ({
     alignItems: 'center',
     overflow: 'hidden',
   },
-  prefix: { fontSize: 17, paddingHorizontal: theme.space.lg },
-  input: { flex: 1, fontSize: 17, height: '100%', paddingVertical: 0, color: theme.colors.text },
+  sentTo: { marginTop: theme.space.sm },
+  input: {
+    flex: 1,
+    fontSize: 17,
+    height: '100%',
+    paddingVertical: 0,
+    paddingHorizontal: theme.space.lg,
+    color: theme.colors.text,
+  },
   code: { marginTop: theme.space.xxl, flexDirection: 'row', gap: theme.space.sm },
   cell: {
     flex: 1,

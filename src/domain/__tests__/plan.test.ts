@@ -38,6 +38,18 @@ describe('buildPlan', () => {
     expect(riceSteps).toEqual([ricePlates + 1, ricePlates + 0.5, ricePlates]);
   });
 
+  it('blood sugar: fewer carbs and rice plates, same kcal, cut gradually', () => {
+    const normal = buildPlan({ ...base, goal: 'maintain' }, today);
+    const strict = buildPlan({ ...base, goal: 'maintain', bloodSugar: true }, today);
+    expect(strict.kcal).toBe(normal.kcal);
+    expect(strict.carbG).toBeLessThan(normal.carbG);
+    expect(strict.carbG * 4).toBeLessThanOrEqual(strict.kcal * 0.4 + 2);
+    expect(strict.ricePlates).toBeLessThan(normal.ricePlates);
+    expect(strict.riceSteps).toEqual([strict.ricePlates + 1, strict.ricePlates + 0.5, strict.ricePlates]);
+    const kcal = strict.proteinG * 4 + strict.fatG * 9 + strict.carbG * 4;
+    expect(Math.abs(kcal - strict.kcal) / strict.kcal).toBeLessThan(0.01);
+  });
+
   it('dates the target by weeks of pace, none when maintaining', () => {
     const { targetDate } = buildPlan(base, today);
     const weeks = (targetDate!.getTime() - today.getTime()) / (7 * 24 * 3600 * 1000);

@@ -3,13 +3,15 @@ import { useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
-import { numbersTier, sumMacros, type MealItem } from '@/domain/meal';
+import { numbersTier, sumMacros, type MealItem, type Sweetness } from '@/domain/meal';
 import { formatNumber } from '@/lib/format';
 import { getDish } from '@/data/dishes';
+import { useHealthGuidance } from '@/store/health';
 import { useEntry, useLog, type LogEntry } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Badge, Button, ConfirmSheet, PhotoSheet, Text } from '@/ui';
 
+import { MealHealthNotes } from './components/MealHealthNotes';
 import { MealItemRow } from './components/MealItemRow';
 import { SaveBar } from './components/SaveBar';
 import { useMealDraft } from './mealDraft';
@@ -38,6 +40,7 @@ export function SharedMeal({ entry }: { entry: LogEntry }) {
   const removeEntry = useLog((st) => st.removeEntry);
   const draft = useMealDraft();
   const [confirming, setConfirming] = useState(false);
+  const health = useHealthGuidance();
 
   // Start a draft from the meal when the screen opens; drop it when it closes.
   const entryId = entry.id;
@@ -51,6 +54,9 @@ export function SharedMeal({ entry }: { entry: LogEntry }) {
 
   // By item, not dish: two scanned foods can share an "Other …" type.
   const set = (item: MealItem, qty: number) => draft.setItems(items.map((i) => (i === item ? { ...i, qty } : i)));
+
+  const swap = (index: number, sweetness: Sweetness) =>
+    draft.setItems(items.map((i, k) => (k === index ? { ...i, sweetness } : i)));
 
   const eaten = items.filter((i) => i.qty > 0);
   const total = sumMacros(eaten).kcal;
@@ -102,6 +108,11 @@ export function SharedMeal({ entry }: { entry: LogEntry }) {
         {items.map((item, i) => (
           <MealItemRow key={`${item.dishId}-${i}`} item={item} onChange={(q) => set(item, q)} />
         ))}
+        {(health.on.bloodSugar || health.on.bloodPressure) && eaten.length > 0 && (
+          <View style={s.health}>
+            <MealHealthNotes items={items} on={health.on} onSwap={swap} />
+          </View>
+        )}
         <Button
           variant="secondary"
           icon="plus"
@@ -128,4 +139,5 @@ const useStyles = makeStyles(({ theme }) => ({
   badges: { flexDirection: 'row', gap: theme.space.sm },
   list: { paddingBottom: theme.space.lg },
   add: { marginTop: theme.space.lg },
+  health: { marginTop: theme.space.lg },
 }));

@@ -2,8 +2,10 @@ import 'expo-sqlite/localStorage/install';
 import '@/lib/webCrypto';
 
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
-import { AppState } from 'react-native';
+import * as Device from 'expo-device';
+import { AppState, Platform } from 'react-native';
 
+import { resolveBackendUrl } from './backendUrl';
 import type { Database } from './database.types';
 
 /**
@@ -11,7 +13,8 @@ import type { Database } from './database.types';
  * localStorage. Builds without EXPO_PUBLIC_SUPABASE_URL / _PUBLISHABLE_KEY
  * run fully offline with the prototype mocks (scan, sign-in), as before.
  */
-const url = process.env.EXPO_PUBLIC_SUPABASE_URL;
+const envUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
+const url = envUrl && resolveBackendUrl(envUrl, Platform.OS, !Device.isDevice);
 const key = process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
 export const backendEnabled = Boolean(url && key);

@@ -13,10 +13,12 @@ type Props = {
   cancelLabel: string;
   onConfirm: () => void;
   onCancel: () => void;
+  /** The confirmed action is running: spinner on the confirm button. */
+  loading?: boolean;
 };
 
 /** Bottom-sheet confirmation in the app's style (instead of the platform alert). */
-export function ConfirmSheet({ visible, title, confirmLabel, cancelLabel, onConfirm, onCancel }: Props) {
+export function ConfirmSheet({ visible, title, confirmLabel, cancelLabel, onConfirm, onCancel, loading }: Props) {
   const s = useStyles();
   return (
     <BottomSheet visible={visible} onClose={onCancel} closeLabel={cancelLabel} contentStyle={s.content}>
@@ -24,7 +26,7 @@ export function ConfirmSheet({ visible, title, confirmLabel, cancelLabel, onConf
         {title}
       </Text>
       <View style={s.actions}>
-        <Button label={confirmLabel} onPress={onConfirm} />
+        <Button label={confirmLabel} loading={loading} onPress={onConfirm} />
         <Button variant="ghost" label={cancelLabel} onPress={onCancel} />
       </View>
     </BottomSheet>

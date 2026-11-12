@@ -23,7 +23,7 @@ UI design canvas (22 screens, Claude Design): https://claude.ai/artifact/DYDw9tR
 - **Input methods:** photo, voice (Burmese, primary), text, search, quick re-log chips. Search must match Unicode, Zawgyi, romanized spellings ("laphet yay", "mohinga", "mont hin gar") and spelling variants.
 - **Offline-first:** text, voice and search logging work offline. Photos are compressed (~800px; the server gets a 512px copy for scanning) and queued until a connection returns. Option to send photos on Wi-Fi only.
 - **Monetization:** free tier 3 photo scans/day in the first week, then 1/day (since 2026-11-01; [reports/Unit economics.md](../reports/Unit%20economics.md)); voice, text, search unlimited. **Prepaid passes** (1 and 3 months) in kyat via KBZPay / WavePay, no auto-renew (screens say so). Paywall only after free scans are used up, never during onboarding. ⚠️ Check Google Play payments policy; Play Billing (MMK) is the fallback.
-- **Login:** phone OTP (+95) first, Google second. **No Facebook** (blocked without VPN).
+- **Login:** email code first, Google second (first version; phone OTP (+95) later, once an SMS route is affordable — DECISIONS → Email sign-in). **No Facebook** (blocked without VPN).
 - **Cultural features:** "ထမင်းစားပြီးပြီလား?" reminder; ဥပုသ်နေ့ vegetarian toggle; အလှူ / feast-day mode that doesn't break the streak; health goals for သွေးချို and သွေးတိုး; waist size as an alternative to weight; BMI with Asian cut-offs.
 - **Copy rules:** minimal text (one short headline per screen, no helper paragraphs); spoken register ("…မယ်"), not "…သည်"; Burmese text ≥ 13px; weekday labels လာ ဂါ ဟူး ကြာ သော နေ နွေ.
 
@@ -91,7 +91,7 @@ Request: image + list of candidate dishes `{id, name_my, name_en}`. Response (JS
 3. Search with romanized + Zawgyi matching, quick re-log, tea sweetness.
 4. Offline queue + photo compression.
 5. Seed database of 50 dishes → 200–300 with a nutritionist.
-6. Phone OTP login.
+6. Email code login (phone OTP later).
 
 Later: voice, passes and payments, Progress charts, barcode, health reports, Thailand.
 

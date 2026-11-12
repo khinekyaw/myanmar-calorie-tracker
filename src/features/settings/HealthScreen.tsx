@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import type { Sex } from '@/domain/nutrition';
 import { useOnboarding, type HealthFlag } from '@/store/onboarding';
 import { refreshPlan } from '@/store/plan';
+import { useIsPremium } from '@/store/premium';
 import { makeStyles } from '@/theme/ThemeProvider';
 import { Button, IconButton, ListRow, NumberField, OptionCard, Screen, Text } from '@/ui';
 
@@ -16,6 +17,7 @@ export function HealthScreen() {
   const { t } = useTranslation();
   const s = useStyles();
   const profile = useOnboarding();
+  const premium = useIsPremium();
   const [flags, setFlags] = useState(profile.healthFlags);
   const [sex, setSex] = useState<Sex | null>(profile.sex);
   const [birthYear, setBirthYear] = useState(profile.birthYear);
@@ -45,11 +47,22 @@ export function HealthScreen() {
                 key={f}
                 kind="switch"
                 label={t(`goal.${f}`)}
+                premium={!premium}
                 value={flags.includes(f)}
-                onValueChange={(on) => setFlags(on ? [...flags, f] : flags.filter((x) => x !== f))}
+                onValueChange={(on) => {
+                  // Premium only: a free user's tap opens the Premium screen and leaves the
+                  // switch off. One that is already on can still be turned off (DECISIONS.md).
+                  if (on && !premium) return router.push('/paywall');
+                  setFlags(on ? [...flags, f] : flags.filter((x) => x !== f));
+                }}
                 last={i === FLAGS.length - 1}
               />
             ))}
+            <View style={s.notes}>
+              <Text variant="caption" tone="subtle">
+                {t('health.notMedical')}
+              </Text>
+            </View>
           </View>
 
           <View style={s.body}>
@@ -82,5 +95,6 @@ const useStyles = makeStyles(({ theme }) => ({
   header: { flexDirection: 'row', paddingTop: theme.space.md },
   scroll: { gap: theme.space.xxl, paddingTop: theme.space.xxl, paddingBottom: theme.space.xxl },
   body: { gap: theme.space.md },
+  notes: { gap: theme.space.xs, paddingTop: theme.space.md },
   sexRow: { flexDirection: 'row', gap: theme.space.sm },
 }));

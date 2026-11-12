@@ -18,12 +18,12 @@ Supabase project in `supabase/` (migrations, functions, pgTAP tests); app side i
 - **Free scans count on the day the photo was taken** (Myanmar time), so photos queued offline overnight use that day's scans; a full day falls back to today; older than 2 days counts as today (limits backdating). A failed scan gives the scan back; a repeated request for the same photo returns the stored answer and isn't charged.
 - **Scan model** defaults to `claude-haiku-5-5` at **low effort** (short perception task, user is waiting), since 2026-11-01; it was `claude-opus-5-5`, which costs about 40× more per scan, more than a heavy user's pass brings in ([reports/Scan model choice.md](../reports/Scan%20model%20choice.md)). The server-side refusal fallback is sent only for Sonnet and Opus (Haiku has none); both settable without a deploy. Every scan records tokens and estimated cost; `SCAN_DAILY_BUDGET_USD` stops scans for everyone if a day's cost runs away.
 - **The server's catalogue is unverified**: the seed copies the bundled numbers with `verified_by` empty. Since 2026-11-01 those are recipe-calculated (`source = 'recipe'`), so dishes show *Calculated* until the nutritionist verifies them. (The bundled `verified: true` flags only demo the badge.)
-- **Anonymous account for everyone**, linked to the phone number on sign-in. **Phone confirmations must stay on**: testing showed that with them off, linking a number skipped the code check.
+- **Anonymous account for everyone**, linked to the email (first version; phone number before) on sign-in. **Confirmations must stay on**: testing showed that with them off, linking a number skipped the code check; the same holds for email.
 - **A token can outlive its deleted account** (up to an hour). `sync_*` check the account exists, and the app then starts a new anonymous account at once instead of syncing into nothing (found in testing).
 - **Google sign-in uses Supabase's browser OAuth (PKCE) in an in-app browser sheet** (`expo-web-browser`), not the native Google SDK: one Web OAuth client instead of Android signing-key fingerprints, no dependency on the free google-signin library's deprecated API, and `linkIdentity` keeps an anonymous user's id and data. `expo-crypto` backs a small Web Crypto polyfill (`lib/webCrypto.ts`) so PKCE uses SHA-256. Native one-tap can come later if the browser step feels slow. (2026-10-31; before this the button was a mock, hidden with a backend.)
 - **Sample history only in development builds**, so release builds start empty.
 - **Builds without `EXPO_PUBLIC_SUPABASE_*` keep the prototype behaviour** (mock scan, any code), so UI work doesn't need the server running.
-- **Local SMS:** a database hook logs codes instead of sending (plus fixed test numbers); production needs a provider or a Send SMS hook to a Myanmar gateway.
+- **Local SMS:** a database hook logs codes instead of sending (plus fixed test numbers); switched off while phone sign-in is out ([Email sign-in](#email-sign-in-for-the-first-version-2026-11-08)).
 - **pgTAP tests run by piping into the database container** (`npm run test:db`): on this Mac Docker Desktop has no access to the Desktop folder, which also stops Studio and the functions runtime from mounting the project (see BACKEND.md → Running locally).
 
 ## 2026-10-30 — Offline-first storage; backend plan agreed
@@ -218,7 +218,7 @@ No Myanmar dish table can be used commercially ([reports/Dish data plan.md](../r
 - **151 dishes (2026-11-03):** 36 more from a list of 45 that Gemini suggested, each rewritten as our own recipe and calculated (Gemini's kcal figures were only used as a cross-check). Left out: 4 already in the catalogue (plain tea, Shan fish rice, fried Shan tofu; Paw San rice became an alias of rice), the pork skewer listed twice (once as a plate), and 3 we couldn't confirm as common dishes (ထမင်းပေါင်း "steamed rice" with gravy, လက်ဖက်ဝက်သား, မြင်းခွာရွက်ကြော်), plus the jaggery drink (ထန်းလျက်ရည်). Fixed from the list: curries are in our 30 g / 40 g serving spoon (not 50 g), sweetness only on the tea-shop coffee (the app's sweetness picker), fish sauce makes a dish non-vegetarian, ဆီးသီး is jujube. 16 USDA ingredients added; pennywort (watercress), pon yay gyi paste (miso) and preserved ဆီးသီး (dried jujube) are proxies. Catalogue version 5.
 - **115 dishes (2026-11-01):** 100 added, weighted to lunch: curries, vegetables, soups, salads, rice and noodles, plus tea-shop snacks, desserts, drinks and fruit. Curry and vegetable dishes are logged by the serving spoon (30 g and 40 g, both guesses). Catalogue version 3.
 - **Three tiers on Result:** *Verified* (reviewed), *Calculated* (recipe, not reviewed), *Estimate* (anything else, e.g. a server dish with no recipe). A meal takes its weakest dish's tier (`numbersTier`). The server marks calculated dishes with `source = 'recipe'`.
-- **Sugar and sodium** are stored per dish (in the phone's JSON row, plus server columns `sugar_g` and `sodium_mg`), but not per logged item yet. No screen shows them; they're for the blood-sugar and salt features.
+- **Sugar and sodium** are stored per dish (in the phone's JSON row, plus server columns `sugar_g` and `sodium_mg`). Logged meals work them out from dish × amount (see Blood sugar and blood pressure, 2026-11-08).
 - **Catalogue version 2** re-seeds phones with the new numbers. A local server seeded earlier keeps the old ones (the seed never overwrites), so run `npm run db:reset`.
 - **Gourd fritter is now logged per piece** (it was per spoon).
 - **Review sheets are CSV with a BOM** so the nutritionist can work in Google Sheets or Excel, with Burmese intact.
@@ -241,7 +241,7 @@ No speech-to-text service: there's no budget for one, and we don't expect heavy 
 Nothing in the app says *Soon* or promises something that doesn't work yet:
 - **Barcode tile removed** from the Add sheet. *Search* now sits alone on a short full-width row. Barcode is later scope (PRODUCT_BRIEF §6).
 - **Uposatha vegetarian hidden** in Settings. The setting and its sync stay, so it can come back.
-- **The paywall lists only working features:** unlimited scans and the weekly report. *Blood sugar & pressure goals* (`paywall.healthGoals`) returns when it's built.
+- **The paywall lists only working features:** unlimited scans and the weekly report. *Blood sugar & pressure goals* (`paywall.healthGoals`) returns when it's built. *(Returned 2026-11-08: see Blood sugar and blood pressure.)*
 - **Kept:** the blood sugar / pressure answers on the goal and Health screens. They're plain questions that promise nothing, and the future features will use them.
 
 ## Waiting photos say why (2026-11-01)
@@ -314,11 +314,45 @@ Gemini reviewed the dish list. We took four points, with our own numbers:
 - **Faluda gains egg pudding and condensed milk**: 305 g / 355 kcal → 365 g / 467 kcal. The glass size is still a guess to weigh.
 - Not taken: Gemini's 50 g ladle and its 8 % / 12 % oil figures had no source. Mohinga fritters were already logged separately.
 
+## Blood sugar and blood pressure (2026-11-08)
+
+Built both for version 1 (the user's call), Premium-gated, following LAUNCH_CHECKLIST → "How the Premium features will work".
+- **Sugar and sodium per meal are worked out, not stored.** Meals already store only dish, amount, oil and sweetness, and calories are worked out from the dish the same way (`itemMacros`). So `domain/health.ts` does dish × amount × sweetness, with no new SQLite column, server migration or sync mapping. When the nutritionist corrects a dish, old meals follow, like their calories. A food not on the list takes its type's ("Other drink") sugar and sodium per kcal.
+- **Sweetness scales sugar like it scales kcal** (`SWEETNESS_FACTOR`: ချိုစိမ့် 1.25×, ပေါ့ကျ 0.85×). Sodium isn't scaled.
+- **The flags are per meal, not per item.** A meal is *sugary* at ≥ 18 g sugar and *salty* at ≥ 700 mg sodium (about a third of the day). The flag names the dish adding the most. Two ပေါ့စိမ့် teas in one meal are sugary even though each is fine alone. Home counts sugary meals; the report counts sugary meals, the days they fall on, and days over 2,000 mg.
+- **The lighter option is one tap and only for sweetness.** ပေါ့စိမ့် replaces anything sweeter; ပေါ့ကျ replaces ပေါ့စိမ့်. There's no swap list for other dishes (faluda, soft drinks): we'd be inventing advice. The flag alone says it.
+- **What's free:** the question, and the stricter rice plan for blood sugar (carbs capped at 40 % of kcal; fat takes the rest; rice cut in ½ steps, as when losing weight). The plan is the core product and shouldn't jump when a pass ends. **Premium:** Result notes, Home cards, the amber rice card, report lines and tips. Free users with a box on get one gold upsell row on Home. *(2026-11-12: in Settings → Health the switches now open the Premium screen for free users instead of turning on; see "Gold crown on Premium features".)*
+- **Thresholds in one place:** `src/config/health.ts` (`HEALTH_LIMITS`), all PLACEHOLDER until the nutritionist reviews them, on draft dish numbers that still show *Calculated*. Sugar is total sugars from the recipe (fruit included), not "free sugar"; the nutritionist decides whether that's right.
+- **"Not medical advice"** shows on the paywall, on Settings → Health, and on the Goal screen once a box is on. The terms still need it.
+- **Colour:** sugar is pink, sodium teal, and a card over its limit (rice for blood sugar, sodium) turns light amber. These are nutrient indicators, so they keep the "colour only on nutrients" rule.
+- **Not built:** spreading rice plates across meals, glucose and blood pressure logs, health notes on the Text-log and Search confirm screens (they show on Result and ဝိုင်းစား, where every meal ends up).
+
+## Explaining settings: one line under the switch (2026-11-08)
+
+Settings switches whose effect isn't obvious (Feast day, Reminders, Wi-Fi only) always show one short line under the label (`ListRow` `note`), e.g. "ဒီနေ့ ဆက်တိုက် ရက် မပြတ်ဘူး".
+Why: most people didn't know what Feast day does. Tooltips were ruled out (no hover on phones, easy to miss, hard with Burmese line heights). The line was first shown only while a switch was on, but the row then grew and the list jumped on every toggle, so it is always shown (2026-11-09).
+Cost: three extra short lines in Settings. Revisit if people still don't find Feast day: the next step is a tappable streak on Home with a "ဒီနေ့ ပွဲ / အလှူ" button.
+
+## Email sign-in for the first version (2026-11-08)
+
+Sign-in is an emailed 6-digit code or Google; phone (SMS) sign-in is left out of the first version.
+Why: SMS to Myanmar costs about $0.16–0.33 per code through international providers ([reports/Unit economics.md](../reports/Unit%20economics.md)), and a cheap local gateway still needs picking, contracts and testing on MPT, ATOM, U9 and Mytel. Email costs next to nothing and works with Supabase out of the box. Most people never need to sign in anyway: everyone starts anonymous.
+- **A code, not a magic link**: the code screen was already built, and a link would need deep links that open the app from a mail client (often a different browser on cheap phones). Templates: `supabase/templates/code.html`, one for new accounts, sign-in and adding an email.
+- **Same link/switch rules as the phone:** an anonymous account adds the email to itself (`updateUser`, `email_change`); an email that already has an account switches the phone to it (`signInWithOtp`). Confirmations stay on.
+- **No placeholder in the email field** (nor fake "xxx" ones elsewhere): the headline says what to type.
+- **Send again waits 30 s** with a countdown, matching the server's `max_frequency`; tapping sooner used to fail with "Couldn't send".
+- **Sign out clears the phone** after a successful sync (refuses offline or with unsent changes). Keeping the data would mix one account's meals into the next person's account on the same phone. Photos not yet scanned are lost; the confirm sheet says so.
+- **Features that need an account open Sign in directly** and continue to the feature afterwards (`then` param, `features/onboarding/signInFirst.ts`), instead of a "sign in to use this" screen. Today that's only gift codes.
+- **Skip only in onboarding**; from Settings or a gift code the screen has Back only.
+- **Sending and checking a code give up after 20 s** (`withTimeout` in `services/auth.ts`) and the waiting button shows a spinner (`Button loading`). Testing found a request that never answered left the button greyed out with no message.
+- Cost: people without an email they check (or who find the code in spam) must use Google or Skip. Production needs a custom SMTP provider and a sending domain.
+Revisit if: many users don't have or check an email, or a Myanmar SMS gateway turns out cheap and reliable. Phone sign-in comes back by turning `[auth.sms]` and the Send SMS hook back on and restoring the phone step (git history: `SignInScreen.tsx` before this change).
+
 ## Gift codes before payments (2026-11-05, built 2026-11-06)
 
 Built as planned (LAUNCH_CHECKLIST → "Gift codes"; how to make and end codes: BACKEND.md → Gift codes). KBZPay / WavePay may not be ready, so Premium can be given with a code first. The server turns a code into a normal pass through `grant_pass` (provider `gift`), so nothing that reads `passes` changes. These choices are non-obvious:
 - **Codes are hashed** in the database: a leaked table can't be redeemed.
-- **Redeeming needs a phone or Google sign-in**, because a pass on an anonymous account is lost when the phone switches to an existing account.
+- **Redeeming needs an email or Google sign-in**, because a pass on an anonymous account is lost when the phone switches to an existing account.
 - **No per-IP limit**, only per account, because Myanmar mobile users share IP addresses.
 - **The app never links to a place to buy codes** (Play payments policy). Whether to sell codes, and where, is still open ([Payment options](../reports/Payment%20options.md)).
 - **Redeeming is a database function, not an Edge Function** (the plan said `redeem` function). The checks, the try limit and `grant_pass` must happen in one locked transaction anyway, and a function the app calls with `rpc` needs nothing else deployed.
@@ -335,6 +369,26 @@ Built as planned (LAUNCH_CHECKLIST → "Gift codes"; how to make and end codes: 
 - **A refused scan (402) waits before it is sent again.** With the phone-only mock pass the queue resent it at once, in a loop.
 - **`SCAN_MODEL=mock`**: the scan function answers with fixed answers (one per Result branch) and calls no AI, for local and staging testing. The same photo always gets the same answer.
 - **Jest runs on Myanmar time** (`scripts/jestTimezone.js`), so date tests give the same result on every machine. A time zone set inside a test file doesn't reach Node's clock.
+
+## iOS builds for testing, not for launch (2026-11-12)
+
+Version 1 still ships on Android only, but the app now builds and runs on iOS so it can be tried on an iPhone as a real user would (docs/BACKEND.md → "Testing on an iPhone").
+- **Free Apple ID, cable install, Release build** (`npm run ios:device`) rather than a paid developer account + TestFlight: no cost, and the Release build behaves like the shipped app. The price is re-installing every 7 days.
+- **No push entitlement:** `expo-notifications` is configured with `enableRemoteNotifications: false`. The weekly reminder is local, and a free Personal Team can't sign the push capability.
+- **Same `.env.local` for every device:** the iOS Simulator turns `10.0.2.2` into `localhost`; builds for the phone get the Mac's Wi-Fi address from the script (Metro's address isn't known to a build without expo-dev-client). Android is untouched.
+- Bundle id `ai.sar.app` (same as Android), iPhone only (`supportsTablet: false`), no microphone permission on either platform (voice goes through the keyboard).
+- **Local network permission** (`NSLocalNetworkUsageDescription`): without it iOS silently drops the app's requests to the Mac's Wi-Fi address (Safari still gets through). Only needed while testing against the local stack; drop it before any App Store build.
+- **Clipped Burmese on iOS:** fixed in `<Text>` for iOS only (full font line height + negative margins), so Android rendering and every layout stay as reviewed. The onboarding question screens now scroll, so the number keyboard can't push the answers over the headline (both platforms).
+- **Burmese wraps at spaces on iOS:** iOS broke words mid-way ("ရီ" alone on a line). `<Text>` joins each word's syllables with U+2060 on iOS only, so breaks fall at the spaces our copy already has; Android's wrapping, as reviewed, is unchanged.
+
+## Gold crown on Premium features (2026-11-12)
+
+People without a pass see a small gold crown (`ui/PremiumCrown.tsx`) next to each Premium feature, so they know what Premium adds before they hit a wall (user's call).
+- **Where:** the blood sugar / blood pressure switches (Settings → Health), the weekly report row on Progress, and the free-scan counter on the camera. Hidden once a pass is active. `ListRow` takes `premium`; screen readers hear "…, Premium".
+- **Health switches are Premium-only in Settings** (changed the same day, user's call): a free user's tap opens the Premium screen and the switch stays off. A switch already on (from onboarding, or a pass that ended) can still be turned off. The crown sits just before the switch, and the old "Premium flags sugary and salty meals" line is gone.
+- **Removed from onboarding:** the Goal screen no longer asks about blood sugar / pressure. A question nobody can answer without Premium doesn't belong in the first run; it lives in Settings → Health only. Existing profiles keep their answer (and can turn it off).
+- **The weekly report still opens** for free users: they see days logged and average kcal, then the gold upsell row. The camera counter already opened the Premium screen.
+- **Crown vs logo:** the gold logo still means "you are Premium" (Settings row, paywall, member logo); the crown means "this is a Premium feature".
 
 ## Tests for domain logic only (for now)
 
@@ -369,7 +423,7 @@ Batch 1: `welcome.signIn` was on canvas; new ones: `camera.permissionTitle`, `ca
 - Payments: Play Billing (cards only in Myanmar), our website (Dinger / KBZPay / WavePay; the app sells nothing), or both. Research in [reports/Payment options.md](../reports/Payment%20options.md); no decision yet.
 - Gift codes: free only, or also sold on our website?
 - Vision model for the scan Edge Function: default `claude-haiku-5-5` at low effort; confirm with ~100 labelled photos, and move to `claude-sonnet-5-5` only if Haiku misses too many.
-- SMS provider (or Send SMS hook to a Myanmar gateway) for +95 OTP.
+- SMTP provider for sign-in emails. Phone OTP later: a Myanmar SMS gateway through the Send SMS hook.
 - CAPTCHA on anonymous sign-in before launch (each new install gets 3 free scans a day for a week).
 - Plan rules in `domain/plan.ts` (protein g/kg, fat share, deficit caps, rice-cut steps) — nutritionist review.
 - Oil and sweetness multipliers in `domain/meal.ts` — per-dish values from the nutritionist.

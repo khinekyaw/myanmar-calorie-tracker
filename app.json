@@ -8,7 +8,13 @@
     "scheme": "sarai",
     "userInterfaceStyle": "light",
     "ios": {
-      "icon": "./assets/images/icon.png"
+      "icon": "./assets/images/icon.png",
+      "bundleIdentifier": "ai.sar.app",
+      "supportsTablet": false,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSLocalNetworkUsageDescription": "Sar AI connects to a test server on your Wi-Fi while it is being tested."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -41,6 +47,10 @@
             "android": [
               "my",
               "en"
+            ],
+            "ios": [
+              "my",
+              "en"
             ]
           }
         }
@@ -50,16 +60,25 @@
         "expo-camera",
         {
           "cameraPermission": "Sar AI uses the camera to scan your food.",
-          "recordAudioAndroid": false
+          "recordAudioAndroid": false,
+          "microphonePermission": false
         }
       ],
       [
         "expo-image-picker",
         {
-          "photosPermission": "Sar AI opens your photos so you can log a meal from a picture."
+          "photosPermission": "Sar AI opens your photos so you can log a meal from a picture.",
+          "cameraPermission": "Sar AI uses the camera to scan your food.",
+          "microphonePermission": false
         }
       ],
-      "expo-web-browser"
+      "expo-web-browser",
+      [
+        "expo-notifications",
+        {
+          "enableRemoteNotifications": false
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

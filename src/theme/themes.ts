@@ -61,6 +61,11 @@ export const lightTheme = {
       carbs: palette.amber,
       protein: palette.coral,
       fat: palette.violet,
+      /** Blood sugar / pressure guidance (Premium). */
+      sugar: palette.pink,
+      sodium: palette.teal,
+      /** Card fill when a nutrient went over its limit (blood sugar rice card, sodium). */
+      overSoft: palette.amberLight,
     },
     /** Week strip on Home: a day that went over its calorie target. */
     kcal: {

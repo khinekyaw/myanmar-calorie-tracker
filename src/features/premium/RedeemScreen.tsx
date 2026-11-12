@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Platform, TextInput, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
@@ -7,6 +7,7 @@ import { formatGiftCode, isGiftCodeShape } from '@/domain/giftCode';
 import { formatDayLabel } from '@/lib/format';
 import { tap } from '@/lib/haptics';
 import { useConnectivity } from '@/lib/network';
+import { openSignedIn } from '@/features/onboarding/signInFirst';
 import { useAccount } from '@/services/auth';
 import { backendEnabled } from '@/services/supabase';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
@@ -30,22 +31,26 @@ const PROBLEM = {
  * Gift code → Premium (docs/LAUNCH_CHECKLIST.md → "Gift codes"). Opened from
  * the paywall. A pass on an anonymous account would be lost when the phone
  * switches to an existing account, so with a backend the user signs in first
- * (phone or Google). It needs the internet: a code isn't queued offline.
+ * (email or Google), going through Sign in on the way here
+ * (`features/onboarding/signInFirst.ts`). It needs the internet: a code isn't queued offline.
  */
 export function RedeemScreen() {
   const { t } = useTranslation();
   const s = useStyles();
   const { theme, type, language } = useStyleContext();
   const { online } = useConnectivity();
-  const signedIn = useAccount((st) => Boolean(st.phone || st.googleEmail));
+  const signedIn = useAccount((st) => Boolean(st.email));
   const [code, setCode] = useState('');
   const [busy, setBusy] = useState(false);
   const [problem, setProblem] = useState<Problem | null>(null);
-  const [needsSignIn, setNeedsSignIn] = useState(false);
   /** Set once redeemed: the pass's end date. */
   const [done, setDone] = useState<{ endsAt: string | null } | null>(null);
 
-  const mustSignIn = backendEnabled && (!signedIn || needsSignIn);
+  // Opened while signed out (e.g. a link): Sign in first, which comes back here.
+  const mustSignIn = backendEnabled && !signedIn;
+  useEffect(() => {
+    if (mustSignIn) openSignedIn('redeem', { replace: true });
+  }, [mustSignIn]);
 
   const redeem = async () => {
     if (busy || !isGiftCodeShape(code)) return;
@@ -58,7 +63,7 @@ export function RedeemScreen() {
         tap();
         setDone({ endsAt: until });
       } else if (result === 'sign_in_required') {
-        setNeedsSignIn(true);
+        openSignedIn('redeem', { replace: true, force: true });
       } else {
         setProblem(result);
       }
@@ -69,10 +74,7 @@ export function RedeemScreen() {
     }
   };
 
-  const signIn = () => {
-    setNeedsSignIn(false);
-    router.push({ pathname: '/sign-in', params: { from: 'settings' } });
-  };
+  if (mustSignIn) return null;
 
   if (done) {
     return (
@@ -101,59 +103,44 @@ export function RedeemScreen() {
           <IconButton icon="chevronLeft" accessibilityLabel={t('common.back')} onPress={() => router.back()} />
         </View>
 
-        {mustSignIn ? (
-          <>
-            <Text variant="title" accessibilityRole="header" style={s.title}>
-              {t('redeem.signInTitle')}
-            </Text>
-            <View style={s.actions}>
-              <Button label={t('settings.signIn')} onPress={signIn} />
-            </View>
-          </>
-        ) : (
-          <>
-            <Text variant="title" accessibilityRole="header" style={s.title}>
-              {t('redeem.title')}
-            </Text>
-            <View style={s.field}>
-              <Icon name="sparkle" size={20} color={theme.colors.iconMuted} />
-              <TextInput
-                value={code}
-                onChangeText={(v) => {
-                  setCode(formatGiftCode(v));
-                  setProblem(null);
-                }}
-                // Latin letters even when the phone's keyboard is Burmese (Android).
-                keyboardType={Platform.OS === 'android' ? 'visible-password' : 'ascii-capable'}
-                autoCapitalize="characters"
-                autoCorrect={false}
-                autoComplete="off"
-                spellCheck={false}
-                autoFocus
-                maxLength={29}
-                returnKeyType="done"
-                // Keep the keyboard up: after a wrong code the next step is fixing it.
-                submitBehavior="submit"
-                onSubmitEditing={redeem}
-                placeholder="XXXXX-XXXXX"
-                placeholderTextColor={theme.colors.iconMuted}
-                selectionColor={theme.colors.selection}
-                cursorColor={theme.colors.cursor}
-                selectionHandleColor={theme.colors.cursor}
-                accessibilityLabel={t('redeem.title')}
-                style={[type.numberMd, s.input]}
-              />
-            </View>
-            {problem && (
-              <Text variant="callout" accessibilityLiveRegion="polite" style={s.problem}>
-                {t(PROBLEM[problem])}
-              </Text>
-            )}
-            <View style={s.actions}>
-              <Button label={t('redeem.redeem')} disabled={!isGiftCodeShape(code) || busy} onPress={redeem} />
-            </View>
-          </>
+        <Text variant="title" accessibilityRole="header" style={s.title}>
+          {t('redeem.title')}
+        </Text>
+        <View style={s.field}>
+          <Icon name="sparkle" size={20} color={theme.colors.iconMuted} />
+          <TextInput
+            value={code}
+            onChangeText={(v) => {
+              setCode(formatGiftCode(v));
+              setProblem(null);
+            }}
+            // Latin letters even when the phone's keyboard is Burmese (Android).
+            keyboardType={Platform.OS === 'android' ? 'visible-password' : 'ascii-capable'}
+            autoCapitalize="characters"
+            autoCorrect={false}
+            autoComplete="off"
+            spellCheck={false}
+            autoFocus
+            maxLength={29}
+            returnKeyType="done"
+            // Keep the keyboard up: after a wrong code the next step is fixing it.
+            submitBehavior="submit"
+            onSubmitEditing={redeem}
+            selectionColor={theme.colors.selection}
+            cursorColor={theme.colors.cursor}
+            selectionHandleColor={theme.colors.cursor}
+            accessibilityLabel={t('redeem.title')}
+            style={[type.numberMd, s.input]}
+          />
+        </View>
+        {problem && (
+          <Text variant="callout" accessibilityLiveRegion="polite" style={s.problem}>
+            {t(PROBLEM[problem])}
+          </Text>
         )}
+        <View style={s.actions}>
+          <Button label={t('redeem.redeem')} disabled={!isGiftCodeShape(code) || busy} onPress={redeem} />
+        </View>
       </Screen>
     </KeyboardAvoidingView>
   );

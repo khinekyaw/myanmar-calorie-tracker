@@ -1,6 +1,6 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import { KeyboardAvoidingView, ScrollView, TextInput, View, type TextInputInstance } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, TextInput, View, type TextInputInstance } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { itemMacros, sumMacros } from '@/domain/meal';
@@ -9,6 +9,7 @@ import { formatNumber } from '@/lib/format';
 import { getDish } from '@/data/dishes';
 import { useLog } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
+import { iosBurmeseLineFix } from '@/theme/typography';
 import { Icon, IconButton, Screen, Text } from '@/ui';
 
 import { SaveBar } from './components/SaveBar';
@@ -89,7 +90,7 @@ export function TextLogScreen() {
             selectionColor={theme.colors.selection}
             cursorColor={theme.colors.cursor}
             selectionHandleColor={theme.colors.cursor}
-            style={[type.headline, s.input]}
+            style={[type.headline, Platform.OS === 'ios' && iosBurmeseLineFix(type.headline, false), s.input]}
           />
 
           <View style={s.items}>

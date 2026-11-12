@@ -1,7 +1,9 @@
+import { isSugarHeavy, sumSugarSodium } from '@/domain/health';
 import { carbsToRicePlates, sumMacros } from '@/domain/meal';
 import { streakDays } from '@/domain/streak';
 import { weekReport, type ReportDay } from '@/domain/weekReport';
 import { shiftDay, weekStart } from '@/lib/dates';
+import { useHealthGuidance } from '@/store/health';
 import { useLog } from '@/store/log';
 import { usePlan } from '@/store/plan';
 import { useSettings } from '@/store/settings';
@@ -26,6 +28,7 @@ export function useWeekReport(weekStart: string) {
   const feastDays = useSettings((s) => s.feastDays);
   const plan = usePlan((s) => s.plan);
   const { badges } = useBadges();
+  const { asked } = useHealthGuidance();
 
   const today = dayKey(new Date());
   const weekEnd = shiftDay(weekStart, 6);
@@ -38,17 +41,30 @@ export function useWeekReport(weekStart: string) {
   const byDay = new Map<string, typeof inWeek>();
   for (const e of inWeek) byDay.set(dayKey(e.eatenAt), [...(byDay.get(dayKey(e.eatenAt)) ?? []), e]);
   const days: ReportDay[] = [...byDay].map(([day, list]) => {
-    const total = sumMacros(list.flatMap((e) => e.items));
-    return { day, kcal: total.kcal, proteinG: total.proteinG, fatG: total.fatG, ricePlates: carbsToRicePlates(total.carbG) };
+    const items = list.flatMap((e) => e.items);
+    const total = sumMacros(items);
+    return {
+      day,
+      kcal: total.kcal,
+      proteinG: total.proteinG,
+      fatG: total.fatG,
+      ricePlates: carbsToRicePlates(total.carbG),
+      sodiumMg: sumSugarSodium(items).sodiumMg,
+    };
   });
 
   const report = weekReport({
     weekStart,
     days,
-    meals: inWeek.map((e) => ({ day: dayKey(e.eatenAt), dishIds: e.items.map((i) => i.dishId) })),
+    meals: inWeek.map((e) => ({
+      day: dayKey(e.eatenAt),
+      dishIds: e.items.map((i) => i.dishId),
+      sugarHeavy: isSugarHeavy(e.items),
+    })),
     weights: series(weightEntries, 'weight').map((p) => ({ day: p.day, lb: p.value })),
     targets: { kcal: plan.kcal, proteinG: plan.proteinG, ricePlates: plan.ricePlates },
     today,
+    health: asked,
   });
 
   // Streak as the week ended (or today, for this week).
@@ -58,5 +74,5 @@ export function useWeekReport(weekStart: string) {
 
   const earned = badges.filter((b) => b.earnedOn && b.earnedOn >= weekStart && b.earnedOn <= weekEnd);
 
-  return { report, streak, earned, targets: plan };
+  return { report, streak, earned, targets: plan, health: asked };
 }

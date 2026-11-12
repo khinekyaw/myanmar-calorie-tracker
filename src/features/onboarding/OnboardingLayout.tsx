@@ -38,7 +38,9 @@ export function OnboardingLayout({
   const s = useStyles();
   return (
     <KeyboardAvoidingView style={s.fill} behavior="padding">
+      {/* Scrolls so an open keyboard can't push the answers over the headline. */}
       <Screen
+        scroll
         footer={
           <View style={s.footer}>
             <Button label={continueLabel ?? t('common.continue')} disabled={!canContinue} onPress={onContinue} />

@@ -12,7 +12,8 @@ Status (2026-10-30): **built and tested locally**; not deployed yet. Database, s
 ## What's in `supabase/`
 
 ```
-config.toml                 local stack settings (auth, SMS test numbers, functions)
+config.toml                 local stack settings (auth, email templates, local mail, functions)
+templates/code.html         sign-in email: shows the 6-digit code (not a link)
 migrations/
   20261030120000_schema.sql        tables, row-level security, grants
   20261030120100_sync.sql          sync_push / sync_pull
@@ -26,7 +27,7 @@ migrations/
   20261105120000_first_week_calendar_days.sql  first week = 7 Myanmar calendar days
   20261106120000_gift_codes.sql     gift codes: tables, redeem_gift_code, create_gift_codes
 seeds/catalogue.sql         dish list, generated from src/data/dishes.ts (recipe-calculated numbers, drafts)
-seeds/dev.sql               local only: logs SMS codes instead of sending them
+seeds/dev.sql               local only: logs SMS codes instead of sending them (unused while phone sign-in is off)
 functions/scan/             photo → dishes (Claude vision)
 functions/delete-account/   deletes the account, its photos and every row
 functions/_shared/scanContract.ts   answer validation, shared with Jest tests
@@ -90,9 +91,11 @@ Premium given with a code, before payments exist ([LAUNCH_CHECKLIST → Gift cod
 ### Accounts
 
 - Every phone gets an **anonymous account** the first time it's online, so data syncs even after *Skip*.
-- **Sign in with a phone number** (Welcome → *I have an account*, the end of onboarding, or Settings → Phone number): if the phone is anonymous, the number is **linked** to that account (same id, nothing moves). If the number already has an account, the phone **switches** to it and pushes its local meals into it (merge).
-- **Sign in with Google** (same places, *Continue with Google*): an in-app browser sheet runs Supabase's Google OAuth (PKCE) and returns to `sarai://auth/callback`. An anonymous phone **links** Google to its account with `linkIdentity` (needs *manual linking* on); if that Google account already has a Sar AI account, the phone **switches** to it and merges, as with a phone number. Settings shows the Google email. Code: `services/auth.ts → signInWithGoogle`.
-- **Phone confirmations must stay on** (`[auth.sms] enable_confirmations = true`, and the same switch in the dashboard). Without it, linking a number skips the code check, so anyone could claim someone else's number. Found and fixed during testing.
+- **Sign in with an email code** (Welcome → *I have an account*, the end of onboarding, or Settings → Account): Supabase emails a 6-digit code (`supabase/templates/code.html`; no link to tap). If the phone is anonymous, the email is **linked** to that account with `updateUser({ email })` (same id, nothing moves; verified as `email_change`). If the email already has an account, the phone **switches** to it with `signInWithOtp` and pushes its local meals into it (merge). Code: `services/auth.ts → requestCode / verifyCode`.
+- **Sign out** (Settings, signed-in accounts only): syncs first and refuses if anything is left unsent, then `signOut({ scope: 'local' })` and clears the phone like *Delete account* (`sync/account.ts → signOutAndClear`). The next sync starts a fresh anonymous account; signing in again brings the data back.
+- **No phone (SMS) sign-in in the first version** ([DECISIONS → Email sign-in](DECISIONS.md#email-sign-in-for-the-first-version-2026-11-08)). The phone settings and the dev Send SMS hook stay in `config.toml`, switched off.
+- **Sign in with Google** (same places, *Continue with Google*): an in-app browser sheet runs Supabase's Google OAuth (PKCE) and returns to `sarai://auth/callback`. An anonymous phone **links** Google to its account with `linkIdentity` (needs *manual linking* on); if that Google account already has a Sar AI account, the phone **switches** to it and merges, as with an email code. Settings shows the Google email. Code: `services/auth.ts → signInWithGoogle`.
+- **Email confirmations must stay on** (`[auth.email] enable_confirmations = true`, and *Confirm email* in the dashboard). Without it, linking an email skips the code check, so anyone could claim someone else's address. The same problem was found and fixed for phone numbers during testing.
 - **Delete account** (Settings): `delete-account` removes photos, then the auth user; every row cascades. The phone then wipes its data and starts a fresh anonymous account. Required by Google Play.
 - A token stays valid for up to an hour after its account is deleted elsewhere; `sync_*` refuse it (`28000`) and the app starts over at once with everything still on the phone.
 
@@ -104,12 +107,41 @@ cp .env.example .env.local  # then paste the publishable key from `npx supabase 
 npx expo start              # Metro reads .env.local; the app now syncs to the local stack
 ```
 
-- The Android emulator reaches the Mac at `10.0.2.2`; a real phone needs the Mac's LAN address.
-- **Sign-in test numbers** (no SMS): +95 9123456789 → `123456`, +95 9987654321 → `654321`. Other numbers: the code is in `docker logs supabase_db_sar-ai 2>&1 | grep "SMS code"`. One code per number per 30 seconds.
+- The Android emulator reaches the Mac at `10.0.2.2`; a real phone needs the Mac's LAN address. The iOS Simulator turns `10.0.2.2` into `localhost` (`services/backendUrl.ts`); a real iPhone gets the Mac's Wi-Fi address from `npm run ios:device`.
+- **Sign-in codes locally:** nothing is sent; every email lands in Mailpit at http://127.0.0.1:54324 (any address works). One code per address per 30 seconds. Config changes (templates, confirmations) need `npx supabase stop && npx supabase start`.
 - **Google sign-in** needs an OAuth client: put `SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID` / `_SECRET` in `supabase/.env` (not committed) and restart the stack. In Google Cloud the client's authorized redirect URI is `http://127.0.0.1:54321/auth/v1/callback`; on the emulator run `adb reverse tcp:54321 tcp:54321` so the browser can reach it. Without a client the button opens Google with an invalid client id.
 - **Scans** need the functions running: copy `supabase/functions/.env.example` to `supabase/functions/.env`, then `npx supabase functions serve --env-file supabase/functions/.env`. With `SCAN_MODEL=mock` no key is needed and nothing is spent; for real scans set the model and its key (`ANTHROPIC_API_KEY` or `GEMINI_API_KEY`), and keep `SCAN_DAILY_BUDGET_USD` low.
 - Without `.env.local` the app runs exactly as the prototype did (mock scan, any sign-in code).
 - **macOS:** Docker Desktop needs access to the Desktop folder (System Settings → Privacy & Security → Files and Folders → Docker → Desktop Folder) to mount this project. Without it, Studio and the functions runtime can't start: use `npx supabase start -x edge-runtime,studio`, and serve functions from a copy of `supabase/` outside Desktop (`--workdir`).
+
+### Testing on an iPhone
+
+Version 1 ships on Android only; iOS builds exist so the app can be tried on an iPhone like a real user would.
+
+**One-time setup on the Mac**
+
+- Xcode installed. CocoaPods is installed per user (Homebrew here belongs to another macOS user): `GEM_HOME=~/.gem/ruby/2.6.0 gem install cocoapods` after pinning Ruby 2.6-compatible versions (`activesupport -v 6.1.7.10`, `zeitwerk -v 2.6.18`, `ffi -v 1.16.3`). Commands that run `pod` need `export GEM_HOME=~/.gem/ruby/2.6.0 PATH=~/.gem/ruby/2.6.0/bin:$PATH LANG=en_US.UTF-8`; `scripts/ios-device.sh` sets this itself.
+- **You:** Xcode → Settings → Accounts → add your Apple ID. A free Apple ID is enough: Xcode makes a "Personal Team" and signs the app for your own phone. (The app asks for no push entitlement — `expo-notifications` has `enableRemoteNotifications: false`, the weekly reminder is a local notification — so the free team can sign it.)
+
+**One-time setup on the iPhone**
+
+1. Plug it into the Mac with a cable, unlock it and tap **Trust**.
+2. Settings → Privacy & Security → **Developer Mode** → on (the phone restarts).
+3. After the first install: Settings → General → VPN & Device Management → your Apple ID → **Trust**.
+
+**Install**
+
+```bash
+npm run db:start      # local Supabase, if you want sync and sign-in
+npm run ios:device    # Release build: the real app, no Metro, JS inside
+```
+
+- The first build asks you to pick the iPhone and the signing team (your Personal Team). If it can't find a signing certificate, open `ios/SarAI.xcworkspace` in Xcode once, select the SarAI target → Signing & Capabilities → Team, and build to the phone (▶︎).
+- The backend address (`http://<Mac Wi-Fi IP>:54321`) is baked in, so the phone syncs only on the same Wi-Fi as the Mac with the stack running; elsewhere it works offline. Allow "find devices on your local network" when iOS asks. Rebuild if the Mac's address changes.
+- Sign-in codes: read them in Mailpit on the Mac (http://127.0.0.1:54324). Google sign-in doesn't work on the phone against the local stack (its redirect goes to `127.0.0.1`); it needs a hosted project.
+- A free Apple ID's app stops opening after **7 days**: plug in and run `npm run ios:device` again (data stays on the phone).
+- `npm run ios:device -- --debug` installs a Debug build that loads JS over Wi-Fi from the Metro it starts (stop your own `npx expo start` first), for hot reload. `npm run ios` builds for the iOS Simulator.
+- Closer to real users later (no cable, no 7-day limit, works anywhere): a paid Apple Developer account ($99/year) + TestFlight, with a hosted Supabase project. Not needed for v1.
 
 | Command | What |
 |---|---|
@@ -143,23 +175,23 @@ Schema changes = a **new** migration file (never edit one that has been deployed
 
 ## Deploying (staging, then production)
 
-1. Create the project (Singapore). Dashboard → Auth: enable **anonymous sign-ins**, **phone** with **confirmations on**, and an SMS route (provider, or a *Send SMS* hook to a Myanmar SMS gateway); set rate limits (mobile networks in Myanmar share IPs, so per-IP limits need care) and turn on **CAPTCHA for anonymous sign-ins** (needs a small app change).
+1. Create the project (Singapore). Dashboard → Auth: enable **anonymous sign-ins** and **email** with **Confirm email on**, turn **phone off**, paste `supabase/templates/code.html` into the *Confirm signup*, *Magic link* and *Change email address* templates, and set up **custom SMTP** (Supabase's built-in mailer only sends a few emails an hour, to team members); set rate limits (mobile networks in Myanmar share IPs, so per-IP limits need care) and turn on **CAPTCHA for anonymous sign-ins** (needs a small app change).
 2. `npx supabase link --project-ref <ref>` → `npx supabase db push` (migrations only; `seeds/dev.sql` is never pushed).
 3. Load the catalogue once: run `supabase/seeds/catalogue.sql` in the SQL editor (it never overwrites existing dishes).
 4. Google: in Google Cloud create an OAuth client of type *Web application* with authorized redirect URI `https://<ref>.supabase.co/auth/v1/callback` (and the OAuth consent screen). Dashboard → Auth → Providers → Google: enable, paste client id and secret. Auth → URL Configuration: add `sarai://auth/callback` to the redirect URLs. Auth → Sign In / Providers: turn on **Allow manual linking**.
 5. `npx supabase secrets set --env-file <file>` (see `functions/.env.example`; set `SCAN_DAILY_BUDGET_USD`), then `npx supabase functions deploy scan delete-account`.
 6. App build env: `EXPO_PUBLIC_SUPABASE_URL=https://<ref>.supabase.co`, `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_…` (EAS environment variables). Never ship a secret key.
-7. Smoke test: sign in with a real +95 number and with Google, log a meal, scan a photo, delete the account.
+7. Smoke test: sign in with a real email (Gmail and one other) and with Google, log a meal, scan a photo, delete the account.
 
 ## What's left
 
 | Item | Needs | Phase |
 |---|---|---|
 | Real scans + model/effort choice | Anthropic API key; ~100 labelled Myanmar meal photos for an accuracy test | 2 |
-| SMS delivery to +95 | SMS provider account or gateway (+ Send SMS hook) | 3 |
+| Sign-in email delivery | SMTP provider account (custom SMTP in the dashboard) and a sending domain | 3 |
 | Google sign-in | Built (browser OAuth, links the anonymous account). Needs a Google Cloud OAuth client (Web application) and its id/secret in `supabase/.env` locally or the dashboard; not yet tried against real Google | 3 |
 | Payments: webhook → `grant_pass` | Choice of Play Billing / website / both ([Payment options](../reports/Payment%20options.md)) + merchant accounts. The paywall still activates a **local mock** pass; the server ignores it, so scans past 3/day are refused | 4 |
-| Gift codes → `grant_pass` | **Built** ([Gift codes](#gift-codes)); redeeming needs phone or Google sign-in, so it waits for SMS or a Google OAuth client in production | 4 |
+| Gift codes → `grant_pass` | **Built** ([Gift codes](#gift-codes)); redeeming needs email or Google sign-in, so it waits for SMTP or a Google OAuth client in production | 4 |
 | CAPTCHA on anonymous sign-in | Turnstile/hCaptcha keys + app widget | 5 |
 | Monitoring | Sentry for the app; alert on `scans.cost_usd` and failed scans | 5 |
 | Photos on other phones | Meals restored on another phone show the dish photo, not the meal photo (signed URLs) | later |
@@ -169,4 +201,4 @@ Schema changes = a **new** migration file (never edit one that has been deployed
 
 ## Risks
 
-SMS delivery to Myanmar numbers · Google Play rules on outside payments · scan accuracy on local dishes · anonymous-account abuse for free scans (each new install gets 3/day for a week; CAPTCHA + budget cap mitigate) · slow/expensive data (photos ~100 KB, queued and retried).
+sign-in emails landing in spam, and people without an email they check (phone sign-in is a later option) · Google Play rules on outside payments · scan accuracy on local dishes · anonymous-account abuse for free scans (each new install gets 3/day for a week; CAPTCHA + budget cap mitigate) · slow/expensive data (photos ~100 KB, queued and retried).

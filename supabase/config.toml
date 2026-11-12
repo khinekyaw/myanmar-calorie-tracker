@@ -104,6 +104,7 @@ openai_api_key = "env(OPENAI_API_KEY)"
 
 # Email testing server. Emails sent with the local dev setup are not actually sent - rather, they
 # are monitored, and you can view the emails that would have been sent from the web interface.
+# Sar AI sign-in codes land here: http://127.0.0.1:54324 (Mailpit).
 [local_smtp]
 enabled = true
 # Port to use for the email testing server web interface.
@@ -179,7 +180,7 @@ refresh_token_reuse_interval = 10
 enable_signup = true
 # Allow/disallow anonymous sign-ins to your project.
 # "Skip" users get an anonymous account so their data syncs; it is linked to
-# their phone when they sign in (docs/BACKEND.md → Auth).
+# their email (or Google) when they sign in (docs/BACKEND.md → Auth).
 enable_anonymous_sign_ins = true
 # Lets an anonymous account add Google with linkIdentity (same user id, data stays).
 # Must also be on in the dashboard: Auth → Sign In / Providers → Allow manual linking.
@@ -229,11 +230,14 @@ enable_signup = true
 # addresses. If disabled, only the new email is required to confirm.
 double_confirm_changes = true
 # If enabled, users need to confirm their email address before signing in.
-enable_confirmations = false
+# Must stay on (also in the dashboard for staging/production): without it,
+# updateUser({ email }) attaches an address without checking the code, so
+# anyone could claim someone else's email.
+enable_confirmations = true
 # If enabled, users will need to reauthenticate or have logged in recently to change their password.
 secure_password_change = false
 # Controls the minimum amount of time that must pass before sending another signup confirmation or password reset email.
-max_frequency = "1s"
+max_frequency = "30s"
 # Number of characters used in the email OTP.
 otp_length = 6
 # Number of seconds before the email OTP expires (defaults to 1 hour).
@@ -249,10 +253,23 @@ otp_expiry = 3600
 # admin_email = "admin@email.com"
 # sender_name = "Admin"
 
-# Uncomment to customize email template
-# [auth.email.template.invite]
-# subject = "You have been invited"
-# content_path = "./supabase/templates/invite.html"
+# Sign-in emails show a 6-digit code ({{ .Token }}), not a link: the app
+# asks for the code (services/auth.ts). Copy the same templates into the
+# dashboard for staging/production (Auth → Emails).
+# New account (signInWithOtp for an email we haven't seen).
+[auth.email.template.confirmation]
+subject = "Sar AI code"
+content_path = "./supabase/templates/code.html"
+
+# Existing account signing in.
+[auth.email.template.magic_link]
+subject = "Sar AI code"
+content_path = "./supabase/templates/code.html"
+
+# An anonymous account adding its email (updateUser).
+[auth.email.template.email_change]
+subject = "Sar AI code"
+content_path = "./supabase/templates/code.html"
 
 # Uncomment to customize notification email template
 # [auth.email.notification.password_changed]
@@ -260,9 +277,12 @@ otp_expiry = 3600
 # subject = "Your password has been changed"
 # content_path = "./supabase/templates/password_changed_notification.html"
 
+# Phone (SMS) sign-in is off for the first version: email codes and Google only
+# (docs/DECISIONS.md → "Email sign-in"). The settings below stay so it can be
+# switched back on with a Myanmar SMS gateway.
 [auth.sms]
 # Allow/disallow new user signups via SMS to your project.
-enable_signup = true
+enable_signup = false
 # If enabled, users need to confirm their phone number before signing in.
 # Must stay on (also in the dashboard for staging/production): without it,
 # updateUser({ phone }) attaches a number without checking the code, so anyone
@@ -288,11 +308,10 @@ max_frequency = "30s"
 # Force log out if the user has been inactive longer than the specified duration.
 # inactivity_timeout = "8h"
 
-# Local development only: codes are written to the database log instead of
-# being sent (supabase/seeds/dev.sql). Staging and production use the SMS provider
-# configured in the dashboard (see docs/BACKEND.md → Sign-in).
+# Local development only (while phone sign-in is off, unused): codes are
+# written to the database log instead of being sent (supabase/seeds/dev.sql).
 [auth.hook.send_sms]
-enabled = true
+enabled = false
 uri = "pg-functions://postgres/public/dev_send_sms"
 
 # This hook runs before a new user is created and allows developers to reject the request based on the incoming user object.
@@ -310,7 +329,7 @@ uri = "pg-functions://postgres/public/dev_send_sms"
 # the Send SMS hook above takes over, so these dummy values are never used.
 # Production: configure the real provider in the dashboard, not here.
 [auth.sms.twilio]
-enabled = true
+enabled = false
 account_sid = "local-dev-unused"
 message_service_sid = "local-dev-unused"
 auth_token = "local-dev-unused"

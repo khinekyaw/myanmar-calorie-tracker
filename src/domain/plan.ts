@@ -1,3 +1,5 @@
+import { HEALTH_LIMITS } from '@/config/health';
+
 import { dailyKcal, KCAL_PER_RICE_PLATE, type Sex, type Workday } from './nutrition';
 import { ftInToCm, lbToKg } from './units';
 
@@ -21,6 +23,8 @@ export type PlanInput = {
   goal: Goal;
   targetWeightLb: number;
   pace: Pace;
+  /** Diabetes or pre-diabetes: fewer carbs (rice plates), cut gradually. */
+  bloodSugar?: boolean;
 };
 
 export type Plan = {
@@ -60,12 +64,19 @@ export function buildPlan(input: PlanInput, today = new Date()): Plan {
   const kcal = roundTo(Math.max(raw, MIN_KCAL[input.sex]), 10);
 
   const proteinG = Math.round(Math.min(PROTEIN_G_PER_KG * weightKg, (kcal * 0.35) / 4));
-  const fatG = Math.round((kcal * FAT_SHARE) / 9);
-  const carbG = Math.max(Math.round((kcal - proteinG * 4 - fatG * 9) / 4), 0);
+  let fatG = Math.round((kcal * FAT_SHARE) / 9);
+  let carbG = Math.max(Math.round((kcal - proteinG * 4 - fatG * 9) / 4), 0);
+  // Blood sugar: cap carbs (PLACEHOLDER share, config/health.ts); fat takes the rest.
+  const carbCap = Math.round((kcal * HEALTH_LIMITS.bloodSugarCarbShare) / 4);
+  if (input.bloodSugar && carbG > carbCap) {
+    carbG = carbCap;
+    fatG = Math.round((kcal - proteinG * 4 - carbG * 4) / 9);
+  }
   const ricePlates = Math.max(roundHalf((carbG * 4) / KCAL_PER_RICE_PLATE), 0.5);
 
-  // Cut rice gradually (½ plate a step) when losing weight.
-  const riceSteps = input.goal === 'lose' ? [ricePlates + 1, ricePlates + 0.5, ricePlates] : [ricePlates];
+  // Cut rice gradually (½ plate a step) when losing weight or watching blood sugar.
+  const riceSteps =
+    input.goal === 'lose' || input.bloodSugar ? [ricePlates + 1, ricePlates + 0.5, ricePlates] : [ricePlates];
 
   const lbToGo = Math.abs(input.weightLb - input.targetWeightLb);
   const targetDate =

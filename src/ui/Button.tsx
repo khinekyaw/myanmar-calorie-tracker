@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Pressable, type PressableProps, type StyleProp, type ViewStyle } from 'react-native';
+import { ActivityIndicator, Pressable, type PressableProps, type StyleProp, type ViewStyle } from 'react-native';
 
 import { makeStyles } from '@/theme/ThemeProvider';
 
@@ -18,31 +18,53 @@ type Props = Omit<PressableProps, 'style' | 'children'> & {
   /** 'md' = 56px main action; 'sm' = 40px inline action inside a card. */
   size?: 'md' | 'sm';
   style?: StyleProp<ViewStyle>;
+  /** Waiting on this button's action: a spinner replaces the label and presses are ignored. */
+  loading?: boolean;
 };
 
 /** Pill button. Primary = solid ink. */
-export function Button({ label, variant = 'primary', icon, leading, size = 'md', disabled, style, ...rest }: Props) {
+export function Button({
+  label,
+  variant = 'primary',
+  icon,
+  leading,
+  size = 'md',
+  disabled,
+  loading,
+  style,
+  ...rest
+}: Props) {
   const s = useStyles();
   const inverse = variant === 'primary';
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityState={{ disabled: !!disabled }}
-      disabled={disabled}
+      accessibilityLabel={label}
+      accessibilityState={{ disabled: !!disabled || !!loading, busy: !!loading }}
+      disabled={disabled || loading}
       style={({ pressed }) => [
         s.base,
         s[variant],
         size === 'sm' && s.sm,
         pressed && s.pressed,
-        disabled && s.disabled,
+        disabled && !loading && s.disabled,
         style,
       ]}
       {...rest}>
-      {leading}
-      {icon && <Icon name={icon} size={20} color={inverse ? s.inverseText.color : undefined} />}
-      <Text variant={size === 'sm' ? 'label' : 'bodyStrong'} tone={inverse ? 'inverse' : 'default'} numberOfLines={1}>
-        {label}
-      </Text>
+      {loading ? (
+        <ActivityIndicator color={inverse ? s.inverseText.color : s.text.color} />
+      ) : (
+        <>
+          {leading}
+          {icon && <Icon name={icon} size={20} color={inverse ? s.inverseText.color : undefined} />}
+          <Text
+            variant={size === 'sm' ? 'label' : 'bodyStrong'}
+            tone={inverse ? 'inverse' : 'default'}
+            numberOfLines={1}>
+            {label}
+          </Text>
+        </>
+      )}
     </Pressable>
   );
 }
@@ -65,4 +87,5 @@ const useStyles = makeStyles(({ theme }) => ({
   pressed: { opacity: theme.opacity.pressed },
   disabled: { opacity: theme.opacity.disabled },
   inverseText: { color: theme.colors.onPrimary },
+  text: { color: theme.colors.text },
 }));

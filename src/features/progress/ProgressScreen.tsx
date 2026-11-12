@@ -7,9 +7,10 @@ import { useTranslation } from 'react-i18next';
 import { goalProgress } from '@/domain/progress';
 import { formatDayLabel, formatNumber, formatShortDate } from '@/lib/format';
 import { useOnboarding } from '@/store/onboarding';
+import { useIsPremium } from '@/store/premium';
 import { fromDayKey, series, useWeights } from '@/store/weights';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
-import { Button, Card, Icon, Segmented, Text } from '@/ui';
+import { Button, Card, Icon, PremiumCrown, Segmented, Text } from '@/ui';
 
 import { StreakPill } from '../milestones/StreakPill';
 import { BmiCard } from './components/BmiCard';
@@ -25,6 +26,7 @@ const PERIOD_DAYS: Record<Period, number> = { '1m': 31, '3m': 92, all: Infinity 
  */
 export function ProgressScreen() {
   const { t } = useTranslation();
+  const premium = useIsPremium();
   const s = useStyles();
   const { theme, language } = useStyleContext();
   const [period, setPeriod] = useState<Period>('3m');
@@ -152,13 +154,16 @@ export function ProgressScreen() {
         <WeekCalories />
         <Pressable
           accessibilityRole="button"
+          accessibilityLabel={premium ? t('report.title') : `${t('report.title')}, ${t('paywall.title')}`}
           onPress={() => router.push('/week')}
           style={({ pressed }) => pressed && s.pressed}>
           <Card size="md" style={s.row}>
             <Icon name="chart" size={22} />
-            <Text variant="bodyStrong" style={s.flex}>
-              {t('report.title')}
-            </Text>
+            <View style={[s.flex, s.reportTitle]}>
+              <Text variant="bodyStrong">{t('report.title')}</Text>
+              {/* The full report is Premium; free users see two numbers and an upsell. */}
+              {!premium && <PremiumCrown />}
+            </View>
             <Icon name="chevronRight" size={18} color={theme.colors.iconMuted} />
           </Card>
         </Pressable>
@@ -171,6 +176,7 @@ export function ProgressScreen() {
 const useStyles = makeStyles(({ theme }) => ({
   root: { flex: 1, backgroundColor: theme.colors.background },
   flex: { flex: 1 },
+  reportTitle: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   content: { paddingHorizontal: theme.gutter, paddingBottom: theme.size.fab + theme.space.xxl, gap: theme.space.sm + 2 },
   titleRow: {
     flexDirection: 'row',

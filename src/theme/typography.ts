@@ -162,6 +162,34 @@ export function buildTypeScale(language: Language): TypeScale {
 /** True for the number styles (Inter, tight line height, equal-width digits). */
 export const isNumberVariant = (variant: TextVariant) => variants[variant].role === 'latin';
 
+/**
+ * Noto Sans Myanmar's own line height (ascent 1324 + descent 860 per 1000 em,
+ * from its hhea table): its stacked marks need about 2.2× the font size.
+ */
+const NOTO_MYANMAR_LINE_HEIGHT = 2.184;
+
+/**
+ * iOS draws a line whose lineHeight is below the font's own height at the
+ * bottom of the line box, so the tops of Burmese marks are cut off (Android
+ * spreads it evenly, so our 1.55–1.7 there is fine). For iOS this returns the
+ * fix for a flattened Burmese text style: the font's full line height, with
+ * negative top and bottom margins taking back the extra so a one-line label
+ * still takes the space the design gave it. Null when nothing needs fixing.
+ * `margins: false` for TextInput, which has no room to spare.
+ */
+export function iosBurmeseLineFix(style: TextStyle, margins = true): TextStyle | null {
+  const { fontFamily, fontSize, lineHeight } = style;
+  if (!fontFamily?.startsWith('NotoSansMyanmar') || !fontSize || !lineHeight) return null;
+  const full = Math.ceil(fontSize * NOTO_MYANMAR_LINE_HEIGHT);
+  if (lineHeight >= full) return null;
+  if (!margins) return { lineHeight: full };
+  const extra = (full - lineHeight) / 2;
+  const top = style.marginTop ?? style.marginVertical ?? style.margin ?? 0;
+  const bottom = style.marginBottom ?? style.marginVertical ?? style.margin ?? 0;
+  if (typeof top !== 'number' || typeof bottom !== 'number') return { lineHeight: full };
+  return { lineHeight: full, marginTop: top - extra, marginBottom: bottom - extra };
+}
+
 let burmeseWords: TypeScale | null = null;
 
 /**

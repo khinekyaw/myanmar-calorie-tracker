@@ -11,9 +11,10 @@ import { getDish, type DishId } from '@/data/dishes';
 import { useIsPremium } from '@/store/premium';
 import { fromDayKey } from '@/store/weights';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
-import { Button, Card, Icon, IconButton, Logo, Text } from '@/ui';
+import { Card, Icon, IconButton, Text } from '@/ui';
 
 import { NutrientCard } from '../home/components/NutrientCard';
+import { PremiumUpsell } from '../premium/PremiumUpsell';
 import { BadgeArt } from '../milestones/BadgeArt';
 import { useWeekRange, useWeekReport } from './useWeekReport';
 
@@ -35,7 +36,7 @@ export function WeekReportScreen() {
   const [week, setWeek] = useState(() =>
     clamp(params.week && DATE_KEY.test(params.week) ? params.week : range.previous),
   );
-  const { report, streak, earned, targets } = useWeekReport(week);
+  const { report, streak, earned, targets, health } = useWeekReport(week);
   const n = (v: number) => formatNumber(v, language);
 
   const step = (days: number) => {
@@ -146,6 +147,32 @@ export function WeekReportScreen() {
               />
             </View>
 
+            {(health.bloodSugar || health.bloodPressure) && (
+              <View style={s.pair}>
+                {health.bloodSugar && (
+                  <Card size="md" style={s.stat}>
+                    <Text variant="numberMd">{n(report.sugarHeavyMeals)}</Text>
+                    <Text variant="caption" tone="muted">
+                      {t('report.sugarHeavy')}
+                    </Text>
+                    {report.sugarHeavyMeals > 0 && (
+                      <Text variant="caption" tone="subtle">
+                        {t('report.sugarDays', { count: report.sugarHeavyDays, value: n(report.sugarHeavyDays) })}
+                      </Text>
+                    )}
+                  </Card>
+                )}
+                {health.bloodPressure && (
+                  <Card size="md" style={s.stat}>
+                    <Text variant="numberMd">{n(report.saltyDays)}</Text>
+                    <Text variant="caption" tone="muted">
+                      {t('report.saltyDays')}
+                    </Text>
+                  </Card>
+                )}
+              </View>
+            )}
+
             <View style={s.pair}>
               <Card size="md" style={s.stat}>
                 <Text variant="numberMd">
@@ -219,13 +246,7 @@ export function WeekReportScreen() {
           </>
         ) : (
           <View style={s.locked}>
-            <View style={s.logo}>
-              <Logo size={24} color={theme.colors.accent} />
-            </View>
-            <Text variant="bodyStrong" style={s.flex}>
-              {t('report.premiumTitle')}
-            </Text>
-            <Button size="sm" label={t('report.premiumButton')} onPress={() => router.push('/paywall')} />
+            <PremiumUpsell title={t('report.premiumTitle')} />
           </View>
         )}
       </ScrollView>
@@ -251,21 +272,5 @@ const useStyles = makeStyles(({ theme }) => ({
   dishRow: { flexDirection: 'row', alignItems: 'center', gap: theme.space.md },
   rank: { width: 16 },
   tip: { flexDirection: 'row', alignItems: 'center', gap: theme.space.md, marginTop: theme.space.md },
-  locked: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: theme.space.md,
-    padding: theme.space.lg,
-    marginTop: theme.space.sm,
-    borderRadius: theme.radius.lg,
-    backgroundColor: theme.colors.accentSoft,
-  },
-  logo: {
-    width: 40,
-    height: 40,
-    borderRadius: theme.radius.sm,
-    backgroundColor: theme.colors.background,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  locked: { marginTop: theme.space.sm },
 }));

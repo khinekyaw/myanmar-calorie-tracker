@@ -3,15 +3,17 @@ import { useEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
-import { itemName, numbersTier, OIL_LEVELS, sumMacros, type MealItem, type OilLevel } from '@/domain/meal';
+import { itemName, numbersTier, OIL_LEVELS, sumMacros, type MealItem, type OilLevel, type Sweetness } from '@/domain/meal';
 import { formatNumber, formatPlates } from '@/lib/format';
 import { getDish, type DishId } from '@/data/dishes';
 import { tap } from '@/lib/haptics';
 import { CONFIDENCE_THRESHOLD } from '@/services/scan';
+import { useHealthGuidance } from '@/store/health';
 import { useEntry, useLog } from '@/store/log';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Badge, Button, Chip, ConfirmSheet, EdgeScrollView, Icon, PhotoSheet, Stepper, Text, type IconName } from '@/ui';
 
+import { MealHealthNotes } from './components/MealHealthNotes';
 import { MealItemRow } from './components/MealItemRow';
 import { retryScan, useWaitReason, type WaitReason } from './scanQueue';
 import { SharedMeal } from './SharedMealScreen';
@@ -42,6 +44,7 @@ export function ResultScreen() {
   const updateEntry = useLog((st) => st.updateEntry);
   const removeEntry = useLog((st) => st.removeEntry);
   const [confirming, setConfirming] = useState(false);
+  const health = useHealthGuidance();
 
   const analyzing = !entry || entry.status !== 'done';
   const lowConfidence = (entry?.confidence ?? 1) < CONFIDENCE_THRESHOLD;
@@ -162,6 +165,8 @@ export function ResultScreen() {
     tap();
     updateEntry(entry.id, { items: [...entry.items, { dishId, qty: 1 }] });
   };
+  const swapSweetness = (index: number, sweetness: Sweetness) =>
+    updateEntry(entry.id, { items: entry.items.map((i, k) => (k === index ? { ...i, sweetness } : i)) });
   const cycleOil = () => {
     const next: OilLevel = OIL_LEVELS[(OIL_LEVELS.indexOf(oil) + 1) % OIL_LEVELS.length];
     updateEntry(entry.id, { items: entry.items.map((i) => ({ ...i, oil: next })) });
@@ -225,6 +230,8 @@ export function ResultScreen() {
           <MacroTile label={t('result.protein')} grams={totals.proteinG} color={theme.colors.nutrient.protein} />
           <MacroTile label={t('result.fat')} grams={totals.fatG} color={theme.colors.nutrient.fat} />
         </View>
+
+        <MealHealthNotes items={entry.items} on={health.on} onSwap={swapSweetness} />
 
         {!single && (
           <View>

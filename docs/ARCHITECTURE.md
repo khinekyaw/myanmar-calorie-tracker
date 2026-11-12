@@ -16,7 +16,7 @@ Status: **all 22 canvas screens built, offline-first** (meals, photo queue and w
 | Icons | Own SVG set (`src/ui/icons/Icon.tsx`, react-native-svg) | Matches the design; swap to a library by changing one file. |
 | Charts | Own SVG (`LineChart`, `Ring`) | No chart library on cheap phones. |
 | Camera | **expo-camera**, expo-image-picker | Photo capture + gallery. |
-| Backend | **Supabase** (`@supabase/supabase-js`): anonymous + phone OTP auth, Postgres with row-level security, Storage, Edge Functions (Deno) | AI key stays server-side; everything is migrations and functions in `supabase/` ([BACKEND.md](BACKEND.md)). |
+| Backend | **Supabase** (`@supabase/supabase-js`): anonymous + email code (OTP) + Google auth, Postgres with row-level security, Storage, Edge Functions (Deno) | AI key stays server-side; everything is migrations and functions in `supabase/` ([BACKEND.md](BACKEND.md)). |
 | AI scan | **Claude** (vision, structured JSON output) in the `scan` Edge Function | Identifies dishes from the catalogue; nutrition comes from our `dishes` table. |
 | Local DB | **expo-sqlite** | Source of truth: meals, photo queue, weights, dish catalogue, sync outbox ([OFFLINE.md](OFFLINE.md)). |
 | Files | **expo-file-system** | Meal photos kept in app documents (not cache). |
@@ -60,7 +60,7 @@ src/
                          nutrition.ts (BMR, BMI), plan.ts (daily targets, rice cut),
                          meal.ts (macros incl. oil & sweetness), search.ts, parseMeal.ts,
                          progress.ts (goal %, axis ticks), streak.ts, badges.ts, weekReport.ts
-  services/            Outside-world calls: supabase.ts (client), auth.ts (anonymous / phone sign-in,
+  services/            Outside-world calls: supabase.ts (client), auth.ts (anonymous / email-code sign-in,
                        delete account), scan.ts (upload + scan function; MOCK without a backend),
                        database.types.ts (generated: npm run db:types)
   sync/                Sync engine (push/pull, scheduling), profile watcher, account deletion,
@@ -68,7 +68,7 @@ src/
   db/                  On-phone database: schema + migrations, food logs, weights, dishes, photos,
                        first-launch init, outbox and sync reads/writes (see OFFLINE.md)
   lib/                 Small helpers: storage, format, dates, haptics, network
-  config/              Business config (pass prices, payment providers)
+  config/              Business config (pass prices, payment providers, health thresholds)
   data/                dishes.ts: the dish catalogue built from catalogue/calculated.json (see CATALOGUE.md)
   mocks/               Bundled dish photos, first-launch sample data (development builds) — replace before launch
 ```
@@ -157,6 +157,10 @@ Numbers and the "Sar AI" wordmark use `role: 'latin'` variants (`numberXl`, `num
 
 **Mixed scripts:** `<Text>` checks plain-string children. Burmese text inside the English UI (e.g. "မြန်မာ" in the language switcher) gets the Burmese metrics, and Latin-only strings inside the Burmese UI ("Premium", "KBZPay", "Wi-Fi") get Inter. Strings that mix both scripts ("[PRICE] ကျပ်") follow the current language.
 
+**iOS:** iOS draws a line whose `lineHeight` is below the font's own height (Noto Sans Myanmar: 2.184× its size) at the bottom of the line box, which cut the tops off every Burmese mark. On iOS `<Text>` therefore gives Burmese the font's full line height and takes the extra back with negative top/bottom margins (`iosBurmeseLineFix` in `typography.ts`), so a one-line label keeps the space it has on Android. Multi-line Burmese runs a little looser on iOS. A Burmese multi-line `TextInput` needs `iosBurmeseLineFix(style, false)`; a one-line `TextInput` should set only `fontFamily` and `fontSize`, never a `lineHeight` (iOS puts the text at the top).
+
+**Line breaks (iOS):** iOS wraps Burmese at any syllable, which left single syllables alone on a line ("ကယ်လို / ရီ"). On iOS `<Text>` glues the syllables of each word with an invisible word joiner (U+2060, `lib/burmeseWrap.ts`), so lines break at the spaces between words, as the copy is written. Keep a space between words in Burmese copy, or a long phrase can only break by character.
+
 Tune per language in `scripts.my` / `scripts.en`: `lineHeight`, `sizeScale`, `minSize`, and per-variant `overrides`. Always use `<Text variant="…">` so these apply automatically.
 
 ## Localisation
@@ -234,10 +238,11 @@ MealItem { dishId, qty, oil?: less|normal|more, sweetness?: choSeint|pawSeint|ky
 | Dish data | `catalogue/` recipes ([CATALOGUE.md](CATALOGUE.md)) → `catalogue/calculated.json` → `data/dishes.ts` (adds bundled photos), which seeds the phone and the server (`supabase/seeds/catalogue.sql`). 151 dishes with sugar and sodium, all **draft recipes**, so they show *Calculated* and none are verified | Verified `dishes` table (200–300) from the nutritionist |
 | Food photos | Wikimedia Commons images bundled in the app (`assets/images/dishes/`) | Our own photos (bundled + `dish-photos` bucket) |
 | Speech-to-text | **Real, at no cost:** the phone keyboard's own voice typing (its mic key) fills the text box; we run no speech service | Works where the keyboard supports Burmese voice typing; check on target phones |
-| Phone OTP | **Real** with a backend (Supabase phone auth; local test numbers). Without one: any 6-digit code | SMS provider / gateway for +95 |
+| Email sign-in code | **Real** with a backend (Supabase email OTP; locally the email lands in Mailpit). Without one: any 6-digit code | SMTP provider for production |
 | Google sign-in | Real with a backend (Supabase Google OAuth in a browser sheet, `services/auth.ts`); MOCK (goes straight in) without one | Google Cloud OAuth client (id + secret in Supabase) |
 | Free-scan quota | **Real**: server `scan_quota`, mirrored on the phone for the counter | — |
 | Pass prices | MOCK: 4,900 Ks / 12,900 Ks (`config/pricing.ts`) | Decided prices (and per-provider fees) |
+| Blood sugar / pressure thresholds | PLACEHOLDER: sugary meal 18 g, salty meal 700 mg, sodium 2,000 mg a day, 3 sugary meals a week, carbs ≤ 40 % for blood sugar (`config/health.ts`), on draft dish sugar / sodium; per meal worked out from dish × amount (`domain/health.ts`) | Nutritionist-reviewed thresholds and dish values |
 | Gift codes | **Real** with a backend (`redeem_gift_code`, codes made with `npm run codes:make`). Without one: any code gives a one-month local mock pass | — |
 | Payments | Off (`PAYMENTS_ENABLED = false`): the paywall shows only *Enter a code*. When turned on, the pay buttons still activate a **local mock** pass (`store/premium.ts`); the server ignores it | KBZPay / WavePay or Play Billing → webhook → `grant_pass` (server `passes` already read by the app) |
 | Reminders | Permission request; the Monday weekly-report notification is real (local, needs permission + Reminders on). Daily meal reminders not scheduled yet | Daily meal reminders |

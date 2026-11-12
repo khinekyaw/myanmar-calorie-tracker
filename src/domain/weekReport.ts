@@ -1,6 +1,9 @@
 import { daysBetween, shiftDay } from '@/lib/dates';
 
+import { HEALTH_LIMITS } from '@/config/health';
+
 import { calorieDay } from './badges';
+import type { HealthFlags } from './health';
 
 /**
  * The weekly report (Monday to Sunday). Worked out on the phone from meals,
@@ -9,7 +12,15 @@ import { calorieDay } from './badges';
  */
 
 /** Totals for one day that has meals. */
-export type ReportDay = { day: string; kcal: number; proteinG: number; fatG: number; ricePlates: number };
+export type ReportDay = {
+  day: string;
+  kcal: number;
+  proteinG: number;
+  fatG: number;
+  ricePlates: number;
+  /** Sodium eaten that day (blood pressure line). */
+  sodiumMg?: number;
+};
 
 export type ReportInput = {
   /** Monday of the week (YYYY-MM-DD). */
@@ -17,16 +28,18 @@ export type ReportInput = {
   /** Days with meals, any week, any order. */
   days: ReportDay[];
   /** Done meals, any week: the dishes in each. */
-  meals: { day: string; dishIds: string[] }[];
+  meals: { day: string; dishIds: string[]; sugarHeavy?: boolean }[];
   /** Weigh-ins, oldest first. */
   weights: { day: string; lb: number }[];
   targets: { kcal: number; proteinG: number; ricePlates: number };
   /** Today (YYYY-MM-DD): a week that hasn't ended yet is "so far". */
   today: string;
+  /** The user's health answers: they add the sugar / salt tips. */
+  health?: HealthFlags;
 };
 
 /** One tip per week, the first rule that applies. */
-export type TipId = 'logMore' | 'lessRice' | 'moreProtein' | 'overKcal' | 'underKcal' | 'keepGoing';
+export type TipId = 'logMore' | 'lessSugar' | 'lessSalt' | 'lessRice' | 'moreProtein' | 'overKcal' | 'underKcal' | 'keepGoing';
 
 export type WeekReport = {
   weekStart: string;
@@ -47,6 +60,10 @@ export type WeekReport = {
   weightChangeLb: number | null;
   /** Most-logged dishes (by meals), up to 3. */
   topDishes: { dishId: string; count: number }[];
+  /** Health lines (PLACEHOLDER thresholds, config/health.ts): sugar-heavy meals, days with one, days over the sodium budget. */
+  sugarHeavyMeals: number;
+  sugarHeavyDays: number;
+  saltyDays: number;
   tip: TipId;
 };
 
@@ -67,8 +84,11 @@ export function weekReport(input: ReportInput): WeekReport {
   const to = during.at(-1);
   const weightChangeLb = from && to && from !== to ? Math.round((to.lb - from.lb) * 10) / 10 : null;
 
+  const meals = input.meals.filter((m) => inWeek(m.day));
+  const sweet = meals.filter((m) => m.sugarHeavy);
+
   const counts = new Map<string, number>();
-  for (const m of input.meals.filter((m) => inWeek(m.day))) {
+  for (const m of meals) {
     for (const id of new Set(m.dishIds)) counts.set(id, (counts.get(id) ?? 0) + 1);
   }
   const topDishes = [...counts]
@@ -89,14 +109,24 @@ export function weekReport(input: ReportInput): WeekReport {
     overDays: kinds.filter((k) => k === 'over').length,
     weightChangeLb,
     topDishes,
+    sugarHeavyMeals: sweet.length,
+    sugarHeavyDays: new Set(sweet.map((m) => m.day)).size,
+    saltyDays: days.filter((d) => (d.sodiumMg ?? 0) > HEALTH_LIMITS.sodiumBudgetMg).length,
   };
   // Finished days so far (today isn't over, so it isn't expected yet).
   const elapsed = report.complete ? 7 : daysBetween(weekStart, input.today);
-  return { ...report, tip: pickTip(report, targets, elapsed) };
+  return { ...report, tip: pickTip(report, targets, elapsed, input.health) };
 }
 
-function pickTip(r: Omit<WeekReport, 'tip'>, targets: ReportInput['targets'], elapsed: number): TipId {
+function pickTip(
+  r: Omit<WeekReport, 'tip'>,
+  targets: ReportInput['targets'],
+  elapsed: number,
+  health: HealthFlags | undefined,
+): TipId {
   if (r.daysLogged === 0 || r.daysLogged < Math.min(4, elapsed)) return 'logMore';
+  if (health?.bloodSugar && r.sugarHeavyMeals > HEALTH_LIMITS.sugarHeavyMealsPerWeek) return 'lessSugar';
+  if (health?.bloodPressure && r.saltyDays >= 3) return 'lessSalt';
   if (r.avgRicePlates > targets.ricePlates + 0.25) return 'lessRice';
   if (r.avgProteinG < targets.proteinG * 0.85) return 'moreProtein';
   if (r.overDays >= 3) return 'overKcal';

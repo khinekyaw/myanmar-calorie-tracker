@@ -121,3 +121,24 @@ describe('weekReport', () => {
     });
   });
 });
+
+describe('weekReport health lines', () => {
+  const meal = (d: string, sugarHeavy = false) => ({ day: d, dishIds: ['tea'], sugarHeavy });
+
+  it('counts sugar-heavy meals, the days they fall on, and days over the sodium budget', () => {
+    const r = weekReport({
+      ...base,
+      days: [day('2026-10-26', { sodiumMg: 2500 }), day('2026-10-27', { sodiumMg: 1500 }), day('2026-10-28')],
+      meals: [meal('2026-10-26', true), meal('2026-10-26', true), meal('2026-10-27'), meal('2026-10-28', true), meal('2026-11-02', true)],
+    });
+    expect(r).toMatchObject({ sugarHeavyMeals: 3, sugarHeavyDays: 2, saltyDays: 1 });
+  });
+
+  it('tips on sugar or salt only for users who track it', () => {
+    const days = week({ sodiumMg: 2500 });
+    const meals = days.map((d) => meal(d.day, true));
+    expect(weekReport({ ...base, days, meals }).tip).toBe('keepGoing');
+    expect(weekReport({ ...base, days, meals, health: { bloodSugar: true, bloodPressure: true } }).tip).toBe('lessSugar');
+    expect(weekReport({ ...base, days, meals, health: { bloodSugar: false, bloodPressure: true } }).tip).toBe('lessSalt');
+  });
+});

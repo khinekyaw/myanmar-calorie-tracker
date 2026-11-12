@@ -1,8 +1,15 @@
-import { Text as RNText, type TextProps as RNTextProps } from 'react-native';
+import { Platform, StyleSheet, Text as RNText, type TextProps as RNTextProps } from 'react-native';
 
+import { keepBurmeseWords } from '@/lib/burmeseWrap';
 import { useStyleContext } from '@/theme/ThemeProvider';
 import type { Theme } from '@/theme/themes';
-import { buildTypeScale, burmeseWordsScale, isNumberVariant, type TextVariant } from '@/theme/typography';
+import {
+  buildTypeScale,
+  burmeseWordsScale,
+  iosBurmeseLineFix,
+  isNumberVariant,
+  type TextVariant,
+} from '@/theme/typography';
 
 type Tone = 'default' | 'muted' | 'subtle' | 'inverse';
 
@@ -49,11 +56,18 @@ export function Text({ variant = 'body', tone = 'default', color, align, hugged,
       : script === language
         ? type
         : buildTypeScale(script);
+  const styles = [scale[variant], { color: color ?? toneColor(theme, tone) }, align && { textAlign: align }, style];
+  // Burmese marks are cut off on iOS without the font's full line height (typography.ts).
+  const iosFix = Platform.OS === 'ios' ? iosBurmeseLineFix(StyleSheet.flatten(styles) ?? {}) : null;
+  let content = children;
+  if (typeof children === 'string' && script === 'my') {
+    // iOS wraps Burmese at any syllable; keep each word whole (lib/burmeseWrap.ts).
+    const text = Platform.OS === 'ios' ? keepBurmeseWords(children) : children;
+    content = hugged ? `${text}\u00A0` : text;
+  }
   return (
-    <RNText
-      {...rest}
-      style={[scale[variant], { color: color ?? toneColor(theme, tone) }, align && { textAlign: align }, style]}>
-      {hugged && typeof children === 'string' && script === 'my' ? `${children}\u00A0` : children}
+    <RNText {...rest} style={iosFix ? [styles, iosFix] : styles}>
+      {content}
     </RNText>
   );
 }

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 
+import { sumSugarSodium } from '@/domain/health';
 import { carbsToRicePlates, sumMacros, type MealItem } from '@/domain/meal';
 import type { DishId } from '@/data/dishes';
 
@@ -114,7 +115,8 @@ export function useDaySummary(day: Date = new Date()) {
   const all = useLog((s) => s.entries);
   const entries = entriesOn(all, day);
   const targets = usePlan((s) => s.plan);
-  const eaten = sumMacros(entries.filter((e) => e.status === 'done').flatMap((e) => e.items));
+  const items = entries.filter((e) => e.status === 'done').flatMap((e) => e.items);
+  const eaten = sumMacros(items);
   const ricePlatesEaten = carbsToRicePlates(eaten.carbG);
   return {
     entries,
@@ -122,11 +124,14 @@ export function useDaySummary(day: Date = new Date()) {
     kcalOver: Math.max(Math.round(eaten.kcal - targets.kcal), 0),
     kcalProgress: eaten.kcal / targets.kcal,
     ricePlatesLeft: Math.max(Math.round((targets.ricePlates - ricePlatesEaten) * 2) / 2, 0),
+    ricePlatesOver: Math.max(Math.round((ricePlatesEaten - targets.ricePlates) * 2) / 2, 0),
     riceProgress: ricePlatesEaten / targets.ricePlates,
     proteinLeft: Math.max(Math.round(targets.proteinG - eaten.proteinG), 0),
     proteinProgress: eaten.proteinG / targets.proteinG,
     fatLeft: Math.max(Math.round(targets.fatG - eaten.fatG), 0),
     fatProgress: eaten.fatG / targets.fatG,
+    /** Blood pressure guidance: sodium eaten (mg). */
+    sodiumMg: sumSugarSodium(items).sodiumMg,
   };
 }
 

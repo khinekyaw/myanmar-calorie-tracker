@@ -18,6 +18,7 @@ export { FadeEdge } from './FadeEdge';
 export { PhotoSheet } from './PhotoSheet';
 export { Stepper } from './Stepper';
 export { Logo } from './Logo';
+export { PremiumCrown } from './PremiumCrown';
 export { ConfirmSheet } from './ConfirmSheet';
 export { BottomSheet, SHEET_OVERHANG, useSheetMotion } from './BottomSheet';
 export { DatePickerSheet } from './DatePickerSheet';

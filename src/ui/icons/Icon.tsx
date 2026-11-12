@@ -118,6 +118,21 @@ const icons = {
       <Path d="M7.5 13.5h9" />
     </>
   ),
+  /** Sugar cube — blood sugar guidance. */
+  sugar: (
+    <>
+      <Rect x={5} y={7} width={12} height={12} rx={1.5} />
+      <Path d="M5 7l3-3h12v12l-3 3M17 7l3-3" />
+    </>
+  ),
+  /** Salt shaker — sodium indicator. */
+  salt: (
+    <>
+      <Path d="M7.5 10h9l-1 9.5a1.5 1.5 0 0 1-1.5 1.5h-4A1.5 1.5 0 0 1 8.5 19.5z" />
+      <Path d="M7.5 10a4.5 4.5 0 0 1 9 0" />
+      <Path d="M10.5 8h.01M13.5 8h.01M12 6.8h.01" />
+    </>
+  ),
   /** Chicken drumstick — used for the protein indicator. */
   protein: (
     <>

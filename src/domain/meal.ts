@@ -13,7 +13,7 @@ export const SWEETNESS: Sweetness[] = ['choSeint', 'pawSeint', 'kyaSeint', 'pawK
 
 /** PLACEHOLDER multipliers until the nutritionist provides per-dish values. */
 const OIL_FAT_FACTOR: Record<OilLevel, number> = { less: 0.6, normal: 1, more: 1.4 };
-const SWEETNESS_FACTOR: Record<Sweetness, number> = {
+export const SWEETNESS_FACTOR: Record<Sweetness, number> = {
   choSeint: 1.25,
   pawSeint: 1,
   kyaSeint: 1.1,

@@ -112,7 +112,7 @@ The **biggest error is portion size**. Weigh real servings: a serving spoon of c
 
 ## Not done yet
 
-- **Sugar and sodium** reach the phone and server dish catalogue, but not logged meals (`log_items`), and no screen shows them.
+- **Sugar and sodium** are draft values like the rest; the blood sugar / pressure guidance (2026-11-08) uses them, worked out per meal from dish × amount.
 - **Curry `spoon` = 30 g** is a guess.
 - **The 151 drafts have no sources.** Check them against published recipes, starting with the dishes users log most.
 - **Burmese names and spellings** for the 100 dishes added on 2026-11-01 need native review.

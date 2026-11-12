@@ -77,5 +77,6 @@ export function draftToPlanInput(d: OnboardingDraft): PlanInput | null {
     goal: d.goal,
     targetWeightLb: d.goal === 'maintain' ? weightLb : (d.targetWeightLb ?? weightLb),
     pace: d.pace,
+    bloodSugar: d.healthFlags.includes('bloodSugar'),
   };
 }

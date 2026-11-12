@@ -3,9 +3,13 @@ import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 
+import { HEALTH_LIMITS } from '@/config/health';
+import { isSugarHeavy } from '@/domain/health';
 import { sumMacros } from '@/domain/meal';
+import { weekStart } from '@/lib/dates';
 import { formatDayLabel, formatNumber, formatPlates } from '@/lib/format';
 import { useConnectivity } from '@/lib/network';
+import { useHealthGuidance } from '@/store/health';
 import { useDaySummary, useLog } from '@/store/log';
 import { usePlan } from '@/store/plan';
 import { dayKey } from '@/store/weights';
@@ -13,6 +17,7 @@ import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Card, Icon, Logo, Ring, Text } from '@/ui';
 
 import { StreakPill } from '../milestones/StreakPill';
+import { PremiumUpsell } from '../premium/PremiumUpsell';
 import { MealRow } from './components/MealRow';
 import { NutrientCard } from './components/NutrientCard';
 import { WeekStrip } from './components/WeekStrip';
@@ -33,6 +38,17 @@ export function HomeScreen() {
     kcalByDay.set(key, (kcalByDay.get(key) ?? 0) + sumMacros(e.items).kcal);
   }
   const isToday = dayKey(selectedDay) === dayKey(new Date());
+  const health = useHealthGuidance();
+  // Blood sugar: sugary meals in the selected day's week (Monday to Sunday).
+  const monday = weekStart(dayKey(selectedDay));
+  const sugaryMeals = allEntries.filter((e) => {
+    const key = dayKey(e.eatenAt);
+    return e.status === 'done' && key >= monday && key <= dayKey(selectedDay) && isSugarHeavy(e.items);
+  }).length;
+  const riceOver = health.on.bloodSugar && day.ricePlatesOver > 0;
+  const sodiumLeft = Math.max(Math.round(HEALTH_LIMITS.sodiumBudgetMg - day.sodiumMg), 0);
+  const sodiumOver = Math.max(Math.round(day.sodiumMg - HEALTH_LIMITS.sodiumBudgetMg), 0);
+  const bothHealth = health.on.bloodSugar && health.on.bloodPressure;
   const { online } = useConnectivity();
 
   return (
@@ -72,11 +88,12 @@ export function HomeScreen() {
 
         <View style={s.nutrients}>
           <NutrientCard
-            value={formatPlates(day.ricePlatesLeft, language)}
-            label={t('home.rice')}
+            value={formatPlates(riceOver ? day.ricePlatesOver : day.ricePlatesLeft, language)}
+            label={t(riceOver ? 'home.riceOver' : 'home.rice')}
             progress={day.riceProgress}
             color={theme.colors.nutrient.carbs}
             icon="rice"
+            over={riceOver}
           />
           <NutrientCard
             value={`${formatNumber(day.proteinLeft, language)}${t('common.g')}`}
@@ -93,6 +110,38 @@ export function HomeScreen() {
             icon="oil"
           />
         </View>
+
+        {(health.on.bloodSugar || health.on.bloodPressure) && (
+          <View style={s.nutrients}>
+            {health.on.bloodSugar && (
+              <NutrientCard
+                value={formatNumber(sugaryMeals, language)}
+                label={t('home.sugarHeavy')}
+                progress={sugaryMeals / HEALTH_LIMITS.sugarHeavyMealsPerWeek}
+                color={theme.colors.nutrient.sugar}
+                icon="sugar"
+                over={sugaryMeals > HEALTH_LIMITS.sugarHeavyMealsPerWeek}
+                wide={!bothHealth}
+              />
+            )}
+            {health.on.bloodPressure && (
+              <NutrientCard
+                value={`${formatNumber(sodiumOver || sodiumLeft, language)}${t('common.mg')}`}
+                label={t(sodiumOver ? 'home.sodiumOver' : 'home.sodium')}
+                progress={day.sodiumMg / HEALTH_LIMITS.sodiumBudgetMg}
+                color={theme.colors.nutrient.sodium}
+                icon="salt"
+                over={sodiumOver > 0}
+                wide={!bothHealth}
+              />
+            )}
+          </View>
+        )}
+        {health.locked && (
+          <View style={s.upsell}>
+            <PremiumUpsell title={t('home.healthUpsell')} />
+          </View>
+        )}
 
         <Text variant="headline" accessibilityRole="header" style={s.sectionTitle}>
           {isToday ? t('home.today') : formatDayLabel(selectedDay, language)}
@@ -143,6 +192,7 @@ const useStyles = makeStyles(({ theme }) => ({
   },
   kcalText: { gap: theme.space.xs, flexShrink: 1 },
   nutrients: { flexDirection: 'row', gap: theme.space.sm, marginTop: theme.space.sm },
+  upsell: { marginTop: theme.space.sm },
   sectionTitle: { marginTop: theme.space.xxl, marginBottom: theme.space.md },
   meals: { gap: theme.space.sm },
   empty: { paddingVertical: theme.space.xxl, borderRadius: theme.radius.lg, backgroundColor: theme.colors.surface },

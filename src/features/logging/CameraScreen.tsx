@@ -12,7 +12,7 @@ import { formatNumber } from '@/lib/format';
 import { useConnectivity } from '@/lib/network';
 import { useFreeScansToday, useScansLeft } from '@/store/scanQuota';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
-import { Button, IconButton, ScanFrame, Text } from '@/ui';
+import { Button, IconButton, PremiumCrown, ScanFrame, Text } from '@/ui';
 
 import { queuePhoto } from './scanQueue';
 
@@ -90,6 +90,7 @@ export function CameraScreen() {
             accessibilityLabel={t('camera.freeScans', { count: scansLeft })}
             onPress={() => router.push('/paywall')}
             style={s.counter}>
+            <PremiumCrown size={14} />
             <Text variant="numberSm" tone="inverse">
               {formatNumber(scansLeft, language)}/{formatNumber(freeToday, language)}
             </Text>
@@ -147,6 +148,8 @@ const useStyles = makeStyles(({ theme }) => ({
     paddingHorizontal: theme.space.lg,
     borderRadius: theme.radius.pill,
     backgroundColor: theme.colors.camera.control,
+    flexDirection: 'row',
+    gap: 6,
     alignItems: 'center',
     justifyContent: 'center',
   },

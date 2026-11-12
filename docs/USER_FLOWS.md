@@ -4,11 +4,11 @@ Every journey below was walked on the Android emulator (360 dp, Burmese and Engl
 
 ## 1. First launch (about 2 minutes)
 
-Welcome → **Get started** → About you (sex, birth year, height, weight) → Workday → Goal (+ blood sugar / pressure) → Target weight & pace *(skipped for "Stay the same")* → Where do you eat? → Reminders (*Remind me* asks Android permission, *Not now* skips) → Generating → **Plan ready** (kcal, plates of rice, protein, fat, rice cut 3 → 2½ → 2) → Sign in (phone → code, Google, or *Skip*) → Home.
+Welcome → **Get started** → About you (sex, birth year, height, weight) → Workday → Goal (+ blood sugar / pressure) → Target weight & pace *(skipped for "Stay the same")* → Where do you eat? → Reminders (*Remind me* asks Android permission, *Not now* skips) → Generating → **Plan ready** (kcal, plates of rice, protein, fat, rice cut 3 → 2½ → 2) → Sign in (email → code, Google, or *Skip*) → Home.
 
 - The plan is calculated from these answers, and the onboarding weight becomes the first point on the Progress chart.
-- *I have an account* on Welcome goes straight to Sign in. With a backend, the account's meals, weights, profile and language come down within seconds; without one (or with a new number), the app uses a default plan until Settings → Goals / Health are filled in.
-- With a backend, a code is sent by SMS; a wrong code shows "Wrong code". *Continue with Google* opens Google's account picker in a browser sheet and comes back signed in (an anonymous account keeps its data; an existing Google account is switched to and merged). *Skip* still syncs, under an anonymous account.
+- *I have an account* on Welcome goes straight to Sign in. With a backend, the account's meals, weights, profile and language come down within seconds; without one (or with a new email), the app uses a default plan until Settings → Goals / Health are filled in.
+- Sign in asks for an email (no phone number in the first version). With a backend, a 6-digit code is emailed and the code screen shows the address it went to; a wrong code shows "Wrong code". *Continue with Google* opens Google's account picker in a browser sheet and comes back signed in (an anonymous account keeps its data; an existing Google account is switched to and merged). *Skip* still syncs, under an anonymous account; it shows only during onboarding (not when Sign in is opened from Settings or a gift code, where Back is the way out). The button that's waiting shows a spinner; *Send again* counts down 30 seconds (the server's limit) before it can be tapped; after 20 seconds without an answer the screen says the code couldn't be sent (or was wrong) instead of waiting forever.
 - The language switch is on Welcome (and in Settings). Burmese is the default.
 
 ## 2. Log a meal (the daily loop)
@@ -68,7 +68,7 @@ Progress → **Weekly report** (under *This week*), or tap the Monday 8:00 notif
 
 ## 7. Settings
 
-Premium (paywall) · **Phone number** (*Sign in* when not signed in; the number once signed in) · **Goals** (= Edit goal) · **Health** (blood sugar / pressure, sex, birth year, height) · Uposatha vegetarian · Feast day (marks today only) · Reminders · Wi-Fi only · Language · **Delete account** (confirm sheet; removes everything on the server and the phone, back to Welcome). Phone number and Delete account appear only with a backend. Dev builds also show Simulate offline, Premium (mock), Reset free scans, Changes waiting to sync, Sync now, Restart onboarding.
+Premium (paywall) · **Account** (*Sign in* when not signed in; the email, or the Google email, once signed in) · **Goals** (= Edit goal) · **Health** (blood sugar / pressure, sex, birth year, height) · Uposatha vegetarian · Feast day (marks today only) · Reminders · Wi-Fi only (each of these three always shows one short line under its label saying what it does: today keeps the streak / weekly report on Mondays at 8:00 / photos won't use mobile data) · Language · **Sign out** (only when signed in with email or Google; confirm sheet; needs the internet: it saves everything to the server first, then clears the phone and goes back to Welcome; if photos are still waiting to be scanned the sheet says they'll be lost) · **Delete account** (confirm sheet; removes everything on the server and the phone, back to Welcome). Account, Sign out and Delete account appear only with a backend. Dev builds also show Simulate offline, Premium (mock), Reset free scans, Weekly report notification in 5 s (the real Monday notification, fired now to preview it), Changes waiting to sync, Sync now, Restart onboarding.
 
 ## 7b. Several phones
 
@@ -76,9 +76,19 @@ Sign in with the same number on another phone: everything comes down. Changes on
 
 ## 8. Premium
 
-Paywall (from the camera counter, the 4th scan, Settings, or the weekly report): Premium's features, *Active until …* when a pass is on, and **Enter a code** (gift code → `/redeem`: sign in first with a backend, then the code; wrong, expired and used codes say so; success shows *Premium is on* with the end date). Payments are off (`PAYMENTS_ENABLED`); when on, the paywall also shows the 1- or 3-month prepaid pass, KBZPay / WavePay and "No auto-renew", with *Have a code?* below. Premium today: unlimited scans and the full weekly report; blood sugar / pressure guidance isn't built yet.
+Paywall (from the camera counter, the 4th scan, Settings, or the weekly report): Premium's features, *Active until …* when a pass is on, and **Enter a code** (gift code → `/redeem`; with a backend and no signed-in account it goes straight to Sign in first, without a Skip button, and continues to the code screen once signed in (`features/onboarding/signInFirst.ts`); wrong, expired and used codes say so; success shows *Premium is on* with the end date). Payments are off (`PAYMENTS_ENABLED`); when on, the paywall also shows the 1- or 3-month prepaid pass, KBZPay / WavePay and "No auto-renew", with *Have a code?* below. Premium today: unlimited scans, blood sugar / pressure guidance (§8b) and the full weekly report. Under the features: *Not medical advice. Keep following your doctor.*
 
 ---
+
+## 8b. Blood sugar and blood pressure (built 2026-11-08)
+
+Onboarding doesn't ask (removed 2026-11-12). Settings → Health has the two switches, marked with a gold crown for free users: their tap opens the Premium screen and the switch stays off (one already on can be turned off). The screen shows *Not medical advice*.
+- **Everyone with blood sugar on:** a stricter plan: carbs capped at 40 % of kcal, so fewer rice plates, cut ½ plate at a time (plus 1 → plus ½ → target) even when not losing weight.
+- **Free users** with either box on: a gold *Sugar & salt guidance · Premium* row under the nutrient cards on Home.
+- **Premium, blood sugar:** Home adds *Sugary meals this week* (count, ring against 3), and the rice card turns light amber with *Rice over* when today goes over. Result (and ဝိုင်းစား) shows the meal's sugar; a meal with ≥ 18 g is *Sugary meal*, names the sweetest dish, and offers a lighter tea / coffee: *Less sweet instead* (ပေါ့စိမ့် instead of ချိုစိမ့်; ပေါ့ကျ instead of ပေါ့စိမ့်), one tap.
+- **Premium, blood pressure:** Home adds a *Sodium* card (mg left of 2,000, or *Sodium over* in amber). Result shows the meal's sodium and % of the day; ≥ 700 mg is *Salty meal* and names the saltiest dish.
+- **Weekly report (Premium):** *Sugary meals* (and on how many days) and *Days over the salt budget*, for users who answered; tips *Try less-sweet tea and fewer desserts* (more than 3 sugary meals) and *Go easy on ngapi, fish sauce and soup* (3+ salty days).
+- All thresholds are placeholders (`config/health.ts`) on draft dish numbers.
 
 ## Gaps found in this review (2026-10-30)
 
@@ -110,7 +120,7 @@ A queued photo's Home card and its Result screen say why it is waiting. Every ca
 ## Still open (prototype limits)
 
 - ~~Meals reset on app restart~~ Fixed: meals, the photo queue and weights are in on-phone SQLite ([OFFLINE.md](OFFLINE.md)), and sync to Supabase when a backend is configured.
-- Voice works only where the phone's keyboard does Burmese voice typing. Payments are a mock; Google sign-in is built but needs the Google OAuth client to work; scan and OTP are real only with a backend (see [Mocked vs real](ARCHITECTURE.md#mocked-vs-real)).
+- Voice works only where the phone's keyboard does Burmese voice typing. Payments are a mock; Google sign-in is built but needs the Google OAuth client to work; scan and the email sign-in code are real only with a backend (see [Mocked vs real](ARCHITECTURE.md#mocked-vs-real)).
 - Meals restored on another phone show the dish photo, not the meal photo.
 - Uposatha vegetarian is hidden until it does something (planned: suggest vegetarian dishes first on Uposatha days).
 - Queued photos that come back low-confidence are logged with the top guess; they only ask for review when opened.

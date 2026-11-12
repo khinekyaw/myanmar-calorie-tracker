@@ -5,7 +5,7 @@ What has to happen before Sar AI goes on the Play Store, as of 2026-10-31. Tick 
 **Priority:** **Must** = blocks launch · **Should** = do before or right after launch · **Later** = after launch.
 **Owner:** **You** = needs your accounts, money or decisions · **Claude** = code or config work · **Team** = nutritionist, translator, designer.
 
-Already done: offline-first app with on-phone SQLite; Supabase schema with row-level security on every table (54 database tests); sync across phones; phone sign-in; Google sign-in code; server-side free-scan quota; account deletion; milestones and badges; Burmese and English UI.
+Already done: offline-first app with on-phone SQLite; Supabase schema with row-level security on every table (54 database tests); sync across phones; email-code sign-in; Google sign-in code; server-side free-scan quota; account deletion; milestones and badges; Burmese and English UI.
 
 ---
 
@@ -13,7 +13,7 @@ Already done: offline-first app with on-phone SQLite; Supabase schema with row-l
 
 - [ ] **Must · You** — Supabase **staging** and **production** projects (Singapore region). Then Claude pushes migrations, loads the dish catalogue, sets secrets and deploys functions ([BACKEND.md → Deploying](BACKEND.md#deploying-staging-then-production)).
 - [ ] **Must · You** — **Anthropic API key** for photo scans. Set a monthly spend limit in the Anthropic console.
-- [ ] **Must · You** — **SMS provider** that delivers codes to +95 numbers (or a Myanmar SMS gateway through Supabase's Send SMS hook). Test on MPT, ATOM, U9 and Mytel.
+- [ ] **Must · You** — **Email (SMTP) provider** for sign-in codes, plus a domain to send from (SPF/DKIM set up so codes don't land in spam). Supabase's built-in mailer is for testing only. Test delivery to Gmail, Outlook and Yahoo. (Phone/SMS sign-in is not in the first version.)
 - [ ] **Must · You** — **Google Cloud OAuth client** (Web application) and the OAuth consent screen with app name, logo, privacy policy link and support email. Google reviews the consent screen before strangers can sign in.
 - [ ] **Must · You** — **Payments**: choose how to take money: Google Play Billing (cards only in Myanmar), our own website (Dinger or KBZPay / WavePay, with the app selling nothing), or both. Then set the real pass prices; the current prices are mock. Options and Play rules: [Payment options](../reports/Payment%20options.md).
 - [ ] **Must · You** — **Gift codes instead of payments at launch?** Decide: free codes only (promotions, partners, testers), or also selling codes on our website. Selling them is fine for Play only if the app itself sells nothing ([Gift codes](#gift-codes-premium-before-payments)).
@@ -26,16 +26,16 @@ Already done: offline-first app with on-phone SQLite; Supabase schema with row-l
 
 - [ ] **Must · Claude** — **CAPTCHA on anonymous sign-ins** (Cloudflare Turnstile or hCaptcha). Every new install gets 3 free scans a day for a week, so scripted installs could burn the AI budget. Needs your CAPTCHA keys.
 - [ ] **Must · You + Claude** — Set `SCAN_DAILY_BUDGET_USD` on the scan function and an alert on `scans.cost_usd`, so a spike stops scanning instead of draining money.
-- [ ] **Must · Claude** — **Auth rate limits** in production: SMS per hour, OTP verify attempts, anonymous sign-ins. Myanmar mobile users share IP addresses, so limits per IP must not lock out a whole network.
+- [ ] **Must · Claude** — **Auth rate limits** in production: emails per hour, OTP verify attempts, anonymous sign-ins. Myanmar mobile users share IP addresses, so limits per IP must not lock out a whole network.
 - [ ] **Must · Claude** — **Turn off email sign-up** in production. The app doesn't use email, but `[auth.email] enable_signup` is on by default.
 - [ ] **Must · Claude** — Keep **phone confirmations** and **manual linking** on in the dashboard (already in `supabase/config.toml`). Run Supabase's **Security Advisor** on staging and fix what it flags.
 - [x] **Must · Claude** — **Gift-code redemption** only on the server, with long random codes, hashed in the database, and a limit on wrong tries ([Gift codes](#gift-codes-premium-before-payments)).
 - [ ] **Must · Claude** — Production `SCAN_MODEL` is a real model, **never `mock`** (local and staging may use it), and `SCAN_DAILY_BUDGET_USD` is set.
 - [ ] **Must · Claude** — **Payment webhook**: verify the provider's signature, make it idempotent, and grant passes only through the server `grant_pass`. The app's local mock pass must not ship.
 - [ ] **Must · Claude** — Release builds must not include development-only things: sample data, the Developer section in Settings, and the local `.env.local` server address. These are already behind `__DEV__`; confirm on a release build. Production keys go in EAS environment variables, and only the publishable key ever ships in the app.
-- [ ] **Must · You** — **Privacy policy** covering health data stored in Singapore, meal photos kept until the account is deleted, the phone number or Google email, searches that found no dish (kept to improve the dish list), and Supabase and Anthropic (or Google, for Gemini scans) as processors. Link it in the app and the Play listing.
+- [ ] **Must · You** — **Privacy policy** covering health data stored in Singapore, meal photos kept until the account is deleted, the email address (from email sign-in or Google), searches that found no dish (kept to improve the dish list), and Supabase and Anthropic (or Google, for Gemini scans) as processors. Link it in the app and the Play listing.
 - [ ] **Must · You + Claude** — **Account-deletion web page.** Play requires a link to ask for deletion outside the app; the in-app button already exists.
-- [ ] **Must · You** — **"Not medical advice"** note for the blood sugar / pressure features (in onboarding and the paywall) and in the terms.
+- [ ] **Must · You** — **"Not medical advice"** note for the blood sugar / pressure features: *in the app since 2026-11-08* (onboarding Goal when a box is on, Settings → Health, the paywall); still needed in the **terms**, and the wording checked.
 - [ ] **Should · Claude** — **Encrypt the sign-in token** (move the Supabase session to `expo-secure-store`). It's in the app's SQLite now: private to the app, but not encrypted.
 - [ ] **Should · Claude** — Decide on **Android backups** (`allowBackup`): backups would include meals and weights. Either turn them off or say so in the privacy policy.
 - [ ] **Should · Claude** — **Photo retention**: delete meal photos after, say, 90 days and keep only the logged dishes. Less health data stored, and lower storage cost.
@@ -61,7 +61,7 @@ Target: 2–3 GB RAM, Android 9 or later, slow 3G/4G.
 - [ ] **Must · Claude** — **Reminders**: schedule the "ထမင်းစားပြီးပြီလား?" notifications. Today the app only asks for permission.
 - [ ] **Should · You + Claude** — **Over-the-air updates** (`expo-updates`, with a runtime version policy) so text and screen fixes ship without a store review.
 - [ ] **Should · Claude** — **Crash reporting** (Sentry) in the app and the Edge Functions.
-- [ ] **Should · Claude** — **Staging smoke test** before each release: sign in with a real +95 number and with Google, log a meal, scan a photo, go offline and back, delete the account.
+- [ ] **Should · Claude** — **Staging smoke test** before each release: sign in with a real email and with Google, log a meal, scan a photo, go offline and back, delete the account.
 - [ ] **Later · You** — Privacy-friendly analytics, if you need numbers beyond the server tables.
 
 ## 5. Content and data
@@ -77,7 +77,8 @@ Target: 2–3 GB RAM, Android 9 or later, slow 3G/4G.
 
 - [x] **Must · Claude** — When a scan fails, Result stays on *Analyzing…*. Show a clear state with Retry. *Done 2026-11-01: Result says why a photo waits (failed, offline, no free scans, no food found), with Retry or Say or type.*
 - [x] **Must · Claude** — When the server says today's free scans are used up (for example, on another phone), tell the user instead of silently waiting. *Done 2026-11-01: the Home card reads "Free scans used up"; Result offers Premium or Say or type.*
-- [ ] **Must · You** — **Decide**: are blood sugar / pressure goals (next section) in version 1? Until they're built, the paywall doesn't mention them (hidden 2026-11-01). The weekly report is built.
+- [x] **Must · You** — **Decide**: are blood sugar / pressure goals in version 1? *Yes, both (2026-11-08), built; the paywall lists them again.*
+- [ ] **Must · Team** — **Nutritionist review of the health thresholds** in `src/config/health.ts`: sugary meal (18 g), salty meal (700 mg), daily sodium (2,000 mg), sugary meals a week (3), carb cap for blood sugar (40 %). All placeholders.
 - [ ] **Should · Claude** — "You earned a badge" moment after logging.
 - [ ] **Later · Claude** — Uposatha vegetarian: hidden in Settings for version 1 (2026-11-01). To bring it back, suggest vegetarian dishes first on Uposatha days.
 - [ ] **Should · Claude** — Meals restored on another phone show the dish photo, not the meal photo (needs signed photo URLs).
@@ -94,34 +95,34 @@ Target: 2–3 GB RAM, Android 9 or later, slow 3G/4G.
 
 ## How the Premium features will work
 
-Premium has three planned features; the paywall lists only the two that work (blood sugar / pressure hidden until built). Status today:
+Premium has three features, all built; the paywall lists all three. Status today:
 
 | Feature | Today | To build |
 |---|---|---|
 | **Unlimited photo scans** | Works: the server allows 3 free scans a day in an account's first week, then 1 a day, and lifts the limit with an active pass | Real payments (the pass is mock) |
-| **Blood sugar / pressure** | Only a question: onboarding and Settings → Health ask about it and sync it; nothing uses the answer | Everything below |
-| **Weekly report** | **Built** (2026-11-01): `/week`, Monday notification, free headline + Premium full report | Health lines (needs the blood sugar / pressure data); share as image |
+| **Blood sugar / pressure** | **Built** (2026-11-08): stricter rice plan (free), Result flags, Home cards, report lines (Premium); thresholds are placeholders | Nutritionist-reviewed thresholds and dish numbers; glucose / blood pressure logs |
+| **Weekly report** | **Built** (2026-11-01; health lines 2026-11-08): `/week`, Monday notification, free headline + Premium full report | Share as image |
 
-Everyone keeps answering the health question for free (it shapes the plan). **Premium unlocks the guidance built on it.**
+Since 2026-11-12 the health question is Premium: onboarding no longer asks it, and turning it on in Settings → Health needs a pass. The stricter blood-sugar rice plan still follows the answer and isn't undone when a pass ends (decided 2026-11-08). **Premium unlocks the guidance built on it.** Built 2026-11-08 as below; every threshold is a placeholder in `src/config/health.ts`, and sugar / sodium per meal is worked out from dish × amount (DECISIONS → Blood sugar and blood pressure). Flows: [USER_FLOWS §8b](USER_FLOWS.md#8b-blood-sugar-and-blood-pressure-built-2026-11-08).
 
 ### Blood sugar (diabetes or pre-diabetes)
 
-- **Plan:** a lower carbohydrate share and a stricter rice-plate cut (for example 3 → 2½ → 2 plates), spread across meals. The exact numbers come from the nutritionist.
-- **Each meal:** flag sugar-heavy items (sweet milk tea, condensed milk, desserts) on the Result screen and suggest the lighter option, e.g. **ပေါ့စိမ့်** instead of **ချိုစိမ့်** (tea sweetness is already in the app).
-- **Home:** a "sugar-heavy meals this week" count, and the rice-plate card turns amber when today goes over.
+- **Plan:** a lower carbohydrate share and a stricter rice-plate cut (for example 3 → 2½ → 2 plates), spread across meals. The exact numbers come from the nutritionist. *Built: carbs capped at 40 % of kcal (fat takes the rest), rice cut in ½ steps. Not built: spreading plates across meals.*
+- **Each meal:** flag sugar-heavy items (sweet milk tea, condensed milk, desserts) on the Result screen and suggest the lighter option, e.g. **ပေါ့စိမ့်** instead of **ချိုစိမ့်** (tea sweetness is already in the app). *Built: a meal with ≥ 18 g sugar is flagged, names its sweetest dish, and tea / coffee get a one-tap lighter sweetness.*
+- **Home:** a "sugar-heavy meals this week" count, and the rice-plate card turns amber when today goes over. *Built.*
 - **Later:** optional fasting glucose log (mg/dL) with a chart, like weight.
-- **Needs:** sugar per dish in the verified dish data.
+- **Needs:** sugar per dish in the verified dish data (draft values from the recipe calculation are used until then).
 
 ### Blood pressure
 
-- **Daily sodium budget** (around 2,000 mg, per WHO guidance, confirmed by the nutritionist), shown like the other nutrient cards.
-- **Each meal:** flag salty dishes, which are common in Myanmar food: ngapi, fish sauce, dried and salted fish, soup bases.
+- **Daily sodium budget** (around 2,000 mg, per WHO guidance, confirmed by the nutritionist), shown like the other nutrient cards. *Built (2,000 mg placeholder).*
+- **Each meal:** flag salty dishes, which are common in Myanmar food: ngapi, fish sauce, dried and salted fish, soup bases. *Built: a meal with ≥ 700 mg sodium is flagged and names its saltiest dish; every meal shows its sodium and % of the day.*
 - **Later:** optional blood pressure log.
-- **Needs:** sodium per dish (a new `sodium_mg` field: phone database, server migration and sync mapping).
+- **Needs:** sodium per dish. *Done: `sodiumMg` per dish in the catalogue (draft); no per-meal field needed, since meals are worked out from dish × amount.*
 
 ### Weekly report
 
-Built 2026-11-01 as described below, except the health line (it waits for sugar and sodium data) and sharing. Code: `domain/weekReport.ts` (tested), `features/report/`. Not yet seen firing on a phone: the emulator has notifications denied.
+Built 2026-11-01 as described below, except sharing; the health lines were added 2026-11-08. Code: `domain/weekReport.ts` (tested), `features/report/`. Not yet seen firing on a phone: the emulator has notifications denied.
 
 - **When:** every Monday morning (Myanmar time), a notification opens a **Week** screen. Older weeks stay browsable.
 - **What:**
@@ -141,8 +142,8 @@ Built 2026-11-01 as described below, except the health line (it waits for sugar 
 ### Order to build
 
 1. ~~Weekly report~~ (built 2026-11-01).
-2. Blood sugar (needs sugar values in the dish data).
-3. Blood pressure (needs sodium values and a schema change).
+2. ~~Blood sugar~~ (built 2026-11-08).
+3. ~~Blood pressure~~ (built 2026-11-08; no schema change needed).
 4. ~~Gift codes~~ (built 2026-11-06), so Premium can be given out before payments exist (plan below).
 5. Payments last, so the pass unlocks real features.
 
@@ -182,7 +183,7 @@ New migration, plus `npm run db:types` and `test:db` cases:
   - That reference makes a retry return the same pass, and a new pass extends an active one, as payments do.
   - Returns `ok` + `ends_at`, or `invalid` / `expired` / `used_up` / `already_used`.
 - **Who may redeem** (inside `redeem_gift_code`, which the app calls directly):
-  - Requires a signed-in, **non-anonymous** user (phone or Google), so the pass can't be lost (Concerns, 2).
+  - Requires a signed-in, **non-anonymous** user (email or Google), so the pass can't be lost (Concerns, 2).
   - At most 5 wrong codes per account per hour (`rate_limited`). A per-IP limit would lock out shared mobile networks.
 - **Making codes**:
   - `npm run codes:make -- --plan 1m --count 50 --campaign clinic-nov --expires 2027-01-31`, using the service key.
@@ -208,7 +209,7 @@ New migration, plus `npm run db:types` and `test:db` cases:
    - **The app sells nothing** (no pay buttons) and codes are sold on our website: this is Play's "consumption-only" (reader) model, which looks allowed. The app may at most name the website without linking to it; confirm the exact wording.
    - **The app also sells through Play Billing:** the app must never mention the website as a place to buy. Whether web-bought codes may still be honoured isn't spelled out by Google.
    - **KBZPay / WavePay buttons inside the app:** not allowed.
-2. **Passes on anonymous accounts can be lost.** Someone can redeem a code, then sign in with a number that already has an account. The phone switches accounts, and the pass stays behind on the old anonymous one. Uninstalling loses it as well. That's why redeeming needs a signed-in account, which means **SMS or Google sign-in must work before codes do**. The SMS for that sign-in costs about $0.16–0.33 per code user ([Unit economics](../reports/Unit%20economics.md)).
+2. **Passes on anonymous accounts can be lost.** Someone can redeem a code, then sign in with an email that already has an account. The phone switches accounts, and the pass stays behind on the old anonymous one. Uninstalling loses it as well. That's why redeeming needs a signed-in account, which means **email or Google sign-in must work before codes do**. Email sign-in costs next to nothing (international SMS would be about $0.16–0.33 per code user, [Unit economics](../reports/Unit%20economics.md)).
 3. **Guessing and leaks.** Long random codes, hashed storage, the try limit, expiry dates, single-use personal codes and revocation cover this. A leaked campaign code costs at most its use limit.
 4. **AI cost.** Every code is unlimited scans for a month or three, with no income. `SCAN_DAILY_BUDGET_USD` still caps the total; keep giveaways sized to the budget.
 5. **Selling codes by hand** (if you choose it): checking transfer screenshots, fake screenshots, refunds, and tax on the income are all manual work. Keep a sales sheet that links each code to its payment reference.

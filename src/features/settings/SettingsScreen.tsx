@@ -5,7 +5,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 
 import { LANGUAGE_SHORT, LANGUAGES } from '@/i18n/languages';
-import { formatDayLabel } from '@/lib/format';
+import { formatDayLabel, formatTime } from '@/lib/format';
+import { useConnectivity } from '@/lib/network';
+import { useLog } from '@/store/log';
 import { useOnboarding } from '@/store/onboarding';
 import { pendingSyncCount } from '@/db/database';
 import { useAccount } from '@/services/auth';
@@ -13,13 +15,11 @@ import { backendEnabled } from '@/services/supabase';
 import { useIsPremium, usePremium, usePremiumUntil } from '@/store/premium';
 import { useScanQuota } from '@/store/scanQuota';
 import { useFeastToday, useSettings } from '@/store/settings';
-import { deleteAccountAndData } from '@/sync/account';
+import { previewWeeklyReminder } from '@/features/report/weeklyReminder';
+import { deleteAccountAndData, signOutAndClear } from '@/sync/account';
 import { syncNow } from '@/sync/engine';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { ConfirmSheet, Icon, ListRow, Logo, Segmented, Text } from '@/ui';
-
-/** "959123456789" → "+95 9123456789" */
-const formatPhone = (e164: string) => `+${e164.slice(0, 2)} ${e164.slice(2)}`;
 
 export function SettingsScreen() {
   const { t } = useTranslation();
@@ -34,10 +34,35 @@ export function SettingsScreen() {
   const premiumUntil = usePremiumUntil();
   const activatePremium = usePremium((st) => st.activate);
   const cancelPremium = usePremium((st) => st.cancel);
-  const phone = useAccount((st) => st.phone);
-  const googleEmail = useAccount((st) => st.googleEmail);
+  const email = useAccount((st) => st.email);
+  const google = useAccount((st) => st.google);
   const [deleting, setDeleting] = useState<'confirm' | 'failed' | null>(null);
   const [busy, setBusy] = useState(false);
+  const { online } = useConnectivity();
+  const photosWaiting = useLog((st) => st.entries.some((e) => e.status === 'queued'));
+  const [signingOut, setSigningOut] = useState<'confirm' | 'offline' | 'unsaved' | null>(null);
+  const [leaving, setLeaving] = useState(false);
+
+  const signOut = async () => {
+    if (leaving) return;
+    if (!online) return setSigningOut('offline');
+    setLeaving(true);
+    try {
+      if ((await signOutAndClear()) === 'unsaved') return setSigningOut('unsaved');
+      setSigningOut(null);
+      router.replace('/welcome');
+    } catch {
+      setSigningOut('unsaved');
+    } finally {
+      setLeaving(false);
+    }
+  };
+
+  const signOutTitle = () => {
+    if (signingOut === 'offline') return t('settings.signOutOffline');
+    if (signingOut === 'unsaved') return t('settings.signOutUnsaved');
+    return photosWaiting ? t('settings.signOutPhotosTitle') : t('settings.signOutTitle');
+  };
 
   const removeAccount = async () => {
     if (busy) return;
@@ -79,29 +104,18 @@ export function SettingsScreen() {
         </Pressable>
 
         <Section title={t('settings.sectionGoals')}>
-          {backendEnabled && phone && (
+          {backendEnabled && email && (
             <ListRow
               kind="custom"
-              label={t('settings.phone')}
-              right={
-                <Text variant="callout" tone="muted">
-                  {formatPhone(phone)}
-                </Text>
-              }
-            />
-          )}
-          {backendEnabled && googleEmail && (
-            <ListRow
-              kind="custom"
-              label={t('settings.google')}
+              label={google ? t('settings.google') : t('settings.email')}
               right={
                 <Text variant="callout" tone="muted" numberOfLines={1} style={s.email}>
-                  {googleEmail}
+                  {email}
                 </Text>
               }
             />
           )}
-          {backendEnabled && !phone && !googleEmail && (
+          {backendEnabled && !email && (
             <ListRow
               kind="link"
               label={t('settings.account')}
@@ -125,12 +139,15 @@ export function SettingsScreen() {
             label={t('settings.feastDay')}
             value={feastToday}
             onValueChange={settings.toggleFeastToday}
+            note={t('settings.feastDayOn')}
           />
           <ListRow
             kind="switch"
             label={t('settings.reminders')}
             value={settings.reminders}
             onValueChange={() => settings.toggle('reminders')}
+            // Matches the weekly notification (features/report/weeklyReminder.ts): Monday 8:00.
+            note={t('settings.remindersOn', { time: formatTime(new Date(2026, 0, 5, 8, 0), language) })}
             last
           />
         </Section>
@@ -141,6 +158,7 @@ export function SettingsScreen() {
             label={t('settings.wifiOnly')}
             value={settings.wifiOnlyUploads}
             onValueChange={() => settings.toggle('wifiOnlyUploads')}
+            note={t('settings.wifiOnlyOn')}
           />
           <ListRow
             kind="custom"
@@ -156,6 +174,9 @@ export function SettingsScreen() {
               />
             }
           />
+          {backendEnabled && email && (
+            <ListRow kind="link" label={t('settings.signOut')} onPress={() => setSigningOut('confirm')} />
+          )}
           {backendEnabled && (
             <ListRow kind="link" label={t('settings.deleteAccount')} onPress={() => setDeleting('confirm')} last />
           )}
@@ -176,6 +197,11 @@ export function SettingsScreen() {
               onValueChange={(on) => (on ? activatePremium(1) : cancelPremium())}
             />
             <ListRow kind="link" label="Reset free scans" onPress={resetScans} />
+            <ListRow
+              kind="link"
+              label="Weekly report notification in 5 s"
+              onPress={() => void previewWeeklyReminder(t)}
+            />
             <ListRow
               kind="custom"
               label="Changes waiting to sync"
@@ -202,6 +228,16 @@ export function SettingsScreen() {
         cancelLabel={t('common.cancel')}
         onConfirm={removeAccount}
         onCancel={() => setDeleting(null)}
+        loading={busy}
+      />
+      <ConfirmSheet
+        visible={signingOut !== null}
+        title={signOutTitle()}
+        confirmLabel={signingOut === 'confirm' ? t('settings.signOutConfirm') : t('common.retry')}
+        cancelLabel={t('common.cancel')}
+        onConfirm={signOut}
+        onCancel={() => setSigningOut(null)}
+        loading={leaving}
       />
     </SafeAreaView>
   );

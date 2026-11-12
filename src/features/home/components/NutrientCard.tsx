@@ -9,14 +9,18 @@ type Props = {
   progress: number;
   color: string;
   icon: IconName;
+  /** Went over its limit (blood sugar / pressure guidance): light amber fill. */
+  over?: boolean;
+  /** Alone in its row: number and label beside the ring instead of above it. */
+  wide?: boolean;
 };
 
-/** One of the three "left today" cards: rice plates, protein, fat. */
-export function NutrientCard({ value, label, progress, color, icon }: Props) {
+/** A "left today" card: rice plates, protein, fat; sodium and sugary meals for health users. */
+export function NutrientCard({ value, label, progress, color, icon, over = false, wide = false }: Props) {
   const s = useStyles();
   return (
-    <View style={s.card} accessible accessibilityLabel={`${label} ${value}`}>
-      <View>
+    <View style={[s.card, wide && s.wide, over && s.over]} accessible accessibilityLabel={`${label} ${value}`}>
+      <View style={wide && s.flex}>
         <Text variant="numberMd">{value}</Text>
         <Text variant="caption" tone="muted" numberOfLines={2}>
           {label}
@@ -30,6 +34,7 @@ export function NutrientCard({ value, label, progress, color, icon }: Props) {
 }
 
 const useStyles = makeStyles(({ theme }) => ({
+  flex: { flex: 1 },
   card: {
     flex: 1,
     borderRadius: theme.radius.lg,
@@ -39,4 +44,6 @@ const useStyles = makeStyles(({ theme }) => ({
     gap: theme.space.md,
     justifyContent: 'space-between',
   },
+  wide: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: theme.space.lg },
+  over: { backgroundColor: theme.colors.nutrient.overSoft },
 }));

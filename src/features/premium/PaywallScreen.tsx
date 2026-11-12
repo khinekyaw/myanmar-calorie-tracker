@@ -6,13 +6,15 @@ import { useTranslation } from 'react-i18next';
 import { PASSES, PAYMENT_PROVIDERS, PAYMENTS_ENABLED, type PassId } from '@/config/pricing';
 import { formatDayLabel, formatNumber } from '@/lib/format';
 import { tap } from '@/lib/haptics';
+import { openSignedIn } from '@/features/onboarding/signInFirst';
 import { usePremium, usePremiumUntil } from '@/store/premium';
 import { makeStyles, useStyleContext } from '@/theme/ThemeProvider';
 import { Badge, Button, Icon, IconButton, Logo, Screen, Text, type IconName } from '@/ui';
 
-/** Only what Premium does today. Blood sugar & pressure goals (`paywall.healthGoals`) return once built. */
-const FEATURES: { key: 'unlimitedScans' | 'weeklyReport'; icon: IconName }[] = [
+/** Only what Premium does today. */
+const FEATURES: { key: 'unlimitedScans' | 'healthGoals' | 'weeklyReport'; icon: IconName }[] = [
   { key: 'unlimitedScans', icon: 'camera' },
+  { key: 'healthGoals', icon: 'drop' },
   { key: 'weeklyReport', icon: 'chart' },
 ];
 
@@ -28,7 +30,7 @@ export function PaywallScreen() {
   const [pass, setPass] = useState<PassId>('3m');
   const activate = usePremium((st) => st.activate);
   const until = usePremiumUntil();
-  const enterCode = () => router.push('/redeem');
+  const enterCode = () => openSignedIn('redeem');
   const buy = () => {
     activate(PASSES.find((p) => p.id === pass)?.months ?? 1);
     router.back();
@@ -84,6 +86,9 @@ export function PaywallScreen() {
             </Text>
           </View>
         ))}
+        <Text variant="caption" tone="subtle">
+          {t('health.notMedical')}
+        </Text>
       </View>
 
       {PAYMENTS_ENABLED && (
