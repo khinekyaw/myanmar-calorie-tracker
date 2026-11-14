@@ -9,6 +9,9 @@
  * untouched. A syllable starts at a consonant or independent vowel, except
  * one that is killed (followed by asat ် , maybe after dot below ့) or stacked
  * (after virama ္) — those belong to the syllable before.
+ *
+ * A number also stays with the Burmese word after it ("30 ရက်", "3 ပန်းကန်"):
+ * that space becomes a no-break space, so the unit never starts a line alone.
  */
 const JOINER = '⁠';
 
@@ -21,11 +24,19 @@ const ASAT = 0x103a;
 const DOT_BELOW = 0x1037;
 /** ၊ and ။ : a line may break after them. */
 const isPunctuation = (c: number) => c === 0x104a || c === 0x104b;
+/** 0–9, Myanmar digits and the vulgar fractions we print (½ ¼ ¾ …). */
+const isNumberEnd = (c: number) =>
+  (c >= 0x30 && c <= 0x39) || (c >= 0x1040 && c <= 0x1049) || (c >= 0x00bc && c <= 0x00be) || (c >= 0x2150 && c <= 0x215e);
+const NBSP = '\u00A0';
 
 export function keepBurmeseWords(text: string): string {
   let out = '';
   for (let i = 0; i < text.length; i++) {
     const c = text.charCodeAt(i);
+    if (c === 0x20 && i > 0 && isNumberEnd(text.charCodeAt(i - 1)) && startsSyllable(text.charCodeAt(i + 1))) {
+      out += NBSP;
+      continue;
+    }
     if (i > 0 && startsSyllable(c)) {
       const prev = text.charCodeAt(i - 1);
       let next = text.charCodeAt(i + 1);

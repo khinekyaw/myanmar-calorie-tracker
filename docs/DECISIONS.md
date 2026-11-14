@@ -380,6 +380,7 @@ Version 1 still ships on Android only, but the app now builds and runs on iOS so
 - **Local network permission** (`NSLocalNetworkUsageDescription`): without it iOS silently drops the app's requests to the Mac's Wi-Fi address (Safari still gets through). Only needed while testing against the local stack; drop it before any App Store build.
 - **Clipped Burmese on iOS:** fixed in `<Text>` for iOS only (full font line height + negative margins), so Android rendering and every layout stay as reviewed. The onboarding question screens now scroll, so the number keyboard can't push the answers over the headline (both platforms).
 - **Burmese wraps at spaces on iOS:** iOS broke words mid-way ("ရီ" alone on a line). `<Text>` joins each word's syllables with U+2060 on iOS only, so breaks fall at the spaces our copy already has; Android's wrapping, as reviewed, is unchanged.
+- **…and on Android too (2026-11-14):** a test at 360 dp wide showed Android also splitting words ("ကယ် / လိုရီ" on the weekly report, "အကြံပေး / မယ်" on the paywall), so the word joiner now applies on both platforms. A number also keeps the Burmese word after it on its line (no-break space: "30 ရက်").
 
 ## Gold crown on Premium features (2026-11-12)
 

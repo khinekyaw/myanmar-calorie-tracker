@@ -15,6 +15,12 @@ describe('keepBurmeseWords', () => {
     expect(keepBurmeseWords('သင်္ကြန်')).toBe('သင်္ကြန်');
   });
 
+  it('keeps a number with the Burmese word after it', () => {
+    expect(keepBurmeseWords('ဆက်တိုက် 30 ရက်')).toBe(`ဆက်${J}တိုက် 30\u00A0ရက်`);
+    expect(keepBurmeseWords('ထမင်း 1½ ပန်းကန်')).toBe(`ထ${J}မင်း 1½\u00A0ပန်း${J}ကန်`);
+    expect(keepBurmeseWords('10 lb ကျန်')).toBe('10 lb ကျန်');
+  });
+
   it('leaves Latin text, digits and breaks after ၊ alone', () => {
     expect(keepBurmeseWords('Premium 1,920')).toBe('Premium 1,920');
     expect(keepBurmeseWords('ပါ၊ရက်')).toBe('ပါ၊ရက်');

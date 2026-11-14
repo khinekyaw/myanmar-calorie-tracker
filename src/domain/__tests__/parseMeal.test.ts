@@ -20,6 +20,15 @@ describe('parseMeal', () => {
     ]);
   });
 
+  it("doesn't give the next dish's number to the one before it", () => {
+    expect(parseMeal('mohinga and milk tea and two samosa').map((i) => i.qty)).toEqual([1, 1, 2]);
+    expect(parseMeal('palata 2, samosa')).toEqual([
+      { dishId: 'palata', qty: 2 },
+      { dishId: 'samusa', qty: 1 },
+    ]);
+    expect(parseMeal('လက်ဖက်ရည်နဲ့ ပလာတာ နှစ်ချပ်').map((i) => i.qty)).toEqual([1, 2]);
+  });
+
   it('prefers the longer dish name', () => {
     expect(parseMeal('ထမင်းဟင်း').map((i) => i.dishId)).toEqual(['riceCurry']);
   });

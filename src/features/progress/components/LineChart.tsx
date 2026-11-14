@@ -182,7 +182,14 @@ const useStyles = makeStyles(({ theme }) => ({
   abs: { position: 'absolute', top: 0, left: 0 },
   yLabel: { position: 'absolute', left: 0, fontSize: 11, lineHeight: 18 },
   xLabel: { position: 'absolute', bottom: 0, width: 60, textAlign: 'center', fontSize: 11, lineHeight: 18 },
-  goalTag: { position: 'absolute', right: PAD_R },
+  // Card-coloured backing: the latest point (and its marker line) sits at the right edge, under the label.
+  goalTag: {
+    position: 'absolute',
+    right: PAD_R - theme.space.xs,
+    paddingHorizontal: theme.space.xs,
+    borderRadius: theme.radius.sm,
+    backgroundColor: theme.colors.surface,
+  },
   bubble: {
     position: 'absolute',
     paddingVertical: 2,

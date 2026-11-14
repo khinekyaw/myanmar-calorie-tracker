@@ -61,8 +61,8 @@ export function Text({ variant = 'body', tone = 'default', color, align, hugged,
   const iosFix = Platform.OS === 'ios' ? iosBurmeseLineFix(StyleSheet.flatten(styles) ?? {}) : null;
   let content = children;
   if (typeof children === 'string' && script === 'my') {
-    // iOS wraps Burmese at any syllable; keep each word whole (lib/burmeseWrap.ts).
-    const text = Platform.OS === 'ios' ? keepBurmeseWords(children) : children;
+    // Both platforms wrap Burmese at any syllable; keep each word whole (lib/burmeseWrap.ts).
+    const text = keepBurmeseWords(children);
     content = hugged ? `${text}\u00A0` : text;
   }
   return (

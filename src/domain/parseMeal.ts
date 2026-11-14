@@ -58,6 +58,19 @@ function quantityIn(window: string): number | null {
 
 const LATIN = /[a-z]/i;
 
+/** Words and marks that end one dish and start the next: "and", "with", ",", "နဲ့", "၊". */
+const SEPARATOR = /\band\b|\bwith\b|\bplus\b|[,&+၊]|နဲ့|နှင့်/i;
+
+/**
+ * The part of a window that belongs to this dish: text after it up to the
+ * next separator, or text before it from the last separator. Keeps "two" in
+ * "milk tea and two samosa" with the samosa.
+ */
+function nearDish(window: string, side: 'after' | 'before'): string {
+  const parts = window.split(SEPARATOR);
+  return side === 'after' ? parts[0] : parts[parts.length - 1];
+}
+
 function sweetnessIn(window: string): Sweetness | undefined {
   const lower = window.toLowerCase();
   const roman = normalizeRoman(window);
@@ -73,8 +86,8 @@ export function parseMeal(text: string): MealItem[] {
   const burmese = /[\u1000-\u109F]/.test(text);
   return hits.map((hit, i) => {
     const nextStart = hits[i + 1]?.index ?? text.length;
-    const after = text.slice(hit.end, nextStart);
-    const before = text.slice(hits[i - 1]?.end ?? 0, hit.index);
+    const after = nearDish(text.slice(hit.end, nextStart), 'after');
+    const before = nearDish(text.slice(hits[i - 1]?.end ?? 0, hit.index), 'before');
     // Burmese puts the number after the dish ("ပလာတာ နှစ်ချပ်"); English before ("two palata").
     const [first, second] = burmese ? [after, before] : [before, after];
     const qty = quantityIn(first) ?? quantityIn(second) ?? 1;
